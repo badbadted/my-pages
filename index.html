@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>東京親子景點 TOP 30 推薦地圖</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sakura: { 50: '#fef7f7', 100: '#fdeef0', 200: '#fbd5dc', 300: '#f8b4c1', 400: '#f28da0', 500: '#e8607a' },
+            sky: { 50: '#f0f7fc', 100: '#e0f0fa', 200: '#b8ddf4', 300: '#85c5ec', 400: '#4da8e0', 500: '#2b8cc9' },
+            matcha: { 50: '#f4f9f4', 100: '#e6f2e6', 200: '#c8e2c8', 300: '#a3cea3', 400: '#78b578', 500: '#5a9a5a' },
+            yuzu: { 50: '#fffdf5', 100: '#fffaeb', 200: '#fff0c2', 300: '#ffe494', 400: '#ffd35c', 500: '#f5bc2e' },
+            fuji: { 50: '#f8f5fc', 100: '#f0ebfa', 200: '#ddd0f3', 300: '#c6afe9', 400: '#ab89dc', 500: '#8e63cc' },
+            snow: { 50: '#fafbfc', 100: '#f0f4f8', 200: '#d9e2ec', 300: '#bcccdc', 400: '#9fb3c8', 500: '#829ab1' },
+            holly: { 50: '#f2f8f2', 100: '#dff0df', 200: '#b8dbb8', 300: '#8cc18c', 400: '#60a560', 500: '#3d8b3d' },
+            berry: { 50: '#fdf2f4', 100: '#fce4e8', 200: '#f8c4cd', 300: '#f39aaa', 400: '#ec6b82', 500: '#d94460' },
+            gold: { 50: '#fdfaf0', 100: '#faf4db', 200: '#f5e6a8', 300: '#efd470', 400: '#e6be3a', 500: '#cca41c' },
+            frost: { 50: '#f0f8ff', 100: '#dceefb', 200: '#b5dbf7', 300: '#85c3f0', 400: '#4fa6e6', 500: '#2889d4' },
+          },
+          fontFamily: {
+            jp: ['"Zen Maru Gothic"', '"Noto Sans TC"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Zen Maru Gothic', 'Noto Sans TC', sans-serif; }
+    body { background: linear-gradient(180deg, #fef7f7 0%, #f0f7fc 50%, #f4f9f4 100%); min-height: 100vh; }
+    .tab-btn { transition: all 0.3s ease; }
+    .tab-btn.active-year { background: linear-gradient(135deg, #f8b4c1, #85c5ec); color: white; box-shadow: 0 4px 15px rgba(248, 180, 193, 0.4); }
+    .tab-btn.active-xmas { background: linear-gradient(135deg, #d94460, #3d8b3d); color: white; box-shadow: 0 4px 15px rgba(217, 68, 96, 0.4); }
+    .spot-card { transition: all 0.3s ease; }
+    .spot-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .area-banner { width: 100%; height: 200px; object-fit: cover; border-radius: 16px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .area-section { animation: fadeInUp 0.5s ease forwards; opacity: 0; }
+    .area-section:nth-child(1) { animation-delay: 0.05s; }
+    .area-section:nth-child(2) { animation-delay: 0.1s; }
+    .area-section:nth-child(3) { animation-delay: 0.15s; }
+    .area-section:nth-child(4) { animation-delay: 0.2s; }
+    .area-section:nth-child(5) { animation-delay: 0.25s; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .petal {
+      position: fixed; pointer-events: none; z-index: 0;
+      animation: fall linear forwards;
+      opacity: 0.6;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0.7; }
+      50% { opacity: 0.5; }
+      100% { transform: translateY(110vh) rotate(720deg) translateX(80px); opacity: 0; }
+    }
+    .snowflake {
+      position: fixed; pointer-events: none; z-index: 0;
+      animation: snowfall linear forwards;
+      opacity: 0.7;
+    }
+    @keyframes snowfall {
+      0% { transform: translateY(-5vh) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+    .content-panel { display: none; }
+    .content-panel.active { display: block; }
+    .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.7rem; padding: 2px 8px; border-radius: 9999px; font-weight: 500; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+  </style>
+</head>
+<body class="relative overflow-x-hidden">
+  <!-- Particle container -->
+  <div id="particles"></div>
+
+  <!-- Header -->
+  <header class="relative z-10 pt-8 pb-4 text-center">
+    <div class="inline-block mb-3">
+      <span class="text-5xl">🗼</span>
+    </div>
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-700 tracking-wide mb-2">
+      東京親子景點 TOP 30
+    </h1>
+    <p id="subtitle" class="text-sm text-gray-400 tracking-widest mb-6">
+      ✨ 跨越二次元動畫、職業體驗與科技美學的全能冒險 ✨
+    </p>
+
+    <!-- Tab Switcher -->
+    <div class="flex justify-center gap-3 mb-2">
+      <button id="tab-year" onclick="switchTab('year')"
+        class="tab-btn active-year px-6 py-2.5 rounded-full text-sm font-medium tracking-wider">
+        🌸 全年適宜版
+      </button>
+      <button id="tab-xmas" onclick="switchTab('xmas')"
+        class="tab-btn px-6 py-2.5 rounded-full text-sm font-medium tracking-wider bg-white/60 text-gray-500 border border-gray-200">
+        🎄 聖誕限定版
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="relative z-10 max-w-6xl mx-auto px-4 pb-16">
+
+    <!-- ==================== 全年適宜版 ==================== -->
+    <div id="panel-year" class="content-panel active">
+
+      <!-- 區域一：江東、墨田與有明 -->
+      <section class="area-section mb-10">
+        <img src="tokyo-images/year-area1.jpg" alt="江東、墨田與有明" class="area-banner">
+        <div class="flex items-center gap-3 mb-4 ml-1">
+          <span class="w-8 h-8 rounded-full bg-sky-200 flex items-center justify-center text-lg">🏙️</span>
+          <h2 class="text-lg font-bold text-sky-500 tracking-wide">區域一：江東、墨田與有明</h2>
+          <span class="text-xs text-gray-300">— 2026 新地標與科技</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-sky-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎪</span>
+              <span class="badge bg-red-50 text-red-400 border border-red-100">🔥 2026 新開幕</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">TOKYO DREAM PARK</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">位於有明，由朝日電視台打造，有史上最大規模的「哆啦A夢」特展！2026/3/27 開幕。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-sky-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">👨‍🚒</span>
+              <span class="badge bg-amber-50 text-amber-500 border border-amber-100">職業體驗</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">KidZania 東京</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">孩子可以當消防員、機師，甚至去製作壽司，超真實的迷你城市。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-sky-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎨</span>
+              <span class="badge bg-purple-50 text-purple-400 border border-purple-100">藝術體驗</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">teamLab Planets</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">赤腳入水的美術館，巨大的錦鯉水池和花海，是視覺與觸覺的震撼。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-sky-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🔬</span>
+              <span class="badge bg-blue-50 text-blue-400 border border-blue-100">微縮世界</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">Small Worlds Tokyo</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">全球最大微縮模型樂園，可以看到《新世紀福音戰士》和《美少女戰士》的精緻場景。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-sky-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🤖</span>
+              <span class="badge bg-cyan-50 text-cyan-500 border border-cyan-100">科學教育</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">日本科學未來館</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">與 ASIMO 機械人互動，探索外太空，非常適合小學以上的學童。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-sky-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🖼️</span>
+              <span class="badge bg-green-50 text-green-500 border border-green-100">藝術工作坊</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">東京都現代美術館</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">後方有非常漂亮的草坪，館內常有針對兒童設計的藝術工作坊。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 區域二：台場與青海 -->
+      <section class="area-section mb-10">
+        <img src="tokyo-images/year-area2.jpg" alt="台場與青海" class="area-banner">
+        <div class="flex items-center gap-3 mb-4 ml-1">
+          <span class="w-8 h-8 rounded-full bg-sakura-200 flex items-center justify-center text-lg">🎮</span>
+          <h2 class="text-lg font-bold text-sakura-500 tracking-wide">區域二：台場與青海</h2>
+          <span class="text-xs text-gray-300">— 室內娛樂與動漫</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-sakura-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🤖</span>
+              <span class="badge bg-gray-50 text-gray-500 border border-gray-200">必拍地標</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">實物大獨角獸鋼彈</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">每天固定的變身表演，震撼力十足。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-sakura-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🧱</span>
+              <span class="badge bg-yellow-50 text-yellow-600 border border-yellow-100">2-10歲</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">台場樂高探索中心</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">純室內樂園，適合 2-10 歲的孩子，大推裡面的 4D 電影。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-sakura-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎢</span>
+              <span class="badge bg-indigo-50 text-indigo-400 border border-indigo-100">VR 體驗</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">東京 JOYPOLIS</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">日本最大室內主題樂園，雨天備案首選，內有超刺激的 VR 體驗。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-sakura-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎳</span>
+              <span class="badge bg-teal-50 text-teal-500 border border-teal-100">室內運動</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">Round 1 STADIUM</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">一票到底的室內運動場，包含保齡球、滑輪、射箭與各類遊戲機。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-sakura-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🌊</span>
+              <span class="badge bg-blue-50 text-blue-400 border border-blue-100">海景放電</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">DiverCity 頂樓 Skypark</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">俯瞰台場海景，孩子能在那裡奔跑放電。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 區域三：上野與淺草 -->
+      <section class="area-section mb-10">
+        <img src="tokyo-images/year-area3.jpg" alt="上野與淺草" class="area-banner">
+        <div class="flex items-center gap-3 mb-4 ml-1">
+          <span class="w-8 h-8 rounded-full bg-matcha-200 flex items-center justify-center text-lg">🏯</span>
+          <h2 class="text-lg font-bold text-matcha-500 tracking-wide">區域三：上野與淺草</h2>
+          <span class="text-xs text-gray-300">— 歷史文化與動物</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-matcha-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🐼</span>
+              <span class="badge bg-green-50 text-green-500 border border-green-100">親子必去</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">上野動物園</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">看熊貓「真真」與「力力」的後代，日本最古老的動物園，門票極便宜。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-matcha-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🦕</span>
+              <span class="badge bg-amber-50 text-amber-500 border border-amber-100">恐龍化石</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">國立科學博物館</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">滿屋頂的恐龍化石，甚至有巨大的藍鯨模型。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-matcha-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🚢</span>
+              <span class="badge bg-blue-50 text-blue-400 border border-blue-100">遊河美食</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">淺草屋形船體驗</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">全家坐船一邊吃美食一邊遊隅田川，看東京晴空塔。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-matcha-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎠</span>
+              <span class="badge bg-pink-50 text-pink-400 border border-pink-100">懷舊遊園</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">淺草花屋敷</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">日本最古老的遊樂園，設施溫和，適合幼稚園及國小生。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 區域四：池袋與新宿 -->
+      <section class="area-section mb-10">
+        <img src="tokyo-images/year-area4.jpg" alt="池袋與新宿" class="area-banner">
+        <div class="flex items-center gap-3 mb-4 ml-1">
+          <span class="w-8 h-8 rounded-full bg-yuzu-200 flex items-center justify-center text-lg">⚡</span>
+          <h2 class="text-lg font-bold text-yuzu-500 tracking-wide">區域四：池袋與新宿</h2>
+          <span class="text-xs text-gray-300">— 角色中心與森林</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-yuzu-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">⚡</span>
+              <span class="badge bg-yellow-50 text-yellow-600 border border-yellow-100">全日本最大</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">池袋寶可夢中心 Mega Tokyo</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">全日本最大的寶可夢中心，還有全球唯一的寶可夢外帶甜點店。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-yuzu-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🐧</span>
+              <span class="badge bg-sky-50 text-sky-400 border border-sky-100">天空企鵝</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">太陽城水族館</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">著名的「天空企鵝」，看企鵝在池袋高樓大廈間「飛行」。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-yuzu-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🧙</span>
+              <span class="badge bg-purple-50 text-purple-400 border border-purple-100">全球最大</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">東京哈利波特影城</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">目前全球最大的哈利波特室內設施，重現霍格華茲禮堂與九又四分之三月台。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-yuzu-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🚒</span>
+              <span class="badge bg-red-50 text-red-400 border border-red-100">免費入場</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">消防博物館</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">免費入場，可以讓孩子換上消防服，甚至坐上真實的救援直升機。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-yuzu-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🧸</span>
+              <span class="badge bg-orange-50 text-orange-400 border border-orange-100">木製玩具</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">東京玩具美術館</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">由舊小學改建，裡面全是木製玩具，質感極佳，適合年齡層較小的幼童。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 區域五：澀谷、原宿與近郊 -->
+      <section class="area-section mb-10">
+        <img src="tokyo-images/year-area5.jpg" alt="澀谷、原宿與近郊" class="area-banner">
+        <div class="flex items-center gap-3 mb-4 ml-1">
+          <span class="w-8 h-8 rounded-full bg-fuji-200 flex items-center justify-center text-lg">🌈</span>
+          <h2 class="text-lg font-bold text-fuji-500 tracking-wide">區域五：澀谷、原宿與近郊</h2>
+          <span class="text-xs text-gray-300">— 潮流與吉卜力</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-fuji-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🏙️</span>
+              <span class="badge bg-blue-50 text-blue-400 border border-blue-100">最強觀景台</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">Shibuya Sky</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">東京最強觀景台，在那片透明玻璃前拍親子照是必備行程。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-fuji-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🚲</span>
+              <span class="badge bg-green-50 text-green-500 border border-green-100">戶外活動</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">代代木公園親子單車道</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">租借腳踏車，在東京都心的森林裡享受家庭時光。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-fuji-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🌿</span>
+              <span class="badge bg-emerald-50 text-emerald-500 border border-emerald-100">宮崎駿聖殿</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">三鷹之森吉卜力美術館</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">宮崎駿迷的聖殿，頂樓有天空之城的機械人士兵。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-fuji-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🔵</span>
+              <span class="badge bg-blue-50 text-blue-400 border border-blue-100">哆啦A夢</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">藤子・F・不二雄博物館</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">位於川崎（離東京約 40 分鐘），滿滿的哆啦A夢細節。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-fuji-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">⚡</span>
+              <span class="badge bg-red-50 text-red-400 border border-red-100">🔥 2026 新開幕</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">PokéPark KANTO</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">位於讀賣樂園內的全新「寶可夢戶外樂園」，2026/2/5 開幕必衝。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-fuji-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🏛️</span>
+              <span class="badge bg-gray-50 text-gray-500 border border-gray-200">隈研吾設計</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">高輪 Gateway City</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">隈研吾設計的新地標，有足湯與互動展覽。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-fuji-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🐱</span>
+              <span class="badge bg-amber-50 text-amber-500 border border-amber-100">招財貓</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">豪德寺</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">上千隻招財貓，孩子找貓的過程會非常興奮。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-fuji-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🐬</span>
+              <span class="badge bg-cyan-50 text-cyan-500 border border-cyan-100">聲光海豚秀</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">品川 Maxell Aqua Park</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">最頂級的聲光水舞海豚秀，就在品川站旁邊。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-fuji-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎀</span>
+              <span class="badge bg-pink-50 text-pink-400 border border-pink-100">全室內恆溫</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">三麗鷗彩虹樂園</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">全室內恆溫，Hello Kitty 與美樂蒂迷的天堂。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-fuji-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🏀</span>
+              <span class="badge bg-orange-50 text-orange-400 border border-orange-100">東京最大</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">東京巨蛋 ASOBono!</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">東京最大的室內幼兒遊樂場，包含海洋球池、積木區與扮家家酒。</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ==================== 聖誕限定版 ==================== -->
+    <div id="panel-xmas" class="content-panel">
+
+      <!-- 聖誕 區域一：墨田與上野區 -->
+      <section class="area-section mb-10">
+        <img src="tokyo-images/xmas-area1.jpg" alt="墨田與上野區聖誕" class="area-banner">
+        <div class="flex items-center gap-3 mb-4 ml-1">
+          <span class="w-8 h-8 rounded-full bg-frost-200 flex items-center justify-center text-lg">🌟</span>
+          <h2 class="text-lg font-bold text-frost-500 tracking-wide">區域一：墨田與上野區</h2>
+          <span class="text-xs text-gray-300">— 下町風情與高空聖誕</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🗼</span>
+              <span class="badge bg-blue-50 text-blue-400 border border-blue-100">高空點燈</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">東京晴空塔</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">高空限定點燈與投影秀。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🏪</span>
+              <span class="badge bg-amber-50 text-amber-500 border border-amber-100">歐式市集</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">晴空塔聖誕市集</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">歐式小木屋風格，適合帶小孩吃甜點。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🐠</span>
+              <span class="badge bg-cyan-50 text-cyan-500 border border-cyan-100">聖誕主題</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">墨田水族館</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">聖誕主題海洋生物展示，室內行程不怕冷。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🌳</span>
+              <span class="badge bg-green-50 text-green-500 border border-green-100">散步道</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">上野恩賜公園</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">柔和的聖誕點燈與散步道。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🐼</span>
+              <span class="badge bg-green-50 text-green-500 border border-green-100">親子首選</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">上野動物園</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">白天的親子首選，與熊貓共慶節日。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎠</span>
+              <span class="badge bg-pink-50 text-pink-400 border border-pink-100">懷舊點燈</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">淺草花屋敷</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">日本最古老遊樂園的懷舊點燈，孩子會愛死。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 聖誕 區域二：港區與六本木 -->
+      <section class="area-section mb-10">
+        <img src="tokyo-images/xmas-area2.jpg" alt="港區與六本木聖誕" class="area-banner">
+        <div class="flex items-center gap-3 mb-4 ml-1">
+          <span class="w-8 h-8 rounded-full bg-berry-200 flex items-center justify-center text-lg">✨</span>
+          <h2 class="text-lg font-bold text-berry-500 tracking-wide">區域二：港區與六本木</h2>
+          <span class="text-xs text-gray-300">— 最美燈海與質感聖誕</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-berry-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">💎</span>
+              <span class="badge bg-blue-50 text-blue-400 border border-blue-100">必拍燈海</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">六本木之丘</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">必拍「藍白銀河」櫸木坂大道與東京鐵塔同框。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-berry-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🏪</span>
+              <span class="badge bg-red-50 text-red-400 border border-red-100">歷史最久</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">六本木之丘聖誕市集</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">東京歷史最久的市集之一。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-berry-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">⛸️</span>
+              <span class="badge bg-cyan-50 text-cyan-500 border border-cyan-100">戶外滑冰</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">東京中城</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">夢幻泡泡與雪景燈飾，還設有戶外滑冰場！</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-berry-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🏛️</span>
+              <span class="badge bg-purple-50 text-purple-400 border border-purple-100">最新地標</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">麻布台之丘</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">最新的地標市集，建築極具藝術感。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-berry-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🗼</span>
+              <span class="badge bg-orange-50 text-orange-400 border border-orange-100">東京鐵塔</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">芝公園</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">以東京鐵塔為背景的聖誕市集，適合全家合影。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 聖誕 區域三：澀谷、原宿與新宿 -->
+      <section class="area-section mb-10">
+        <img src="tokyo-images/xmas-area3.jpg" alt="澀谷、原宿與新宿聖誕" class="area-banner">
+        <div class="flex items-center gap-3 mb-4 ml-1">
+          <span class="w-8 h-8 rounded-full bg-frost-200 flex items-center justify-center text-lg">💙</span>
+          <h2 class="text-lg font-bold text-frost-500 tracking-wide">區域三：澀谷、原宿與新宿</h2>
+          <span class="text-xs text-gray-300">— 潮流與夢幻藍色</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🔵</span>
+              <span class="badge bg-blue-50 text-blue-400 border border-blue-100">視覺衝擊</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">青之洞窟 SHIBUYA</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">全藍色的隧道，極具視覺衝擊力。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🌲</span>
+              <span class="badge bg-green-50 text-green-500 border border-green-100">市集野餐</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">代代木公園</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">聖誕市集與野餐的好去處。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🌃</span>
+              <span class="badge bg-indigo-50 text-indigo-400 border border-indigo-100">屋頂公園</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">澀谷宮下公園</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">屋頂公園點燈，氛圍輕鬆。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎄</span>
+              <span class="badge bg-emerald-50 text-emerald-500 border border-emerald-100">高質感</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">表參道之丘</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">高質感的室內聖誕樹藝術裝飾。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🌿</span>
+              <span class="badge bg-teal-50 text-teal-500 border border-teal-100">天空之森</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">東急廣場表參道原宿</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">6樓的「天空之森」點燈。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎀</span>
+              <span class="badge bg-pink-50 text-pink-400 border border-pink-100">角色聯名</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">新宿南口陽台廣場</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">與三麗鷗或可愛角色聯名的互動燈飾。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-frost-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🌙</span>
+              <span class="badge bg-violet-50 text-violet-400 border border-violet-100">夜間限定</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">新宿御苑</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">夜間限定的燈光漫步道（需購票）。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 聖誕 區域四：丸之內與銀座 -->
+      <section class="area-section mb-10">
+        <img src="tokyo-images/xmas-area4.jpg" alt="丸之內與銀座聖誕" class="area-banner">
+        <div class="flex items-center gap-3 mb-4 ml-1">
+          <span class="w-8 h-8 rounded-full bg-gold-200 flex items-center justify-center text-lg">👑</span>
+          <h2 class="text-lg font-bold text-gold-500 tracking-wide">區域四：丸之內與銀座</h2>
+          <span class="text-xs text-gray-300">— 皇室優雅與迪士尼聯名</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-gold-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🥂</span>
+              <span class="badge bg-amber-50 text-amber-500 border border-amber-100">1.2 公里燈海</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">丸之內仲通</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">長達 1.2 公里的香檳金燈海。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-gold-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🏰</span>
+              <span class="badge bg-purple-50 text-purple-400 border border-purple-100">迪士尼聯名</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">丸大樓</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">通常會有迪士尼主題的巨大聖誕樹。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-gold-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🌲</span>
+              <span class="badge bg-green-50 text-green-500 border border-green-100">真實冷杉</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">KITTE 丸之內</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">用真實冷杉打造的高聳聖誕樹，室內拍照首選。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-gold-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">💫</span>
+              <span class="badge bg-rose-50 text-rose-400 border border-rose-100">奢華屋頂</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">銀座 GINZA SIX</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">奢華的屋頂花園點燈與櫥窗藝術。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-gold-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎬</span>
+              <span class="badge bg-indigo-50 text-indigo-400 border border-indigo-100">魔法燈光秀</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">日比谷中城</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">如電影場景般的魔法燈光秀。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 聖誕 區域五：台場與近郊主題公園 -->
+      <section class="area-section mb-10">
+        <img src="tokyo-images/xmas-area5.jpg" alt="台場與近郊主題公園聖誕" class="area-banner">
+        <div class="flex items-center gap-3 mb-4 ml-1">
+          <span class="w-8 h-8 rounded-full bg-holly-200 flex items-center justify-center text-lg">🎅</span>
+          <h2 class="text-lg font-bold text-holly-500 tracking-wide">區域五：台場與近郊主題公園</h2>
+          <span class="text-xs text-gray-300">— 全天候樂園體驗</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-holly-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🏰</span>
+              <span class="badge bg-purple-50 text-purple-400 border border-purple-100">魔王關卡</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">東京迪士尼樂園/海洋</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">聖誕期間的遊行與限定裝飾（親子必去魔王關卡）。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-holly-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">💎</span>
+              <span class="badge bg-fuchsia-50 text-fuchsia-400 border border-fuchsia-100">寶石燈光秀</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">讀賣樂園</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">寶石主題燈光秀，整個樂園像發光的珠寶盒。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-holly-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🐴</span>
+              <span class="badge bg-teal-50 text-teal-500 border border-teal-100">100m 隧道</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">大井競馬場 Mega Illumi</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">有長達 100 公尺的隧道與噴泉秀，還能摸摸小馬。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-holly-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎄</span>
+              <span class="badge bg-blue-50 text-blue-400 border border-blue-100">20m 聖誕樹</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">台場海濱公園</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">巨大的 20 公尺紀念聖誕樹，配上海灣夜景。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-holly-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🧱</span>
+              <span class="badge bg-yellow-50 text-yellow-600 border border-yellow-100">室內互動</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">台場樂高樂園</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">室內互動聖誕活動。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-holly-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🧙</span>
+              <span class="badge bg-blue-50 text-blue-400 border border-blue-100">冬季限定</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">東京哈利波特影城</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">冬季限定「雪中霍格華茲」場景。</p>
+          </div>
+          <div class="spot-card bg-white/80 backdrop-blur rounded-2xl p-5 border border-holly-100">
+            <div class="flex items-start justify-between mb-2">
+              <span class="text-3xl">🎀</span>
+              <span class="badge bg-pink-50 text-pink-400 border border-pink-100">全室內</span>
+            </div>
+            <h3 class="font-bold text-gray-700 mb-1">三麗鷗彩虹樂園</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">Hello Kitty 粉絲的聖誕派對（全室內，免日曬雨淋）。</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 text-xs text-gray-300 tracking-wider">
+      <p>🗾 東京親子景點推薦地圖 — 讓每趟旅程都是美好回憶</p>
+      <p class="mt-1">資料整理時間：2026 年 3 月</p>
+    </footer>
+
+  </main>
+
+  <script>
+    /** Switch between year-round and Christmas tabs */
+    function switchTab(tab) {
+      const yearPanel = document.getElementById('panel-year');
+      const xmasPanel = document.getElementById('panel-xmas');
+      const yearBtn = document.getElementById('tab-year');
+      const xmasBtn = document.getElementById('tab-xmas');
+      const subtitle = document.getElementById('subtitle');
+      const particles = document.getElementById('particles');
+
+      // Clear existing particles
+      particles.innerHTML = '';
+
+      if (tab === 'year') {
+        yearPanel.classList.add('active');
+        xmasPanel.classList.remove('active');
+        yearBtn.className = 'tab-btn active-year px-6 py-2.5 rounded-full text-sm font-medium tracking-wider';
+        xmasBtn.className = 'tab-btn px-6 py-2.5 rounded-full text-sm font-medium tracking-wider bg-white/60 text-gray-500 border border-gray-200';
+        subtitle.textContent = '✨ 跨越二次元動畫、職業體驗與科技美學的全能冒險 ✨';
+        document.body.style.background = 'linear-gradient(180deg, #fef7f7 0%, #f0f7fc 50%, #f4f9f4 100%)';
+        spawnPetals();
+      } else {
+        xmasPanel.classList.add('active');
+        yearPanel.classList.remove('active');
+        xmasBtn.className = 'tab-btn active-xmas px-6 py-2.5 rounded-full text-sm font-medium tracking-wider';
+        yearBtn.className = 'tab-btn px-6 py-2.5 rounded-full text-sm font-medium tracking-wider bg-white/60 text-gray-500 border border-gray-200';
+        subtitle.textContent = '🎄 銀色聖誕與夢幻童話交織的暖心之旅 🎄';
+        document.body.style.background = 'linear-gradient(180deg, #f0f4f8 0%, #e8eef5 50%, #f2f8f2 100%)';
+        spawnSnowflakes();
+      }
+
+      // Re-trigger area section animations
+      const sections = document.querySelectorAll('.content-panel.active .area-section');
+      sections.forEach(function(section) {
+        section.style.animation = 'none';
+        section.offsetHeight; // force reflow
+        section.style.animation = '';
+      });
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /** Create falling cherry blossom petals */
+    function spawnPetals() {
+      var container = document.getElementById('particles');
+      for (var i = 0; i < 15; i++) {
+        (function(index) {
+          setTimeout(function() {
+            var petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.textContent = ['🌸', '🩷', '✿'][Math.floor(Math.random() * 3)];
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.fontSize = (10 + Math.random() * 14) + 'px';
+            petal.style.animationDuration = (8 + Math.random() * 12) + 's';
+            petal.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(petal);
+          }, index * 300);
+        })(i);
+      }
+    }
+
+    /** Create falling snowflakes */
+    function spawnSnowflakes() {
+      var container = document.getElementById('particles');
+      for (var i = 0; i < 20; i++) {
+        (function(index) {
+          setTimeout(function() {
+            var flake = document.createElement('div');
+            flake.className = 'snowflake';
+            flake.textContent = ['❄', '❅', '❆', '✦'][Math.floor(Math.random() * 4)];
+            flake.style.left = Math.random() * 100 + 'vw';
+            flake.style.fontSize = (8 + Math.random() * 16) + 'px';
+            flake.style.animationDuration = (6 + Math.random() * 10) + 's';
+            flake.style.animationDelay = Math.random() * 5 + 's';
+            flake.style.color = ['#b5dbf7', '#d9e2ec', '#fff'][Math.floor(Math.random() * 3)];
+            container.appendChild(flake);
+          }, index * 250);
+        })(i);
+      }
+    }
+
+    // Initialize with cherry blossom petals
+    spawnPetals();
+  </script>
+</body>
+</html>
