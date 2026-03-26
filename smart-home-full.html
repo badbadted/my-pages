@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1-4 樓透天 AI 智慧宅全屋規畫書 (2026 最終全能版)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: { 50: '#fdfcf8', 100: '#faf6ed', 200: '#f3ebd4', 300: '#e8d9b4', 400: '#d9c28a', 500: '#c9a960' },
+            wood: { 50: '#faf8f5', 100: '#f0ebe3', 200: '#ddd2c1', 300: '#c4b39a', 400: '#a89070', 500: '#8b7355' },
+            smart: { 50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80', 500: '#22c55e' },
+            night: { 50: '#fef2f2', 100: '#fee2e2', 200: '#fecaca', 300: '#fca5a5', 400: '#f87171', 500: '#ef4444' },
+            tech: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8', 500: '#0ea5e9' },
+            unifi: { 50: '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe', 300: '#c4b5fd', 400: '#a78bfa', 500: '#8b5cf6' },
+            garage: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b' },
+            bath: { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6' },
+            kid: { 50: '#fefce8', 100: '#fef9c3', 200: '#fef08a', 300: '#fde047', 400: '#facc15', 500: '#eab308' },
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Noto Sans TC', sans-serif; }
+    body { background: linear-gradient(180deg, #fdfcf8 0%, #f5f3ff 50%, #f0f9ff 100%); min-height: 100vh; }
+    .section-card { transition: all 0.3s ease; }
+    .section-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+    .device-card { transition: all 0.2s ease; }
+    .device-card:hover { transform: scale(1.02); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .room-card { transition: all 0.2s ease; }
+    .room-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.05); }
+    .glow-dot { animation: glow 2s ease-in-out infinite; }
+    @keyframes glow { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.3)} }
+    .fade-in { animation: fadeIn 0.6s ease forwards; opacity: 0; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .budget-bar { transition: width 1s ease; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #ddd2c1; border-radius: 3px; }
+  </style>
+</head>
+<body class="relative">
+
+  <!-- Header -->
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-unifi-50 via-cream-50 to-smart-50"></div>
+    <div class="absolute inset-0 opacity-5">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <pattern id="circuit" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+          <path d="M 0 50 H 40 M 60 50 H 100 M 50 0 V 40 M 50 60 V 100" stroke="#8b5cf6" stroke-width="1" fill="none"/>
+          <circle cx="50" cy="50" r="4" fill="none" stroke="#8b5cf6" stroke-width="1"/>
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#circuit)"/>
+      </svg>
+    </div>
+    <div class="relative z-10 max-w-5xl mx-auto px-6 pt-12 pb-8 text-center">
+      <div class="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-white/60 border border-smart-200 text-xs text-smart-600 tracking-wider">
+        <span class="w-2 h-2 rounded-full bg-smart-400 glow-dot"></span>
+        2026 最終全能版
+      </div>
+      <h1 class="text-3xl md:text-4xl font-black text-wood-500 tracking-wide mb-3">
+        🏠 1-4 樓透天 AI 智慧宅
+      </h1>
+      <h2 class="text-lg text-wood-400 font-light tracking-widest mb-4">全屋規畫書 — 逐層逐房完整配置</h2>
+      <div class="flex flex-wrap justify-center gap-2 text-xs">
+        <span class="px-3 py-1 rounded-full bg-garage-100/60 text-garage-500 border border-garage-200/40">🚗 車庫智控</span>
+        <span class="px-3 py-1 rounded-full bg-unifi-100/60 text-unifi-500 border border-unifi-200/40">🟣 UniFi 骨幹</span>
+        <span class="px-3 py-1 rounded-full bg-night-100/60 text-night-500 border border-night-200/40">🔴 紅光助眠</span>
+        <span class="px-3 py-1 rounded-full bg-bath-100/60 text-bath-500 border border-bath-200/40">🛁 安全泡澡偵測</span>
+        <span class="px-3 py-1 rounded-full bg-kid-100/60 text-kid-500 border border-kid-200/40">👶 兒童成長空間</span>
+        <span class="px-3 py-1 rounded-full bg-smart-100/60 text-smart-500 border border-smart-200/40">🤖 OpenClaw AI</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-6 pb-16 space-y-8 pt-6">
+
+    <!-- ==================== Section 1: 樓層地圖 ==================== -->
+    <section class="section-card fade-in bg-white/70 backdrop-blur rounded-2xl border border-wood-100 p-6 shadow-sm" style="animation-delay:0.05s">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-10 h-10 rounded-xl bg-wood-100 flex items-center justify-center text-xl">🗺️</span>
+        <div>
+          <h2 class="font-bold text-gray-700 tracking-wide">一、樓層空間與設備佈署地圖</h2>
+          <p class="text-xs text-gray-400">逐層逐房完整配置</p>
+        </div>
+      </div>
+
+      <!-- 1F -->
+      <div class="mb-6">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-9 h-9 rounded-lg bg-gradient-to-br from-garage-100 to-smart-100 flex items-center justify-center text-sm font-black text-garage-500">1F</span>
+          <div>
+            <h3 class="font-bold text-gray-700 text-sm">門戶與社交核心</h3>
+            <p class="text-[11px] text-gray-400">車庫 ・ 開放式客餐廳 ・ 廚房 ・ 廁所</p>
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 ml-12">
+          <!-- 車庫 -->
+          <div class="room-card rounded-xl p-4 bg-garage-50 border border-garage-100">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-base">🚗</span>
+              <h4 class="font-bold text-xs text-gray-600">車庫</h4>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-gray-500">
+              <div class="flex items-start gap-1.5">
+                <span class="text-garage-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">Aqara 繼電器 T1</strong> — 遠端開關卷門</span>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <span class="text-garage-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">SONOFF POW Elite</strong> — 充電樁監測</span>
+              </div>
+            </div>
+          </div>
+          <!-- 客餐廳+廚房 -->
+          <div class="room-card rounded-xl p-4 bg-cream-50 border border-cream-100">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-base">🛋️</span>
+              <h4 class="font-bold text-xs text-gray-600">客餐廳 + 廚房</h4>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-cream-200 text-cream-500">開放式</span>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-gray-500">
+              <div class="flex items-start gap-1.5">
+                <span class="text-smart-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">Aqara FP2 ×1</strong> — 沙發/餐廳/廚房三區</span>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <span class="text-cream-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">智慧開關</strong> 控制吊燈 + <strong>Aqara 燈泡</strong> 氛圍</span>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <span class="text-tech-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">漏水感應器</strong> — 廚房水槽、廁所</span>
+              </div>
+            </div>
+          </div>
+          <!-- 大門 -->
+          <div class="room-card rounded-xl p-4 bg-wood-50 border border-wood-100">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-base">🚪</span>
+              <h4 class="font-bold text-xs text-gray-600">大門</h4>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-gray-500">
+              <div class="flex items-start gap-1.5">
+                <span class="text-wood-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">Aqara U200</strong> — 智慧門鎖</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2F -->
+      <div class="mb-6">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-9 h-9 rounded-lg bg-gradient-to-br from-unifi-100 to-night-100 flex items-center justify-center text-sm font-black text-unifi-500">2F</span>
+          <div>
+            <h3 class="font-bold text-gray-700 text-sm">客房與主臥 1</h3>
+            <p class="text-[11px] text-gray-400">客房 ・ 衛浴 ・ 主臥 1 ・ 大陽台</p>
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 ml-12">
+          <div class="room-card rounded-xl p-4 bg-night-50 border border-night-100">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-base">🛏️</span>
+              <h4 class="font-bold text-xs text-gray-600">主臥 1</h4>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-night-100 text-night-500">生理監測</span>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-gray-500">
+              <div class="flex items-start gap-1.5">
+                <span class="text-night-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">Aqara FP300</strong> — 呼吸/心率/跌倒偵測</span>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <span class="text-cream-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">智慧吸頂燈</strong> — 日夜色溫自動切換</span>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <span class="text-unifi-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">C3 窗簾電機</strong> — 日出自動開簾</span>
+              </div>
+            </div>
+          </div>
+          <div class="room-card rounded-xl p-4 bg-unifi-50 border border-unifi-100">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-base">🏨</span>
+              <h4 class="font-bold text-xs text-gray-600">客房</h4>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-unifi-100 text-unifi-500">落地窗</span>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-gray-500">
+              <div class="flex items-start gap-1.5">
+                <span class="text-smart-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">Aqara FP2</strong> — 人到燈亮</span>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <span class="text-unifi-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">C3 窗簾電機</strong> — 落地窗自動窗簾</span>
+              </div>
+            </div>
+          </div>
+          <div class="room-card rounded-xl p-4 bg-smart-50 border border-smart-100">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-base">🌿</span>
+              <h4 class="font-bold text-xs text-gray-600">大陽台</h4>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-gray-500">
+              <div class="flex items-start gap-1.5">
+                <span class="text-smart-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">門窗感應器</strong> — 防盜警報</span>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <span class="text-smart-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">智慧防水插座</strong> — 戶外電器控制</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3F -->
+      <div class="mb-6">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-9 h-9 rounded-lg bg-gradient-to-br from-bath-100 to-night-100 flex items-center justify-center text-sm font-black text-bath-500">3F</span>
+          <div>
+            <h3 class="font-bold text-gray-700 text-sm">主臥 2 與療癒衛浴</h3>
+            <p class="text-[11px] text-gray-400">主臥 2 ・ 有浴缸衛浴</p>
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3 ml-12">
+          <div class="room-card rounded-xl p-4 bg-night-50 border border-night-100">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-base">🛏️</span>
+              <h4 class="font-bold text-xs text-gray-600">主臥 2</h4>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-night-100 text-night-500">生理監測</span>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-gray-500">
+              <div class="flex items-start gap-1.5">
+                <span class="text-night-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">Aqara FP300</strong> — 呼吸/心率/跌倒偵測</span>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <span class="text-cream-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">智慧吸頂燈</strong> + <strong>C3 窗簾電機</strong></span>
+              </div>
+            </div>
+          </div>
+          <div class="room-card rounded-xl p-4 bg-bath-50 border border-bath-100">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-base">🛁</span>
+              <h4 class="font-bold text-xs text-gray-600">衛浴（浴缸）</h4>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-red-100 text-red-500 font-bold">核心必備</span>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-gray-500">
+              <div class="flex items-start gap-1.5">
+                <span class="text-bath-500 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">Aqara FP300</strong> — 泡澡安全偵測 + 跌倒警報</span>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <span class="text-amber-400 mt-0.5 text-[10px]">⚠</span>
+                <span class="text-amber-600 text-[11px]">超時無動靜 → OpenClaw 語音詢問安全</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4F -->
+      <div>
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-9 h-9 rounded-lg bg-gradient-to-br from-kid-100 to-smart-100 flex items-center justify-center text-sm font-black text-kid-500">4F</span>
+          <div>
+            <h3 class="font-bold text-gray-700 text-sm">成長空間</h3>
+            <p class="text-[11px] text-gray-400">雙小孩房 ・ 衛浴</p>
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 ml-12">
+          <div class="room-card rounded-xl p-4 bg-kid-50 border border-kid-100">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-base">📚</span>
+              <h4 class="font-bold text-xs text-gray-600">小孩房 A</h4>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-gray-500">
+              <div class="flex items-start gap-1.5">
+                <span class="text-kid-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">Aqara FP2</strong> — 偵測書桌坐姿，連動照明</span>
+              </div>
+            </div>
+          </div>
+          <div class="room-card rounded-xl p-4 bg-kid-50 border border-kid-100">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-base">📚</span>
+              <h4 class="font-bold text-xs text-gray-600">小孩房 B</h4>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-gray-500">
+              <div class="flex items-start gap-1.5">
+                <span class="text-kid-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">Aqara FP2</strong> — 偵測書桌坐姿，連動照明</span>
+              </div>
+            </div>
+          </div>
+          <div class="room-card rounded-xl p-4 bg-tech-50 border border-tech-100">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-base">🚿</span>
+              <h4 class="font-bold text-xs text-gray-600">衛浴</h4>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-gray-500">
+              <div class="flex items-start gap-1.5">
+                <span class="text-tech-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">門窗感應器 / FP1E</strong></span>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <span class="text-tech-400 mt-0.5 text-[10px]">●</span>
+                <span><strong class="text-gray-600">漏水感應器</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== Section 2: UniFi 骨幹 ==================== -->
+    <section class="section-card fade-in bg-white/70 backdrop-blur rounded-2xl border border-unifi-100 p-6 shadow-sm" style="animation-delay:0.1s">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="w-10 h-10 rounded-xl bg-unifi-100 flex items-center justify-center text-xl">📶</span>
+        <div>
+          <h2 class="font-bold text-gray-700 tracking-wide">二、核心基礎設施</h2>
+          <p class="text-xs text-gray-400">UniFi 企業級骨幹</p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="device-card bg-unifi-50/50 rounded-xl p-4 border border-unifi-100/50 text-center">
+          <span class="text-3xl mb-2 block">🧠</span>
+          <h3 class="font-bold text-sm text-gray-700 mb-1">UCG-Ultra</h3>
+          <p class="text-[11px] text-gray-400">路由器/控制器</p>
+          <p class="text-[10px] text-unifi-400 mt-1">1 樓・全屋大腦</p>
+        </div>
+        <div class="device-card bg-unifi-50/50 rounded-xl p-4 border border-unifi-100/50 text-center">
+          <span class="text-3xl mb-2 block">🔀</span>
+          <h3 class="font-bold text-sm text-gray-700 mb-1">Switch Ultra</h3>
+          <p class="text-[11px] text-gray-400">60W PoE 交換器</p>
+          <p class="text-[10px] text-unifi-400 mt-1">供電給 AP・簡化佈線</p>
+        </div>
+        <div class="device-card bg-unifi-50/50 rounded-xl p-4 border border-unifi-100/50 text-center">
+          <span class="text-3xl mb-2 block">📡</span>
+          <h3 class="font-bold text-sm text-gray-700 mb-1">U6+ ×2</h3>
+          <p class="text-[11px] text-gray-400">無線基地台</p>
+          <p class="text-[10px] text-unifi-400 mt-1">1F + 3F 樓梯間天花板</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== Section 3: 採購清單 ==================== -->
+    <section class="section-card fade-in bg-white/70 backdrop-blur rounded-2xl border border-cream-200 p-6 shadow-sm" style="animation-delay:0.15s">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="w-10 h-10 rounded-xl bg-cream-100 flex items-center justify-center text-xl">🛒</span>
+        <div>
+          <h2 class="font-bold text-gray-700 tracking-wide">三、採購清單</h2>
+          <p class="text-xs text-gray-400">逐項設備與估計金額</p>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs">
+          <thead>
+            <tr class="border-b border-wood-100">
+              <th class="text-left py-2 px-3 text-gray-400 font-medium">類別</th>
+              <th class="text-left py-2 px-3 text-gray-400 font-medium">設備</th>
+              <th class="text-center py-2 px-3 text-gray-400 font-medium">數量</th>
+              <th class="text-right py-2 px-3 text-gray-400 font-medium">估價 (NT$)</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-600">
+            <tr class="border-b border-gray-50 bg-unifi-50/30">
+              <td class="py-2 px-3" rowspan="3"><span class="text-unifi-400 font-bold">📶 網路</span></td>
+              <td class="py-2 px-3">UniFi Cloud Gateway Ultra</td>
+              <td class="py-2 px-3 text-center">1</td>
+              <td class="py-2 px-3 text-right">$5,500</td>
+            </tr>
+            <tr class="border-b border-gray-50 bg-unifi-50/30">
+              <td class="py-2 px-3">UniFi Switch Ultra 60W PoE</td>
+              <td class="py-2 px-3 text-center">1</td>
+              <td class="py-2 px-3 text-right">$5,900</td>
+            </tr>
+            <tr class="border-b border-gray-50 bg-unifi-50/30">
+              <td class="py-2 px-3">UniFi U6+</td>
+              <td class="py-2 px-3 text-center">2</td>
+              <td class="py-2 px-3 text-right">$8,000</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-2 px-3" rowspan="4"><span class="text-smart-500 font-bold">👁️ 感測</span></td>
+              <td class="py-2 px-3">Aqara FP2</td>
+              <td class="py-2 px-3 text-center">4</td>
+              <td class="py-2 px-3 text-right">$10,000</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-2 px-3">Aqara FP300</td>
+              <td class="py-2 px-3 text-center">3</td>
+              <td class="py-2 px-3 text-right">$9,000</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-2 px-3">Aqara 漏水感應器</td>
+              <td class="py-2 px-3 text-center">3</td>
+              <td class="py-2 px-3 text-right">$2,100</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-2 px-3">SONOFF SNZB-04P 門窗感應</td>
+              <td class="py-2 px-3 text-center">3</td>
+              <td class="py-2 px-3 text-right">$1,200</td>
+            </tr>
+            <tr class="border-b border-gray-50 bg-cream-50/30">
+              <td class="py-2 px-3" rowspan="3"><span class="text-cream-500 font-bold">💡 照明</span></td>
+              <td class="py-2 px-3">Aqara 智慧吸頂燈</td>
+              <td class="py-2 px-3 text-center">2</td>
+              <td class="py-2 px-3 text-right">$6,000</td>
+            </tr>
+            <tr class="border-b border-gray-50 bg-cream-50/30">
+              <td class="py-2 px-3">Aqara LED 燈泡 (Zigbee)</td>
+              <td class="py-2 px-3 text-center">4</td>
+              <td class="py-2 px-3 text-right">$2,200</td>
+            </tr>
+            <tr class="border-b border-gray-50 bg-cream-50/30">
+              <td class="py-2 px-3">Aqara 智慧開關</td>
+              <td class="py-2 px-3 text-center">2</td>
+              <td class="py-2 px-3 text-right">$1,600</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-2 px-3" rowspan="2"><span class="text-wood-500 font-bold">🪟 窗簾</span></td>
+              <td class="py-2 px-3">Aqara C3 窗簾電機</td>
+              <td class="py-2 px-3 text-center">3</td>
+              <td class="py-2 px-3 text-right">$9,000</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-2 px-3 text-[10px] text-gray-400" colspan="2">（主臥1 + 客房 + 主臥2）</td>
+            </tr>
+            <tr class="border-b border-gray-50 bg-garage-50/30">
+              <td class="py-2 px-3" rowspan="4"><span class="text-garage-500 font-bold">🔌 控制</span></td>
+              <td class="py-2 px-3">Aqara U200 智慧門鎖</td>
+              <td class="py-2 px-3 text-center">1</td>
+              <td class="py-2 px-3 text-right">$6,500</td>
+            </tr>
+            <tr class="border-b border-gray-50 bg-garage-50/30">
+              <td class="py-2 px-3">Aqara 繼電器模組 T1</td>
+              <td class="py-2 px-3 text-center">1</td>
+              <td class="py-2 px-3 text-right">$800</td>
+            </tr>
+            <tr class="border-b border-gray-50 bg-garage-50/30">
+              <td class="py-2 px-3">SONOFF POW Elite</td>
+              <td class="py-2 px-3 text-center">1</td>
+              <td class="py-2 px-3 text-right">$700</td>
+            </tr>
+            <tr class="border-b border-gray-50 bg-garage-50/30">
+              <td class="py-2 px-3">SONOFF S40 Lite Zigbee 中繼</td>
+              <td class="py-2 px-3 text-center">6</td>
+              <td class="py-2 px-3 text-right">$2,100</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-2 px-3"><span class="text-tech-500 font-bold">🎛️ 通訊</span></td>
+              <td class="py-2 px-3">SONOFF Zigbee Dongle Plus</td>
+              <td class="py-2 px-3 text-center">1</td>
+              <td class="py-2 px-3 text-right">$600</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="text-center p-4 mt-4 rounded-xl bg-gradient-to-r from-unifi-50 to-smart-50 border border-unifi-200/50">
+        <p class="text-xs text-gray-400 mb-1">總預計設備花費</p>
+        <p class="text-3xl font-black text-unifi-500">NT$ 71,200</p>
+        <p class="text-xs text-gray-300 mt-1">不含施工費、窗簾布料與淨水器主機</p>
+      </div>
+    </section>
+
+    <!-- ==================== Section 4: AI 自動化 ==================== -->
+    <section class="section-card fade-in bg-white/70 backdrop-blur rounded-2xl border border-smart-100 p-6 shadow-sm" style="animation-delay:0.2s">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="w-10 h-10 rounded-xl bg-smart-100 flex items-center justify-center text-xl">🤖</span>
+        <div>
+          <h2 class="font-bold text-gray-700 tracking-wide">四、OpenClaw AI 自動化進階邏輯</h2>
+          <p class="text-xs text-gray-400">智慧情境聯動</p>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div class="device-card rounded-xl border border-bath-100/50 overflow-hidden">
+          <div class="bg-bath-50/50 px-4 py-3 flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-bath-100 flex items-center justify-center text-sm">🛁</span>
+            <h3 class="font-bold text-sm text-gray-700">安全泡澡</h3>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center gap-2 text-xs text-gray-500 flex-wrap">
+              <span class="px-2.5 py-1 rounded-lg bg-bath-50 border border-bath-100 text-bath-500">🛁 3F FP300 偵測泡澡</span>
+              <span class="text-gray-300">→</span>
+              <span class="px-2.5 py-1 rounded-lg bg-amber-50 border border-amber-100 text-amber-500">⏱️ 超時無動靜</span>
+              <span class="text-gray-300">→</span>
+              <span class="px-2.5 py-1 rounded-lg bg-smart-50 border border-smart-100 text-smart-500">🗣️ OpenClaw 語音詢問</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="device-card rounded-xl border border-garage-100/50 overflow-hidden">
+          <div class="bg-garage-50/50 px-4 py-3 flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-garage-100 flex items-center justify-center text-sm">🚗</span>
+            <h3 class="font-bold text-sm text-gray-700">卷門迎賓</h3>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center gap-2 text-xs text-gray-500 flex-wrap">
+              <span class="px-2.5 py-1 rounded-lg bg-garage-50 border border-garage-100 text-garage-500">🚗 車庫卷門開啟</span>
+              <span class="text-gray-300">→</span>
+              <span class="px-2.5 py-1 rounded-lg bg-cream-50 border border-cream-100 text-cream-500">💡 玄關+客廳亮燈</span>
+              <span class="text-gray-300">→</span>
+              <span class="px-2.5 py-1 rounded-lg bg-tech-50 border border-tech-100 text-tech-500">❄️ 自動開啟客廳空調</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="device-card rounded-xl border border-night-100/50 overflow-hidden">
+          <div class="bg-night-50/50 px-4 py-3 flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-night-100 flex items-center justify-center text-sm">🌙</span>
+            <h3 class="font-bold text-sm text-gray-700">睡眠巡視</h3>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center gap-2 text-xs text-gray-500 flex-wrap">
+              <span class="px-2.5 py-1 rounded-lg bg-night-50 border border-night-100 text-night-500">🌙 全屋感測器確認無人移動</span>
+              <span class="text-gray-300">→</span>
+              <span class="px-2.5 py-1 rounded-lg bg-gray-50 border border-gray-200 text-gray-400">💡 關閉非必要燈光</span>
+              <span class="text-gray-300">→</span>
+              <span class="px-2.5 py-1 rounded-lg bg-smart-50 border border-smart-100 text-smart-500">🔒 門鎖確認上鎖</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-8 text-xs text-gray-300 tracking-wider bg-gradient-to-t from-unifi-50/30">
+    <p>🏠 AI 智慧宅全屋規畫書 — 2026 最終全能版</p>
+    <p class="mt-1">UniFi 骨幹 ・ Mac Mini (HA) + OpenClaw ・ 逐層逐房配置</p>
+  </footer>
+
+  <script>
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.style.animationPlayState = 'running';
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(function(el) {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
