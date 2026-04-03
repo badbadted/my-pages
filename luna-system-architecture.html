@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luna 智慧家庭系統 — 完整架構文件</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{font-family:'Noto Sans TC','Inter',sans-serif;background:#faf8f5;color:#44403c}
+.card{background:#fafaf9;border-radius:10px;box-shadow:0 1px 2px rgba(120,113,108,.08);padding:20px;margin-bottom:16px}
+.nav{position:sticky;top:0;z-index:50;background:#faf8f5;border-bottom:1px solid #e7e5e4}
+.section-title{font-size:1.25rem;font-weight:700;color:#292524;border-left:4px solid #f59e0b;padding-left:12px;margin-bottom:16px}
+code{background:#f5f5f4;padding:1px 6px;border-radius:4px;font-size:.8rem;font-family:'JetBrains Mono',monospace}
+.code-block{background:#292524;color:#e7e5e4;padding:16px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.6;overflow-x:auto;white-space:pre}
+.code-block .comment{color:#78716c}
+.code-block .highlight{color:#f59e0b}
+.code-block .str{color:#86efac}
+.code-block .kw{color:#93c5fd}
+.badge{display:inline-block;padding:2px 10px;border-radius:9999px;font-size:.7rem;font-weight:600}
+.badge-green{background:#d1fae5;color:#065f46}
+.badge-blue{background:#dbeafe;color:#1e40af}
+.badge-amber{background:#fef3c7;color:#92400e}
+.badge-purple{background:#e0e7ff;color:#3730a3}
+.badge-red{background:#fee2e2;color:#991b1b}
+.flow-box{border:2px solid #e7e5e4;border-radius:8px;padding:10px 14px;text-align:center;font-size:.82rem;font-weight:500;min-width:100px}
+.flow-arrow{color:#a8a29e;font-size:1.1rem;display:flex;align-items:center}
+.flow-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;padding:8px 0}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:8px 10px;font-size:.78rem;font-weight:600;color:#78716c;border-bottom:2px solid #e7e5e4}
+td{padding:8px 10px;font-size:.82rem;border-bottom:1px solid #f5f5f4}
+tr:nth-child(even){background:#fafaf9}
+.toc a{color:#2563eb;text-decoration:none;font-size:.85rem;display:block;padding:4px 0}
+.toc a:hover{text-decoration:underline}
+.port{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#f59e0b;font-weight:600}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+<div style="max-width:960px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between">
+<div style="display:flex;align-items:center;gap:10px">
+<span style="font-size:1.4rem">🌙</span>
+<span style="font-weight:700;font-size:1.1rem;color:#292524">Luna 智慧家庭系統架構</span>
+</div>
+<span style="font-size:.75rem;color:#a8a29e">v2.0 — 2026-04-03</span>
+</div>
+</nav>
+
+<main style="max-width:960px;margin:0 auto;padding:24px 20px">
+
+<!-- 目錄 -->
+<div class="card" style="background:#fff">
+<div style="font-weight:600;margin-bottom:8px;font-size:.9rem">📋 目錄</div>
+<div class="toc" style="column-count:2;column-gap:24px">
+<a href="#overview">1. 系統總覽</a>
+<a href="#ports">2. 服務端口一覽</a>
+<a href="#flow-line">3. LINE 訊息流程</a>
+<a href="#flow-voice">4. 語音喚醒流程</a>
+<a href="#flow-web">5. 網頁 Chat 流程</a>
+<a href="#luna-tools">6. Luna Function Calling</a>
+<a href="#vb-api">7. Voice Bridge API</a>
+<a href="#tts">8. TTS 播報流程</a>
+<a href="#fallback">9. 容錯降級機制</a>
+<a href="#example">10. 完整範例</a>
+<a href="#files">11. 關鍵檔案</a>
+</div>
+</div>
+
+<!-- 1. 系統總覽 -->
+<section id="overview">
+<h2 class="section-title">1. 系統總覽</h2>
+<div class="card">
+<div class="flow-row" style="gap:4px">
+<div style="display:flex;flex-direction:column;gap:6px;align-items:center">
+<div class="flow-box" style="border-color:#3b82f6">LINE<br><span style="font-size:.65rem;color:#78716c">Webhook</span></div>
+<div class="flow-box" style="border-color:#8b5cf6">ReSpeaker<br><span style="font-size:.65rem;color:#78716c">語音喚醒</span></div>
+<div class="flow-box" style="border-color:#10b981">網頁 Chat<br><span style="font-size:.65rem;color:#78716c">SSE 串流</span></div>
+</div>
+<span class="flow-arrow">→</span>
+<div style="display:flex;flex-direction:column;gap:6px;align-items:center">
+<div class="flow-box" style="background:#dbeafe">OpenClaw<br><span class="port">:18789</span></div>
+<div class="flow-box" style="background:#fef3c7">Voice Bridge<br><span class="port">:18790</span></div>
+<div class="flow-box" style="background:#d1fae5">Luna HTTPS<br><span class="port">:18796</span></div>
+</div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="background:#fef3c7;border-color:#f59e0b;border-width:3px">
+<strong>Luna Server</strong><br><span class="port">:18797</span><br>
+<span style="font-size:.65rem;color:#78716c">Gemini 2.5 Flash Lite<br>Function Calling</span>
+</div>
+<span class="flow-arrow">→</span>
+<div style="display:flex;flex-direction:column;gap:6px;align-items:center">
+<div class="flow-box">Voice Bridge<br><span style="font-size:.65rem;color:#78716c">執行設備控制</span></div>
+<div class="flow-box">SoVITS TTS<br><span class="port">:9880</span></div>
+</div>
+<span class="flow-arrow">→</span>
+<div style="display:flex;flex-direction:column;gap:6px;align-items:center">
+<div class="flow-box" style="border-color:#f59e0b">HomePod<br><span style="font-size:.65rem;color:#78716c">RAOP 播報</span></div>
+<div class="flow-box">HA 設備<br><span style="font-size:.65rem;color:#78716c">冷氣/電視/燈</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 2. 端口一覽 -->
+<section id="ports">
+<h2 class="section-title">2. 服務端口一覽</h2>
+<div class="card">
+<table>
+<tr><th>服務</th><th>Port</th><th>綁定</th><th>說明</th></tr>
+<tr><td>OpenClaw Gateway</td><td class="port">18789</td><td>127.0.0.1</td><td>LINE webhook 接收、agent 調度</td></tr>
+<tr><td>Voice Bridge HTTP</td><td class="port">18790</td><td>0.0.0.0</td><td>語音/設備控制 API</td></tr>
+<tr><td>Voice Bridge HTTPS</td><td class="port">18793</td><td>0.0.0.0</td><td>Web 前端存取</td></tr>
+<tr><td>Luna Server HTTPS</td><td class="port">18796</td><td>0.0.0.0</td><td>網頁 Chat（SSE 串流）</td></tr>
+<tr><td>Luna Server HTTP</td><td class="port">18797</td><td>127.0.0.1</td><td>內部 API（OpenClaw / VB 呼叫）</td></tr>
+<tr><td>ReSpeaker Listener</td><td class="port">18810</td><td>0.0.0.0</td><td>喚醒詞控制 + 按鈕觸發</td></tr>
+<tr><td>Home Assistant</td><td class="port">8123</td><td>0.0.0.0</td><td>設備控制（OrbStack VM）</td></tr>
+<tr><td>SoVITS TTS</td><td class="port">9880</td><td>127.0.0.1</td><td>文字轉語音（Docker）</td></tr>
+<tr><td>Mosquitto MQTT</td><td class="port">1883</td><td>—</td><td>Zigbee2MQTT 通訊</td></tr>
+</table>
+</div>
+</section>
+
+<!-- 3. LINE 流程 -->
+<section id="flow-line">
+<h2 class="section-title">3. LINE 訊息流程</h2>
+<div class="card">
+<div class="flow-row">
+<div class="flow-box" style="border-color:#06c755"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%2306C755'/%3E%3C/svg%3E" style="vertical-align:middle" alt=""> LINE<br><span style="font-size:.65rem;color:#78716c">用戶傳訊 / @露娜</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box">Cloudflare Tunnel<br><span style="font-size:.65rem;color:#78716c">bot.pushbike-training.app</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="background:#dbeafe">OpenClaw<br><span class="port">:18789</span><br><span style="font-size:.65rem;color:#78716c">六層資安 + 路由</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="background:#fef3c7">Luna Server<br><span class="port">:18797</span><br><span style="font-size:.65rem;color:#78716c">/v1/chat/completions</span></div>
+</div>
+<div class="flow-row">
+<div class="flow-box" style="background:#fef3c7">Gemini FC<br><span style="font-size:.65rem;color:#78716c">意圖理解 + Tool Use</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box">Voice Bridge<br><span style="font-size:.65rem;color:#78716c">執行 /ac /tv /tts</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="border-color:#06c755">LINE 回覆<br><span style="font-size:.65rem;color:#78716c">文字回傳</span></div>
+</div>
+
+<div style="margin-top:16px;font-size:.82rem">
+<strong>OpenClaw 設定要點：</strong>
+<ul style="padding-left:20px;margin-top:4px;color:#57534e">
+<li>模型：<code>luna/voice</code>（Gemini Flash Lite）</li>
+<li>Fallback：<code>opencode-go/kimi-k2.5</code></li>
+<li>群組需 <code>@露娜</code> / <code>@Luna</code> 才回應</li>
+<li>OpenAI 相容格式 <code>/v1/chat/completions</code></li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- 4. 語音流程 -->
+<section id="flow-voice">
+<h2 class="section-title">4. 語音喚醒流程</h2>
+<div class="card">
+<div style="font-weight:600;margin-bottom:12px">階段一：喚醒詞偵測（Silero VAD + Whisper tiny）</div>
+<div class="flow-row">
+<div class="flow-box" style="border-color:#8b5cf6">ReSpeaker<br>XVF3800<br><span style="font-size:.65rem;color:#78716c">CH1 ASR 通道</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box">Silero VAD<br><span style="font-size:.65rem;color:#78716c">32ms/chunk<br>偵測語音活動</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box">收集語音<br><span style="font-size:.65rem;color:#78716c">至 0.5s 靜音</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="background:#e0e7ff">Whisper tiny<br><span style="font-size:.65rem;color:#78716c">英文辨識<br>比對 "luna"</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="background:#d1fae5">✓ 匹配！<br><span style="font-size:.65rem;color:#78716c">🔔 播放 chime</span></div>
+</div>
+
+<div style="font-weight:600;margin:16px 0 12px">階段二：完整錄音 + STT + 執行</div>
+<div class="flow-row">
+<div class="flow-box" style="background:#d1fae5">錄音 6 秒<br><span style="font-size:.65rem;color:#78716c">或靜音自動停止</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box">Whisper base<br><span style="font-size:.65rem;color:#78716c">中文完整 STT</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="background:#fef3c7">Voice Bridge<br><span style="font-size:.65rem;color:#78716c">POST /say<br>秒回 200</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="background:#fef3c7">Luna Server<br><span style="font-size:.65rem;color:#78716c">POST /api/voice<br>背景非同步</span></div>
+</div>
+<div class="flow-row">
+<div class="flow-box">Gemini FC<br><span style="font-size:.65rem;color:#78716c">Tool Use</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box">執行設備控制</div>
+<span class="flow-arrow">→</span>
+<div class="flow-box">SoVITS TTS<br><span style="font-size:.65rem;color:#78716c">嘉嵐語音</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="border-color:#f59e0b">HomePod<br><span style="font-size:.65rem;color:#78716c">RAOP 播報</span></div>
+</div>
+
+<div style="margin-top:16px">
+<table>
+<tr><th>參數</th><th>值</th><th>說明</th></tr>
+<tr><td>VAD 閾值</td><td><code>0.5</code></td><td>語音機率 > 50% 視為說話</td></tr>
+<tr><td>VAD chunk</td><td><code>512 samples</code></td><td>32ms @ 16kHz</td></tr>
+<tr><td>靜音判定</td><td><code>0.5s</code></td><td>語音後靜音 0.5 秒視為結束</td></tr>
+<tr><td>最短語音</td><td><code>0.3s</code></td><td>過短的聲音不處理</td></tr>
+<tr><td>關鍵字</td><td><code>"luna"</code></td><td>Whisper tiny 英文辨識後比對</td></tr>
+<tr><td>排程</td><td><code>07:00-24:00</code></td><td>時段外只有按鈕能觸發</td></tr>
+<tr><td>收音通道</td><td><code>CH1</code></td><td>ASR 輸出（beamforming 後、NS 前）</td></tr>
+</table>
+</div>
+</div>
+</section>
+
+<!-- 5. 網頁 Chat -->
+<section id="flow-web">
+<h2 class="section-title">5. 網頁 Chat 流程</h2>
+<div class="card">
+<div class="flow-row">
+<div class="flow-box" style="border-color:#10b981">瀏覽器<br><span style="font-size:.65rem;color:#78716c">https://:18796</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box">POST /api/chat<br><span style="font-size:.65rem;color:#78716c">SSE 串流</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="background:#fef3c7">Gemini FC<br><span style="font-size:.65rem;color:#78716c">即時推送回覆</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="border-color:#10b981">瀏覽器顯示<br><span style="font-size:.65rem;color:#78716c">+ 可選 TTS 播報</span></div>
+</div>
+<div style="margin-top:12px;font-size:.82rem;color:#57534e">
+<strong>SSE 事件序列：</strong>
+<code>session</code> → <code>status</code>（思考中）→ <code>text</code>（逐句回覆）→ <code>meta</code>（用時/token）→ <code>done</code>
+</div>
+</div>
+</section>
+
+<!-- 6. Luna Tools -->
+<section id="luna-tools">
+<h2 class="section-title">6. Luna Function Calling（24 個 Tools）</h2>
+<div class="card">
+<table>
+<tr><th>類別</th><th>Tool 名稱</th><th>功能</th><th>Voice Bridge Endpoint</th></tr>
+<tr><td rowspan="5" style="font-weight:600;color:#f59e0b">設備控制</td><td><code>control_ac</code></td><td>冷氣（開/關/溫度/模式/風速）</td><td>POST /ac</td></tr>
+<tr><td><code>control_tv</code></td><td>Apple TV（播放/暫停/選單）</td><td>POST /tv</td></tr>
+<tr><td><code>control_samsung</code></td><td>三星電視 IR 控制</td><td>POST /samsung</td></tr>
+<tr><td><code>amp_power</code></td><td>擴大機 AN1000 電源</td><td>amp-control.sh</td></tr>
+<tr><td><code>amp_input</code></td><td>切換輸入源（TV/BT/Analog）</td><td>amp-control.sh</td></tr>
+<tr><td rowspan="2" style="font-weight:600;color:#3b82f6">音樂</td><td><code>spotify_control</code></td><td>Spotify（搜尋/播放/暫停）</td><td>Spotify Web API</td></tr>
+<tr><td><code>youtube_music</code></td><td>YouTube 音樂播放</td><td>yt-play.sh</td></tr>
+<tr><td rowspan="5" style="font-weight:600;color:#10b981">查詢</td><td><code>get_ac_state</code></td><td>冷氣狀態</td><td>GET /ac/state</td></tr>
+<tr><td><code>get_environment</code></td><td>家庭環境（溫度/人員/燈）</td><td>GET /env</td></tr>
+<tr><td><code>get_weather</code></td><td>天氣資訊</td><td>GET /weather</td></tr>
+<tr><td><code>get_routines</code></td><td>排程提醒</td><td>GET /routines</td></tr>
+<tr><td><code>get_ac_schedule</code></td><td>冷氣開放時段</td><td>GET /ac/schedule</td></tr>
+<tr><td rowspan="3" style="font-weight:600;color:#8b5cf6">管理</td><td><code>manage_todo</code></td><td>待辦事項 CRUD</td><td>POST /todo/add</td></tr>
+<tr><td><code>speak_tts</code></td><td>HomePod 語音播報</td><td>POST /tts</td></tr>
+<tr><td><code>control_volume</code></td><td>播報音量控制</td><td>POST /volume</td></tr>
+<tr><td rowspan="3" style="font-weight:600;color:#78716c">擴大機</td><td><code>amp_volume</code></td><td>音量（0-74）</td><td>amp-control.sh</td></tr>
+<tr><td><code>amp_mute</code></td><td>靜音</td><td>amp-control.sh</td></tr>
+<tr><td><code>amp_scene</code></td><td>音場模式</td><td>amp-control.sh</td></tr>
+</table>
+<p style="font-size:.78rem;color:#78716c;margin-top:12px">Gemini 最多執行 5 回合 Tool Use loop，支援多步驟情境連動（例如「聽音樂」→ 開擴大機 → 等待連線 → Spotify 播放）。</p>
+</div>
+</section>
+
+<!-- 7. Voice Bridge API -->
+<section id="vb-api">
+<h2 class="section-title">7. Voice Bridge API 端點</h2>
+<div class="card">
+<table>
+<tr><th>方法</th><th>端點</th><th>用途</th><th>呼叫者</th></tr>
+<tr><td><span class="badge badge-green">POST</span></td><td><code>/say</code></td><td>語音輸入主入口（秒回 200，背景處理）</td><td>ReSpeaker / Atom Echo</td></tr>
+<tr><td><span class="badge badge-green">POST</span></td><td><code>/tts</code></td><td>純 TTS 播報（無 AI 推論）</td><td>Luna speak_tts</td></tr>
+<tr><td><span class="badge badge-green">POST</span></td><td><code>/ac</code></td><td>冷氣控制（含排程限制）</td><td>Luna control_ac</td></tr>
+<tr><td><span class="badge badge-green">POST</span></td><td><code>/tv</code></td><td>Apple TV 指令</td><td>Luna control_tv</td></tr>
+<tr><td><span class="badge badge-green">POST</span></td><td><code>/samsung</code></td><td>三星電視 IR</td><td>Luna control_samsung</td></tr>
+<tr><td><span class="badge badge-green">POST</span></td><td><code>/volume</code></td><td>音量設定</td><td>Luna / Web</td></tr>
+<tr><td><span class="badge badge-green">POST</span></td><td><code>/music</code></td><td>YouTube 音樂</td><td>Web</td></tr>
+<tr><td><span class="badge badge-green">POST</span></td><td><code>/todo/add</code></td><td>新增待辦</td><td>Luna manage_todo</td></tr>
+<tr><td><span class="badge badge-blue">GET</span></td><td><code>/ac/state</code></td><td>冷氣即時狀態</td><td>Luna / Web</td></tr>
+<tr><td><span class="badge badge-blue">GET</span></td><td><code>/env</code></td><td>家庭環境（溫度/人員）</td><td>Luna / Web</td></tr>
+<tr><td><span class="badge badge-blue">GET</span></td><td><code>/weather</code></td><td>天氣</td><td>Luna / Web</td></tr>
+<tr><td><span class="badge badge-blue">GET</span></td><td><code>/routines</code></td><td>排程</td><td>Luna / Web</td></tr>
+<tr><td><span class="badge badge-blue">GET</span></td><td><code>/tts/log</code></td><td>TTS 播報記錄</td><td>Web 監控</td></tr>
+<tr><td><span class="badge badge-blue">GET</span></td><td><code>/health</code></td><td>健康檢查</td><td>監控</td></tr>
+<tr><td><span class="badge badge-blue">GET</span></td><td><code>/conversations</code></td><td>對話紀錄</td><td>Web</td></tr>
+</table>
+<p style="font-size:.78rem;color:#78716c;margin-top:8px"><code>/say</code> 有去重機制：同 IP 30 秒內重複訊息拒絕。Spotify/音樂即時控制不走 AI，直接執行。</p>
+</div>
+</section>
+
+<!-- 8. TTS -->
+<section id="tts">
+<h2 class="section-title">8. TTS 播報流程</h2>
+<div class="card">
+<div class="flow-row">
+<div class="flow-box">Luna 回覆文字</div>
+<span class="flow-arrow">→</span>
+<div class="flow-box">clean_for_tts()<br><span style="font-size:.65rem;color:#78716c">移除 Markdown</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="background:#e0e7ff">SoVITS TTS<br><span class="port">:9880</span><br><span style="font-size:.65rem;color:#78716c">嘉嵐語音合成</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box">ffmpeg<br><span style="font-size:.65rem;color:#78716c">音量 ×3.0</span></div>
+<span class="flow-arrow">→</span>
+<div class="flow-box" style="border-color:#f59e0b">播放裝置</div>
+</div>
+
+<div style="margin-top:16px">
+<table>
+<tr><th>播放條件</th><th>裝置</th><th>方式</th></tr>
+<tr><td>AN1000 開啟 + Analog 輸入</td><td>Mac 音源 → 擴大機</td><td><code>afplay</code></td></tr>
+<tr><td>其他情況</td><td>HomePod Mini</td><td><code>atvremote RAOP stream_file</code></td></tr>
+</table>
+</div>
+
+<div style="margin-top:12px;font-size:.82rem;color:#57534e">
+<strong>語音角色：</strong>嘉嵐（jialan）為預設，可切換 hanli / tw-male。設定從 HA <code>input_select.tts_voice</code> 讀取。
+</div>
+</div>
+</section>
+
+<!-- 9. 容錯 -->
+<section id="fallback">
+<h2 class="section-title">9. 容錯降級機制</h2>
+<div class="card">
+<div class="code-block"><span class="comment">// Luna Server 內部降級</span>
+<span class="kw">主力模型</span>: gemini-2.5-flash-lite
+  ↓ <span class="comment">失敗 2 次</span>
+<span class="kw">備用模型</span>: gemini-2.5-flash
+  ↓ <span class="comment">失敗 5 次 → Circuit Breaker 開啟（60s 冷卻）</span>
+<span class="highlight">Luna 完全掛掉</span>
+
+<span class="comment">// Voice Bridge 外部降級</span>
+<span class="highlight">Luna 無回應（120s 超時）</span>
+  ↓
+<span class="kw">fallback</span>: ask_openclaw() → <span class="str">Kimi K2.5</span>
+  ↓
+<span class="kw">通知</span>: _notify_luna_down() → <span class="str">LINE 推送告警</span>
+  <span class="comment">// 60 秒去重，不會狂發通知</span></div>
+</div>
+</section>
+
+<!-- 10. 完整範例 -->
+<section id="example">
+<h2 class="section-title">10. 完整範例：「開冷氣 26 度」</h2>
+<div class="card">
+<div class="code-block"><span class="comment">① 用戶對 ReSpeaker 說「Hey Luna，開冷氣 26 度」</span>
+
+<span class="kw">ReSpeaker CH1</span> → Silero VAD 偵測語音
+  ↓
+收集 1.2 秒語音 → 存 WAV
+  ↓
+<span class="kw">Whisper tiny</span> (英文) → <span class="str">"hey luna"</span> → ✓ 包含 "luna"
+  ↓
+🔔 播放 chime 提示音
+  ↓
+<span class="kw">錄音 3.5 秒</span>（偵測到靜音自動停止）
+  ↓
+<span class="kw">Whisper base</span> (中文) → <span class="str">"開冷氣26度"</span>
+  ↓
+POST <span class="highlight">Voice Bridge /say</span> → 秒回 200
+  ↓ <span class="comment">背景非同步</span>
+POST <span class="highlight">Luna /api/voice</span> {"q":"開冷氣26度", "src":"respeaker"}
+  ↓
+<span class="kw">Gemini Function Calling</span>:
+  → 識別意圖: control_ac
+  → 參數: action=<span class="str">"on"</span>, temp=<span class="str">26</span>, mode=<span class="str">"cool"</span>
+  ↓
+<span class="highlight">executeTool('control_ac')</span>
+  → POST Voice Bridge /ac
+  → HA SmartIR → 紅外線發射 → 冷氣啟動
+  ↓
+Gemini 回覆: <span class="str">"冷氣已開啟，設定 26 度 ❄️"</span>
+  ↓
+<span class="kw">speak_tts</span> → SoVITS (嘉嵐) → ffmpeg → HomePod RAOP
+  ↓
+<span class="highlight">🔊 HomePod 播報：「冷氣已開啟，設定 26 度」</span></div>
+</div>
+</section>
+
+<!-- 11. 檔案 -->
+<section id="files">
+<h2 class="section-title">11. 關鍵檔案</h2>
+<div class="card">
+<table>
+<tr><th>檔案</th><th>用途</th></tr>
+<tr><td><code>~/luna/server.js</code></td><td>Luna Server 主程式（Gemini + Function Calling）</td></tr>
+<tr><td><code>~/VMs/openclaw-voice-bridge.py</code></td><td>Voice Bridge 整合樞紐（1600+ 行）</td></tr>
+<tr><td><code>~/VMs/respeaker-listener.py</code></td><td>ReSpeaker 雙模式 listener（VAD + 按鈕）</td></tr>
+<tr><td><code>~/.openclaw/openclaw.json</code></td><td>OpenClaw 主設定（模型/agent/gateway）</td></tr>
+<tr><td><code>~/VMs/.network.env</code></td><td>集中式網路設定（IP/port）</td></tr>
+<tr><td><code>~/VMs/.voice_bridge_token</code></td><td>Voice Bridge API 認證 token</td></tr>
+<tr><td><code>~/VMs/.ha_token</code></td><td>Home Assistant API token</td></tr>
+<tr><td><code>~/VMs/voice-profiles/profiles.json</code></td><td>TTS 語音角色設定</td></tr>
+<tr><td><code>~/.openclaw/workspace/todo.md</code></td><td>待辦事項</td></tr>
+<tr><td><code>~/.openclaw/workspace/routines.md</code></td><td>排程提醒</td></tr>
+<tr><td><code>~/VMs/xvf3800-tools/</code></td><td>XVF3800 DSP 參數控制工具</td></tr>
+<tr><td><code>~/.conversation_log.json</code></td><td>對話紀錄（最多 200 筆）</td></tr>
+<tr><td><code>/tmp/hanli/tts.log</code></td><td>TTS 播報日誌</td></tr>
+</table>
+</div>
+</section>
+
+<footer style="text-align:center;padding:24px 0;font-size:.75rem;color:#a8a29e">
+Luna Smart Home System — Architecture Documentation v2.0 | 2026-04-03
+</footer>
+
+</main>
+</body>
+</html>
