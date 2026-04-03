@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Luna 語音喚醒系統 — 優化路線圖</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Noto Sans TC', 'Inter', sans-serif; background: #faf8f5; color: #44403c; }
+  .card { background: #fafaf9; border-radius: 10px; box-shadow: 0 1px 2px rgba(120,113,108,0.08); }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+  .badge-p1 { background: #fef3c7; color: #92400e; }
+  .badge-p2 { background: #dbeafe; color: #1e40af; }
+  .badge-p3 { background: #e0e7ff; color: #3730a3; }
+  .badge-done { background: #d1fae5; color: #065f46; }
+  .priority-bar { width: 4px; border-radius: 2px; }
+  .priority-bar-p1 { background: #f59e0b; }
+  .priority-bar-p2 { background: #3b82f6; }
+  .priority-bar-p3 { background: #6366f1; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; padding: 8px 12px; font-size: 0.8rem; font-weight: 600; color: #78716c; border-bottom: 2px solid #e7e5e4; }
+  td { padding: 8px 12px; font-size: 0.85rem; border-bottom: 1px solid #f5f5f4; }
+  tr:nth-child(even) { background: #fafaf9; }
+  .repo-link { color: #2563eb; text-decoration: none; font-family: 'Inter', monospace; font-size: 0.8rem; }
+  .repo-link:hover { text-decoration: underline; }
+  .stat-card { text-align: center; padding: 16px; }
+  .stat-number { font-size: 2rem; font-weight: 700; color: #f59e0b; }
+  .stat-label { font-size: 0.75rem; color: #78716c; margin-top: 2px; }
+  .nav { position: sticky; top: 0; z-index: 50; background: #faf8f5; border-bottom: 1px solid #e7e5e4; }
+  .section-title { font-size: 1.25rem; font-weight: 700; color: #292524; border-left: 4px solid #f59e0b; padding-left: 12px; }
+  .arch-box { border: 2px solid #e7e5e4; border-radius: 8px; padding: 12px 16px; text-align: center; font-size: 0.85rem; font-weight: 500; }
+  .arch-arrow { color: #a8a29e; font-size: 1.2rem; }
+  code { background: #f5f5f4; padding: 1px 6px; border-radius: 4px; font-size: 0.8rem; font-family: 'SF Mono', monospace; }
+</style>
+</head>
+<body>
+<!-- Nav -->
+<nav class="nav">
+  <div style="max-width:960px; margin:0 auto; padding:12px 20px; display:flex; align-items:center; justify-content:space-between;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span style="font-size:1.4rem;">🌙</span>
+      <span style="font-weight:700; font-size:1.1rem; color:#292524;">Hey Luna 優化路線圖</span>
+    </div>
+    <span style="font-size:0.75rem; color:#a8a29e;">2026-04-03</span>
+  </div>
+</nav>
+
+<main style="max-width:960px; margin:0 auto; padding:24px 20px;">
+
+<!-- 現況總覽 -->
+<section style="margin-bottom:32px;">
+  <h2 class="section-title" style="margin-bottom:16px;">現況總覽</h2>
+  <div class="card" style="padding:20px;">
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-bottom:20px;">
+      <div class="stat-card card">
+        <div class="stat-number">~800ms</div>
+        <div class="stat-label">喚醒延遲（VAD+Whisper）</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-number">0</div>
+        <div class="stat-label">誤觸次數/天</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-number">2</div>
+        <div class="stat-label">輸入模式（喚醒+按鈕）</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-number">CH1</div>
+        <div class="stat-label">ASR 專用通道</div>
+      </div>
+    </div>
+    <!-- 現有架構 -->
+    <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px; padding:12px 0;">
+      <div class="arch-box" style="border-color:#f59e0b;">ReSpeaker<br><span style="font-size:0.7rem; color:#78716c;">XVF3800 CH1</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-box">Silero VAD<br><span style="font-size:0.7rem; color:#78716c;">32ms/chunk</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-box">Whisper tiny<br><span style="font-size:0.7rem; color:#78716c;">關鍵字偵測</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-box" style="border-color:#f59e0b;">Whisper base<br><span style="font-size:0.7rem; color:#78716c;">完整 STT</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-box">Luna Server<br><span style="font-size:0.7rem; color:#78716c;">Gemini FC</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-box">SoVITS<br><span style="font-size:0.7rem; color:#78716c;">TTS → HomePod</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- P1: 延遲優化 -->
+<section style="margin-bottom:32px;">
+  <h2 class="section-title" style="margin-bottom:16px;">P1 — 延遲優化</h2>
+
+  <div class="card" style="padding:20px; margin-bottom:16px;">
+    <div style="display:flex; gap:12px;">
+      <div class="priority-bar priority-bar-p1"></div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-weight:600;">Whisper.cpp + CoreML 加速</span>
+          <span class="badge badge-p1">P1 高優先</span>
+        </div>
+        <p style="font-size:0.85rem; color:#57534e; margin-bottom:12px;">
+          用 C++ 實作的 Whisper 取代 Python faster-whisper，在 Apple Silicon 上用 CoreML/Metal 硬體加速。
+          Mac Mini M 系列晶片的 Neural Engine 可大幅加速推理。
+        </p>
+        <table>
+          <tr><th>項目</th><th>現況</th><th>優化後預估</th></tr>
+          <tr><td>喚醒詞偵測</td><td>Whisper tiny ~300ms</td><td>whisper.cpp tiny ~80ms</td></tr>
+          <tr><td>完整 STT</td><td>Whisper base ~1.5s</td><td>whisper.cpp base ~400ms</td></tr>
+        </table>
+        <div style="margin-top:12px;">
+          <a class="repo-link" href="https://github.com/ggerganov/whisper.cpp">ggerganov/whisper.cpp</a>
+          <span style="font-size:0.75rem; color:#a8a29e;"> — CoreML + Metal 支援</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:20px; margin-bottom:16px;">
+    <div style="display:flex; gap:12px;">
+      <div class="priority-bar priority-bar-p1"></div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-weight:600;">雙層喚醒架構</span>
+          <span class="badge badge-p1">P1 高優先</span>
+        </div>
+        <p style="font-size:0.85rem; color:#57534e; margin-bottom:12px;">
+          用 openWakeWord 做第一層快篩（80ms/frame），通過後才啟動 Whisper 確認。
+          大幅降低 CPU 使用率，因為 Whisper 不用一直跑。類似 Amazon Alexa 的生產架構。
+        </p>
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:8px 0;">
+          <div class="arch-box" style="background:#fef3c7; font-size:0.8rem;">openWakeWord<br>80ms/frame<br><span style="font-size:0.7rem;">快篩</span></div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-box" style="background:#dbeafe; font-size:0.8rem;">Whisper tiny<br>~300ms<br><span style="font-size:0.7rem;">確認</span></div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-box" style="font-size:0.8rem;">錄音 + STT</div>
+        </div>
+        <p style="font-size:0.8rem; color:#78716c; margin-top:8px;">
+          <strong>前提：</strong>需要先用 CH1 ASR 通道收集真實 "Hey Luna" 樣本重訓 openWakeWord 模型。
+          之前用 CH0 訓練失敗是因為通道選錯。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:20px;">
+    <div style="display:flex; gap:12px;">
+      <div class="priority-bar priority-bar-p2"></div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-weight:600;">替代 STT 引擎評估</span>
+          <span class="badge badge-p2">P2 中優先</span>
+        </div>
+        <table>
+          <tr><th>引擎</th><th>特點</th><th>中文能力</th><th>延遲</th><th>Repo</th></tr>
+          <tr>
+            <td><strong>SenseVoice</strong></td>
+            <td>阿里巴巴，多語言+情感辨識</td>
+            <td>極佳</td>
+            <td>極快（非自回歸）</td>
+            <td><a class="repo-link" href="https://github.com/FunAudioLLM/SenseVoice">FunAudioLLM/SenseVoice</a></td>
+          </tr>
+          <tr>
+            <td><strong>Paraformer</strong></td>
+            <td>FunASR，中文最佳化</td>
+            <td>最佳</td>
+            <td>快</td>
+            <td><a class="repo-link" href="https://github.com/modelscope/FunASR">modelscope/FunASR</a></td>
+          </tr>
+          <tr>
+            <td><strong>Moonshine</strong></td>
+            <td>輕量 Whisper 替代</td>
+            <td>中等</td>
+            <td>極快</td>
+            <td><a class="repo-link" href="https://github.com/usefulsensors/moonshine">usefulsensors/moonshine</a></td>
+          </tr>
+          <tr>
+            <td><strong>sherpa-onnx</strong></td>
+            <td>端側推理，多模型支援</td>
+            <td>佳</td>
+            <td>快</td>
+            <td><a class="repo-link" href="https://github.com/k2-fsa/sherpa-onnx">k2-fsa/sherpa-onnx</a></td>
+          </tr>
+          <tr>
+            <td><strong>Distil-Whisper</strong></td>
+            <td>蒸餾版 Whisper，5.8x 加速</td>
+            <td>佳</td>
+            <td>快</td>
+            <td><a class="repo-link" href="https://github.com/huggingface/distil-whisper">huggingface/distil-whisper</a></td>
+          </tr>
+        </table>
+        <p style="font-size:0.8rem; color:#78716c; margin-top:8px;">
+          <strong>建議：</strong>你的場景是中英混合，優先評估 <strong>SenseVoice</strong>（中文最強+速度快）和 <strong>sherpa-onnx</strong>（本地推理最佳化）。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- P2: 精度優化 -->
+<section style="margin-bottom:32px;">
+  <h2 class="section-title" style="margin-bottom:16px;">P2 — 精度優化</h2>
+
+  <div class="card" style="padding:20px; margin-bottom:16px;">
+    <div style="display:flex; gap:12px;">
+      <div class="priority-bar priority-bar-p2"></div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-weight:600;">模糊比對 + 音素相似度</span>
+          <span class="badge badge-p2">P2 中優先</span>
+        </div>
+        <p style="font-size:0.85rem; color:#57534e; margin-bottom:8px;">
+          Whisper 有時會把 "Hey Luna" 辨識為 "Hey Lunar"、"Helena"、"Hey Luma" 等。
+          用模糊比對可以提高召回率。
+        </p>
+        <div style="background:#f5f5f4; padding:12px; border-radius:6px; font-family:monospace; font-size:0.8rem;">
+          <span style="color:#78716c;"># 比對策略</span><br>
+          exact: "luna", "hey luna"<br>
+          fuzzy: "luma", "lunar", "loona", "runa"<br>
+          phonetic: Soundex/Metaphone 演算法<br>
+          threshold: Levenshtein distance ≤ 2
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:20px; margin-bottom:16px;">
+    <div style="display:flex; gap:12px;">
+      <div class="priority-bar priority-bar-p2"></div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-weight:600;">openWakeWord CH1 重訓</span>
+          <span class="badge badge-p2">P2 中優先</span>
+        </div>
+        <p style="font-size:0.85rem; color:#57534e; margin-bottom:8px;">
+          之前訓練失敗是因為用了 CH0（DSP 通道）。現在改用 CH1（ASR 輸出）後音質正確，
+          應能成功訓練 openWakeWord 模型。
+        </p>
+        <ol style="font-size:0.85rem; color:#57534e; padding-left:20px;">
+          <li>用 CH1 錄 50+ 次 "Hey Luna"（不同距離、音量、語氣）</li>
+          <li>用 CH1 錄 10+ 分鐘環境噪音 + 日常對話</li>
+          <li>提取 openWakeWord embedding → 訓練分類器</li>
+          <li>部署為雙層架構的第一層</li>
+        </ol>
+        <div style="margin-top:8px;">
+          <a class="repo-link" href="https://github.com/dscripka/openWakeWord">dscripka/openWakeWord</a>
+          <span style="font-size:0.75rem; color:#a8a29e;"> — Colab 訓練 notebook</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:20px;">
+    <div style="display:flex; gap:12px;">
+      <div class="priority-bar priority-bar-p3"></div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-weight:600;">Speex 降噪整合</span>
+          <span class="badge badge-p3">P3 低優先</span>
+        </div>
+        <p style="font-size:0.85rem; color:#57534e;">
+          openWakeWord 原生支援 Speex 降噪。在送 VAD/喚醒詞偵測前先過 Speex，
+          可提升吵雜環境（客廳電視開著）的辨識率。XVF3800 CH1 已有 beamforming 但沒有 NS。
+        </p>
+        <div style="margin-top:8px;">
+          <a class="repo-link" href="https://github.com/xiongyihui/speexdsp-python">xiongyihui/speexdsp-python</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- P2: 語音 UX -->
+<section style="margin-bottom:32px;">
+  <h2 class="section-title" style="margin-bottom:16px;">P2 — 語音 UX 提升</h2>
+
+  <div class="card" style="padding:20px; margin-bottom:16px;">
+    <div style="display:flex; gap:12px;">
+      <div class="priority-bar priority-bar-p2"></div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-weight:600;">對話模式（Conversation Mode）</span>
+          <span class="badge badge-p2">P2 中優先</span>
+        </div>
+        <p style="font-size:0.85rem; color:#57534e; margin-bottom:8px;">
+          喚醒後保持 5-10 秒的「活躍監聽」狀態，不用每次都說 "Hey Luna"。
+          例如：
+        </p>
+        <div style="background:#f5f5f4; padding:12px; border-radius:6px; font-size:0.85rem;">
+          你：Hey Luna，現在幾度？<br>
+          露娜：現在 28 度。<br>
+          你：<span style="color:#f59e0b; font-weight:600;">開冷氣</span>（不用再說 Hey Luna）<br>
+          露娜：冷氣已開，設定 26 度。<br>
+          <span style="color:#a8a29e;">（5 秒無聲 → 回到待機）</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:20px; margin-bottom:16px;">
+    <div style="display:flex; gap:12px;">
+      <div class="priority-bar priority-bar-p2"></div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-weight:600;">插話偵測（Barge-in）</span>
+          <span class="badge badge-p2">P2 中優先</span>
+        </div>
+        <p style="font-size:0.85rem; color:#57534e;">
+          露娜在 HomePod 播報時，用戶可以打斷。需要 AEC（回聲消除）濾掉 HomePod 的聲音，
+          才能在播報中聽到用戶的聲音。XVF3800 內建 AEC 但需要 reference signal 設定。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:20px;">
+    <div style="display:flex; gap:12px;">
+      <div class="priority-bar priority-bar-p3"></div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-weight:600;">聲紋辨識（Speaker ID）</span>
+          <span class="badge badge-p3">P3 低優先</span>
+        </div>
+        <p style="font-size:0.85rem; color:#57534e;">
+          辨識是誰在說話，提供個人化回應（爸爸 vs 小孩）。
+          可用 <code>pyannote-audio</code> 或 <code>resemblyzer</code> 做聲紋嵌入比對。
+        </p>
+        <div style="margin-top:8px;">
+          <a class="repo-link" href="https://github.com/pyannote/pyannote-audio">pyannote/pyannote-audio</a>
+          <span style="font-size:0.75rem; color:#a8a29e;"> — 說話者分離 + 辨識</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- P3: 硬體擴展 -->
+<section style="margin-bottom:32px;">
+  <h2 class="section-title" style="margin-bottom:16px;">P3 — 硬體擴展</h2>
+
+  <div class="card" style="padding:20px; margin-bottom:16px;">
+    <div style="display:flex; gap:12px;">
+      <div class="priority-bar priority-bar-p3"></div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-weight:600;">Atom Echo 喚醒整合</span>
+          <span class="badge badge-p3">P3 低優先</span>
+        </div>
+        <p style="font-size:0.85rem; color:#57534e; margin-bottom:8px;">
+          M5Stack Atom Echo（ESP32-S3）跑 microWakeWord 做本地喚醒，喚醒後音訊串流到 Mac Mini 做 STT。
+          適合部署在其他房間（臥室、書房）。
+        </p>
+        <table>
+          <tr><th>比較</th><th>ReSpeaker XVF3800</th><th>Atom Echo</th><th>ESP32-S3-BOX-3</th></tr>
+          <tr><td>麥克風</td><td>4-mic 陣列 + DSP</td><td>單 PDM mic</td><td>雙 mic</td></tr>
+          <tr><td>喚醒方式</td><td>VAD+Whisper (Mac)</td><td>microWakeWord (本地)</td><td>microWakeWord (本地)</td></tr>
+          <tr><td>適合場景</td><td>客廳（大空間）</td><td>臥室（安靜）</td><td>書房</td></tr>
+          <tr><td>價格</td><td>~$60 USD</td><td>~$8 USD</td><td>~$40 USD</td></tr>
+        </table>
+        <div style="margin-top:8px;">
+          <a class="repo-link" href="https://github.com/esphome/wake-word-voice-assistants">esphome/wake-word-voice-assistants</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:20px;">
+    <div style="display:flex; gap:12px;">
+      <div class="priority-bar priority-bar-p3"></div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span style="font-weight:600;">專用喚醒晶片（Syntiant NDP）</span>
+          <span class="badge badge-p3">P3 低優先</span>
+        </div>
+        <p style="font-size:0.85rem; color:#57534e;">
+          Syntiant NDP 是專門為 always-on 語音偵測設計的神經處理器，功耗 &lt;150μW。
+          可做成獨立的喚醒模組，喚醒後才啟動主系統。但需要額外硬體，暫不急。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 開源工具包 -->
+<section style="margin-bottom:32px;">
+  <h2 class="section-title" style="margin-bottom:16px;">開源工具包速查</h2>
+  <div class="card" style="padding:20px;">
+    <table>
+      <tr><th>類別</th><th>工具</th><th>用途</th><th>Repo</th></tr>
+      <tr><td>STT 加速</td><td>whisper.cpp</td><td>C++ Whisper + CoreML</td><td><a class="repo-link" href="https://github.com/ggerganov/whisper.cpp">ggerganov/whisper.cpp</a></td></tr>
+      <tr><td>STT 中文</td><td>SenseVoice</td><td>阿里多語言 STT</td><td><a class="repo-link" href="https://github.com/FunAudioLLM/SenseVoice">FunAudioLLM/SenseVoice</a></td></tr>
+      <tr><td>STT 中文</td><td>FunASR</td><td>Paraformer 中文最佳化</td><td><a class="repo-link" href="https://github.com/modelscope/FunASR">modelscope/FunASR</a></td></tr>
+      <tr><td>STT 輕量</td><td>Moonshine</td><td>輕量 Whisper 替代</td><td><a class="repo-link" href="https://github.com/usefulsensors/moonshine">usefulsensors/moonshine</a></td></tr>
+      <tr><td>STT 端側</td><td>sherpa-onnx</td><td>ONNX 端側推理</td><td><a class="repo-link" href="https://github.com/k2-fsa/sherpa-onnx">k2-fsa/sherpa-onnx</a></td></tr>
+      <tr><td>VAD</td><td>Silero VAD</td><td>語音活動偵測（現用）</td><td><a class="repo-link" href="https://github.com/snakers4/silero-vad">snakers4/silero-vad</a></td></tr>
+      <tr><td>喚醒詞</td><td>openWakeWord</td><td>自訂喚醒詞訓練</td><td><a class="repo-link" href="https://github.com/dscripka/openWakeWord">dscripka/openWakeWord</a></td></tr>
+      <tr><td>喚醒詞</td><td>microWakeWord</td><td>ESP32 本地喚醒</td><td><a class="repo-link" href="https://github.com/kahrendt/microWakeWord">kahrendt/microWakeWord</a></td></tr>
+      <tr><td>降噪</td><td>SpeexDSP</td><td>噪音抑制</td><td><a class="repo-link" href="https://github.com/xiongyihui/speexdsp-python">xiongyihui/speexdsp-python</a></td></tr>
+      <tr><td>聲紋</td><td>pyannote-audio</td><td>說話者辨識</td><td><a class="repo-link" href="https://github.com/pyannote/pyannote-audio">pyannote/pyannote-audio</a></td></tr>
+      <tr><td>聲紋</td><td>resemblyzer</td><td>聲紋嵌入比對</td><td><a class="repo-link" href="https://github.com/resemble-ai/Resemblyzer">resemble-ai/Resemblyzer</a></td></tr>
+      <tr><td>XVF3800</td><td>xvf_host</td><td>DSP 參數控制</td><td>~/VMs/xvf3800-tools/</td></tr>
+      <tr><td>ESP32</td><td>ESPHome Voice</td><td>Atom Echo 語音助手</td><td><a class="repo-link" href="https://github.com/esphome/wake-word-voice-assistants">esphome/wake-word-voice-assistants</a></td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 建議執行順序 -->
+<section style="margin-bottom:32px;">
+  <h2 class="section-title" style="margin-bottom:16px;">建議執行順序</h2>
+  <div class="card" style="padding:20px;">
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <div style="min-width:28px; height:28px; border-radius:50%; background:#f59e0b; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem;">1</div>
+        <div>
+          <div style="font-weight:600;">對話模式</div>
+          <div style="font-size:0.8rem; color:#78716c;">喚醒後保持 5-10 秒活躍監聽，不用重複說 Hey Luna。改動小，UX 提升大。</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <div style="min-width:28px; height:28px; border-radius:50%; background:#f59e0b; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem;">2</div>
+        <div>
+          <div style="font-weight:600;">模糊比對強化</div>
+          <div style="font-size:0.8rem; color:#78716c;">加入 Soundex/Levenshtein 比對，提高喚醒詞辨識容錯率。純軟體改動。</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <div style="min-width:28px; height:28px; border-radius:50%; background:#3b82f6; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem;">3</div>
+        <div>
+          <div style="font-weight:600;">whisper.cpp + CoreML</div>
+          <div style="font-size:0.8rem; color:#78716c;">替換 faster-whisper，用 Apple Silicon 硬體加速，延遲降 3-5 倍。</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <div style="min-width:28px; height:28px; border-radius:50%; background:#3b82f6; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem;">4</div>
+        <div>
+          <div style="font-weight:600;">SenseVoice 評估</div>
+          <div style="font-size:0.8rem; color:#78716c;">測試中英混合辨識精度，如果比 Whisper 好就替換完整 STT 引擎。</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <div style="min-width:28px; height:28px; border-radius:50%; background:#6366f1; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem;">5</div>
+        <div>
+          <div style="font-weight:600;">openWakeWord CH1 重訓 + 雙層架構</div>
+          <div style="font-size:0.8rem; color:#78716c;">用正確的 ASR 通道收集樣本，訓練 openWakeWord 做第一層快篩，降低 CPU 消耗。</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <div style="min-width:28px; height:28px; border-radius:50%; background:#6366f1; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem;">6</div>
+        <div>
+          <div style="font-weight:600;">Atom Echo 多房間部署</div>
+          <div style="font-size:0.8rem; color:#78716c;">臥室、書房各放一個 Atom Echo，microWakeWord 本地喚醒 → 串流到 Mac STT。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="text-align:center; padding:24px 0; font-size:0.75rem; color:#a8a29e;">
+  Hey Luna Voice System — Optimization Roadmap v1.0 | Generated 2026-04-03
+</footer>
+
+</main>
+</body>
+</html>
