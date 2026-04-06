@@ -335,8 +335,8 @@
       <tr><td>第 7~12 名</td><td>全部進同一場複賽</td><td>初賽 1 的敗部先排位序 1~6，初賽 2 的敗部接續 7~12</td></tr>
     </tbody>
   </table>
-  <div class="highlight" style="border-left-color: #EF4444;">
-    <strong>⚠ 待確認：</strong>目前程式碼中 TYPE_2 的複賽<strong>未做交叉分組</strong>，兩場初賽的敗部直接依序塞入同一場複賽。如需交叉分組（奇偶交錯排位序），需修改 advancePlayers 邏輯。
+  <div class="highlight">
+    <strong>✅ 已修正：</strong>初賽 1 敗部用奇數位序（1,3,5,7,9,11），初賽 2 敗部用偶數位序（2,4,6,8,10,12），交替排列確保公平。
   </div>
 
   <p style="margin-top: 16px;"><strong>複賽 &rarr; 準決賽</strong></p>
@@ -414,8 +414,8 @@
           <tr><td>12</td><td>初賽 2 第 12 名</td><td></td></tr>
         </tbody>
       </table>
-      <div class="highlight" style="margin:8px 0; border-left-color: #EF4444;">
-        <strong>⚠ 待確認：</strong>TYPE_2 複賽目前未交叉分組。TYPE_3/4 的複賽有交叉（奇數→複賽1、偶數→複賽2）。
+      <div class="highlight" style="margin:8px 0;">
+        <strong>✅ 已修正：</strong>TYPE_2 複賽已改為交叉分組。初賽 1 敗部用奇數位序（1,3,5,7,9,11），初賽 2 敗部用偶數位序（2,4,6,8,10,12），交替排列。
       </div>
     </div>
   </div>
