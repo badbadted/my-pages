@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>賽事晉級與檢錄排序規則</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans TC', -apple-system, sans-serif; background: #F8FAFC; color: #1E293B; line-height: 1.6; padding: 24px; max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 900; margin-bottom: 8px; color: #0F172A; }
+  h2 { font-size: 18px; font-weight: 900; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #E2E8F0; color: #334155; }
+  h3 { font-size: 15px; font-weight: 800; margin: 20px 0 8px; color: #475569; }
+  p { margin: 8px 0; font-size: 14px; }
+  .subtitle { color: #64748B; font-size: 14px; margin-bottom: 24px; }
+  .card { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; margin: 12px 0; }
+  .card-title { font-size: 14px; font-weight: 800; color: #1E293B; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+  .badge-blue { background: #DBEAFE; color: #1D4ED8; }
+  .badge-purple { background: #EDE9FE; color: #6D28D9; }
+  .badge-orange { background: #FED7AA; color: #C2410C; }
+  .badge-green { background: #DCFCE7; color: #15803D; }
+  .badge-red { background: #FEE2E2; color: #DC2626; }
+  .badge-amber { background: #FEF3C7; color: #B45309; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: #F1F5F9; text-align: left; padding: 8px 12px; font-weight: 700; border-bottom: 2px solid #CBD5E1; color: #475569; }
+  td { padding: 8px 12px; border-bottom: 1px solid #E2E8F0; vertical-align: top; }
+  tr:hover td { background: #F8FAFC; }
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+  .flow-step { background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 700; }
+  .flow-arrow { color: #94A3B8; font-size: 16px; }
+  .highlight { background: #FFFBEB; border-left: 3px solid #F59E0B; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; font-size: 13px; }
+  .rule-list { list-style: none; padding: 0; }
+  .rule-list li { padding: 6px 0 6px 20px; position: relative; font-size: 13px; }
+  .rule-list li::before { content: ''; position: absolute; left: 4px; top: 13px; width: 8px; height: 8px; border-radius: 50%; background: #94A3B8; }
+  .rule-list li.important::before { background: #F59E0B; }
+  .section-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  code { background: #F1F5F9; padding: 1px 6px; border-radius: 4px; font-size: 12px; font-family: 'Fira Code', monospace; }
+  .divider { height: 1px; background: #E2E8F0; margin: 24px 0; }
+</style>
+</head>
+<body>
+
+<h1>賽事晉級與檢錄排序規則</h1>
+<p class="subtitle">榮耀盃滑步車賽事系統 — 完整規則文件</p>
+
+<!-- ========== 賽制總覽 ========== -->
+<h2>一、賽制類型與輪次結構</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>賽制</th>
+      <th>代號</th>
+      <th>初賽場數</th>
+      <th>總輪次</th>
+      <th>輪次流程</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-blue">積分賽制</span></td>
+      <td>TYPE_1</td>
+      <td>1 場（全員）</td>
+      <td>3 輪</td>
+      <td>
+        <div class="flow">
+          <span class="flow-step">積分賽 1</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">積分賽 2</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">積分賽 3</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-purple">兩場初賽制</span></td>
+      <td>TYPE_2</td>
+      <td>2 場</td>
+      <td>4 輪</td>
+      <td>
+        <div class="flow">
+          <span class="flow-step">初賽 1/2</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">複賽</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">準決賽 1/2</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">決賽</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-orange">三場初賽制</span></td>
+      <td>TYPE_3</td>
+      <td>3 場</td>
+      <td>4 輪</td>
+      <td>
+        <div class="flow">
+          <span class="flow-step">初賽 1/2/3</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">複賽 1/2</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">準決賽 1/2</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">決賽</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-red">四場初賽制</span></td>
+      <td>TYPE_4</td>
+      <td>4 場</td>
+      <td>4 輪</td>
+      <td>
+        <div class="flow">
+          <span class="flow-step">初賽 1/2/3/4</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">複賽 1/2</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">準決賽 1/2/3</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">決賽</span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ========== 初賽分組 ========== -->
+<h2>二、初賽選手分組規則</h2>
+
+<div class="section-grid">
+  <div class="card">
+    <div class="card-title"><span class="badge badge-blue">TYPE_1</span> 積分賽</div>
+    <p>所有選手在同一場比賽，不分組。</p>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="badge badge-purple">TYPE_2</span> 兩場初賽</div>
+    <p>按報名序號奇偶分組：</p>
+    <ul class="rule-list">
+      <li>偶數序號 &rarr; 初賽 1</li>
+      <li>奇數序號 &rarr; 初賽 2</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="badge badge-orange">TYPE_3</span> 三場初賽</div>
+    <p>按報名序號 mod 3 分組：</p>
+    <ul class="rule-list">
+      <li>序號 % 3 == 0 &rarr; 初賽 1</li>
+      <li>序號 % 3 == 1 &rarr; 初賽 2</li>
+      <li>序號 % 3 == 2 &rarr; 初賽 3</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="badge badge-red">TYPE_4</span> 四場初賽</div>
+    <p>按報名序號 mod 4 分組，邏輯同上。</p>
+  </div>
+</div>
+
+<!-- ========== 晉級規則 ========== -->
+<h2>三、各輪晉級規則</h2>
+
+<h3>TYPE_1 積分賽制</h3>
+<div class="card">
+  <table>
+    <thead><tr><th>來源</th><th>名次</th><th>晉級至</th></tr></thead>
+    <tbody>
+      <tr><td>積分賽 1</td><td>前 12 名</td><td>積分賽 2</td></tr>
+      <tr><td>積分賽 2</td><td>前 12 名</td><td>積分賽 3</td></tr>
+    </tbody>
+  </table>
+  <div class="highlight">積分賽不分道次、不分選位序，全員依序晉級。最終排名以三場積分總和決定。</div>
+</div>
+
+<h3>TYPE_2 兩場初賽制</h3>
+<div class="card">
+  <p><strong>R1 初賽 &rarr; R2 複賽 / R3 準決賽</strong></p>
+  <table>
+    <thead><tr><th>來源</th><th>名次</th><th>晉級至</th><th>選位序</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="2">初賽 1</td><td>前 6 名</td><td>交叉分配至準決賽 1/2</td><td>奇數名次 &rarr; 準決賽 1（位序 1,3,5）<br>偶數名次 &rarr; 準決賽 2（位序 2,4,6）</td></tr>
+      <tr><td>第 7~12 名</td><td>複賽</td><td>位序 1~6</td></tr>
+      <tr><td rowspan="2">初賽 2</td><td>前 6 名</td><td>交叉分配至準決賽 2/1（反向）</td><td>奇數名次 &rarr; 準決賽 2<br>偶數名次 &rarr; 準決賽 1</td></tr>
+      <tr><td>第 7~12 名</td><td>複賽</td><td>位序 7~12</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>R2 複賽 &rarr; R3 準決賽</strong></p>
+  <table>
+    <thead><tr><th>名次</th><th>晉級至</th><th>選位序</th></tr></thead>
+    <tbody>
+      <tr><td>前 6 名</td><td>奇數名次 &rarr; 準決賽 1<br>偶數名次 &rarr; 準決賽 2</td><td>位序 7, 8, 9</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>R3 準決賽 &rarr; R4 決賽</strong></p>
+  <table>
+    <thead><tr><th>名次</th><th>晉級至</th><th>選位序</th></tr></thead>
+    <tbody>
+      <tr><td>前 6 名</td><td>決賽</td><td>位序 1~6（按場次順序）</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>TYPE_3 三場初賽制</h3>
+<div class="card">
+  <p><strong>R1 初賽 &rarr; R2 複賽 / R3 準決賽</strong></p>
+  <table>
+    <thead><tr><th>來源</th><th>名次</th><th>晉級至</th><th>選位序分配</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="2">初賽 1</td><td>前 6 名</td><td>交叉至準決賽 1/2</td><td>奇數名次(1,3,5)→準決1，偶數(2,4,6)→準決2</td></tr>
+      <tr><td>第 7~12 名</td><td>交叉至複賽 1/2</td><td>奇數名次→複賽 1，偶數→複賽 2</td></tr>
+      <tr><td rowspan="2">初賽 2</td><td>前 6 名</td><td>交叉至準決賽 1/2（反向）</td><td>奇數→準決2，偶數→準決1</td></tr>
+      <tr><td>第 7~12 名</td><td>交叉至複賽 2/1（反向）</td><td>奇數→複賽 2，偶數→複賽 1</td></tr>
+      <tr><td rowspan="2">初賽 3</td><td>前 6 名</td><td>交叉至準決賽 1/2</td><td>同初賽 1 的規則</td></tr>
+      <tr><td>第 7~12 名</td><td>交叉至複賽 1/2</td><td>同初賽 1 的規則</td></tr>
+    </tbody>
+  </table>
+  <div class="highlight">初賽 2 的分配方向與初賽 1、3 <strong>相反</strong>，確保準決賽和複賽都混合不同初賽的選手。</div>
+
+  <p style="margin-top: 16px;"><strong>R2 複賽 &rarr; R3 準決賽</strong></p>
+  <table>
+    <thead><tr><th>來源</th><th>名次</th><th>分配</th><th>選位序</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="2">各複賽</td><td>第 1, 3, 5 名</td><td>準決賽 1</td><td>位序 7, 8, 9</td></tr>
+      <tr><td>第 2, 4, 6 名</td><td>準決賽 2</td><td>位序 7, 8, 9</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top: 16px;"><strong>R3 準決賽 &rarr; R4 決賽</strong></p>
+  <table>
+    <thead><tr><th>名次</th><th>晉級至</th><th>選位序</th></tr></thead>
+    <tbody>
+      <tr><td>前 6 名</td><td>決賽</td><td>依場次順序，位序 1~6</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>TYPE_4 四場初賽制</h3>
+<div class="card">
+  <p><strong>R1 初賽 &rarr; R3 準決賽（前 6 名交叉分配）</strong></p>
+  <table>
+    <thead><tr><th>初賽名次</th><th>初賽 1</th><th>初賽 2</th><th>初賽 3</th><th>初賽 4</th></tr></thead>
+    <tbody>
+      <tr><td>第 1 名</td><td>準決1 位序1</td><td>準決2 位序1</td><td>準決1 位序2</td><td>準決1 位序1</td></tr>
+      <tr><td>第 2 名</td><td>準決2 位序2</td><td>準決1 位序1</td><td>準決2 位序3</td><td>準決2 位序2</td></tr>
+      <tr><td>第 3 名</td><td>準決3 位序3</td><td>準決3 位序3</td><td>準決3 位序1</td><td>準決3 位序3</td></tr>
+      <tr><td>第 4 名</td><td>準決1 位序4</td><td>準決2 位序4</td><td>準決1 位序5</td><td>準決1 位序4</td></tr>
+      <tr><td>第 5 名</td><td>準決2 位序5</td><td>準決1 位序4</td><td>準決2 位序6</td><td>準決2 位序5</td></tr>
+      <tr><td>第 6 名</td><td>準決3 位序6</td><td>準決3 位序6</td><td>準決3 位序4</td><td>準決3 位序6</td></tr>
+    </tbody>
+  </table>
+  <div class="highlight">四場初賽交叉分配到 <strong>3 場</strong>準決賽，每場初賽的分配目標輪轉，確保準決賽組合均勻。</div>
+
+  <p style="margin-top: 16px;"><strong>R1 初賽 &rarr; R2 複賽（第 7~12 名）</strong></p>
+  <table>
+    <thead><tr><th>來源</th><th>分配規則</th></tr></thead>
+    <tbody>
+      <tr><td>初賽 1、初賽 3</td><td>奇數名次(7,9,11)→複賽 1，偶數(8,10,12)→複賽 2</td></tr>
+      <tr><td>初賽 2、初賽 4</td><td><strong>反向</strong>：奇數→複賽 2，偶數→複賽 1</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top: 16px;"><strong>R2 複賽 &rarr; R3 準決賽</strong></p>
+  <table>
+    <thead><tr><th>來源</th><th>名次</th><th>分配</th><th>選位序</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="3">複賽 1</td><td>第 1, 4 名</td><td>準決賽 1</td><td>位序 7, 10</td></tr>
+      <tr><td>第 2, 5 名</td><td>準決賽 2</td><td>位序 8, 11</td></tr>
+      <tr><td>第 3, 6 名</td><td>準決賽 3</td><td>位序 9, 12</td></tr>
+      <tr><td rowspan="3">複賽 2</td><td>第 1, 4 名</td><td>準決賽 2</td><td>位序 7, 10</td></tr>
+      <tr><td>第 2, 5 名</td><td>準決賽 3</td><td>位序 8, 11</td></tr>
+      <tr><td>第 3, 6 名</td><td>準決賽 1</td><td>位序 9, 12</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top: 16px;"><strong>R3 準決賽 &rarr; R4 決賽</strong></p>
+  <table>
+    <thead><tr><th>名次</th><th>晉級至</th><th>選位序</th></tr></thead>
+    <tbody>
+      <tr><td><strong>前 4 名</strong>（非 6 名）</td><td>決賽</td><td>依場次順序，位序 1~4</td></tr>
+    </tbody>
+  </table>
+  <div class="highlight">TYPE_4 準決賽只取<strong>前 4 名</strong>晉級決賽，與 TYPE_2/3 的前 6 名不同！3 場準決賽 &times; 4 人 = 最多 12 人進決賽。</div>
+</div>
+
+<!-- ========== 道次與選位序 ========== -->
+<h2>四、道次 vs 選位序</h2>
+
+<div class="section-grid">
+  <div class="card">
+    <div class="card-title"><span class="badge badge-green">道次 (Lane)</span></div>
+    <ul class="rule-list">
+      <li>僅用於<strong>初賽</strong></li>
+      <li>來源：批次匯入時指定</li>
+      <li>固定不變，不受名次影響</li>
+      <li>檢錄排序依據：依道次數字排序</li>
+      <li class="important">選手端顯示「道次 N」</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="badge badge-amber">選位序 (Position)</span></div>
+    <ul class="rule-list">
+      <li>用於<strong>複賽以後</strong>所有輪次</li>
+      <li>來源：晉級時系統自動計算分配</li>
+      <li>依名次和交叉分組規則決定</li>
+      <li>決定選手選道的優先順序</li>
+      <li class="important">選手端顯示「選位序 N」+ 抽籤選位</li>
+    </ul>
+  </div>
+</div>
+
+<h3>選位序計算規則（TYPE_2 範例）</h3>
+<div class="card">
+  <p><strong>初賽 &rarr; 準決賽：交叉分組</strong></p>
+  <table>
+    <thead><tr><th>初賽名次</th><th>初賽 1 選手</th><th>初賽 2 選手</th></tr></thead>
+    <tbody>
+      <tr><td>第 1 名</td><td>準決賽 1，選位序 1</td><td>準決賽 2，選位序 1</td></tr>
+      <tr><td>第 2 名</td><td>準決賽 2，選位序 2</td><td>準決賽 1，選位序 2</td></tr>
+      <tr><td>第 3 名</td><td>準決賽 1，選位序 3</td><td>準決賽 2，選位序 3</td></tr>
+      <tr><td>第 4 名</td><td>準決賽 2，選位序 4</td><td>準決賽 1，選位序 4</td></tr>
+      <tr><td>第 5 名</td><td>準決賽 1，選位序 5</td><td>準決賽 2，選位序 5</td></tr>
+      <tr><td>第 6 名</td><td>準決賽 2，選位序 6</td><td>準決賽 1，選位序 6</td></tr>
+    </tbody>
+  </table>
+  <div class="highlight">
+    <strong>交叉原則：</strong>初賽 1 的奇數名次→準決賽 1、偶數名次→準決賽 2。初賽 2 <strong>相反</strong>：奇數名次→準決賽 2、偶數名次→準決賽 1。確保每場準決賽混合不同初賽的選手。
+  </div>
+
+  <p style="margin-top: 16px;"><strong>初賽 &rarr; 複賽（敗部復活）</strong></p>
+  <table>
+    <thead><tr><th>初賽名次</th><th>分配</th><th>選位序</th></tr></thead>
+    <tbody>
+      <tr><td>第 7~12 名</td><td>全部進同一場複賽</td><td>初賽 1 的敗部先排位序 1~6，初賽 2 的敗部接續 7~12</td></tr>
+    </tbody>
+  </table>
+  <div class="highlight" style="border-left-color: #EF4444;">
+    <strong>⚠ 待確認：</strong>目前程式碼中 TYPE_2 的複賽<strong>未做交叉分組</strong>，兩場初賽的敗部直接依序塞入同一場複賽。如需交叉分組（奇偶交錯排位序），需修改 advancePlayers 邏輯。
+  </div>
+
+  <p style="margin-top: 16px;"><strong>複賽 &rarr; 準決賽</strong></p>
+  <table>
+    <thead><tr><th>複賽名次</th><th>分配</th><th>選位序</th></tr></thead>
+    <tbody>
+      <tr><td>第 1 名</td><td>準決賽 1</td><td>選位序 7</td></tr>
+      <tr><td>第 2 名</td><td>準決賽 2</td><td>選位序 7</td></tr>
+      <tr><td>第 3 名</td><td>準決賽 1</td><td>選位序 8</td></tr>
+      <tr><td>第 4 名</td><td>準決賽 2</td><td>選位序 8</td></tr>
+      <tr><td>第 5 名</td><td>準決賽 1</td><td>選位序 9</td></tr>
+      <tr><td>第 6 名</td><td>準決賽 2</td><td>選位序 9</td></tr>
+    </tbody>
+  </table>
+  <div class="highlight">複賽晉級的選手選位序從 <strong>7 開始</strong>（接在初賽直升的 1~6 之後），確保初賽贏者有更好的選位優先權。</div>
+
+  <p style="margin-top: 16px;"><strong>準決賽 &rarr; 決賽</strong></p>
+  <table>
+    <thead><tr><th>來源</th><th>名次</th><th>選位序</th></tr></thead>
+    <tbody>
+      <tr><td>各準決賽</td><td>前 6 名</td><td>依場次順序，選位序 1~6（先完賽的場次先排）</td></tr>
+    </tbody>
+  </table>
+
+  <div class="highlight" style="margin-top: 16px;">
+    <strong>TYPE_3 差異：</strong>三場初賽的交叉規則與 TYPE_2 相同，但初賽 2 的分配方向反向。複賽分為 2 場（複賽 1/2），初賽 1/3 的敗部奇數→複賽 1、偶數→複賽 2，初賽 2 反向。<br>
+    <strong>TYPE_4 差異：</strong>四場初賽交叉到 3 場準決賽，複賽分 2 場，準決賽晉級只取前 4 名。詳見第三節各賽制說明。
+  </div>
+</div>
+
+<!-- ========== 檢錄排序 ========== -->
+<h2>五、檢錄模式排序規則</h2>
+
+<div class="card">
+  <div class="card-title">排序邏輯</div>
+  <table>
+    <thead><tr><th>優先級</th><th>欄位</th><th>方向</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>道次 (lane)</td><td>升序</td><td>初賽場次：按道次 1, 2, 3... 排列</td></tr>
+      <tr><td>2</td><td>選位序 (position)</td><td>升序</td><td>複賽以後：無道次時按選位序排列</td></tr>
+      <tr><td>3</td><td>上一場完賽順序</td><td>升序</td><td>選位序相同時，先比的場次排前面</td></tr>
+      <tr><td>-</td><td>皆無時</td><td>排最後</td><td>lane 和 position 都為空時視為 999</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 16px;">各輪次排序規則（以 TYPE_2 為例）</h3>
+
+  <!-- 初賽 -->
+  <div style="margin: 16px 0;">
+    <div class="card-title"><span class="badge badge-green">初賽</span> 排序依據：道次 (lane)</div>
+    <p style="font-size:13px; margin: 4px 0;">匯入名單時每位選手已分配固定道次，檢錄按道次數字升序排列。</p>
+    <div style="background:#F0FDF4; border:1px solid #BBF7D0; border-radius:8px; padding:12px; margin-top:8px; font-size:12px;">
+      <strong>範例 — 初賽 1（12 人）：</strong><br>
+      <code>道次1 王小明</code> → <code>道次2 李大華</code> → <code>道次3 張小花</code> → ... → <code>道次12 陳小美</code>
+    </div>
+  </div>
+
+  <!-- 複賽 -->
+  <div style="margin: 16px 0;">
+    <div class="card-title"><span class="badge badge-amber">複賽</span> 排序依據：選位序 (position)</div>
+    <p style="font-size:13px; margin: 4px 0;">初賽第 7~12 名進入複賽，系統自動分配選位序。無道次。</p>
+    <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:12px; margin-top:8px; font-size:12px;">
+      <strong>範例 — TYPE_2 複賽（1 場，最多 12 人）：</strong><br>
+      <table style="margin:8px 0; font-size:12px;">
+        <thead><tr><th>選位序</th><th>來源</th><th>說明</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>初賽 1 第 7 名</td><td>初賽 1 敗部依序排入</td></tr>
+          <tr><td>2</td><td>初賽 1 第 8 名</td><td></td></tr>
+          <tr><td>3</td><td>初賽 1 第 9 名</td><td></td></tr>
+          <tr><td>4</td><td>初賽 1 第 10 名</td><td></td></tr>
+          <tr><td>5</td><td>初賽 1 第 11 名</td><td></td></tr>
+          <tr><td>6</td><td>初賽 1 第 12 名</td><td></td></tr>
+          <tr><td>7</td><td>初賽 2 第 7 名</td><td>初賽 2 敗部接續排入</td></tr>
+          <tr><td>...</td><td>...</td><td></td></tr>
+          <tr><td>12</td><td>初賽 2 第 12 名</td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="highlight" style="margin:8px 0; border-left-color: #EF4444;">
+        <strong>⚠ 待確認：</strong>TYPE_2 複賽目前未交叉分組。TYPE_3/4 的複賽有交叉（奇數→複賽1、偶數→複賽2）。
+      </div>
+    </div>
+  </div>
+
+  <!-- 準決賽 -->
+  <div style="margin: 16px 0;">
+    <div class="card-title"><span class="badge badge-purple">準決賽</span> 排序依據：選位序 (position)</div>
+    <p style="font-size:13px; margin: 4px 0;">準決賽的選手來自兩個管道：初賽前 6 名直升（位序 1~6）+ 複賽前 6 名（位序 7~9）。按選位序排列，數字小的先選道。</p>
+    <div style="background:#EDE9FE; border:1px solid #DDD6FE; border-radius:8px; padding:12px; margin-top:8px; font-size:12px;">
+      <strong>範例 — 準決賽 1（最多 9 人）：</strong>
+      <table style="margin:8px 0; font-size:12px;">
+        <thead><tr><th>選位序</th><th>來源</th><th>意義</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>初賽 1 第 1 名</td><td rowspan="3" style="vertical-align:middle;">初賽勝部直升<br>（選位優先權高）</td></tr>
+          <tr><td>3</td><td>初賽 1 第 3 名</td></tr>
+          <tr><td>5</td><td>初賽 1 第 5 名</td></tr>
+          <tr><td>2</td><td>初賽 2 第 2 名</td><td rowspan="3" style="vertical-align:middle;">另一場初賽交叉過來<br>（選位優先權高）</td></tr>
+          <tr><td>4</td><td>初賽 2 第 4 名</td></tr>
+          <tr><td>6</td><td>初賽 2 第 6 名</td></tr>
+          <tr><td>7</td><td>複賽 第 1 名</td><td rowspan="3" style="vertical-align:middle;">複賽晉級<br>（選位優先權低）</td></tr>
+          <tr><td>8</td><td>複賽 第 3 名</td></tr>
+          <tr><td>9</td><td>複賽 第 5 名</td></tr>
+        </tbody>
+      </table>
+      <p><strong>檢錄排序結果：</strong><code>位序1</code> → <code>位序2</code> → <code>位序3</code> → <code>位序4</code> → <code>位序5</code> → <code>位序6</code> → <code>位序7</code> → <code>位序8</code> → <code>位序9</code></p>
+      <p style="color:#6D28D9; margin-top:4px;"><strong>含義：</strong>位序越小 = 初賽成績越好 = 越早選道 = 越有優勢</p>
+    </div>
+  </div>
+
+  <!-- 決賽 -->
+  <div style="margin: 16px 0;">
+    <div class="card-title"><span class="badge badge-red">決賽</span> 排序依據：選位序 (position)</div>
+    <p style="font-size:13px; margin: 4px 0;">準決賽前 6 名（TYPE_4 為前 4 名）晉級決賽，依場次完賽順序分配位序。</p>
+    <div style="background:#FEE2E2; border:1px solid #FECACA; border-radius:8px; padding:12px; margin-top:8px; font-size:12px;">
+      <strong>範例 — 決賽（TYPE_2，最多 12 人）：</strong>
+      <table style="margin:8px 0; font-size:12px;">
+        <thead><tr><th>選位序</th><th>來源</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>準決賽 1 第 1 名</td></tr>
+          <tr><td>2</td><td>準決賽 1 第 2 名</td></tr>
+          <tr><td>3</td><td>準決賽 1 第 3 名</td></tr>
+          <tr><td>4</td><td>準決賽 1 第 4 名</td></tr>
+          <tr><td>5</td><td>準決賽 1 第 5 名</td></tr>
+          <tr><td>6</td><td>準決賽 1 第 6 名</td></tr>
+          <tr><td>7</td><td>準決賽 2 第 1 名</td></tr>
+          <tr><td>8</td><td>準決賽 2 第 2 名</td></tr>
+          <tr><td>...</td><td>...</td></tr>
+          <tr><td>12</td><td>準決賽 2 第 6 名</td></tr>
+        </tbody>
+      </table>
+      <p><strong>排序：</strong>位序 1 → 2 → ... → 12，先完賽的準決賽場次排前面。</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>選位序相同時的處理：</strong>來自不同場次的選手可能被分配到相同選位序（如準決賽 1 的位序 1 和準決賽 2 的位序 1 都晉級決賽）。此時按來源場次編號排序：<code>m3-1</code> 的選手排在 <code>m3-2</code> 前面，即<strong>先完賽的場次優先</strong>。
+  </div>
+
+  <div class="highlight" style="margin-top: 8px;">
+    <strong>選位序的實際意義：</strong>選位序決定選手在賽前「選道」的先後順序。位序 1 最先選道（可以挑最好的道次），位序最大的最後選（剩什麼道就什麼道）。這是對初賽成績好的選手的獎勵機制。
+  </div>
+</div>
+
+<!-- ========== 淘汰規則 ========== -->
+<h2>六、淘汰與未晉級</h2>
+
+<div class="card">
+  <ul class="rule-list">
+    <li class="important">名次超過 12 名 &rarr; 不晉級（所有賽制）</li>
+    <li>初賽前 6 名 &rarr; 直接進準決賽（跳過複賽）</li>
+    <li>初賽第 7~12 名 &rarr; 進複賽（敗部復活）</li>
+    <li>複賽前 6 名 &rarr; 進準決賽</li>
+    <li>準決賽前 6 名（TYPE_4 為前 4 名）&rarr; 進決賽</li>
+    <li class="important">空場次（無選手的 match）自動標記為完成，不阻擋流程</li>
+  </ul>
+</div>
+
+<!-- ========== 選手端顯示 ========== -->
+<h2>七、選手端（LIFF）下一場資訊</h2>
+
+<div class="card">
+  <table>
+    <thead><tr><th>情境</th><th>顯示內容</th><th>範例</th></tr></thead>
+    <tbody>
+      <tr><td>初賽未開始</td><td>下一場 + 道次</td><td>初賽 2 · 道次 3</td></tr>
+      <tr><td>初賽完成，進複賽</td><td>下一場 + 選位序</td><td>複賽 · 選位序 5 · 抽籤選位</td></tr>
+      <tr><td>初賽完成，進準決賽</td><td>下一場 + 選位序</td><td>準決賽 1 · 選位序 2 · 抽籤選位</td></tr>
+      <tr><td>準決賽完成，進決賽</td><td>下一場 + 選位序</td><td>決賽 · 選位序 4 · 抽籤選位</td></tr>
+      <tr><td>已完賽</td><td>不顯示下一場</td><td>-</td></tr>
+      <tr><td>名次 > 12（淘汰）</td><td>不顯示下一場</td><td>-</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ========== 積分排名 ========== -->
+<h2>八、最終排名計算</h2>
+
+<div class="section-grid">
+  <div class="card">
+    <div class="card-title"><span class="badge badge-blue">TYPE_1 積分賽</span></div>
+    <ul class="rule-list">
+      <li>三場名次相加 = 積分總和</li>
+      <li>積分越低排名越前</li>
+      <li class="important">同分時比最後一場名次</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="badge badge-purple">TYPE_2/3/4 淘汰賽</span></div>
+    <ul class="rule-list">
+      <li>走越遠（輪次越深）排越前</li>
+      <li>同輪次看最後一場名次</li>
+      <li>決賽名次 = 最終排名</li>
+    </ul>
+  </div>
+</div>
+
+<h3>分性別頒獎與不足八人回補規則</h3>
+<div class="card">
+  <p><strong>觸發條件：</strong>tournament.gender 為 Mixed（不分性別）且實際有男女混合選手時，頒獎自動按性別拆分排名。</p>
+
+  <div class="highlight" style="margin: 12px 0;">
+    <strong>回補邏輯：</strong>當某性別在決賽中不足 8 人時，系統會<strong>從決賽往前逐輪掃描</strong>（決賽 → 準決賽 → 複賽 → 初賽），從每一輪中補入該性別的選手，直到湊滿 8 名或所有輪次掃完。
+  </div>
+
+  <p><strong>掃描順序與排序：</strong></p>
+  <table>
+    <thead><tr><th>步驟</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td>1. 從最後一輪開始</td><td>決賽 → 準決賽 → 複賽 → 初賽，逐輪掃描</td></tr>
+      <tr><td>2. 篩選該性別選手</td><td>每一輪收集所有該性別且尚未被計入的選手</td></tr>
+      <tr><td>3. 輪內排序</td><td>先按該輪名次排序（名次越小越前）</td></tr>
+      <tr><td>4. 同名次時</td><td>比較歷史成績：從最早一輪到最晚一輪逐輪比較最佳名次，先有優勢者排前</td></tr>
+      <tr><td>5. 補入排名</td><td>直到累計 8 人或無更多選手</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top: 12px;"><strong>範例：</strong></p>
+  <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; font-size: 13px;">
+    假設女生在決賽只有 2 人（第 3, 5 名），系統會：<br>
+    1. 決賽取 2 位女生（排名 1, 2）<br>
+    2. 回到準決賽，找剩餘女生，按準決賽名次排（排名 3, 4, 5...）<br>
+    3. 如果還不夠，回到複賽繼續找<br>
+    4. 最後回到初賽，直到湊滿 8 人
+  </div>
+
+  <p style="margin-top: 12px;"><strong>同名次並列處理：</strong></p>
+  <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; font-size: 13px; margin-bottom: 12px;">
+    回補掃描到初賽時，可能出現不同場初賽的選手在該輪名次相同（例如初賽 1 第 5 名和初賽 3 第 5 名都是女生）。<br><br>
+    <strong>處理方式：</strong><br>
+    1. 同名次的選手<strong>並列同一排名</strong>，都列入頒獎名單<br>
+    2. 下一個排名<strong>空缺跳過</strong><br><br>
+    <strong>範例：</strong><br>
+    回補到初賽，女生第 6、7 名分別來自初賽 1 和初賽 3，兩人在該輪都是第 8 名：<br>
+    → 兩人都列為<strong>第 6 名</strong>（並列）<br>
+    → 沒有第 7 名（跳過）<br>
+    → 下一位為第 8 名<br>
+    → 總共仍湊滿 8 人，但實際佔了 7 個名次
+  </div>
+
+  <p><strong>特殊規則：</strong></p>
+  <ul class="rule-list">
+    <li class="important">OPJ / OPM 組別：不分性別頒獎（awardGenderSplit = false），但女生前 3 名額外頒「女王獎」</li>
+    <li>tournament.awardGenderSplit 明確設為 false 時，不拆分性別</li>
+    <li>若組別只有單一性別（全男或全女），不拆分</li>
+  </ul>
+</div>
+
+<div class="divider"></div>
+<p style="text-align: center; color: #94A3B8; font-size: 12px;">榮耀盃賽事管理系統 · 規則文件 · 2026</p>
+
+</body>
+</html>
