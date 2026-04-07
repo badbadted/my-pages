@@ -157,6 +157,21 @@
     text-align: center;
     font-size: 13px;
     color: var(--text-secondary);
+    line-height: 1.8;
+  }
+  .footer .source {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .footer .source-label {
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+  .footer .brand {
+    display: block;
+    margin-top: 4px;
+    color: var(--text-secondary);
+    font-size: 12px;
   }
 
   @keyframes fadeSlideIn {
@@ -199,9 +214,11 @@
   </header>
   <script>
     function shareToLine() {
-      var url = encodeURIComponent(window.location.href);
-      var title = encodeURIComponent(document.title);
-      window.open('https://line.me/R/msg/text/?' + title + '%0A' + url, '_blank');
+      var url = window.location.href;
+      var title = document.title;
+      var source = '教練 Monster｜MONSTER Pushbike Training';
+      var text = encodeURIComponent(title + '\n' + source + '\n' + url);
+      window.open('https://line.me/R/msg/text/?' + text, '_blank');
     }
   </script>
 
@@ -258,7 +275,8 @@
   </main>
 
   <footer class="footer">
-    教練 COACH · 訓練課表
+    <span class="source-label">課表來源：</span><span class="source">教練 Monster</span>
+    <span class="brand">MONSTER Pushbike Training</span>
   </footer>
 </div>
 
