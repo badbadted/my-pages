@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>滑步車 · 中階課表</title>
+<meta property="og:title" content="滑步車 · 中階課表">
+<meta property="og:description" content="6 個訓練項目 · 共 60 mins">
+<meta property="og:type" content="article">
+<style>
+  :root {
+    --bg-color: #ffffff;
+    --card-bg: #fafafa;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --accent-color: #2563eb;
+    --accent-light: #eff6ff;
+    --border-color: #e5e7eb;
+    --border-hover: #d1d5db;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 600px; margin: 0 auto; padding: 48px 20px; }
+
+  /* MONSTER 品牌頭標 */
+  .brand-header {
+    display: flex; align-items: center; gap: 14px;
+    padding-bottom: 24px; margin-bottom: 32px;
+    border-bottom: 1px solid var(--border-color);
+    animation: fadeSlideIn 0.5s ease-out forwards;
+  }
+  .brand-header svg {
+    width: 44px; height: 44px;
+    color: #111827; flex-shrink: 0;
+  }
+  .brand-text { line-height: 1.2; }
+  .brand-name {
+    font-size: 19px; font-weight: 800;
+    letter-spacing: 0.14em; color: #111827;
+  }
+  .brand-sub {
+    font-size: 11px; color: var(--text-secondary);
+    letter-spacing: 0.08em; margin-top: 3px;
+    text-transform: uppercase;
+  }
+
+  .header { margin-bottom: 48px; animation: fadeSlideIn 0.5s ease-out forwards; }
+  .page-title { font-size: 28px; font-weight: 700; color: var(--text-primary); margin: 0 0 8px 0; letter-spacing: 0.02em; }
+  .page-subtitle { font-size: 15px; color: var(--text-secondary); margin: 0; font-weight: 500; }
+
+  .timeline { position: relative; }
+  .timeline-item {
+    position: relative; padding-left: 64px; padding-bottom: 32px;
+    opacity: 0; animation: fadeSlideIn 0.6s ease-out forwards;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: ''; position: absolute; top: 48px; bottom: 0; left: 23px;
+    width: 2px; background-color: var(--border-color); z-index: 0;
+    transition: background-color 0.3s ease;
+  }
+  .timeline-item:last-child::before { display: none; }
+  .timeline-number {
+    position: absolute; top: 0; left: 0;
+    width: 48px; height: 48px;
+    background-color: var(--bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700; color: var(--text-secondary);
+    font-variant-numeric: tabular-nums; z-index: 1;
+    transition: all 0.3s ease;
+  }
+  .timeline-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px 24px;
+    transition: all 0.3s ease;
+  }
+  .timeline-card-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .timeline-title { font-size: 17px; font-weight: 600; margin: 0; color: var(--text-primary); }
+  .badge-group { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+  .timeline-badge { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 9999px; font-size: 14px; font-weight: 600; white-space: nowrap; }
+  .badge-duration { background-color: #eff6ff; color: #2563eb; }
+  .badge-reps { background-color: #f5f3ff; color: #7c3aed; }
+  .timeline-notes { margin: 10px 0 0 0; color: var(--text-secondary); font-size: 14px; }
+
+  .timeline-item:hover .timeline-number {
+    border-color: var(--accent-color); color: var(--accent-color);
+    background-color: var(--accent-light); transform: scale(1.05);
+  }
+  .timeline-item:hover::before { background-color: var(--accent-color); }
+  .timeline-item:hover .timeline-card {
+    transform: translateY(-2px);
+    border-color: var(--border-hover);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.06);
+    background-color: #ffffff;
+  }
+
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+  .footer .source { font-weight: 600; color: var(--text-primary); }
+  .footer .source-label { color: var(--text-secondary); font-weight: 400; }
+  .footer .brand { display: block; margin-top: 4px; color: var(--text-secondary); font-size: 12px; }
+
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #06c755;
+    color: #ffffff;
+    border: none;
+    border-radius: 9999px;
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 1px 4px rgba(6, 199, 85, 0.2);
+    transition: all 0.2s ease;
+    font-family: inherit;
+    margin-top: 16px;
+  }
+  .share-btn:hover {
+    background-color: #05b34c;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(6, 199, 85, 0.3);
+  }
+  .share-btn:active { transform: translateY(0); }
+  .share-btn svg { width: 13px; height: 13px; }
+
+  @keyframes fadeSlideIn {
+    0% { opacity: 0; transform: translateY(24px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 32px 16px; }
+    .timeline-item { padding-left: 52px; padding-bottom: 24px; }
+    .timeline-item::before { left: 19px; top: 40px; }
+    .timeline-number { width: 40px; height: 40px; font-size: 14px; }
+    .timeline-card-header { flex-direction: column; align-items: flex-start; }
+    .timeline-card { padding: 16px 20px; }
+    .badge-group { justify-content: flex-start; }
+    .timeline-badge { padding: 4px 12px; font-size: 13px; }
+    .timeline-title { font-size: 16px; line-height: 1.4; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="brand-header">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-label="MONSTER">
+      <path d="M 24,18 L 34,8 L 38,8 L 36,16 L 42,20 L 38,28 L 44,34 L 40,44 L 30,44 L 24,24 L 18,44 L 8,44 L 4,34 L 10,28 L 6,20 L 12,16 L 10,8 L 14,8 Z" fill="currentColor"/>
+      <polygon points="22,14 26,14 30,0 18,0" fill="currentColor"/>
+      <path d="M 12,10 A 16 16 0 0 1 36,10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M 16,14 A 10 10 0 0 1 32,14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <div class="brand-text">
+      <div class="brand-name">MONSTER</div>
+      <div class="brand-sub">Pushbike Training</div>
+    </div>
+  </div>
+
+  <header class="header">
+    <h1 class="page-title">滑步車 · 中階課表</h1>
+    <p class="page-subtitle">6 個訓練項目 · 共 60 mins</p>
+  </header>
+
+  <main class="timeline">
+
+    <div class="timeline-item" style="animation-delay: 0.1s;">
+      <div class="timeline-number">01</div>
+      <div class="timeline-card">
+        <div class="timeline-card-header">
+          <h2 class="timeline-title">馬克操熱身</h2>
+          <div class="badge-group"><span class="timeline-badge badge-duration">10 mins</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item" style="animation-delay: 0.2s;">
+      <div class="timeline-number">02</div>
+      <div class="timeline-card">
+        <div class="timeline-card-header">
+          <h2 class="timeline-title">協調練習單跳前後左右跳</h2>
+          <div class="badge-group"><span class="timeline-badge badge-reps">各 10 次</span><span class="timeline-badge badge-duration">5 mins</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item" style="animation-delay: 0.3s;">
+      <div class="timeline-number">03</div>
+      <div class="timeline-card">
+        <div class="timeline-card-header">
+          <h2 class="timeline-title">左右腳畫圓推蹬來回</h2>
+          <div class="badge-group"><span class="timeline-badge badge-reps">各 30 次</span><span class="timeline-badge badge-duration">15 mins</span></div>
+        </div>
+        <p class="timeline-notes">身體維持推好的動作</p>
+      </div>
+    </div>
+
+    <div class="timeline-item" style="animation-delay: 0.4s;">
+      <div class="timeline-number">04</div>
+      <div class="timeline-card">
+        <div class="timeline-card-header">
+          <h2 class="timeline-title">起跑分解動作</h2>
+          <div class="badge-group"><span class="timeline-badge badge-reps">10 次</span><span class="timeline-badge badge-duration">5 mins</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item" style="animation-delay: 0.5s;">
+      <div class="timeline-number">05</div>
+      <div class="timeline-card">
+        <div class="timeline-card-header">
+          <h2 class="timeline-title">放板／不放板衝刺 50 米</h2>
+          <div class="badge-group"><span class="timeline-badge badge-reps">10 次</span><span class="timeline-badge badge-duration">15 mins</span></div>
+        </div>
+        <p class="timeline-notes">須維持動作</p>
+      </div>
+    </div>
+
+    <div class="timeline-item" style="animation-delay: 0.6s;">
+      <div class="timeline-number">06</div>
+      <div class="timeline-card">
+        <div class="timeline-card-header">
+          <h2 class="timeline-title">收操</h2>
+          <div class="badge-group"><span class="timeline-badge badge-duration">10 mins</span></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <span class="source-label">課表來源：</span><span class="source">教練 Monster</span>
+    <span class="brand">MONSTER Pushbike Training</span>
+    <button class="share-btn" onclick="shareToLine()" aria-label="分享到 LINE">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M19.365 9.863c.349 0 .63.285.631.631 0 .345-.282.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.282.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+      </svg>
+      分享到 LINE
+    </button>
+  </footer>
+  <script>
+    function shareToLine() {
+      var shortUrl = 'SHORTURL_PLACEHOLDER';
+      var title = document.title;
+      var source = '教練 Monster｜MONSTER Pushbike Training';
+      var text = encodeURIComponent(title + '\n' + source + '\n' + shortUrl);
+      window.open('https://line.me/R/msg/text/?' + text, '_blank');
+    }
+  </script>
+</div>
+
+</body>
+</html>
