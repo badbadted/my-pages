@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>怎麼寫 Skill — Claude Code Skill 設計教學 2026</title>
+<style>
+  :root{
+    --primary:#f59e0b;
+    --secondary:#fafaf9;
+    --text:#44403c;
+    --text-soft:#78716c;
+    --bg:#faf8f5;
+    --border:#e7e5e4;
+    --card-shadow:0 1px 2px rgba(120,113,108,0.08);
+    --type-a:#16a34a;
+    --type-b:#0ea5e9;
+    --type-c:#8b5cf6;
+    --type-d:#dc2626;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.7;font-size:15px}
+  a{color:var(--primary);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  .topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);padding:14px 24px;z-index:10;box-shadow:0 1px 2px rgba(120,113,108,0.04)}
+  .topbar-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topbar h1{font-size:17px;color:#1c1917;font-weight:700;flex:1;min-width:240px}
+  .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px}
+  .badge{padding:3px 10px;border-radius:999px;background:#fef3c7;color:#92400e;font-weight:600}
+  .badge.skill{background:#f5f5f4;color:#57534e}
+  .badge.date{background:#ecfccb;color:#3f6212}
+
+  main{max-width:960px;margin:24px auto 60px;padding:0 20px}
+  .lede{background:linear-gradient(135deg,#fff7ed 0%,#fef3c7 100%);border:1px solid #fde68a;border-radius:12px;padding:22px 26px;margin-bottom:22px}
+  .lede .label{font-size:12px;font-weight:700;color:#b45309;letter-spacing:1px;margin-bottom:8px}
+  .lede p{color:#1c1917;font-size:16px;line-height:1.75}
+
+  section{background:var(--secondary);border:1px solid var(--border);border-radius:10px;padding:24px 28px;margin-bottom:18px;box-shadow:var(--card-shadow)}
+  section h2{font-size:19px;color:#1c1917;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #fde68a;display:flex;align-items:center;gap:8px}
+  section h2::before{content:"";width:4px;height:18px;background:var(--primary);border-radius:2px}
+  section h3{font-size:16px;color:#292524;font-weight:700;margin:18px 0 10px}
+  section p{margin-bottom:10px}
+  section ul{list-style:none;margin:8px 0}
+  section ul li{position:relative;padding:6px 0 6px 14px;border-left:3px solid #fde68a;padding-left:14px;margin-bottom:6px;background:#fff;border-radius:0 6px 6px 0}
+  section ul li strong{color:#b45309}
+
+  pre{background:#1c1917;color:#fafaf9;padding:16px 18px;border-radius:8px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.6;margin:12px 0}
+  pre code{color:inherit;background:none;padding:0}
+  code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+
+  .table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border);margin:10px 0}
+  table{width:100%;border-collapse:collapse;background:#fff}
+  thead{background:#fef3c7}
+  th,td{padding:11px 14px;text-align:left;font-size:14px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{font-weight:700;color:#92400e}
+  tbody tr:nth-child(even){background:#fafaf9}
+  tbody tr:last-child td{border-bottom:none}
+
+  .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:10px}
+  .type-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px 20px;box-shadow:var(--card-shadow);border-left:5px solid var(--primary)}
+  .type-card.a{border-left-color:var(--type-a)}
+  .type-card.b{border-left-color:var(--type-b)}
+  .type-card.c{border-left-color:var(--type-c)}
+  .type-card.d{border-left-color:var(--type-d)}
+  .type-card .head{font-size:16px;font-weight:800;color:#1c1917;margin-bottom:6px}
+  .type-card .tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-soft);margin-bottom:8px}
+  .type-card.a .tag{color:var(--type-a)}
+  .type-card.b .tag{color:var(--type-b)}
+  .type-card.c .tag{color:var(--type-c)}
+  .type-card.d .tag{color:var(--type-d)}
+  .type-card .desc{font-size:13px;color:var(--text);line-height:1.6;margin-bottom:8px}
+  .type-card .examples{font-size:12px;color:var(--text-soft);background:#fafaf9;padding:8px 10px;border-radius:6px;border-left:2px solid var(--border)}
+
+  .step-list{counter-reset:step}
+  .step-list li{counter-increment:step;background:#fff;border-left:3px solid var(--primary);padding:14px 18px 14px 50px;margin-bottom:10px;border-radius:0 8px 8px 0;position:relative;list-style:none}
+  .step-list li::before{content:counter(step);position:absolute;left:14px;top:14px;background:var(--primary);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+  .step-list li strong{display:block;color:#1c1917;font-size:15px;margin-bottom:4px}
+
+  .pitfall{background:#fef2f2;border-left:4px solid #dc2626;padding:14px 18px;margin:12px 0;border-radius:0 8px 8px 0}
+  .pitfall .label{font-size:11px;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+  .pitfall .body{font-size:14px;color:#7f1d1d}
+
+  .tip{background:#ecfccb;border-left:4px solid #3f6212;padding:14px 18px;margin:12px 0;border-radius:0 8px 8px 0}
+  .tip .label{font-size:11px;font-weight:700;color:#3f6212;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+  .tip .body{font-size:14px;color:#1f2937}
+
+  footer{text-align:center;padding:24px 20px;color:var(--text-soft);font-size:12px;border-top:1px solid var(--border);margin-top:20px}
+  footer .stamp{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+  @media (max-width:640px){
+    .topbar{padding:12px 16px}
+    .topbar h1{font-size:15px}
+    section{padding:18px 18px}
+    section h2{font-size:17px}
+    pre{font-size:12px}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <h1>📚 怎麼寫 Skill — Claude Code Skill 設計教學</h1>
+    <div class="meta">
+      <span class="badge date">2026-04-08</span>
+      <span class="badge">other</span>
+      <span class="badge skill">source: ace + pa</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="lede">
+    <div class="label">TL;DR</div>
+    <p>Skill 是 Claude Code 的「角色 prompt 模組」——一份 <code>SKILL.md</code> 加上可選的 <code>ref/</code> 與 <code>memory/</code>。寫 Skill 不是寫 code，是<strong>把可重用的工作流、判斷規則、輸出風格</strong>封裝成可被 <code>/skill-name</code> 觸發的指令。本指南涵蓋類型分類、結構規範、模型選擇、能力邊界、註冊流程與常見 pitfall。</p>
+  </div>
+
+  <!-- 1. 什麼是 Skill -->
+  <section>
+    <h2>① Skill 是什麼？跟一般 Prompt 差在哪</h2>
+    <p>Skill 是 Claude Code 提供的「<strong>可命名、可觸發、可組合</strong>」的 prompt 模組系統，存放在 <code>.claude/skills/&lt;name&gt;/SKILL.md</code>。當你輸入 <code>/&lt;name&gt;</code> 或 Claude 自動匹配時，整份 SKILL.md 會被注入當前對話 context。</p>
+
+    <h3>跟一般 prompt 的差別</h3>
+    <ul>
+      <li><strong>有命名空間：</strong>每個 Skill 有獨立目錄，可放 ref 文件、memory 索引、外部腳本，不會互相污染</li>
+      <li><strong>有觸發機制：</strong>使用者輸入 <code>/skill-name</code> 立即啟用；或在 description 中描述觸發條件讓 Claude 自動匹配</li>
+      <li><strong>有能力邊界：</strong>透過 <code>[model: opus]</code> 指定模型；透過角色設定限制工具用途（策劃型 vs 實作型）</li>
+      <li><strong>可組合：</strong>ACE 等調度型 Skill 可呼叫其他 Skill，形成 pipeline</li>
+      <li><strong>非強制：</strong>Skill 是「給模型參考」的軟約束。要強制執行請用 hooks（settings.json 的 PreToolUse/PostToolUse）</li>
+    </ul>
+
+    <div class="tip">
+      <div class="label">💡 關鍵分野</div>
+      <div class="body"><strong>Skill = advisory（建議）</strong>，模型可能忽略；<strong>Hook = deterministic（強制）</strong>，harness 在 syscall 層攔截。需要「百分百執行」的規則寫 hook，不是 Skill。</div>
+    </div>
+  </section>
+
+  <!-- 2. 四種 Skill 類型 -->
+  <section>
+    <h2>② Skill 的四種類型</h2>
+    <p>由 <code>/pa</code>（Prompt Architect）skill 定義的分類，依「自主性」與「部署形態」切分：</p>
+
+    <div class="type-grid">
+      <div class="type-card a">
+        <div class="tag">類型 A</div>
+        <div class="head">純角色型 Skill</div>
+        <div class="desc">薄型跳板 → 一份 prompt 文件。沒有外部腳本、沒有自主決策，純粹切換對話風格與工作流。</div>
+        <div class="examples">範例：translator（中英翻譯）、weekly-report（週報模板）、coach（教練人設）</div>
+      </div>
+
+      <div class="type-card b">
+        <div class="tag">類型 B</div>
+        <div class="head">工具型 Skill</div>
+        <div class="desc">CLI-First，封裝確定性邏輯。SKILL.md 主要說明可用指令，實作在 CLI binary 或 script。</div>
+        <div class="examples">範例：cloudflare（DNS 管理）、page（HTML 頁面選擇器）、todo（待辦速記）</div>
+      </div>
+
+      <div class="type-card c">
+        <div class="tag">類型 C</div>
+        <div class="head">Agentic Skill</div>
+        <div class="desc">進階自主角色。多步驟決策、工具策略、子代理編排、Phase 結構、用戶確認檢查點。</div>
+        <div class="examples">範例：ace（任務調度）、pa（角色設計）、hawkeye（測試/QA）、scout（GitHub 偵察）</div>
+      </div>
+
+      <div class="type-card d">
+        <div class="tag">類型 D</div>
+        <div class="head">Agent SDK Agent</div>
+        <div class="desc">獨立 TypeScript 應用程式，脫離 Claude Code 運行。用 @anthropic-ai/claude-agent-sdk 建立。</div>
+        <div class="examples">範例：排程任務、Webhook 回應、CI/CD 整合、長駐後台 Agent</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="label">💡 怎麼判斷自己要寫哪種</div>
+      <div class="body">
+        <strong>Q1：</strong>需要自己判斷下一步嗎？→ 否 = A 或 B；是 = C 或 D<br>
+        <strong>Q2：</strong>涉及 CLI / 腳本邏輯嗎？→ 是 = B；否 = A<br>
+        <strong>Q3：</strong>需要脫離 Claude Code 獨立部署嗎？→ 是 = D；否 = C<br>
+        90% 的情況都是 A 或 C。新手從 A 開始。
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SKILL.md 結構 -->
+  <section>
+    <h2>③ SKILL.md 結構</h2>
+
+    <h3>最小可行 Skill（類型 A）</h3>
+<pre><code>---
+name: my-skill
+description: 一句話描述這個 Skill 的能力與使用情境
+---
+
+[model: opus]
+
+## 角色定位
+
+你是 XXX，負責 YYY。
+
+## 工作流程
+
+1. 收到任務先做 ZZZ
+2. 然後 ...
+3. 最後產出 ...
+
+## 溝通風格
+
+簡潔、條列、不囉嗦。
+
+## 任務結束
+
+[初始設定 / 收尾動作]
+
+ARGUMENTS: $ARGUMENTS
+</code></pre>
+
+    <h3>frontmatter 三個關鍵欄位</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>欄位</th><th>必填</th><th>說明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>name</code></td><td>✅</td><td>Skill 名稱，對應 <code>/skill-name</code> 觸發指令。kebab-case，全小寫</td></tr>
+          <tr><td><code>description</code></td><td>✅</td><td>一句話描述。Claude 會用這段判斷該不該自動匹配。寫具體一點，含關鍵字</td></tr>
+          <tr><td><code>[model: xxx]</code></td><td>建議</td><td>body 第一行宣告。<code>opus</code>（複雜推理）/ <code>sonnet</code>（一般實作）/ <code>haiku</code>（簡單檢查）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>body 常見區塊</h3>
+    <ul>
+      <li><strong>角色定位：</strong>你是誰、負責什麼、不負責什麼</li>
+      <li><strong>能力邊界：</strong>策劃型 Skill（spark/pm/uiux）禁止 Edit/Write；實作型才能改 code</li>
+      <li><strong>工作流程：</strong>Phase 0 → 1 → 2 → ... 結構，每 Phase 有明確輸入/輸出</li>
+      <li><strong>必經閘門：</strong>哪些情境必經哪些步驟（UI→必走 mockup、Code→必走 hawkeye）</li>
+      <li><strong>溝通風格：</strong>條列 vs 段落、問句頻率、表格用法</li>
+      <li><strong>初始設定：</strong>啟用後第一動（自我介紹、讀取記憶、列功能清單）</li>
+      <li><strong>任務結束：</strong>收尾規範（產出摘要、寫記憶、註冊報告）</li>
+      <li><strong>ARGUMENTS：</strong>最後一行 <code>ARGUMENTS: $ARGUMENTS</code> 接收使用者帶的參數</li>
+    </ul>
+  </section>
+
+  <!-- 4. 目錄結構 -->
+  <section>
+    <h2>④ 目錄結構與 lazy-loading</h2>
+
+    <p>非平凡 Skill 的標準目錄：</p>
+<pre><code>.claude/skills/my-skill/
+├── SKILL.md           ← 主 prompt（核心工作流）
+├── MEMORY.md          ← 經驗索引（自動載入）
+├── memory/            ← 個別記憶檔（按需 Read）
+│   ├── feedback_xxx.md
+│   ├── pattern_yyy.md
+│   └── pitfall_zzz.md
+└── ref/               ← 參考資料（按需 Read，省 token）
+    ├── pipelines.md
+    ├── skill-models.md
+    └── matrix.md
+</code></pre>
+
+    <h3>什麼東西該放 ref/ 而不是 SKILL.md</h3>
+    <ul>
+      <li><strong>低頻參考表：</strong>規則表、矩陣、JSON 範例、配色清單——只在真正需要時 Read</li>
+      <li><strong>長條列：</strong>20+ 條的清單，主檔放摘要 + 連結到 ref</li>
+      <li><strong>多版本/分支邏輯：</strong>Pipeline 定義、Phase 變體</li>
+      <li><strong>原則：</strong>SKILL.md 主檔保持 &lt;200 行；放 ref 的資料用 <code>📎 詳見 `ref/xxx.md`</code> 引用</li>
+    </ul>
+
+    <div class="tip">
+      <div class="label">💡 為什麼要 lazy-load</div>
+      <div class="body">主 SKILL.md 每次啟用都會塞進 context，吃 token；ref/ 只在 Claude 判斷需要時才 Read。把不常用的細節抽到 ref 可大幅降低每次啟用成本。</div>
+    </div>
+  </section>
+
+  <!-- 5. 模型選擇 -->
+  <section>
+    <h2>⑤ 模型選擇 — 怎麼挑 opus / sonnet / haiku</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>模型</th><th>適合場景</th><th>對應 Skill 範例</th><th>成本</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>opus</strong></td><td>複雜推理、多步驟決策、創意產出、調度編排</td><td>ace, pa, spark, pm, uiux, scout, code-review</td><td>高</td></tr>
+          <tr><td><strong>sonnet</strong></td><td>程式碼編輯、結構化文件、一般實作</td><td>frontend, backend, hawkeye, meeting-minutes, weekly-report</td><td>中</td></tr>
+          <tr><td><strong>haiku</strong></td><td>檔案掃描、MCP 轉發、簡單分類、批次處理</td><td>doc-checker, todo, page</td><td>低</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>調度時的成本優化</h3>
+    <ul>
+      <li><strong>opus Skill 用 Skill tool</strong>（共享主對話 context，無額外 sub-agent 成本）</li>
+      <li><strong>sonnet/haiku Skill 用 Agent tool</strong>（指定 <code>model</code> 參數，省成本）</li>
+      <li><strong>例外：</strong>需要大量 context 的 sonnet Skill（如 hawkeye 看完整 codebase）可用 Skill tool 但要標註理由</li>
+    </ul>
+  </section>
+
+  <!-- 6. 能力邊界 -->
+  <section>
+    <h2>⑥ 能力邊界 — 策劃型 vs 實作型</h2>
+
+    <p>這是 Claude Code 慣例的硬規則：<strong>策劃型 Skill 不准呼叫 Edit / Write 修改原始碼</strong>。</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>類別</th><th>能力</th><th>對應 Skill</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>策劃型</strong></td><td>產出方案/文件/設計，禁止 Edit/Write 改 code</td><td>spark, pm, uiux, game-master, data-architect</td></tr>
+          <tr><td><strong>實作型</strong></td><td>可呼叫 Edit/Write 改原始碼</td><td>frontend, backend, godot, html-viewer</td></tr>
+          <tr><td><strong>調度型</strong></td><td>不直接產出，只調度其他 Skill</td><td>ace</td></tr>
+          <tr><td><strong>分析型</strong></td><td>產出報告、摘要、研究，可用 Read/Grep/Web</td><td>scout, hawkeye, dual-brain, code-review</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>寫 Skill 時必須在角色定位明確標示自己屬於哪類，並寫上「⛔ 不得 ...」明確邊界，避免模型越權。</p>
+  </section>
+
+  <!-- 7. 跟 hooks 的關係 -->
+  <section>
+    <h2>⑦ Skill vs Hook — 什麼該寫哪個</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>需求</th><th>用 Skill</th><th>用 Hook</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>給 Claude 一個工作風格 / 角色 / 流程模板</td><td>✅</td><td>❌</td></tr>
+          <tr><td>百分百攔截某類工具呼叫（讀 secret、刪檔）</td><td>❌（會被忽略）</td><td>✅（PreToolUse）</td></tr>
+          <tr><td>每次 commit 前自動跑 lint/test</td><td>❌</td><td>✅（PreToolUse Bash matcher）</td></tr>
+          <tr><td>偵測指令模式並記錄統計</td><td>❌</td><td>✅（PostToolUse）</td></tr>
+          <tr><td>規範產出格式（HTML 一律淡色主題）</td><td>✅（軟提醒）</td><td>⚠ 可加 PostToolUse 補強</td></tr>
+          <tr><td>使用者輸入時自動掃描敏感字串</td><td>❌</td><td>✅（UserPromptSubmit）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>原則：</strong>能 Skill 解決的優先 Skill（無侵入、易維護）；Skill 解不掉再加 hook。Hook 是程式碼層的硬規則，跑不過會直接 exit 2 阻擋。</p>
+  </section>
+
+  <!-- 8. 實作步驟 -->
+  <section>
+    <h2>⑧ 從零寫一個 Skill 的步驟</h2>
+
+    <ol class="step-list">
+      <li>
+        <strong>啟動 PA 引導</strong>
+        輸入 <code>/pa</code> 開始需求訪談。PA 會問你角色名稱、定位、使用場景，並判斷類型（A/B/C/D）。
+      </li>
+      <li>
+        <strong>需求澄清</strong>
+        回答 PA 的問題：核心能力、預期輸入輸出、邊界條件、有沒有參考的現有 Skill。新手選類型 A 即可。
+      </li>
+      <li>
+        <strong>Step 1 草稿</strong>
+        PA 用三步驟工作法產出第一版 prompt。包含 [角色]、[任務]、[功能]、[工作流程]、[初始設定] 等區塊。
+      </li>
+      <li>
+        <strong>Step 2 批判</strong>
+        PA 自己審查草稿：結構完整性、邏輯一致性、安全性、可執行性、格式規範等 9 個維度逐項打分。
+      </li>
+      <li>
+        <strong>Step 3 重寫</strong>
+        針對批判結果重寫。最多迭代 3 輪。
+      </li>
+      <li>
+        <strong>Step 4 資源審查</strong>
+        檢查 prompt 體積、模型配置、lazy-loading 機會、成本控制。&gt;3000 tokens 須評估瘦身。
+      </li>
+      <li>
+        <strong>交付與註冊</strong>
+        儲存 SKILL.md、更新 CLAUDE.md 角色清單、若是新模組同步更新 dashboard 與 MEMORY.md。
+      </li>
+      <li>
+        <strong>實測迭代</strong>
+        實際跑幾次任務，觀察 Skill 的行為。發現問題回頭用 <code>/pa /優化 my-skill</code> 直接優化。
+      </li>
+    </ol>
+  </section>
+
+  <!-- 9. 註冊與連動 -->
+  <section>
+    <h2>⑨ 註冊與連動更新</h2>
+
+    <p>新 Skill 不只是建檔，還必須<strong>連動更新所有相關位置</strong>：</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>位置</th><th>動作</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>.claude/skills/my-skill/SKILL.md</code></td><td>建立主檔</td></tr>
+          <tr><td><code>CLAUDE.md</code> 角色清單</td><td>加一行（名稱 + 一句話描述）</td></tr>
+          <tr><td><code>memory/MEMORY.md</code></td><td>若有專用記憶，加索引指標</td></tr>
+          <tr><td>dashboard skills 統計</td><td>新 layer 要更新 SKILL_LAYERS 對應</td></tr>
+          <tr><td>對應的 hook（如 skill-usage-tracker）</td><td>確認新 Skill 名稱會被自動追蹤</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tip">
+      <div class="label">💡 PA 會自動處理</div>
+      <div class="body">用 <code>/pa</code> 走完交付流程的話，PA 會自動更新這些連動位置。手動寫 Skill 才需要自己一個一個改。</div>
+    </div>
+  </section>
+
+  <!-- 10. 常見 pitfall -->
+  <section>
+    <h2>⑩ 常見 Pitfall</h2>
+
+    <div class="pitfall">
+      <div class="label">⚠️ Pitfall 1 — Skill 過度膨脹</div>
+      <div class="body">把所有規則塞進 SKILL.md，越長越詳細。結果每次啟用都吃 3000+ tokens，主 context 容易爆。<br><strong>解法：</strong>主檔 &lt;200 行；低頻細節抽 ref/，用 <code>📎 詳見</code> 引用。</div>
+    </div>
+
+    <div class="pitfall">
+      <div class="label">⚠️ Pitfall 2 — 邊界模糊</div>
+      <div class="body">沒寫「不得做什麼」，模型自由發揮越權做事（策劃型 Skill 跑去改 code）。<br><strong>解法：</strong>角色定位明寫 <code>⛔ 你不寫 code、不做設計、不寫測試</code>，列負面清單。</div>
+    </div>
+
+    <div class="pitfall">
+      <div class="label">⚠️ Pitfall 3 — 跟現有 Skill 重疊</div>
+      <div class="body">沒檢查就建新 Skill，後來發現 ace/pa/spark 已涵蓋類似功能，造成兩條規則打架。<br><strong>解法：</strong>建之前先 grep 現有 SKILL.md，找關鍵字。能擴充現有的就不要新建。</div>
+    </div>
+
+    <div class="pitfall">
+      <div class="label">⚠️ Pitfall 4 — Context Collapse</div>
+      <div class="body">單一 Skill 同時承載 5+ 個角色 context，注意力稀釋導致行為不穩定。<br><strong>解法：</strong>角色密集任務拆 sub-agent，主 Skill 只做調度；或用 Phase 結構切階段，每階段 context 聚焦。</div>
+    </div>
+
+    <div class="pitfall">
+      <div class="label">⚠️ Pitfall 5 — 規則清單過長 (Logic Collapse)</div>
+      <div class="body">同一推理步驟塞 10+ 約束條件，模型逐條檢查容易漏。<br><strong>解法：</strong>拆成獨立驗證步驟，逐步收斂；或內化為「思維模式」（分類本能、反轉思考、偏執掃描）而非清單。</div>
+    </div>
+
+    <div class="pitfall">
+      <div class="label">⚠️ Pitfall 6 — 把 Skill 當成強制執行層</div>
+      <div class="body">寫「絕對不准 X」「必須一定要 Y」期待 100% 遵守。但 Skill 是 advisory，模型可能忽略。<br><strong>解法：</strong>真正硬規則寫 hook（settings.json）；Skill 只負責「如何做得好」而非「強制不准」。</div>
+    </div>
+  </section>
+
+  <!-- 11. 進階 -->
+  <section>
+    <h2>⑪ 進階：經驗沉澱與自我進化</h2>
+
+    <h3>MEMORY.md 的角色</h3>
+    <p>每個 Skill 可有自己的 <code>MEMORY.md</code> 索引（簡短一行條目），啟用 Skill 時自動載入。完整記憶內容放在 <code>memory/</code> 子目錄，按需 Read。這樣可以讓 Skill 跨 session 累積經驗而不污染 context。</p>
+
+    <h3>記憶分類</h3>
+    <ul>
+      <li><strong>pitfall</strong> — 使用者修正了你的決策</li>
+      <li><strong>pattern</strong> — 確認了非顯然的有效做法</li>
+      <li><strong>decision</strong> — 重要的設計取捨（為什麼選 A 不選 B）</li>
+    </ul>
+
+    <h3>任務結束自動沉澱</h3>
+    <p>在 SKILL.md 的「任務結束」段落寫自動檢查機制：</p>
+<pre><code>## 任務結束
+
+任務交付後，靜默檢查本次是否有值得記錄的經驗：
+- pitfall — 使用者修正了 ...
+- pattern — 確認了非顯然的 ...
+- decision — 重要取捨 ...
+
+有 → 寫入 memory/ 並更新 MEMORY.md
+無 → 不提
+</code></pre>
+
+    <h3>用 /pa /優化 自我迭代</h3>
+    <p>當你發現 Skill 行為不對，用 <code>/pa /優化 my-skill</code> 直接進入批判→重寫流程，PA 會讀現有 SKILL.md 並提出改進建議。</p>
+  </section>
+
+  <!-- 12. 速查表 -->
+  <section>
+    <h2>⑫ 速查表</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>情境</th><th>該怎麼做</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>想加新角色 / 工作流</td><td><code>/pa</code> 走需求訪談</td></tr>
+          <tr><td>優化現有 Skill</td><td><code>/pa /優化 &lt;skill-name&gt;</code></td></tr>
+          <tr><td>寫小型 Skill（&lt;100 行）</td><td>類型 A 即可，不需要 ref/</td></tr>
+          <tr><td>寫複雜 Skill（多 Phase）</td><td>類型 C，加 ref/ 模組化</td></tr>
+          <tr><td>需要強制執行</td><td>寫 hook，不要寫 Skill</td></tr>
+          <tr><td>需要看畫面 / 視覺驗證</td><td>主寫者必須 Claude，不能丟 Codex</td></tr>
+          <tr><td>SKILL.md 超過 200 行</td><td>低頻細節抽到 ref/，用 <code>📎 詳見</code> 引用</td></tr>
+          <tr><td>不確定模型用哪個</td><td>有複雜決策 → opus；單純執行 → sonnet；批次掃描 → haiku</td></tr>
+          <tr><td>Skill 行為偶爾失靈</td><td>檢查是不是清單太長（Logic Collapse）→ 拆成多 Phase</td></tr>
+          <tr><td>同主題記憶 5+ 條</td><td>產生 MOC（Map of Content）索引頁聚合</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>由 <code>/report</code> 統一產出 · <span class="stamp">2026-04-08</span></p>
+  <p>來源：ace + pa skill 內化知識</p>
+</footer>
+
+</body>
+</html>
