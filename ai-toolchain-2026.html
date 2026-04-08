@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的 AI 工具方案總覽 2026｜Claude × Codex × Gemini + 替代方案</title>
+<style>
+  :root{
+    --primary:#f59e0b;
+    --secondary:#fafaf9;
+    --accent:#f59e0b;
+    --text:#44403c;
+    --text-soft:#78716c;
+    --bg:#faf8f5;
+    --border:#e7e5e4;
+    --card-shadow:0 1px 2px rgba(120,113,108,0.08);
+    --claude:#d97706;
+    --codex:#0ea5e9;
+    --gemini:#8b5cf6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.7;font-size:15px}
+  a{color:var(--primary);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  .topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);padding:14px 24px;z-index:10;box-shadow:0 1px 2px rgba(120,113,108,0.04)}
+  .topbar-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topbar h1{font-size:17px;color:#1c1917;font-weight:700;flex:1;min-width:240px}
+  .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px}
+  .badge{padding:3px 10px;border-radius:999px;background:#fef3c7;color:#92400e;font-weight:600}
+  .badge.skill{background:#f5f5f4;color:#57534e}
+  .badge.date{background:#ecfccb;color:#3f6212}
+
+  main{max-width:960px;margin:24px auto 60px;padding:0 20px}
+  .lede{background:linear-gradient(135deg,#fff7ed 0%,#fef3c7 100%);border:1px solid #fde68a;border-radius:12px;padding:22px 26px;margin-bottom:22px}
+  .lede .label{font-size:12px;font-weight:700;color:#b45309;letter-spacing:1px;margin-bottom:8px}
+  .lede p{color:#1c1917;font-size:16px;line-height:1.75}
+
+  section{background:var(--secondary);border:1px solid var(--border);border-radius:10px;padding:24px 28px;margin-bottom:18px;box-shadow:var(--card-shadow)}
+  section h2{font-size:19px;color:#1c1917;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #fde68a;display:flex;align-items:center;gap:8px}
+  section h2::before{content:"";width:4px;height:18px;background:var(--primary);border-radius:2px}
+  section h3{font-size:16px;color:#292524;font-weight:700;margin:18px 0 10px}
+  section p{margin-bottom:10px}
+
+  /* Stat cards */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px}
+  .stat{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px 20px;box-shadow:var(--card-shadow)}
+  .stat .num{font-size:26px;font-weight:800;color:var(--primary);line-height:1.2}
+  .stat .label{font-size:12px;color:var(--text-soft);margin-top:4px}
+
+  /* Stack cards (current 3 tools) */
+  .stack-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:8px}
+  .stack-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px 24px;box-shadow:var(--card-shadow);border-left:5px solid var(--primary)}
+  .stack-card.claude{border-left-color:var(--claude)}
+  .stack-card.codex{border-left-color:var(--codex)}
+  .stack-card.gemini{border-left-color:var(--gemini)}
+  .stack-card .head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+  .stack-card .name{font-size:18px;font-weight:800;color:#1c1917}
+  .stack-card .price{font-size:15px;font-weight:700;background:#fef3c7;color:#92400e;padding:3px 10px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .stack-card.claude .price{background:#fef3c7;color:#92400e}
+  .stack-card.codex .price{background:#e0f2fe;color:#075985}
+  .stack-card.gemini .price{background:#ede9fe;color:#5b21b6}
+  .stack-card .role{font-size:13px;color:var(--text-soft);margin-bottom:12px;font-style:italic}
+  .stack-card ul{list-style:none;margin:6px 0}
+  .stack-card ul li{position:relative;padding:4px 0 4px 14px;font-size:14px}
+  .stack-card ul li::before{content:"▸";position:absolute;left:0;color:var(--text-soft)}
+  .stack-card ul li strong{color:#92400e}
+  .stack-card.codex ul li strong{color:#075985}
+  .stack-card.gemini ul li strong{color:#5b21b6}
+
+  /* Strategy table */
+  .table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border);margin:10px 0}
+  table{width:100%;border-collapse:collapse;background:#fff}
+  thead{background:#fef3c7}
+  th,td{padding:11px 14px;text-align:left;font-size:14px;border-bottom:1px solid var(--border)}
+  th{font-weight:700;color:#92400e}
+  tbody tr:nth-child(even){background:#fafaf9}
+  tbody tr:last-child td{border-bottom:none}
+  td .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700}
+  .pill.claude{background:#fef3c7;color:#92400e}
+  .pill.codex{background:#e0f2fe;color:#075985}
+  .pill.gemini{background:#ede9fe;color:#5b21b6}
+
+  /* Cost summary */
+  .cost-box{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:20px 24px;margin:16px 0;text-align:center}
+  .cost-box .label{font-size:12px;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.05em;font-weight:700}
+  .cost-box .amount{font-size:32px;font-weight:800;color:#92400e;margin:6px 0}
+  .cost-box .breakdown{font-size:13px;color:var(--text-soft)}
+
+  /* Alternative tools cards */
+  .alt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:10px}
+  .alt-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px 16px;box-shadow:var(--card-shadow)}
+  .alt-card .alt-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .alt-card .alt-name{font-size:15px;font-weight:700;color:#1c1917}
+  .alt-card .alt-price{font-size:12px;font-weight:700;color:#b45309;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .alt-card .alt-tag{font-size:11px;color:var(--text-soft);margin-bottom:6px}
+  .alt-card .alt-desc{font-size:13px;color:var(--text);line-height:1.6}
+  .alt-card .alt-fit{font-size:12px;color:#3f6212;background:#ecfccb;padding:2px 8px;border-radius:4px;display:inline-block;margin-top:8px}
+
+  footer{text-align:center;padding:24px 20px;color:var(--text-soft);font-size:12px;border-top:1px solid var(--border);margin-top:20px}
+  footer .stamp{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+  .note{font-size:12px;color:var(--text-soft);background:#fefce8;border:1px dashed #fde68a;border-radius:6px;padding:10px 14px;margin-top:12px}
+
+  @media (max-width:640px){
+    .topbar{padding:12px 16px}
+    .topbar h1{font-size:15px}
+    section{padding:18px 18px}
+    section h2{font-size:17px}
+    .stack-card{padding:16px 18px}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <h1>🛠️ 我的 AI 工具方案總覽 2026</h1>
+    <div class="meta">
+      <span class="badge date">2026-04-08</span>
+      <span class="badge">analysis</span>
+      <span class="badge skill">source: ace + gemini-search</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="lede">
+    <div class="label">EXECUTIVE SUMMARY</div>
+    <p>目前主力是<strong>三軌並用</strong>：Claude Code 負責對話、調度、UI、中文與安全邊界；OpenAI Codex 負責純邏輯、後端、測試、debug 跑腿；Google Gemini 負責研究、搜尋、圖片生成。月固定費用 <strong>~$120 USD</strong>（不含 Gemini 變動），分工依「視覺迴圈是否需要」與「中文/安全敏感度」切。</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="num">3</div><div class="label">主力工具</div></div>
+    <div class="stat"><div class="num">~$120</div><div class="label">月固定成本 USD</div></div>
+    <div class="stat"><div class="num">11</div><div class="label">替代方案盤點</div></div>
+    <div class="stat"><div class="num">2026-04-08</div><div class="label">資料截止</div></div>
+  </div>
+
+  <!-- ============= 1. 目前在用的三套 ============= -->
+  <section>
+    <h2>① 我目前在用的三套 AI</h2>
+
+    <div class="stack-grid">
+
+      <!-- Claude Code -->
+      <div class="stack-card claude">
+        <div class="head">
+          <span class="name">🤖 Claude Code</span>
+          <span class="price">Max 5x · $100 / 月</span>
+        </div>
+        <div class="role">主控台 · 調度官 · 中文與安全邊界守門員</div>
+        <ul>
+          <li><strong>角色：</strong>對話入口、ACE 任務調度、Skill 編排、UI 視覺迴圈、中文文案、PRD、Markdown 文件</li>
+          <li><strong>模型：</strong>Claude Opus 4.6（1M context）為主、Sonnet 4.6 次選</li>
+          <li><strong>付費：</strong>Claude Max 5x $100/月（Pro $20 的 5 倍配額）</li>
+          <li><strong>殺手鐧：</strong>內建 hooks 機制（PreToolUse/PostToolUse/UserPromptSubmit）可程式化攔截工具呼叫，是目前唯一有「強制執行層」的 AI Agent CLI</li>
+          <li><strong>使用形態：</strong>CLI（互動式對話）+ MCP server（plugin 擴充）+ 桌面/網頁/IDE 多端同步</li>
+        </ul>
+      </div>
+
+      <!-- Codex -->
+      <div class="stack-card codex">
+        <div class="head">
+          <span class="name">⚡ OpenAI Codex（via ChatGPT Plus）</span>
+          <span class="price">Plus · $20 / 月</span>
+        </div>
+        <div class="role">純邏輯跑腿小弟 · 第二雙眼睛</div>
+        <ul>
+          <li><strong>角色：</strong>API route / server action、SQL/schema、Python 腳本、單元/整合測試、純技術 debug、refactor</li>
+          <li><strong>模型：</strong>GPT-5.4 為主、GPT-5.4-mini 省額度</li>
+          <li><strong>付費：</strong>ChatGPT Plus $20/月（與一般 ChatGPT 訂閱共用）</li>
+          <li><strong>配額機制：</strong>5 小時滾動視窗，Plus 約 33–168 訊息/視窗（依任務複雜度浮動）</li>
+          <li><strong>整合方式：</strong>已裝 <code>openai/codex-plugin-cc</code>，可從 Claude Code 內呼叫 <code>/codex:rescue</code>、<code>/codex:review</code>、<code>/codex:adversarial-review</code></li>
+          <li><strong>使用形態：</strong>互動 TUI（獨立）+ Claude Code 內 plugin（背景任務）</li>
+        </ul>
+      </div>
+
+      <!-- Gemini -->
+      <div class="stack-card gemini">
+        <div class="head">
+          <span class="name">🔍 Google Gemini（via API key）</span>
+          <span class="price">按量計費 · 變動</span>
+        </div>
+        <div class="role">研究員 · 搜尋引擎 · 圖片生成器</div>
+        <ul>
+          <li><strong>角色：</strong>主題研究（gemini-deep-research / gemini-search）、URL 抓取分析、圖片生成、PDF/影片摘要、雙腦交叉驗證</li>
+          <li><strong>模型：</strong>Gemini 2.5 Pro / 3.1 Pro（看 MCP server 配置）</li>
+          <li><strong>付費：</strong>API key 按量，2.5 Pro <code>$1.25/$10 per 1M tokens</code>（input/output），3.1 Pro Preview <code>$2/$12</code></li>
+          <li><strong>整合方式：</strong>以 MCP server 形式掛在 Claude Code 內（<code>@rlabs-inc/gemini-mcp</code>），提供 30+ tool calls</li>
+          <li><strong>使用形態：</strong>純 MCP 工具，不直接對話，由 Claude 代為呼叫</li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="note">⚠️ Claude 與 Gemini 的方案/付費若與實際不符請告知，會更新此報告。</div>
+  </section>
+
+  <!-- ============= 2. 分工策略 ============= -->
+  <section>
+    <h2>② 我的分工策略（依領域切）</h2>
+    <p>核心原則：<strong>視覺迴圈高頻來回的留 Claude，純文字輸入輸出的丟 Codex，研究/搜尋/圖片走 Gemini</strong>。</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>領域 / 任務</th><th>主寫</th><th>為什麼</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>React 元件 / TSX / CSS / Tailwind</td><td><span class="pill claude">Claude</span></td><td>uiux→img→frontend→hawkeye 截圖驗證的視覺迴圈，Codex 看不到畫面</td></tr>
+          <tr><td>API route / server action</td><td><span class="pill codex">Codex</span></td><td>純邏輯，type/test 可驗</td></tr>
+          <tr><td>Firebase rules / SQL / data model</td><td><span class="pill codex">Codex</span></td><td>純規則，跑得起來就對</td></tr>
+          <tr><td>Python 腳本 / CLI 工具</td><td><span class="pill codex">Codex</span></td><td>純文字</td></tr>
+          <tr><td>單元 / 整合測試</td><td><span class="pill codex">Codex</span></td><td>純文字 + 自動驗證</td></tr>
+          <tr><td>Hook 腳本 / build 設定</td><td><span class="pill codex">Codex</span></td><td>純邏輯</td></tr>
+          <tr><td>中文文案 / PRD / Markdown</td><td><span class="pill claude">Claude</span></td><td>中文 + 風格</td></tr>
+          <tr><td>Skill / CLAUDE.md / 記憶檔</td><td><span class="pill claude">Claude</span></td><td>安全邊界 + 自我修改</td></tr>
+          <tr><td>主題研究 / 多源驗證</td><td><span class="pill gemini">Gemini</span></td><td>deep-research 跨來源整合</td></tr>
+          <tr><td>網頁 / 文件 / PDF / 影片摘要</td><td><span class="pill gemini">Gemini</span></td><td>多模態原生支援</td></tr>
+          <tr><td>圖片生成 / 概念圖</td><td><span class="pill gemini">Gemini</span></td><td>原生 image generation</td></tr>
+          <tr><td>含 secret / 環境變數 / 憑證</td><td><span class="pill claude">Claude</span></td><td>scan-secrets hook 只在 Claude Code 有，Codex/Gemini 無防護</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>調度層級</h3>
+    <p>所有任務先走 <strong>Claude Code 的 ACE 調度層</strong>，由 ACE 在 Phase 1 標註每個切片該誰寫，再透過 MCP 或 plugin 呼叫 Codex / Gemini。Claude 永遠是入口與最終整合者。</p>
+  </section>
+
+  <!-- ============= 3. 月費估算 ============= -->
+  <section>
+    <h2>③ 月費估算</h2>
+
+    <div class="cost-box">
+      <div class="label">每月固定成本</div>
+      <div class="amount">~$120 USD</div>
+      <div class="breakdown">Claude Max 5x ($100) + ChatGPT Plus ($20) + Gemini API（變動，依用量）</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>項目</th><th>類型</th><th>月費 USD</th><th>備註</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Claude Max 5x</td><td>訂閱</td><td>$100</td><td>Pro $20 的 5 倍配額；含 Opus 4.6 + Claude Code</td></tr>
+          <tr><td>ChatGPT Plus</td><td>訂閱</td><td>$20</td><td>含 Codex / Agent Mode / Sora 2 / Deep Research</td></tr>
+          <tr><td>Gemini API</td><td>按量</td><td>變動</td><td>2.5 Pro: $1.25/$10 per 1M（in/out）；研究密集月份可能 $5–$30</td></tr>
+          <tr><td colspan="2"><strong>合計（保守估）</strong></td><td><strong>$125–$150</strong></td><td>≈ NT$4,000–4,800</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>成本對照</h3>
+    <ul style="list-style:none;padding-left:0">
+      <li style="padding:6px 0">📊 <strong>升級到 Claude Max 20x</strong>：$200/月（多 $100），用滿才划算</li>
+      <li style="padding:6px 0">📊 <strong>降到 Claude Pro + Codex Plus 雙訂閱</strong>：$40/月，省 $80 但寫 code 容易撞 Pro 上限</li>
+      <li style="padding:6px 0">📊 <strong>純 API 走 Aider/Cline + Anthropic API + OpenAI API</strong>：~$50–$200/月（看用量），無上限焦慮但要自己管錢</li>
+      <li style="padding:6px 0">📊 <strong>GitHub Copilot Pro + Cursor Pro 雙 IDE</strong>：$10 + $20 = $30/月，IDE 內建為主</li>
+    </ul>
+  </section>
+
+  <!-- ============= 4. 替代方案 ============= -->
+  <section>
+    <h2>④ 替代方案盤點</h2>
+    <p>如果想換或補充工具，目前社群活躍的選項有：</p>
+
+    <h3>付費訂閱型（IDE / 編輯器內建）</h3>
+    <div class="alt-grid">
+      <div class="alt-card">
+        <div class="alt-head"><span class="alt-name">GitHub Copilot</span><span class="alt-price">$10 / $19</span></div>
+        <div class="alt-tag">Microsoft · IDE 插件 · 閉源</div>
+        <div class="alt-desc">VS Code / JetBrains 內建補全 + Chat + Agent Mode。Pro $10 個人、Business $19/seat。可選 GPT-5 / Claude Sonnet 4.6 / Gemini 2.5 Pro。</div>
+        <span class="alt-fit">適合：想保留現有 IDE 體驗、不想離開編輯器</span>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-head"><span class="alt-name">Cursor</span><span class="alt-price">$20 / $40</span></div>
+        <div class="alt-tag">Anysphere · VS Code fork · 閉源</div>
+        <div class="alt-desc">深度整合 Agent Mode、Cmd-K 編輯、Composer 多檔操作。Pro $20 含 500 fast requests，Ultra $40 不限量。3.0 改為 Agent-First 介面。</div>
+        <span class="alt-fit">適合：純前端切版、UI 為主、要 IDE 內預覽</span>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-head"><span class="alt-name">Windsurf</span><span class="alt-price">$15 / $30</span></div>
+        <div class="alt-tag">Codeium · Editor · 閉源</div>
+        <div class="alt-desc">主打 Cascade Agent，原生支援多檔長 context 操作。Pro $15 / Ultimate $30。被 OpenAI 收購後與 Codex 整合更深。</div>
+        <span class="alt-fit">適合：想試 Cursor 替代品、追求穩定不變的訂閱價</span>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-head"><span class="alt-name">Zed AI</span><span class="alt-price">$20 / 月</span></div>
+        <div class="alt-tag">Zed Industries · 原生編輯器 · 開源 + 付費 AI</div>
+        <div class="alt-desc">Rust 寫的快速編輯器，AI 功能訂閱 $20/月，可接 Claude / GPT。目前 Agent Mode 比 Cursor 簡潔。</div>
+        <span class="alt-fit">適合：要極速編輯器 + 輕度 AI 輔助</span>
+      </div>
+    </div>
+
+    <h3>BYO API Key 型（自帶金鑰，按量付費）</h3>
+    <div class="alt-grid">
+      <div class="alt-card">
+        <div class="alt-head"><span class="alt-name">Aider</span><span class="alt-price">免費 + API</span></div>
+        <div class="alt-tag">CLI · 開源 · pip install</div>
+        <div class="alt-desc">純 CLI、git-aware、最小 footprint。支援 Claude / GPT / DeepSeek / Gemini。可選 architect mode 用大模型規劃 + 小模型實作。</div>
+        <span class="alt-fit">適合：terminal 重度使用者、想精確控制 token 成本</span>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-head"><span class="alt-name">Cline (Roo Code)</span><span class="alt-price">免費 + API</span></div>
+        <div class="alt-tag">VS Code 插件 · 開源</div>
+        <div class="alt-desc">VS Code 內 Agent Mode，BYO key。支援多模型切換、MCP server。Roo Code 是社群分支，更新更快。</div>
+        <span class="alt-fit">適合：想在 VS Code 內跑 Agent，又不想付 Cursor 訂閱</span>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-head"><span class="alt-name">Continue.dev</span><span class="alt-price">免費 + API</span></div>
+        <div class="alt-tag">VS Code / JetBrains · 開源</div>
+        <div class="alt-desc">老牌 BYO 插件，主打 customizability：自定 system prompt、工具、context provider。</div>
+        <span class="alt-fit">適合：要客製化提示與工具鏈的開發者</span>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-head"><span class="alt-name">OpenCode</span><span class="alt-price">免費 + API</span></div>
+        <div class="alt-tag">CLI · 開源（SST 出品）</div>
+        <div class="alt-desc">2026 新興 CLI，主打 Claude Code 替代品但開源。整合 LSP、git、test runner，社群擴充快。</div>
+        <span class="alt-fit">適合：想要 Claude Code 體驗但跑自己的 API key</span>
+      </div>
+    </div>
+
+    <h3>本地 / 開源 LLM 型</h3>
+    <div class="alt-grid">
+      <div class="alt-card">
+        <div class="alt-head"><span class="alt-name">Ollama + Aider/Cline</span><span class="alt-price">硬體成本</span></div>
+        <div class="alt-tag">本地 · 完全開源</div>
+        <div class="alt-desc">用 Qwen 2.5 Coder / DeepSeek Coder V3 / Llama 3.3 等本地跑。需 24GB+ VRAM 才實用。</div>
+        <span class="alt-fit">適合：隱私敏感、離線環境、有 GPU 機器</span>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-head"><span class="alt-name">DeepSeek API</span><span class="alt-price">$0.14/$0.28</span></div>
+        <div class="alt-tag">第三方 API · per 1M tokens</div>
+        <div class="alt-desc">超便宜的中國 API，DeepSeek-V3 / R1 在 coding benchmarks 接近 GPT-4。可搭 Aider/Cline 用。</div>
+        <span class="alt-fit">適合：超大量 token 處理、預算極度敏感</span>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-head"><span class="alt-name">Qwen / Kimi K2 API</span><span class="alt-price">便宜</span></div>
+        <div class="alt-tag">阿里 / Moonshot · 第三方 API</div>
+        <div class="alt-desc">中國替代品，K2 在中文場景強、Qwen 3 Coder 在 swe-bench 表現佳。BYO 套 Aider 即可用。</div>
+        <span class="alt-fit">適合：中文場景 + 預算有限</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= 5. 對照表 ============= -->
+  <section>
+    <h2>⑤ 全方案對照表</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>方案</th><th>付費模式</th><th>使用形態</th><th>開源</th><th>月費級距 USD</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Claude Code</strong></td><td>訂閱</td><td>CLI + IDE + Web</td><td>❌</td><td>$20–$200</td></tr>
+          <tr><td><strong>OpenAI Codex</strong></td><td>訂閱（含於 ChatGPT Plus）</td><td>TUI + Plugin</td><td>❌</td><td>$20–$200</td></tr>
+          <tr><td><strong>Gemini API</strong></td><td>按量</td><td>API / MCP</td><td>❌</td><td>$5–$50</td></tr>
+          <tr><td>GitHub Copilot</td><td>訂閱</td><td>IDE 插件</td><td>❌</td><td>$10–$19</td></tr>
+          <tr><td>Cursor</td><td>訂閱</td><td>IDE（VS Code fork）</td><td>❌</td><td>$20–$40</td></tr>
+          <tr><td>Windsurf</td><td>訂閱</td><td>IDE 原生</td><td>❌</td><td>$15–$30</td></tr>
+          <tr><td>Zed AI</td><td>訂閱</td><td>IDE 原生</td><td>編輯器 ✅ / AI ❌</td><td>$20</td></tr>
+          <tr><td>Aider</td><td>BYO API</td><td>CLI</td><td>✅</td><td>~$10–$50（API）</td></tr>
+          <tr><td>Cline / Roo Code</td><td>BYO API</td><td>VS Code 插件</td><td>✅</td><td>~$10–$50（API）</td></tr>
+          <tr><td>Continue.dev</td><td>BYO API</td><td>VS Code / JetBrains</td><td>✅</td><td>~$10–$50（API）</td></tr>
+          <tr><td>OpenCode</td><td>BYO API</td><td>CLI</td><td>✅</td><td>~$10–$50（API）</td></tr>
+          <tr><td>Ollama + 本地 LLM</td><td>免費</td><td>CLI / Server</td><td>✅</td><td>$0（要硬體）</td></tr>
+          <tr><td>DeepSeek API</td><td>按量</td><td>API（接 Aider/Cline）</td><td>模型權重 ✅</td><td>~$2–$20</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>關鍵分類軸</h3>
+    <ul style="list-style:none;padding-left:0">
+      <li style="padding:6px 0">🎯 <strong>使用場景：</strong>對話驅動 (Claude/Codex/ChatGPT) · IDE 內建 (Copilot/Cursor/Windsurf) · CLI 重度 (Aider/OpenCode/Claude Code)</li>
+      <li style="padding:6px 0">💰 <strong>付費模式：</strong>固定訂閱（無上限焦慮但月固定）vs 按量 BYO（精打細算但要自己管）</li>
+      <li style="padding:6px 0">🔓 <strong>開源程度：</strong>完全閉源（Claude/Cursor）· 工具開源（Aider/Cline）· 模型也開源（Qwen/DeepSeek/Llama）</li>
+      <li style="padding:6px 0">🛡️ <strong>安全機制：</strong>有 hooks/policy（Claude Code）· 純信任模型（其他 9 成）</li>
+    </ul>
+  </section>
+
+  <!-- ============= 6. 結論 ============= -->
+  <section>
+    <h2>⑥ 結論與建議</h2>
+    <p><strong>目前的三軌方案已經接近最佳化</strong>——Claude 主控 + Codex 跑腿 + Gemini 做研究與多模態。月固定 ~$120 換來：</p>
+    <ul style="list-style:none;padding-left:0">
+      <li style="padding:6px 0">✅ 撞上限焦慮中等（Max 5x 多 session 平行有時會撞，但比 Pro 寬鬆）</li>
+      <li style="padding:6px 0">✅ 兩家模型互審（Claude 寫 + Codex review，反之亦然）</li>
+      <li style="padding:6px 0">✅ Gemini 補上 Claude/Codex 不擅長的多模態與 deep research</li>
+      <li style="padding:6px 0">✅ Claude Code 的 hooks 提供唯一的程式化安全層</li>
+    </ul>
+
+    <h3>什麼情況下要換</h3>
+    <ul style="list-style:none;padding-left:0">
+      <li style="padding:6px 0">📉 月用量持續低於 30% Claude 配額 → 降到 Claude Pro ($20)</li>
+      <li style="padding:6px 0">📈 經常撞 Max 5x 上限 → 升 Max 20x ($200)</li>
+      <li style="padding:6px 0">🔒 接到不能上雲的客戶案 → 加 Ollama + 本地模型走 Aider</li>
+      <li style="padding:6px 0">💸 預算砍半 → 改 Claude Pro ($20) + Cursor ($20) + DeepSeek API ($5–10)，總共 ~$50</li>
+      <li style="padding:6px 0">🏢 接 enterprise 案需要 audit log → 升 Claude Team / Business plan</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <p>由 <code>/report</code> 統一產出 · <span class="stamp">2026-04-08</span></p>
+  <p>來源：ace + gemini-search · Claude/OpenAI/Gemini 官方定價（截止 2026-04-08）</p>
+</footer>
+
+</body>
+</html>
