@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>開源 AI 週報 2026-04-05</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      background: #f5f6f8;
+      color: #1a1d23;
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: linear-gradient(135deg, #1a1d23 0%, #2d3a4f 100%);
+      color: #fff;
+      padding: 40px 48px 36px;
+    }
+    .header-inner { max-width: 1100px; margin: 0 auto; }
+    .header-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 3px 14px;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+    .header .subtitle { color: rgba(255,255,255,0.65); font-size: 13px; }
+    .header-meta { margin-top: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
+    .header-meta span {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 5px 14px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* ── Layout ── */
+    .page { max-width: 1100px; margin: 0 auto; padding: 32px 24px 60px; }
+
+    /* ── Section ── */
+    .section { margin-bottom: 36px; }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1d23;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e2e5ea;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .icon { font-size: 20px; }
+
+    /* ── Card ── */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e2e5ea;
+      padding: 20px 24px;
+      margin-bottom: 14px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+    }
+
+    /* ── Overview KPIs ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .kpi {
+      background: #fff;
+      border: 1px solid #e2e5ea;
+      border-radius: 12px;
+      padding: 16px 18px;
+      text-align: center;
+    }
+    .kpi-value { font-size: 26px; font-weight: 800; color: #2563eb; }
+    .kpi-label { font-size: 12px; color: #6b7280; margin-top: 3px; }
+
+    /* ── Tables ── */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead tr { background: #f0f2f6; }
+    th { text-align: left; padding: 9px 12px; color: #374151; font-weight: 600; border-bottom: 1px solid #e2e5ea; }
+    td { padding: 8px 12px; border-bottom: 1px solid #f0f2f6; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafbfc; }
+
+    /* ── Tags / Badges ── */
+    .tag {
+      display: inline-block;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      margin: 1px 2px 1px 0;
+    }
+    .tag-new { background: #d1fae5; color: #065f46; }
+    .tag-hot { background: #fee2e2; color: #991b1b; }
+    .tag-up { background: #dbeafe; color: #1e40af; }
+    .tag-google { background: #fef9c3; color: #78350f; }
+    .tag-qwen { background: #ede9fe; color: #5b21b6; }
+    .tag-agent { background: #fce7f3; color: #9d174d; }
+
+    /* ── Highlights list ── */
+    .highlight-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .highlight-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid #e2e5ea;
+      border-radius: 10px;
+      padding: 12px 16px;
+    }
+    .highlight-list li .num {
+      min-width: 26px;
+      height: 26px;
+      background: #2563eb;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .highlight-list li .text { font-size: 13.5px; line-height: 1.55; }
+    .highlight-list li .text strong { color: #1e40af; }
+
+    /* ── Recommendations ── */
+    .rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+    .rec-card {
+      background: #fff;
+      border: 1px solid #e2e5ea;
+      border-radius: 12px;
+      padding: 18px 20px;
+      border-left: 4px solid #2563eb;
+    }
+    .rec-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: #1a1d23; }
+    .rec-card p { font-size: 13px; color: #4b5563; line-height: 1.55; }
+
+    /* ── Summary ── */
+    .summary-box {
+      background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 24px 28px;
+    }
+    .summary-box p { font-size: 14px; line-height: 1.7; color: #1e3a5f; margin-bottom: 10px; }
+    .summary-box p:last-child { margin-bottom: 0; }
+
+    /* ── Diff badge ── */
+    .diff-new { color: #059669; font-weight: 700; }
+    .diff-up { color: #2563eb; }
+    .diff-same { color: #9ca3af; }
+
+    /* ── Stars ── */
+    .stars { color: #f59e0b; font-weight: 700; }
+
+    /* ── Source footer ── */
+    .sources {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e5ea;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .sources a { color: #6b7280; text-decoration: none; }
+    .sources a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .header { padding: 28px 20px; }
+      .page { padding: 20px 14px 40px; }
+      .kpi-value { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════ Header -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-badge">開源 AI 週報</div>
+    <h1>開源 AI 生態週報</h1>
+    <div class="subtitle">涵蓋 GitHub Trending、Hugging Face 模型/Spaces、熱門論文、arXiv 最新研究</div>
+    <div class="header-meta">
+      <span>報告日期：2026-04-05</span>
+      <span>對比基準：2026-04-01</span>
+      <span>來源：6 個 opensource 資料源</span>
+      <span>週期：每週</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ══════════════════════════════════════════════════════════ 1. Overview -->
+<div class="section">
+  <div class="section-title"><span class="icon">📊</span> 本週總覽</div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-value">16</div>
+      <div class="kpi-label">GitHub 熱門 Python 專案</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">8</div>
+      <div class="kpi-label">GitHub 全新上榜</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">4</div>
+      <div class="kpi-label">Gemma-4 新模型</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">155</div>
+      <div class="kpi-label">論文最高 Upvotes（MinerU2.5）</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">30</div>
+      <div class="kpi-label">arXiv 最新論文（AI+LG）</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">5</div>
+      <div class="kpi-label">新上榜 HF Spaces</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p style="font-size:14px; line-height:1.75; color:#374151;">
+      本週開源 AI 生態最大動態：<strong>Google 正式發布 Gemma-4 家族</strong>（2B/26B MoE/31B/31B-it），一口氣佔據 Hugging Face 趨勢榜多席，
+      成為本週模型生態最大事件。GitHub 端，<strong>claude-howto</strong> 以週增近 15,000 stars 空降第一，反映 Claude Code 開發者生態系的高速成長。
+      論文面，<strong>MinerU2.5</strong>（文件解析 VLM）和 <strong>VibeVoice</strong>（語音合成）雙雙破百 upvotes，文件 AI 與語音 AI 並列學術焦點。
+      <strong>Netflix</strong> 開源影片物件刪除模型 VOID，<strong>LiquidAI</strong> 釋出 350M 輕量語言模型，商業公司開源力道持續加大。
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ 2. Trending Repos -->
+<div class="section">
+  <div class="section-title"><span class="icon">🔥</span> GitHub 熱門 Repos（Python Weekly）</div>
+  <div class="card" style="padding: 0; overflow: hidden;">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Repo</th>
+          <th>說明</th>
+          <th class="stars">週增</th>
+          <th>狀態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>luongnv89/claude-howto</strong></td>
+          <td>Claude Code 視覺化教學：基礎→進階 Agent</td>
+          <td class="stars">+14,996</td>
+          <td><span class="tag tag-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>microsoft/VibeVoice</strong></td>
+          <td>Open-Source Frontier 語音 AI</td>
+          <td class="stars">+11,264</td>
+          <td><span class="tag tag-up">持續</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>NousResearch/hermes-agent</strong></td>
+          <td>會跟你一起成長的 AI Agent</td>
+          <td class="stars">+9,193</td>
+          <td><span class="tag tag-up">持續</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>mvanhorn/last30days-skill</strong></td>
+          <td>跨平台 30 天資訊研究 Agent Skill</td>
+          <td class="stars">+6,214</td>
+          <td><span class="tag tag-up">持續</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>hacksider/Deep-Live-Cam</strong></td>
+          <td>即時人臉替換 & 影片 deepfake</td>
+          <td class="stars">+5,847</td>
+          <td><span class="tag tag-up">持續</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>bytedance/deer-flow</strong></td>
+          <td>長時程 SuperAgent：研究/寫程式/創作</td>
+          <td class="stars">+7,498</td>
+          <td><span class="tag tag-up">持續</span></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>onyx-dot-app/onyx</strong></td>
+          <td>開源 AI 平台，支援所有 LLM</td>
+          <td class="stars">+4,006</td>
+          <td><span class="tag tag-up">持續</span></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><strong>sherlock-project/sherlock</strong></td>
+          <td>跨平台社群帳號搜尋工具</td>
+          <td class="stars">+4,181</td>
+          <td><span class="tag tag-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><strong>google-research/timesfm</strong></td>
+          <td>Google 預訓練時間序列基礎模型</td>
+          <td class="stars">+3,632</td>
+          <td><span class="tag tag-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><strong>hesreallyhim/awesome-claude-code</strong></td>
+          <td>精選 Claude Code Skills/Hooks 列表</td>
+          <td class="stars">+2,998</td>
+          <td><span class="tag tag-up">持續</span></td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td><strong>SakanaAI/AI-Scientist-v2</strong></td>
+          <td>Agentic Tree Search 自動科學發現</td>
+          <td class="stars">+1,964</td>
+          <td><span class="tag tag-up">持續</span></td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td><strong>microsoft/agent-lightning</strong></td>
+          <td>AI Agent 終極訓練器</td>
+          <td class="stars">+985</td>
+          <td><span class="tag tag-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td><strong>OpenBB-finance/OpenBB</strong></td>
+          <td>AI Agent 金融資料分析平台</td>
+          <td class="stars">+1,679</td>
+          <td><span class="tag tag-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td><strong>roboflow/supervision</strong></td>
+          <td>可重用電腦視覺工具庫</td>
+          <td class="stars">+798</td>
+          <td><span class="tag tag-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td><strong>plastic-labs/honcho</strong></td>
+          <td>Stateful Agent 記憶管理函式庫</td>
+          <td class="stars">+361</td>
+          <td><span class="tag tag-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>16</td>
+          <td><strong>chopratejas/headroom</strong></td>
+          <td>LLM 應用的 Context 優化層</td>
+          <td class="stars">+241</td>
+          <td><span class="tag tag-new">NEW</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ 3. New Models -->
+<div class="section">
+  <div class="section-title"><span class="icon">🤖</span> 新模型動態（Hugging Face Trending）</div>
+  <div class="card" style="padding: 0; overflow: hidden;">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>模型</th>
+          <th>機構</th>
+          <th>任務類型</th>
+          <th>Downloads</th>
+          <th>Likes</th>
+          <th>狀態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>gemma-4-31B-it</strong></td>
+          <td>Google</td>
+          <td>Image-Text-to-Text</td>
+          <td>287k</td>
+          <td>815</td>
+          <td><span class="tag tag-new">NEW</span><span class="tag tag-google">Google</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled</strong></td>
+          <td>Jackrong</td>
+          <td>Image-Text-to-Text</td>
+          <td>524k</td>
+          <td>2,280</td>
+          <td><span class="tag tag-qwen">Qwen</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>cohere-transcribe-03-2026</strong></td>
+          <td>CohereLabs</td>
+          <td>ASR</td>
+          <td>96.6k</td>
+          <td>778</td>
+          <td><span class="tag tag-up">持續</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Qianfan-OCR</strong></td>
+          <td>Baidu</td>
+          <td>Image-Text-to-Text</td>
+          <td>36.6k</td>
+          <td>914</td>
+          <td><span class="tag tag-up">持續</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Bonsai-8B-gguf</strong></td>
+          <td>prism-ml</td>
+          <td>Text Generation</td>
+          <td>32.9k</td>
+          <td>379</td>
+          <td><span class="tag tag-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>gemma-4-26B-A4B-it</strong></td>
+          <td>Google</td>
+          <td>Image-Text-to-Text</td>
+          <td>133k</td>
+          <td>341</td>
+          <td><span class="tag tag-new">NEW</span><span class="tag tag-google">MoE</span></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>gemma-4-E4B-it</strong></td>
+          <td>Google</td>
+          <td>Any-to-Any</td>
+          <td>108k</td>
+          <td>297</td>
+          <td><span class="tag tag-new">NEW</span><span class="tag tag-google">Any→Any</span></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><strong>Qwen3.5-27B-Claude-4.6-Opus-Distilled-v2-GGUF</strong></td>
+          <td>Jackrong</td>
+          <td>Image-Text-to-Text</td>
+          <td>241k</td>
+          <td>501</td>
+          <td><span class="tag tag-qwen">Qwen</span></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><strong>void-model</strong></td>
+          <td>Netflix</td>
+          <td>Video-to-Video</td>
+          <td>290</td>
+          <td>—</td>
+          <td><span class="tag tag-new">NEW</span><span class="tag tag-hot">Netflix</span></td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><strong>Qwen3.5-9B-Uncensored-HauhauCS-Aggressive</strong></td>
+          <td>HauhauCS</td>
+          <td>Text Generation</td>
+          <td>716k</td>
+          <td>965</td>
+          <td><span class="tag tag-qwen">Qwen 微調</span></td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td><strong>Voxtral-4B-TTS-2603</strong></td>
+          <td>Mistral</td>
+          <td>Text-to-Speech</td>
+          <td>5.1k</td>
+          <td>656</td>
+          <td><span class="tag tag-up">持續</span></td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td><strong>LFM2.5-350M</strong></td>
+          <td>LiquidAI</td>
+          <td>Text Generation</td>
+          <td>12.5k</td>
+          <td>221</td>
+          <td><span class="tag tag-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td><strong>gemma-4-E2B-it</strong></td>
+          <td>Google</td>
+          <td>Any-to-Any</td>
+          <td>90k</td>
+          <td>220</td>
+          <td><span class="tag tag-new">NEW</span><span class="tag tag-google">Any→Any</span></td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td><strong>Holo3-35B-A3B</strong></td>
+          <td>Hcompany</td>
+          <td>Image-Text-to-Text</td>
+          <td>1.3k</td>
+          <td>212</td>
+          <td><span class="tag tag-new">NEW</span></td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td><strong>gemma-4-26B-A4B-it-GGUF</strong></td>
+          <td>unsloth</td>
+          <td>Image-Text-to-Text</td>
+          <td>301k</td>
+          <td>209</td>
+          <td><span class="tag tag-new">NEW</span><span class="tag tag-google">GGUF</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card" style="margin-top:14px; background:#fffbeb; border-color:#fde68a;">
+    <p style="font-size:13.5px; color:#78350f;"><strong>本週焦點：Google Gemma-4 家族全面發布</strong> — 包含 31B 指令版、26B MoE（4B 活躍參數）、E4B/E2B Any-to-Any 版，一口氣支援文字/圖片輸入輸出任意組合。Netflix 的 void-model 為 Video-to-Video 編輯（物件刪除/互動修改）帶來商業級開源模型；LiquidAI 以 350M 參數挑戰輕量 LLM 市場。</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ 4. Hot Papers -->
+<div class="section">
+  <div class="section-title"><span class="icon">📄</span> 熱門論文（HF Papers Trending）</div>
+  <div class="card" style="padding: 0; overflow: hidden;">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>論文標題</th>
+          <th>機構</th>
+          <th>Upvotes</th>
+          <th>領域</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>MinerU2.5: Decoupled Vision-Language Model for Document Parsing</strong></td>
+          <td>OpenDataLab</td>
+          <td class="stars">155</td>
+          <td>Document VLM</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>VibeVoice Technical Report</strong></td>
+          <td>Microsoft</td>
+          <td class="stars">151</td>
+          <td>Speech Synthesis</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>The Latent Space: Foundation, Evolution, Mechanism, Ability &amp; Outlook</strong></td>
+          <td>Multiple</td>
+          <td class="stars">111</td>
+          <td>LLM Survey</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>PaddleOCR-VL: Boosting Multilingual Document Parsing</strong></td>
+          <td>PaddlePaddle</td>
+          <td class="stars">123</td>
+          <td>OCR / VLM</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Generative World Renderer</strong></td>
+          <td>Shanda AI Tokyo</td>
+          <td class="stars">84</td>
+          <td>3D / World Models</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>SKILL0: In-Context Agentic Reinforcement Learning for Skill Internalization</strong></td>
+          <td>Zhejiang U.</td>
+          <td class="stars">78</td>
+          <td>Agentic RL</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>AgentScope 1.0: Developer-Centric Framework for Agentic Applications</strong></td>
+          <td>AgentScope</td>
+          <td class="stars">61</td>
+          <td>Agent Framework</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><strong>PagedAttention / vLLM: Efficient Memory Management for LLM Serving</strong></td>
+          <td>UC Berkeley</td>
+          <td class="stars">50</td>
+          <td>LLM Inference</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><strong>Very Large-Scale Multi-Agent Simulation in AgentScope</strong></td>
+          <td>Alibaba</td>
+          <td class="stars">41</td>
+          <td>Multi-Agent</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><strong>LightRAG: Simple and Fast Retrieval-Augmented Generation</strong></td>
+          <td>HKUDS</td>
+          <td class="stars">37</td>
+          <td>RAG Systems</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td><strong>TradingAgents: Multi-Agents LLM Financial Trading Framework</strong></td>
+          <td>Tauri Research</td>
+          <td class="stars">35</td>
+          <td>Multi-Agent / Finance</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td><strong>VOID: Video Object and Interaction Deletion</strong></td>
+          <td>Netflix</td>
+          <td class="stars">19</td>
+          <td>Video Editing</td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td><strong>A decoder-only foundation model for time-series forecasting</strong></td>
+          <td>Google Research</td>
+          <td class="stars">18</td>
+          <td>Time-Series LLM</td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td><strong>The AI Scientist-v2: Automated Scientific Discovery</strong></td>
+          <td>Sakana AI</td>
+          <td class="stars">21</td>
+          <td>Autonomous Science</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td><strong>DeepScientist: Advancing Frontier-Pushing Scientific Findings</strong></td>
+          <td>Westlake U.</td>
+          <td class="stars">17</td>
+          <td>Autonomous Science</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ 5. Spaces / Demos -->
+<div class="section">
+  <div class="section-title"><span class="icon">🎨</span> 熱門 Spaces / Demos（Hugging Face）</div>
+  <div class="card-grid">
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <strong>Z Image Turbo</strong>
+        <span class="tag tag-hot">❤ 2.78k</span>
+      </div>
+      <p style="font-size:13px; color:#4b5563;">mrfakename · 高速文字轉圖片，FLUX 系列快速推論</p>
+    </div>
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <strong>Qwen Image Multiple Angles 3D</strong>
+        <span class="tag tag-hot">❤ 2.12k</span>
+      </div>
+      <p style="font-size:13px; color:#4b5563;">multimodalart · 互動 3D 控制改變照片拍攝角度</p>
+    </div>
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <strong>Wan2.2 14B Preview</strong>
+        <span class="tag tag-hot">❤ 1.83k</span>
+      </div>
+      <p style="font-size:13px; color:#4b5563;">r3gm · 圖片 + 文字提示生成高品質影片</p>
+    </div>
+    <div class="card" style="border-left: 3px solid #059669;">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <strong>Qwen3-TTS Demo</strong>
+        <span class="tag tag-new">NEW</span>
+        <span class="tag tag-hot">❤ 1.81k</span>
+      </div>
+      <p style="font-size:13px; color:#4b5563;">Qwen · 文字轉語音，支援自訂聲音 / 聲音克隆 / 預設聲線</p>
+    </div>
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <strong>Omni Image Editor</strong>
+        <span class="tag tag-hot">❤ 1.34k</span>
+      </div>
+      <p style="font-size:13px; color:#4b5563;">selfit-camera · 一站式圖片編輯/生成/放大/去浮水印</p>
+    </div>
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <strong>Qwen-Image-Edit LoRAs Fast</strong>
+        <span class="tag tag-hot">❤ 1.24k</span>
+      </div>
+      <p style="font-size:13px; color:#4b5563;">prithivMLmods · Qwen 圖片編輯 LoRA 合集，快速推論版</p>
+    </div>
+    <div class="card" style="border-left: 3px solid #059669;">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <strong>OmniVoice</strong>
+        <span class="tag tag-new">NEW</span>
+      </div>
+      <p style="font-size:13px; color:#4b5563;">k2-fsa · 高品質語音克隆 TTS，支援 600+ 語言，多語言語音合成新高度</p>
+    </div>
+    <div class="card" style="border-left: 3px solid #059669;">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <strong>Gemma 4 WebGPU</strong>
+        <span class="tag tag-new">NEW</span>
+        <span class="tag tag-google">Google</span>
+      </div>
+      <p style="font-size:13px; color:#4b5563;">webml-community · 瀏覽器本機執行 Gemma 4（WebGPU + Transformers.js）</p>
+    </div>
+    <div class="card" style="border-left: 3px solid #059669;">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <strong>Qwen3.5 Omni Online Demo</strong>
+        <span class="tag tag-new">NEW</span>
+        <span class="tag tag-qwen">Qwen</span>
+      </div>
+      <p style="font-size:13px; color:#4b5563;">Qwen · 線上版多模態 AI 對話（文字/圖片/音訊/影片輸入）</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ 6. arXiv Highlights -->
+<div class="section">
+  <div class="section-title"><span class="icon">📚</span> arXiv 精選論文（cs.AI + cs.LG）</div>
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+    <div>
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:10px; color:#374151;">cs.AI — 人工智慧</h3>
+      <div class="card" style="padding:14px 16px; margin-bottom:10px;">
+        <p style="font-size:12px; color:#6b7280; margin-bottom:4px;">arXiv:2604.02280</p>
+        <p style="font-weight:600; margin-bottom:4px;">Novel Memory Forgetting Techniques for Autonomous AI Agents</p>
+        <p style="font-size:12.5px; color:#4b5563;">選擇性遺忘機制讓 Agent 在資源限制下動態管理記憶，平衡相關性與效率。</p>
+      </div>
+      <div class="card" style="padding:14px 16px; margin-bottom:10px;">
+        <p style="font-size:12px; color:#6b7280; margin-bottom:4px;">arXiv:2604.02174</p>
+        <p style="font-weight:600; margin-bottom:4px;">Quantifying Self-Preservation Bias in Large Language Models</p>
+        <p style="font-size:12.5px; color:#4b5563;">首次量化 LLM 對自身限制的保護性回應傾向，為 AI 安全研究提供新指標。</p>
+      </div>
+      <div class="card" style="padding:14px 16px; margin-bottom:10px;">
+        <p style="font-size:12px; color:#6b7280; margin-bottom:4px;">arXiv:2604.02147</p>
+        <p style="font-weight:600; margin-bottom:4px;">TRACE-Bot: Detecting Emerging LLM-Driven Social Bots</p>
+        <p style="font-size:12.5px; color:#4b5563;">以隱式語義表徵 + AIGC 行為模式偵測 LLM 驅動的社群媒體 Bot。</p>
+      </div>
+      <div class="card" style="padding:14px 16px;">
+        <p style="font-size:12px; color:#6b7280; margin-bottom:4px;">arXiv:2604.02230</p>
+        <p style="font-weight:600; margin-bottom:4px;">Answering the Wrong Question: Reasoning Trace Inversion for Abstention</p>
+        <p style="font-size:12.5px; color:#4b5563;">推理軌跡反轉技術讓 LLM 識別「不該回答的問題」，提升棄答能力。</p>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:10px; color:#374151;">cs.LG — 機器學習</h3>
+      <div class="card" style="padding:14px 16px; margin-bottom:10px;">
+        <p style="font-size:12px; color:#6b7280; margin-bottom:4px;">arXiv:2604.02268</p>
+        <p style="font-weight:600; margin-bottom:4px;">SKILL0: In-Context Agentic RL for Skill Internalization</p>
+        <p style="font-size:12.5px; color:#4b5563;">In-Context 方式讓 Agent 內化技能，無需重訓即可擴展能力庫，HF Papers 同步熱榜。</p>
+      </div>
+      <div class="card" style="padding:14px 16px; margin-bottom:10px;">
+        <p style="font-size:12px; color:#6b7280; margin-bottom:4px;">arXiv:2604.02119</p>
+        <p style="font-weight:600; margin-bottom:4px;">AA-SVD: Anchored and Adaptive SVD for LLM Compression</p>
+        <p style="font-size:12.5px; color:#4b5563;">錨定自適應 SVD 壓縮 LLM，大幅降低部署成本，保持模型效能。</p>
+      </div>
+      <div class="card" style="padding:14px 16px; margin-bottom:10px;">
+        <p style="font-size:12px; color:#6b7280; margin-bottom:4px;">arXiv:2604.02322</p>
+        <p style="font-weight:600; margin-bottom:4px;">Batched Contextual Reinforcement: Task-Scaling Law for Efficient Reasoning</p>
+        <p style="font-size:12.5px; color:#4b5563;">揭示批次上下文 RL 的任務縮放定律，為高效推理提供理論基礎。</p>
+      </div>
+      <div class="card" style="padding:14px 16px;">
+        <p style="font-size:12px; color:#6b7280; margin-bottom:4px;">arXiv:2604.02292</p>
+        <p style="font-weight:600; margin-bottom:4px;">Taming the Exponential: Fast Softmax Surrogate for Edge Inference</p>
+        <p style="font-size:12.5px; color:#4b5563;">整數原生邊緣設備的高效 softmax 替代方案，加速端側 Transformer 推論。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ 7. Weekly Highlights -->
+<div class="section">
+  <div class="section-title"><span class="icon">⭐</span> 本週重點事件</div>
+  <ul class="highlight-list">
+    <li>
+      <div class="num">1</div>
+      <div class="text"><strong>Google Gemma-4 全面發布</strong>：4 款模型一口氣進入 HF 趨勢榜（31B-it、26B MoE、E4B、E2B），E 系列支援 Any-to-Any 輸入輸出，語言+視覺+音訊統一。开放权重推理模型的激烈競爭再度升級。</div>
+    </li>
+    <li>
+      <div class="num">2</div>
+      <div class="text"><strong>claude-howto 空降 GitHub #1</strong>：Claude Code 視覺化教學 repo 週增近 <strong>15,000 stars</strong>，是本週增幅最大單一專案。Claude Code 生態圍繞開發者學習資源的需求已達到爆發臨界點。</div>
+    </li>
+    <li>
+      <div class="num">3</div>
+      <div class="text"><strong>Netflix 開源 VOID 影片物件刪除模型</strong>：Video-to-Video 的 void-model 同步出現在 HF 模型榜與熱門論文榜，是本週商業公司開源力道最具代表性的事件，影視 AI 工具鏈正式進入開源時代。</div>
+    </li>
+    <li>
+      <div class="num">4</div>
+      <div class="text"><strong>MinerU2.5 以 155 upvotes 登頂 HF Papers</strong>：OpenDataLab 的解耦式 VLM 文件解析架構，超越 VibeVoice（151）成為本週最高票論文。文件 AI 的學術熱度反映企業 RAG 管線的實際需求。</div>
+    </li>
+    <li>
+      <div class="num">5</div>
+      <div class="text"><strong>SKILL0 跨榜熱門</strong>：浙江大學的 In-Context Agentic RL 論文同時出現在 HF Papers（78 upvotes）與 cs.LG，Agent 技能內化不需重訓的概念引發廣泛討論，是本週 Agent 研究最受矚目的新方向。</div>
+    </li>
+    <li>
+      <div class="num">6</div>
+      <div class="text"><strong>Qwen3-TTS 語音 Space 強勢上線</strong>：1.81K likes 新上榜，加上 OmniVoice（600+ 語言）、Mistral Voxtral TTS，本週 HF Spaces 的語音 AI 佔比顯著提升，語音生成成為繼影像之後下一個激戰區。</div>
+    </li>
+    <li>
+      <div class="num">7</div>
+      <div class="text"><strong>microsoft/agent-lightning 新入 GitHub 榜</strong>：微軟繼 VibeVoice 後再推 Agent 訓練框架，Microsoft Research 的 Agent 佈局已從語音延伸到 Agent 訓練基礎設施，本週兩個專案同時在熱門榜是顯著訊號。</div>
+    </li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ 8. Recommendations -->
+<div class="section">
+  <div class="section-title"><span class="icon">💡</span> 本週建議關注</div>
+  <div class="rec-grid">
+    <div class="rec-card">
+      <h4>🔧 開發者：嘗試 Gemma-4 WebGPU Space</h4>
+      <p>Gemma 4 已可在瀏覽器本機運行，無需 API 費用，Any-to-Any 能力適合快速驗證多模態應用 PoC。Transformers.js 開發者建議立即整合測試。</p>
+    </div>
+    <div class="rec-card">
+      <h4>📖 學習：clone claude-howto 系統學習</h4>
+      <p>週增 15K stars 的 claude-howto 是目前 Claude Code 最完整的視覺化教學，涵蓋基礎到進階 Agent，可用於快速建立 Claude Code 系統觀。</p>
+    </div>
+    <div class="rec-card">
+      <h4>🤖 Agent 研究者：研讀 SKILL0 論文</h4>
+      <p>In-Context Agentic RL 的技能內化框架解決了傳統方法需重訓的痛點，arXiv:2604.02268，適合研究 Agent 能力擴展問題的團隊深入研讀。</p>
+    </div>
+    <div class="rec-card">
+      <h4>🎵 語音 AI：測試 OmniVoice 600+ 語言</h4>
+      <p>k2-fsa 的 OmniVoice Space 支援 600+ 語言高品質語音克隆，適合多語言產品的語音合成方案評估，值得與 Voxtral TTS 對比測試。</p>
+    </div>
+    <div class="rec-card">
+      <h4>🗂 文件處理：評估 MinerU2.5</h4>
+      <p>以 155 upvotes 稱霸本週論文榜，OpenDataLab 的解耦式 VLM 文件解析在多語言文件上有顯著突破，RAG 管線的文件前處理階段值得導入評估。</p>
+    </div>
+    <div class="rec-card">
+      <h4>🧮 推論優化：關注 AA-SVD LLM 壓縮</h4>
+      <p>arXiv:2604.02119 提出錨定自適應 SVD 壓縮方案，配合邊緣 softmax 近似（2604.02292），本週 LLM 壓縮方向有兩篇值得同時研讀的論文。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ 9. Summary -->
+<div class="section">
+  <div class="section-title"><span class="icon">📋</span> 週報總結</div>
+  <div class="summary-box">
+    <p>
+      <strong>模型生態：</strong>本週由 Google Gemma-4 家族主導，Any-to-Any 的多模態統一是核心突破；Jackrong 的 Qwen+Claude 蒸餾版以最高社群 Likes 展示社群衍生模型的活力；Netflix VOID 和 LiquidAI LFM2.5 代表商業公司的多元開源策略。
+    </p>
+    <p>
+      <strong>開發者生態：</strong>Claude Code 相關資源（claude-howto +14,996 stars、awesome-claude-code +2,998）顯示開發者正在快速建立 AI 輔助編程工作流；microsoft/agent-lightning 的入榜意味著 Agent 訓練基礎設施已成新戰場。
+    </p>
+    <p>
+      <strong>研究方向：</strong>文件 AI（MinerU2.5、PaddleOCR-VL）、Agent 技能（SKILL0、Memory Forgetting）、LLM 安全（Self-Preservation Bias、TRACE-Bot）三條主線同步推進；LLM 壓縮與邊緣推論（AA-SVD、Edge Softmax）反映部署成本壓力持續。
+    </p>
+    <p>
+      <strong>語音 AI 崛起：</strong>Qwen3-TTS Space（1.81K）、OmniVoice（600+ 語言）、Mistral Voxtral TTS 同週入榜，繼影像生成之後，語音生成正在成為下一個高度競爭的開源 AI 應用場域。
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ Sources -->
+<div class="sources">
+  <strong>資料來源：</strong>
+  <a href="https://github.com/trending?l=python&since=weekly" target="_blank">GitHub Trending (Python, Weekly)</a> ·
+  <a href="https://huggingface.co/models?sort=trending" target="_blank">HF Models</a> ·
+  <a href="https://huggingface.co/spaces?sort=trending" target="_blank">HF Spaces</a> ·
+  <a href="https://huggingface.co/papers/trending" target="_blank">HF Papers (via Papers with Code)</a> ·
+  <a href="https://arxiv.org/list/cs.AI/recent" target="_blank">arXiv cs.AI</a> ·
+  <a href="https://arxiv.org/list/cs.LG/recent" target="_blank">arXiv cs.LG</a>
+  <br style="margin:6px 0;"/>
+  報告產出：2026-04-05 | 對比基準：2026-04-01 | 爬取次數：各來源第 2 次
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

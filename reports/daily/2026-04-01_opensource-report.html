@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開源 AI 週報 — 2026-04-01</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+  header { background: #fff; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  header h1 { font-size: 28px; color: #1a1a1a; margin-bottom: 8px; }
+  header .meta { color: #888; font-size: 14px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card { background: #fff; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .stat-card .number { font-size: 36px; font-weight: 700; color: #2563eb; }
+  .stat-card .label { font-size: 13px; color: #888; margin-top: 4px; }
+  section { background: #fff; border-radius: 12px; padding: 28px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  section h2 { font-size: 20px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; }
+  .trend-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .trend-card { background: #f9fafb; border-radius: 8px; padding: 16px; border-left: 4px solid #2563eb; }
+  .trend-card h3 { font-size: 15px; margin-bottom: 6px; color: #1a1a1a; }
+  .trend-card p { font-size: 13px; color: #666; }
+  .trend-card .tags { margin-top: 8px; }
+  .tag { display: inline-block; background: #e0e7ff; color: #3730a3; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-right: 4px; margin-bottom: 4px; }
+  .tag.green { background: #d1fae5; color: #065f46; }
+  .tag.orange { background: #ffedd5; color: #9a3412; }
+  .tag.purple { background: #ede9fe; color: #5b21b6; }
+  .tag.red { background: #fee2e2; color: #991b1b; }
+  .highlight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .highlight-card { background: #f9fafb; border-radius: 8px; padding: 16px; }
+  .highlight-card h3 { font-size: 14px; margin-bottom: 4px; }
+  .highlight-card p { font-size: 13px; color: #666; }
+  .highlight-card .source { font-size: 11px; color: #aaa; margin-top: 8px; }
+  .source-section { margin-bottom: 20px; padding: 16px; background: #f9fafb; border-radius: 8px; }
+  .source-section h3 { font-size: 16px; margin-bottom: 10px; }
+  .source-section ul { padding-left: 20px; }
+  .source-section li { font-size: 13px; margin-bottom: 6px; color: #444; }
+  .source-github { border-left: 4px solid #24292e; }
+  .source-hf-models { border-left: 4px solid #ff9d00; }
+  .source-hf-spaces { border-left: 4px solid #6366f1; }
+  .source-papers { border-left: 4px solid #059669; }
+  .source-arxiv-ai { border-left: 4px solid #dc2626; }
+  .source-arxiv-lg { border-left: 4px solid #7c3aed; }
+  .analysis { font-size: 14px; line-height: 1.8; }
+  .analysis h3 { font-size: 16px; margin: 16px 0 8px; color: #1a1a1a; }
+  .analysis p { margin-bottom: 12px; }
+  .rec-card { background: #f9fafb; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+  .rec-card .priority { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 8px; }
+  .priority-high { background: #fee2e2; color: #991b1b; }
+  .priority-med { background: #fef3c7; color: #92400e; }
+  .rec-card h3 { font-size: 15px; margin-bottom: 6px; }
+  .rec-card p { font-size: 13px; color: #666; }
+  .glossary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .glossary-card { background: #f9fafb; border-radius: 8px; padding: 14px; }
+  .glossary-card .term { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .glossary-card .def { font-size: 13px; color: #555; }
+  .glossary-card .plain { font-size: 12px; color: #888; font-style: italic; margin-top: 4px; }
+  .learn-item { padding: 12px 16px; background: #f9fafb; border-radius: 8px; margin-bottom: 10px; }
+  .learn-item .plabel { font-size: 11px; font-weight: 700; margin-right: 8px; }
+  .p1 { color: #dc2626; } .p2 { color: #d97706; } .p3 { color: #6b7280; }
+  .learn-item h3 { font-size: 14px; display: inline; }
+  .learn-item p { font-size: 13px; color: #666; margin-top: 4px; }
+  .conclusion { background: #eff6ff; border-radius: 8px; padding: 20px; font-size: 15px; line-height: 1.8; }
+  @media (max-width: 768px) {
+    .stats-grid, .trend-grid, .highlight-grid, .glossary-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>開源 AI 週報</h1>
+  <div class="meta">2026-04-01 | 6 個來源 | 首次爬取</div>
+</header>
+
+<!-- 區塊 1：統計概覽 -->
+<div class="stats-grid">
+  <div class="stat-card"><div class="number">6</div><div class="label">追蹤來源</div></div>
+  <div class="stat-card"><div class="number">100%</div><div class="label">爬取成功率</div></div>
+  <div class="stat-card"><div class="number">62</div><div class="label">偵測項目數</div></div>
+  <div class="stat-card"><div class="number">首次</div><div class="label">基準建立</div></div>
+</div>
+
+<!-- 區塊 2：跨來源關鍵趨勢 -->
+<section>
+  <h2>跨來源關鍵趨勢</h2>
+  <div class="trend-grid">
+    <div class="trend-card">
+      <h3>Agent 全面爆發</h3>
+      <p>GitHub Trending 前 5 有 3 個 Agent 框架；HF Papers 趨勢榜過半涉及 Agent；arXiv cs.AI 首篇就是 Agentic RL。從框架到訓練到記憶，Agent 生態正在全面成型。</p>
+      <div class="tags"><span class="tag">GitHub</span><span class="tag">HF Papers</span><span class="tag">arXiv</span></div>
+    </div>
+    <div class="trend-card">
+      <h3>語音 AI 新戰場</h3>
+      <p>Microsoft VibeVoice（GitHub +8K、HF Papers #1）、Mistral Voxtral TTS、Cohere 多語言 ASR 同時上榜。語音不再是附屬功能，正成為獨立競爭賽道。</p>
+      <div class="tags"><span class="tag green">GitHub</span><span class="tag green">HF Models</span><span class="tag green">HF Spaces</span></div>
+    </div>
+    <div class="trend-card">
+      <h3>Qwen 生態統治力</h3>
+      <p>HF Models 趨勢榜 14 個中 Qwen 佔 6 席；Spaces 上有圖片編輯、3D 角度操作、離線多模態等 Qwen 衍生應用。社群蒸餾版（Jackrong）下載量驚人。</p>
+      <div class="tags"><span class="tag orange">HF Models</span><span class="tag orange">HF Spaces</span></div>
+    </div>
+    <div class="trend-card">
+      <h3>影片生成民主化</h3>
+      <p>Wan2.2 系列在 Spaces 以合計 6.8K likes 稱霸；LTX-2.3 模型下載 147 萬；Google Veo 3 免費版出現。影片生成從頂尖實驗室走向人人可用。</p>
+      <div class="tags"><span class="tag purple">HF Models</span><span class="tag purple">HF Spaces</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 區塊 3：值得關注的新動態 -->
+<section>
+  <h2>值得關注的新動態</h2>
+  <div class="highlight-grid">
+    <div class="highlight-card">
+      <h3>ByteDance deer-flow</h3>
+      <p>週增 13.5K stars，長期任務 Agent 框架，支援研究、編碼、內容創作</p>
+      <div class="source">GitHub Trending #1</div>
+    </div>
+    <div class="highlight-card">
+      <h3>Agent Lightning</h3>
+      <p>用 RL 訓練任意 AI Agent 的通用框架，138 upvotes</p>
+      <div class="source">HF Papers #2</div>
+    </div>
+    <div class="highlight-card">
+      <h3>ChromaDB context-1</h3>
+      <p>向量資料庫廠商跨足 LLM，推出 21B 文本生成模型</p>
+      <div class="source">HF Models #5</div>
+    </div>
+    <div class="highlight-card">
+      <h3>Hyperagents 論文</h3>
+      <p>自我參照 Agent——能改善自己的 Agent，42 upvotes</p>
+      <div class="source">HF Papers #7</div>
+    </div>
+    <div class="highlight-card">
+      <h3>AI 安全驗證理論極限</h3>
+      <p>資訊理論視角探討自我改進系統的安全驗證不可能性</p>
+      <div class="source">arXiv cs.LG</div>
+    </div>
+    <div class="highlight-card">
+      <h3>Claude Code 生態爆發</h3>
+      <p>awesome-claude-code + claude-skills 合計 43K stars，週增 5K</p>
+      <div class="source">GitHub Trending #7, #14</div>
+    </div>
+  </div>
+</section>
+
+<!-- 區塊 4：各來源詳情 -->
+<section>
+  <h2>各來源詳情</h2>
+
+  <div class="source-section source-github">
+    <h3>GitHub Trending (Python AI/ML)</h3>
+    <ul>
+      <li><strong>deer-flow</strong>（ByteDance）以 +13.5K stars 居首，提供包含沙箱和子 Agent 的長期任務框架</li>
+      <li><strong>Agent 類專案</strong>佔前 7 名中的 5 席，包括 hermes-agent（+7.5K）、last30days-skill（+11.9K）</li>
+      <li><strong>Claude Code 周邊</strong>兩個 repo 合計週增 5K，Skills 與 Hooks 生態系正式起飛</li>
+      <li><strong>金融 AI</strong> TradingAgents 中英文版本同時上榜，合計 67K stars</li>
+      <li><strong>minimind</strong>（2 小時訓練 64M GPT）持續走紅，教育性開源 LLM 受歡迎</li>
+    </ul>
+    <div class="tags"><span class="tag">Agent</span><span class="tag">Voice AI</span><span class="tag">Claude Code</span><span class="tag">Trading</span><span class="tag">OCR</span></div>
+  </div>
+
+  <div class="source-section source-hf-models">
+    <h3>Hugging Face Models</h3>
+    <ul>
+      <li><strong>Qwen3.5 家族</strong>統治排行榜，官方+社群版合計 6 席，蒸餾版下載 337K</li>
+      <li><strong>語音雙線並進</strong>：Cohere 多語言 ASR + Mistral Voxtral TTS 同時上榜</li>
+      <li><strong>ChromaDB context-1</strong> 向量資料庫廠商跨足 LLM，值得關注的戰略轉向</li>
+      <li><strong>Baidu Qianfan-OCR</strong> 中國 OCR 模型在國際平台能見度提升</li>
+      <li><strong>NVIDIA Nemotron-Cascade</strong> MoE 架構 30B 模型，推進高效推理</li>
+    </ul>
+    <div class="tags"><span class="tag orange">Qwen</span><span class="tag orange">ASR</span><span class="tag orange">TTS</span><span class="tag orange">OCR</span><span class="tag orange">MoE</span></div>
+  </div>
+
+  <div class="source-section source-hf-spaces">
+    <h3>Hugging Face Spaces</h3>
+    <ul>
+      <li><strong>Wan2.2 系列</strong>（Animate + 14B Preview）合計 6.8K likes，影片生成最熱門</li>
+      <li><strong>Omni Image Editor</strong> 做到圖片編輯/生成/放大/去浮水印一站式</li>
+      <li><strong>Qwen 3D 角度操作</strong>（2K likes）展示圖片理解新玩法</li>
+      <li><strong>NVIDIA Kimodo</strong> 文字直接生成動作序列，動畫製作門檻再降低</li>
+      <li><strong>語音 Demo 進駐</strong>：Voxtral TTS + Cohere ASR 提供即時體驗</li>
+    </ul>
+    <div class="tags"><span class="tag purple">Video Gen</span><span class="tag purple">Image Edit</span><span class="tag purple">3D</span><span class="tag purple">TTS</span></div>
+  </div>
+
+  <div class="source-section source-papers">
+    <h3>HF Papers (原 Papers with Code)</h3>
+    <ul>
+      <li><strong>VibeVoice</strong> 以 145 upvotes 居首，Microsoft 語音合成研究成為學術焦點</li>
+      <li><strong>Agent 論文佔過半</strong>：Agent Lightning、AgentScope、Hyperagents、Mem0</li>
+      <li><strong>PaddleOCR-VL</strong>（122 votes）展示多語言文件解析突破</li>
+      <li><strong>LightRAG</strong> 持續走紅，簡潔高效的 RAG 方案受社群青睞</li>
+      <li><strong>AI-Scientist-v2</strong> 推動自動科學發現，用 Agent 做研究不再是概念</li>
+    </ul>
+    <div class="tags"><span class="tag green">Agent</span><span class="tag green">Voice</span><span class="tag green">OCR</span><span class="tag green">RAG</span><span class="tag green">AutoScience</span></div>
+  </div>
+
+  <div class="source-section source-arxiv-ai">
+    <h3>arXiv cs.AI</h3>
+    <ul>
+      <li><strong>Agentic RL 技能管理</strong>：Dynamic Dual-Granularity Skill Bank 提出 Agent 技能庫框架</li>
+      <li><strong>MonitorBench</strong> 聚焦 LLM CoT 推理可監控性，安全研究新方向</li>
+      <li><strong>Medical AI Scientist</strong> 探索 AI 自主醫學研究的可能性</li>
+      <li><strong>EU AI Act 合規</strong>進入技術實現階段（T-Norm 神經符號方法）</li>
+      <li><strong>Deep Research 綜述</strong>標誌 Agent 範式已成學術主流</li>
+    </ul>
+    <div class="tags"><span class="tag red">Agentic RL</span><span class="tag red">Safety</span><span class="tag red">Medical AI</span><span class="tag red">EU AI Act</span></div>
+  </div>
+
+  <div class="source-section source-arxiv-lg">
+    <h3>arXiv cs.LG</h3>
+    <ul>
+      <li><strong>可解釋性反省</strong>：Linear Probes + SAE 在組合泛化上被證明不足</li>
+      <li><strong>聯邦學習安全</strong>密集期：同批兩篇後門攻擊防禦論文</li>
+      <li><strong>RL 信用分配新法</strong>：GRPO + Flow-Matching 的步驟式分配</li>
+      <li><strong>AI 安全理論極限</strong>：自我改進系統的驗證不可能性（資訊論視角）</li>
+      <li><strong>XAI = 因果推理</strong>：Position Paper 提出統一框架觀點</li>
+    </ul>
+    <div class="tags"><span class="tag">XAI</span><span class="tag">Federated Learning</span><span class="tag">RL</span><span class="tag">AI Safety</span></div>
+  </div>
+</section>
+
+<!-- 區塊 5：深度分析 -->
+<section>
+  <h2>深度分析</h2>
+  <div class="analysis">
+    <h3>Agent 從概念到基礎設施</h3>
+    <p>本週最顯著的訊號是 Agent 已經完成從「概念驗證」到「基礎設施」的轉變。GitHub 上 deer-flow 一週狂飆 13.5K stars，不是因為它新奇，而是因為它解決了 Agent 在真實場景中的長期任務管理痛點。學術界同步跟進——Agent Lightning 提出用 RL 訓練任意 Agent 的通用方法，Hyperagents 開始讓 Agent 具備自我改進能力。這不再是「Agent 能不能用」的問題，而是「用哪個 Agent 框架」的選擇題。</p>
+
+    <h3>語音成為新的必爭之地</h3>
+    <p>VibeVoice 同時在 GitHub（+8.3K）和 HF Papers（#1, 145 votes）爆發，加上 Mistral 的 Voxtral TTS 和 Cohere 的多語言 ASR，語音 AI 正式進入多廠商競爭期。這代表語音不再是「附加功能」，而是獨立的產品賽道。對開發者來說，語音介面的整合成本正在急劇下降。</p>
+
+    <h3>Qwen 的開源統治力值得警惕</h3>
+    <p>Qwen3.5 在 HF Models 佔 6/14 席，加上 Spaces 上大量 Qwen 衍生應用，阿里的開源策略正在形成平台效應。社群蒸餾版（如 Jackrong 的 Claude-Opus-Distilled）下載量驚人，說明社群已經將 Qwen 當成「基底模型」在用。這對其他開源模型（Llama、Mistral）形成壓力。</p>
+
+    <h3>安全研究進入理論化階段</h3>
+    <p>arXiv 出現了「自我改進系統安全驗證的理論極限」這類論文，加上聯邦學習後門防禦、EU AI Act 技術合規方法，安全研究正從「patch 漏洞」走向「建立理論框架」。這對需要合規的專案來說是正面信號——方法論正在成熟。</p>
+  </div>
+</section>
+
+<!-- 區塊 6：應用建議 -->
+<section>
+  <h2>應用建議</h2>
+
+  <div class="rec-card">
+    <span class="priority priority-high">高</span>
+    <h3>評估 deer-flow 作為 Monster Forge Agent 編排參考</h3>
+    <p>deer-flow 的長期任務管理（子 Agent + 沙箱）與 Monster Forge 的 AI 自動化指揮中心定位高度吻合。建議 /scout dissect 深入分析其架構，評估是否能借鑑其任務拆分與子 Agent 管理模式。</p>
+    <div class="source" style="font-size:12px;color:#888;margin-top:8px;">參考：GitHub bytedance/deer-flow</div>
+  </div>
+
+  <div class="rec-card">
+    <span class="priority priority-high">高</span>
+    <h3>關注 Agent Lightning 的 RL 訓練方法</h3>
+    <p>Agent Lightning 提出用 RL 訓練任意 AI Agent 的通用框架，這對 Agent Office 專案（L3）有直接參考價值。特別是如何讓 Agent 從經驗中學習改進行為的機制。</p>
+    <div class="source" style="font-size:12px;color:#888;margin-top:8px;">參考：HF Papers - Agent Lightning</div>
+  </div>
+
+  <div class="rec-card">
+    <span class="priority priority-med">中</span>
+    <h3>追蹤 awesome-claude-code 生態</h3>
+    <p>你的 Skill 系統（40+ Skills）已經是相當完整的 Claude Code 擴展生態。awesome-claude-code（35K stars）收錄了社群的 Skills 和 Hooks，值得掃描是否有可複用的優秀模式。</p>
+    <div class="source" style="font-size:12px;color:#888;margin-top:8px;">參考：GitHub hesreallyhim/awesome-claude-code</div>
+  </div>
+
+  <div class="rec-card">
+    <span class="priority priority-med">中</span>
+    <h3>Cohere ASR 可用於 Meeting Scribe</h3>
+    <p>Cohere 的多語言語音辨識模型上了 HF，如果 Meeting Scribe 的語音轉文字需要備選方案或多語言支援，cohere-transcribe-03-2026 值得評估。</p>
+    <div class="source" style="font-size:12px;color:#888;margin-top:8px;">參考：HF Models - CohereLabs/cohere-transcribe-03-2026</div>
+  </div>
+</section>
+
+<!-- 區塊 7：名詞解釋 -->
+<section>
+  <h2>名詞解釋</h2>
+  <div class="glossary-grid">
+    <div class="glossary-card">
+      <div class="term">Agent Framework <span class="tag">概念</span></div>
+      <div class="def">讓 AI 能自主規劃、使用工具、完成多步驟任務的軟體框架</div>
+      <div class="plain">把 AI 從「問一答一」升級成「交代任務它自己搞定」的工具箱</div>
+    </div>
+    <div class="glossary-card">
+      <div class="term">MoE (Mixture of Experts) <span class="tag">技術</span></div>
+      <div class="def">模型包含多個專家子網路，每次推理只啟用部分專家，降低計算成本</div>
+      <div class="plain">像分工合作——不是每個人都做每件事，而是讓擅長的人去做</div>
+    </div>
+    <div class="glossary-card">
+      <div class="term">Knowledge Distillation <span class="tag">技術</span></div>
+      <div class="def">用大模型（教師）的輸出訓練小模型（學生），讓小模型學到大模型的能力</div>
+      <div class="plain">師傅把功力傳給徒弟，徒弟雖然小但也很厲害</div>
+    </div>
+    <div class="glossary-card">
+      <div class="term">RAG (Retrieval-Augmented Generation) <span class="tag">技術</span></div>
+      <div class="def">讓 LLM 先從外部資料庫檢索相關文件，再基於檢索結果生成回答</div>
+      <div class="plain">AI 回答問題前先去翻資料，不只靠記憶</div>
+    </div>
+    <div class="glossary-card">
+      <div class="term">GGUF <span class="tag">技術</span></div>
+      <div class="def">一種模型量化格式，讓大型 LLM 能在消費級硬體上運行</div>
+      <div class="plain">把大模型壓縮成能在你電腦上跑的格式</div>
+    </div>
+    <div class="glossary-card">
+      <div class="term">TTS (Text-to-Speech) <span class="tag">技術</span></div>
+      <div class="def">文字轉語音技術，將文字輸入轉換為自然語音輸出</div>
+      <div class="plain">讓 AI 「說話」的技術</div>
+    </div>
+    <div class="glossary-card">
+      <div class="term">ASR (Automatic Speech Recognition) <span class="tag">技術</span></div>
+      <div class="def">自動語音辨識，將語音輸入轉換為文字</div>
+      <div class="plain">讓 AI 「聽懂」人說話的技術</div>
+    </div>
+    <div class="glossary-card">
+      <div class="term">Federated Learning <span class="tag">概念</span></div>
+      <div class="def">分散式機器學習方法，資料留在各端，只交換模型更新</div>
+      <div class="plain">大家一起訓練 AI，但不用把自己的資料交出去</div>
+    </div>
+    <div class="glossary-card">
+      <div class="term">Flow-Matching <span class="tag">技術</span></div>
+      <div class="def">一種生成模型訓練方法，學習從噪音到目標分佈的連續變換路徑</div>
+      <div class="plain">教 AI 怎麼一步步把雜訊變成清晰的圖片/影片</div>
+    </div>
+    <div class="glossary-card">
+      <div class="term">LoRA (Low-Rank Adaptation) <span class="tag">技術</span></div>
+      <div class="def">低秩適應微調法，只訓練模型的一小部分參數就能適應新任務</div>
+      <div class="plain">不用重新訓練整個模型，只調幾個旋鈕就能學會新技能</div>
+    </div>
+  </div>
+</section>
+
+<!-- 區塊 8：建議學習內容 -->
+<section>
+  <h2>建議學習內容</h2>
+
+  <div class="learn-item">
+    <span class="plabel p1">P1 本週必讀</span>
+    <h3>deer-flow 架構文件</h3>
+    <p>ByteDance 的長期任務 Agent 框架，了解其子 Agent 管理和沙箱設計，對 Monster Forge 開發有直接參考價值。</p>
+  </div>
+
+  <div class="learn-item">
+    <span class="plabel p1">P1 本週必讀</span>
+    <h3>Agent Lightning 論文</h3>
+    <p>用 RL 訓練任意 AI Agent 的通用方法，理解 Agent 如何從互動中學習改進。</p>
+  </div>
+
+  <div class="learn-item">
+    <span class="plabel p2">P2 兩週內讀</span>
+    <h3>Hyperagents: Self-Referential Agents</h3>
+    <p>能修改自己程式碼和行為的 Agent 概念，對 /evolve 機制的長期演進方向有啟發。</p>
+  </div>
+
+  <div class="learn-item">
+    <span class="plabel p2">P2 兩週內讀</span>
+    <h3>VibeVoice Technical Report</h3>
+    <p>Microsoft 開源語音 AI 的架構設計，了解前沿語音合成如何實現。Meeting Scribe 可能受益。</p>
+  </div>
+
+  <div class="learn-item">
+    <span class="plabel p3">P3 有空再看</span>
+    <h3>XAI is Causality in Disguise (Position Paper)</h3>
+    <p>將可解釋 AI 與因果推理統一的觀點，對理解 AI 決策過程有概念性幫助。</p>
+  </div>
+
+  <div class="learn-item">
+    <span class="plabel p3">P3 有空再看</span>
+    <h3>Information-Theoretic Limits of Safety Verification</h3>
+    <p>自我改進系統安全驗證的理論極限，了解 Agent 安全的根本挑戰。</p>
+  </div>
+</section>
+
+<!-- 區塊 9：總結判斷 -->
+<section>
+  <h2>總結</h2>
+  <div class="conclusion">
+    <strong>本週最重要的一件事：</strong>Agent 已從概念進入基礎設施競爭期，deer-flow、Agent Lightning、Hyperagents 分別代表框架層、訓練層、自我改進層的突破。<br><br>
+    <strong>下一步：</strong>用 /scout dissect 深入分析 deer-flow 架構，評估其任務編排模式是否可融入 Monster Forge 的 Agent 調度系統。
+  </div>
+</section>
+
+</div>
+</body>
+</html>

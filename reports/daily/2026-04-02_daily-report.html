@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent Workflows 日報 — 2026-04-02</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f7fa; color: #1a1a2e; line-height: 1.6; }
+  .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; text-align: center; }
+  .header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .header .meta { opacity: 0.85; font-size: 0.9rem; }
+  .badge { display: inline-block; background: rgba(255,255,255,0.2); border-radius: 20px; padding: 2px 12px; font-size: 0.8rem; margin: 0 4px; }
+  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1rem; }
+  .section { background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .section-title { font-size: 1.1rem; font-weight: 700; color: #4a4a6a; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f0f0f8; display: flex; align-items: center; gap: 0.5rem; }
+  .section-icon { font-size: 1.2rem; }
+  .new-badge { display: inline-block; background: #e8f5e9; color: #2e7d32; border-radius: 4px; padding: 1px 8px; font-size: 0.72rem; font-weight: 600; margin-left: 8px; }
+  .source-card { border: 1px solid #e8e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+  .source-name { font-weight: 700; color: #5c6bc0; font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .source-url { font-size: 0.75rem; color: #9e9e9e; margin-bottom: 0.6rem; }
+  .source-status { font-size: 0.78rem; }
+  .status-new { color: #2e7d32; background: #e8f5e9; padding: 2px 8px; border-radius: 4px; }
+  .status-unchanged { color: #7b7b9e; background: #f3f3fa; padding: 2px 8px; border-radius: 4px; }
+  .status-error { color: #b71c1c; background: #ffebee; padding: 2px 8px; border-radius: 4px; }
+  ul { padding-left: 1.4rem; }
+  li { margin-bottom: 0.4rem; font-size: 0.9rem; }
+  .highlight { background: #fff9c4; border-left: 3px solid #f9a825; padding: 0.6rem 0.8rem; border-radius: 0 6px 6px 0; margin: 0.5rem 0; font-size: 0.88rem; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+  .trend-item { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.8rem; }
+  .trend-num { background: #667eea; color: white; border-radius: 50%; width: 24px; height: 24px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; }
+  .trend-text strong { display: block; font-size: 0.88rem; color: #1a1a2e; }
+  .trend-text span { font-size: 0.8rem; color: #666; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { background: #f3f4f8; padding: 0.5rem 0.8rem; text-align: left; font-weight: 600; color: #555; }
+  td { padding: 0.5rem 0.8rem; border-bottom: 1px solid #f0f0f8; }
+  tr:last-child td { border-bottom: none; }
+  .tag { display: inline-block; background: #ede7f6; color: #5e35b1; border-radius: 4px; padding: 1px 7px; font-size: 0.75rem; margin: 2px; }
+  .summary-box { background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%); border: 1px solid #dde3ff; border-radius: 8px; padding: 1rem; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; }
+  @media (max-width: 700px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  .kpi-card { background: #f8f9ff; border-radius: 8px; padding: 0.8rem; text-align: center; border: 1px solid #e8eaff; }
+  .kpi-value { font-size: 1.4rem; font-weight: 700; color: #5c6bc0; }
+  .kpi-label { font-size: 0.72rem; color: #888; margin-top: 2px; }
+  .footer { text-align: center; padding: 1.5rem; color: #aaa; font-size: 0.8rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🤖 AI Agent Workflows 日報</h1>
+  <div class="meta">
+    <span class="badge">2026-04-02</span>
+    <span class="badge">Group: tech</span>
+    <span class="badge">4 Sources</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Section 1: Overview -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">📊</span> 總覽 Overview</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-value">4</div>
+        <div class="kpi-label">監控來源</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">9</div>
+        <div class="kpi-label">本次新增文章</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">2</div>
+        <div class="kpi-label">有更新來源</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">2</div>
+        <div class="kpi-label">無更新來源</div>
+      </div>
+    </div>
+    <div style="margin-top:1rem;">
+      <table>
+        <tr><th>來源</th><th>上次爬取</th><th>本次狀態</th><th>新文章</th></tr>
+        <tr><td>langchain-blog</td><td>2026-03-31</td><td><span class="status-new">有更新</span></td><td>1 篇</td></tr>
+        <tr><td>anthropic-news</td><td>2026-03-31</td><td><span class="status-new">有更新</span></td><td>1 篇</td></tr>
+        <tr><td>llamaindex-blog</td><td>2026-03-31</td><td><span class="status-new">有更新</span></td><td>7 篇</td></tr>
+        <tr><td>crewai-blog</td><td>2026-03-31</td><td><span class="status-unchanged">無更新</span></td><td>0 篇</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 2: Trends -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🔥</span> 趨勢洞察 Trends</div>
+    <div class="trend-item">
+      <div class="trend-num">1</div>
+      <div class="trend-text">
+        <strong>生態系整合加速：LangChain × MongoDB</strong>
+        <span>LangChain 宣布與 MongoDB 建立合作夥伴關係，將 MongoDB 向量資料庫深度整合至 LangGraph，強化 Agent 的持久記憶與混合搜尋能力，預示 Agent 記憶基礎設施正式進入企業採購考量。</span>
+      </div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-num">2</div>
+      <div class="trend-text">
+        <strong>政府合作成新前沿：Anthropic × 澳洲政府 MOU</strong>
+        <span>Anthropic 與澳洲政府簽署 AI 安全與研究備忘錄，繼 Sydney 辦公室後的第二步佈局，Anthropic 持續在亞太區建立政府信任關係，凸顯「AI 安全外交」成為大型 AI 公司的核心策略。</span>
+      </div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-num">3</div>
+      <div class="trend-text">
+        <strong>LlamaIndex OCR 知識庫矩陣爆量擴充</strong>
+        <span>2026-04-01 單日新增 6 篇 OCR 專題文章（Multilingual、Pipeline、Libraries、Legal、Charts、Classification），配合 Newsletter 2026-03-31，LlamaIndex 的「文件 AI Agent」內容策略全面鋪開。</span>
+      </div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-num">4</div>
+      <div class="trend-text">
+        <strong>CrewAI 靜默期：生態布局後的消化階段</strong>
+        <span>CrewAI 部落格自 3/17 後無新文章，距最後一篇已過 16 天。Self-Evolving Agents + NemoClaw 發布後進入平台深化期，預期下一篇重磅文章將聚焦 AMP Factory 企業案例。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Updates -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🆕</span> 本日更新 Updates</div>
+
+    <div class="source-card">
+      <div class="source-name">🔗 LangChain Blog</div>
+      <div class="source-url">https://blog.langchain.com/</div>
+      <div class="highlight">
+        <strong>🆕 Announcing the LangChain + MongoDB Partnership</strong>（Partner Post, 5 min）<br>
+        LangChain 與 MongoDB 建立官方夥伴關係。整合重點：MongoDB Atlas 向量搜尋 + LangGraph 狀態持久化 + 混合搜尋能力。對企業開發者意義：生產級 Agent 記憶層不再需要自建，可直接採用托管方案。
+      </div>
+      <p style="font-size:0.85rem; margin-top:0.6rem;">首頁其餘 16 篇維持不變，Agent Harness 系列（anatomy / middleware / skills）仍為核心內容支柱。</p>
+    </div>
+
+    <div class="source-card">
+      <div class="source-name">🔗 Anthropic News</div>
+      <div class="source-url">https://www.anthropic.com/news</div>
+      <div class="highlight">
+        <strong>🆕 Australian government and Anthropic sign MOU for AI safety and research</strong>（2026-03-31）<br>
+        澳洲政府與 Anthropic 簽署合作備忘錄，聚焦 AI 安全研究與負責任 AI 部署。繼 Sydney 辦公室宣布（3/10）後，澳洲正式成為 Anthropic 的政府合作夥伴，亦是亞太區首個政府層級的 MOU 簽署方。
+      </div>
+    </div>
+
+    <div class="source-card">
+      <div class="source-name">🔗 LlamaIndex Blog</div>
+      <div class="source-url">https://www.llamaindex.ai/blog</div>
+      <div class="highlight">
+        <strong>🆕 LlamaIndex Newsletter 2026-03-31</strong> — 表格提取與 Word 解析改進重點摘要<br>
+        <strong>🆕 Apr 1 批量新增（6 篇）：</strong>Best Multilingual OCR Software、Building an OCR Pipeline、Best OCR Libraries for Developers、OCR for Legal Documents、Extracting Data From Charts、OCR Document Classification
+      </div>
+      <p style="font-size:0.85rem; margin-top:0.6rem;">LlamaAgents Builder 新功能：自然語言描述即可建立 Agent，一鍵部署，進一步降低 Agentic Document Processing 的技術門檻。</p>
+    </div>
+
+    <div class="source-card">
+      <div class="source-name">🔗 CrewAI Blog</div>
+      <div class="source-url">https://www.crewai.com/blog</div>
+      <span class="status-unchanged">無新文章（最新：2026-03-17）</span>
+      <p style="font-size:0.85rem; margin-top:0.6rem;">Self-Evolving Agents + NVIDIA NemoClaw 文章（3/17）仍為最新，部落格進入靜默期。</p>
+    </div>
+  </div>
+
+  <!-- Section 4: Source Details -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">📋</span> 來源詳情 Source Details</div>
+    <div class="two-col">
+      <div>
+        <strong style="font-size:0.9rem; color:#5c6bc0;">LangChain</strong>
+        <ul style="margin-top:0.4rem;">
+          <li>首頁 17 篇，新增 MongoDB 合作文章</li>
+          <li>核心架構：Agent Harness（anatomy + middleware + skills）</li>
+          <li>企業工具：LangSmith Fleet + Sandboxes</li>
+          <li>總頁數：32 頁（龐大知識庫）</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="font-size:0.9rem; color:#5c6bc0;">Anthropic</strong>
+        <ul style="margin-top:0.4rem;">
+          <li>22 篇新聞（最新：澳洲政府 MOU）</li>
+          <li>現役模型：Claude Opus 4.6 + Sonnet 4.6</li>
+          <li>資金：Series G $30B，估值 $380B</li>
+          <li>MCP：9700 萬次累積安裝</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="font-size:0.9rem; color:#5c6bc0;">LlamaIndex</strong>
+        <ul style="margin-top:0.4rem;">
+          <li>產品線：LlamaParse / LiteParse / LlamaExtract</li>
+          <li>Agentic OCR 直通率：90–95%+</li>
+          <li>客戶：Boeing/Jeppesen、Experian、NTTDATA</li>
+          <li>4/1 新增 6 篇 OCR 知識庫文章</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="font-size:0.9rem; color:#5c6bc0;">CrewAI</strong>
+        <ul style="margin-top:0.4rem;">
+          <li>里程碑：2 Billion Agentic Workflows</li>
+          <li>最新文章：Self-Evolving Agents（3/17）</li>
+          <li>企業夥伴：NVIDIA, PwC, HPE, Cloudera</li>
+          <li>產品：OSS 1.0 + AMP Factory（雙軌）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Deep Analysis -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🔬</span> 深度分析 Deep Analysis</div>
+
+    <p style="font-size:0.9rem; margin-bottom:1rem;"><strong>「Agent 基礎設施生態化」正在快速成形</strong></p>
+    <p style="font-size:0.88rem; color:#444; margin-bottom:0.8rem;">
+      本週最重要訊號是 LangChain × MongoDB 合作。這不只是一個整合公告——它代表 Agent 架構的「記憶層」正從開發者自建轉向托管服務。與此同時，LlamaIndex 的「文件層」（LlamaParse → LlamaExtract → LlamaSheets → LlamaAgents）也在快速工具鏈化。兩者共同勾勒出一張藍圖：未來的 AI Agent 不需要從零搭建，而是組合現成的基礎設施模組。
+    </p>
+
+    <p style="font-size:0.9rem; margin-bottom:0.6rem;"><strong>Anthropic 的「AI 安全外交」策略</strong></p>
+    <p style="font-size:0.88rem; color:#444; margin-bottom:0.8rem;">
+      Anthropic 與澳洲政府的 MOU 是一個戰略性動作，而不只是地區擴張。在美國國防部將 Anthropic 列為「供應鏈風險」的背景下，Anthropic 選擇在盟友國政府建立 AI 安全合作，一方面確保非軍事政府市場的可信度，另一方面也為未來在亞太區的監管對話建立話語權。
+    </p>
+
+    <p style="font-size:0.9rem; margin-bottom:0.6rem;"><strong>CrewAI 靜默期的隱含訊號</strong></p>
+    <p style="font-size:0.88rem; color:#444;">
+      CrewAI 上次更新距今 16 天，在其他競爭者頻繁更新的環境中，這段靜默期值得關注。可能原因：(1) AMP Factory 企業部署期需要配合客戶案例才能發文；(2) 正在準備更大的版本更新；(3) 資源集中在企業銷售而非內容行銷。預期下一篇文章將是重磅公告。
+    </p>
+  </div>
+
+  <!-- Section 6: Recommendations -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">💡</span> 建議行動 Recommendations</div>
+    <ul>
+      <li><strong>立即評估 LangChain + MongoDB 整合</strong>：若現有 Agent 使用 Chroma 或 Pinecone 自建向量存儲，評估遷移至 MongoDB Atlas 向量搜尋的可行性——托管 + 混合搜尋 + LangGraph 原生整合，是企業級方案的捷徑。</li>
+      <li style="margin-top:0.6rem;"><strong>LlamaIndex OCR Pipeline 知識庫值得精讀</strong>：4/1 新增的 6 篇文章（Pipeline、Libraries、Charts、Classification）是構建 Agentic Document Processing 的實用指南，特別是「Extracting Data From Charts」對金融/商業 Agent 最有價值。</li>
+      <li style="margin-top:0.6rem;"><strong>追蹤 CrewAI 下一篇更新</strong>：16 天靜默後的更新很可能是重大公告，建議設置監控提醒（reminderDays: 1）。</li>
+      <li style="margin-top:0.6rem;"><strong>關注 Anthropic 政府合作模式</strong>：澳洲 MOU 若成功，預期 Anthropic 會複製此模式至其他亞太國家（日本、新加坡、韓國）。可作為評估企業採用 Claude API 的政策風險指標。</li>
+    </ul>
+  </div>
+
+  <!-- Section 7: Glossary -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">📖</span> 術語速查 Glossary</div>
+    <div class="two-col">
+      <div>
+        <table>
+          <tr><th>術語</th><th>說明</th></tr>
+          <tr><td><strong>Agent Harness</strong></td><td>Agent 執行環境框架，定義 Agent 與外部系統的交互介面</td></tr>
+          <tr><td><strong>LangSmith Fleet</strong></td><td>LangChain 的 Agent 車隊管理平台，支援批次監控與部署</td></tr>
+          <tr><td><strong>LangSmith Sandboxes</strong></td><td>安全的 Agent 測試沙盒環境，防止 Agent 對真實系統造成影響</td></tr>
+          <tr><td><strong>LiteParse</strong></td><td>LlamaIndex 的開源本地文件解析引擎，無需雲端 API</td></tr>
+        </table>
+      </div>
+      <div>
+        <table>
+          <tr><th>術語</th><th>說明</th></tr>
+          <tr><td><strong>Agentic OCR</strong></td><td>AI Agent 驅動的智慧文件識別，直通率可達 90-95%</td></tr>
+          <tr><td><strong>CrewAI AMP</strong></td><td>Agent Management Platform，企業級 Agent 管理雲端平台</td></tr>
+          <tr><td><strong>NemoClaw</strong></td><td>NVIDIA 的 Agent 加速框架，CrewAI 整合後達 100x 速度提升</td></tr>
+          <tr><td><strong>MOU</strong></td><td>Memorandum of Understanding，合作備忘錄（政府合作常用形式）</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 8: Learning -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🎓</span> 學習精選 Learning Picks</div>
+    <div class="trend-item">
+      <div class="trend-num">★</div>
+      <div class="trend-text">
+        <strong>必讀：Agent Evaluation Readiness Checklist（LangChain, 17 min）</strong>
+        <span>涵蓋 error analysis、grader design、offline & online evals，是評估 Agent 是否「生產就緒」的完整框架，適合所有 Agent 開發者在上線前對照檢查。</span>
+      </div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-num">★</div>
+      <div class="trend-text">
+        <strong>推薦：Cognitive Memory for Agentic Systems（CrewAI, 2026-03-05）</strong>
+        <span>探討如何為 Agent 系統設計認知記憶機制，解決長期任務中的狀態保持問題，是理解 Agent 記憶架構的核心文章。</span>
+      </div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-num">★</div>
+      <div class="trend-text">
+        <strong>新：LlamaAgents Builder 文件（LlamaIndex）</strong>
+        <span>自然語言建立 Agent 的新工具，搭配 LlamaParse 的文件處理能力，是快速原型化文件 Agent 的最短路徑。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 9: Summary -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">📝</span> 今日摘要 Summary</div>
+    <div class="summary-box">
+      <p style="font-size:0.9rem; margin-bottom:0.8rem;">
+        <strong>今日（2026-04-02）AI Agent Workflows 領域的核心訊號：</strong>
+      </p>
+      <ul style="padding-left:1.2rem; font-size:0.88rem;">
+        <li><strong>LangChain × MongoDB</strong>：Agent 記憶基礎設施邁向托管化，企業採購門檻降低</li>
+        <li><strong>Anthropic × 澳洲政府</strong>：AI 安全外交策略延伸至亞太政府層級</li>
+        <li><strong>LlamaIndex 內容爆量</strong>：7 篇新內容，OCR + Agentic 文件處理知識體系加速完備</li>
+        <li><strong>CrewAI 靜默</strong>：16 天無更新，下一篇更新值得重點關注</li>
+      </ul>
+      <p style="font-size:0.85rem; color:#666; margin-top:0.8rem;">
+        整體判斷：Agent 基礎設施正在迅速「產品化」和「服務化」，開發者能在更短時間以更少程式碼建立生產級 Agent，行業進入加速落地階段。
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  AI Agent Workflows 日報 · 2026-04-02 · 爬取來源：langchain-blog, anthropic-news, llamaindex-blog, crewai-blog
+</div>
+
+</body>
+</html>

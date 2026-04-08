@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agent Workflows 日報 — 2026-04-08</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC', sans-serif;
+      background: #ffffff;
+      color: #1a1a2e;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    .header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
+      color: white;
+      padding: 40px 48px 32px;
+    }
+    .header .date-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 13px;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .header .subtitle {
+      opacity: 0.8;
+      font-size: 14px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 36px 24px;
+    }
+    .section {
+      margin-bottom: 36px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e3a5f;
+      border-left: 4px solid #2d6a9f;
+      padding-left: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .icon {
+      font-size: 16px;
+    }
+    .card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 14px;
+      border: 1px solid #e8ecf0;
+    }
+    .card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1e3a5f;
+      margin-bottom: 8px;
+    }
+    .card p {
+      color: #4a5568;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 18px 16px;
+      border: 1px solid #e8ecf0;
+      text-align: center;
+    }
+    .stat-card .num {
+      font-size: 32px;
+      font-weight: 800;
+      color: #2d6a9f;
+      display: block;
+    }
+    .stat-card .label {
+      font-size: 12px;
+      color: #718096;
+      margin-top: 4px;
+    }
+    .source-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .source-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge-langchain { background: #dbeafe; color: #1d4ed8; }
+    .badge-anthropic { background: #fef3c7; color: #92400e; }
+    .badge-llamaindex { background: #d1fae5; color: #065f46; }
+    .badge-crewai { background: #ede9fe; color: #4c1d95; }
+    .new-badge {
+      display: inline-block;
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .article-list {
+      list-style: none;
+      padding: 0;
+    }
+    .article-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #edf2f7;
+      font-size: 14px;
+      color: #2d3748;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .article-list li:last-child {
+      border-bottom: none;
+    }
+    .article-list li .meta {
+      font-size: 12px;
+      color: #718096;
+      margin-left: auto;
+      white-space: nowrap;
+      padding-left: 12px;
+    }
+    .trend-item {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      border-left: 3px solid #2d6a9f;
+    }
+    .trend-item h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e3a5f;
+      margin-bottom: 6px;
+    }
+    .trend-item p {
+      font-size: 13px;
+      color: #4a5568;
+      line-height: 1.6;
+    }
+    .highlight-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+    }
+    .highlight-box h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 6px;
+    }
+    .highlight-box p {
+      font-size: 13px;
+      color: #1e3a5f;
+      line-height: 1.6;
+    }
+    .warn-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+    }
+    .warn-box h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 6px;
+    }
+    .warn-box p {
+      font-size: 13px;
+      color: #78350f;
+      line-height: 1.6;
+    }
+    .tag {
+      display: inline-block;
+      background: #e2e8f0;
+      color: #4a5568;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      margin: 2px 2px;
+    }
+    .rec-list {
+      list-style: none;
+      padding: 0;
+      counter-reset: rec-counter;
+    }
+    .rec-list li {
+      counter-increment: rec-counter;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #e8ecf0;
+      font-size: 14px;
+      color: #2d3748;
+      position: relative;
+      padding-left: 44px;
+    }
+    .rec-list li::before {
+      content: counter(rec-counter);
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #2d6a9f;
+      color: white;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .glossary-item {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 14px 16px;
+      border: 1px solid #e8ecf0;
+    }
+    .glossary-item .term {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2d6a9f;
+      margin-bottom: 5px;
+    }
+    .glossary-item .def {
+      font-size: 13px;
+      color: #4a5568;
+      line-height: 1.5;
+    }
+    .learning-card {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+    }
+    .learning-card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #065f46;
+      margin-bottom: 6px;
+    }
+    .learning-card p {
+      font-size: 13px;
+      color: #1a3a2a;
+      line-height: 1.6;
+    }
+    .summary-box {
+      background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 24px 28px;
+    }
+    .summary-box p {
+      font-size: 14px;
+      color: #1e3a5f;
+      line-height: 1.75;
+      margin-bottom: 10px;
+    }
+    .summary-box p:last-child { margin-bottom: 0; }
+    .footer {
+      text-align: center;
+      padding: 24px;
+      color: #a0aec0;
+      font-size: 12px;
+      border-top: 1px solid #e8ecf0;
+      margin-top: 20px;
+    }
+    @media (max-width: 768px) {
+      .overview-grid { grid-template-columns: repeat(2, 1fr); }
+      .glossary-grid { grid-template-columns: 1fr; }
+      .header { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="date-badge">2026-04-08 · Tech Group</div>
+  <h1>AI Agent Workflows 日報</h1>
+  <div class="subtitle">監控來源：LangChain Blog · Anthropic News · LlamaIndex Blog · CrewAI Blog</div>
+</div>
+
+<div class="container">
+
+  <!-- 1. 今日總覽 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📊</span> 今日總覽</div>
+    <div class="overview-grid">
+      <div class="stat-card">
+        <span class="num">4</span>
+        <div class="label">監控來源</div>
+      </div>
+      <div class="stat-card">
+        <span class="num">4</span>
+        <div class="label">今日新文章</div>
+      </div>
+      <div class="stat-card">
+        <span class="num">2</span>
+        <div class="label">活躍來源</div>
+      </div>
+      <div class="stat-card">
+        <span class="num">9</span>
+        <div class="label">累計爬取次數</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>今日爬取摘要</h3>
+      <p>
+        本次爬取 4 個 AI Agent 生態系核心來源，共發現 <strong>4 篇新文章</strong>（LangChain 2 篇、Anthropic 2 篇）。
+        LlamaIndex 與 CrewAI 今日無新增內容。
+        最重要的訊號是 Anthropic 在基礎設施層的兩個重大佈局（Project Glasswing 安全計畫 + 多 GW 算力擴張）與 LangChain Deep Agents v0.5 版本迭代，
+        顯示 AI Agent 生態在「安全基礎設施」與「深層 Agent 能力」兩條軸線上同步推進。
+      </p>
+    </div>
+    <div class="card">
+      <h3>各來源狀態</h3>
+      <ul class="article-list">
+        <li>
+          <span class="source-badge badge-langchain">LangChain Blog</span>
+          <span>2 篇新文章<span class="new-badge">NEW</span></span>
+          <span class="meta">blog.langchain.com</span>
+        </li>
+        <li>
+          <span class="source-badge badge-anthropic">Anthropic News</span>
+          <span>2 篇新文章<span class="new-badge">NEW</span></span>
+          <span class="meta">anthropic.com/news</span>
+        </li>
+        <li>
+          <span class="source-badge badge-llamaindex">LlamaIndex Blog</span>
+          <span>無新增（同前次）</span>
+          <span class="meta">llamaindex.ai/blog</span>
+        </li>
+        <li>
+          <span class="source-badge badge-crewai">CrewAI Blog</span>
+          <span>無新增（最新：2026-03-17）</span>
+          <span class="meta">crewai.com/blog</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2. 趨勢觀察 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📈</span> 趨勢觀察</div>
+
+    <div class="trend-item">
+      <h4>趨勢一：Deep Agents 進入迭代加速期</h4>
+      <p>
+        LangChain Deep Agents v0.5 推出，帶來子代理（sub-agents）架構與多模態文件系統支援。
+        對比前幾週的 anatomy、middleware、skills 系列文章，Deep Agents 平台正從架構概念走向功能完備的產品形態，
+        迭代節奏加快是重要信號。
+      </p>
+    </div>
+
+    <div class="trend-item">
+      <h4>趨勢二：Anthropic 在基礎設施層大規模押注</h4>
+      <p>
+        Project Glasswing（4/7）聯合 AWS、Apple、Broadcom、Cisco 保護關鍵軟體安全；
+        同日 Google + Broadcom 算力合作達多 gigawatt 等級。
+        Anthropic 正從模型供應商向「AI 基礎設施生態協調者」角色轉型，
+        這種格局轉移對整個 Agent 生態有長期影響。
+      </p>
+    </div>
+
+    <div class="trend-item">
+      <h4>趨勢三：外部工具整合成為 Agent 平台標配</h4>
+      <p>
+        Arcade.dev 工具整合 LangSmith Fleet 的 Partner Post，反映 Agent 平台正在建立「工具市集」生態。
+        繼 MongoDB、Google Cloud、NVIDIA 之後，第三方工具提供商正加速接入 LangSmith 生態。
+      </p>
+    </div>
+
+    <div class="trend-item">
+      <h4>趨勢四：Agentic Document Processing 成為獨立賽道</h4>
+      <p>
+        LlamaIndex 持續鞏固其在 Agentic OCR 與文件處理領域的知識庫建設（12 篇深度系列），
+        將文件處理定位為「推理問題」而非「解析問題」。
+        這個賽道正在從 RAG 生態分離出來，形成獨立的技術方向。
+      </p>
+    </div>
+  </div>
+
+  <!-- 3. 重要更新 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🔔</span> 重要更新</div>
+
+    <div class="highlight-box">
+      <h4>🛡️ Project Glasswing — Anthropic 主導的關鍵軟體安全聯盟（2026-04-07）</h4>
+      <p>
+        Anthropic 聯合 AWS、Apple、Broadcom、Cisco 等科技巨頭發起 Project Glasswing，
+        目標是保護「全球最重要的軟體基礎設施」安全。
+        這是 Anthropic 首次主導多方科技聯盟，且聚焦安全而非模型能力，
+        顯示 AI 安全組織的戰略重心正在從研究轉向實際系統保護。
+      </p>
+    </div>
+
+    <div class="highlight-box">
+      <h4>⚡ Anthropic × Google × Broadcom — 多 GW 算力擴張（2026-04-06）</h4>
+      <p>
+        Anthropic 與 Google、Broadcom 擴大合作，取得多 gigawatt 等級次世代算力。
+        這個量級的算力等同於支撐數百個大型資料中心的能源消耗，
+        為 Anthropic 未來大規模模型訓練與 Agent 推論基礎設施奠定物質基礎。
+      </p>
+    </div>
+
+    <div class="highlight-box">
+      <h4>🤖 Deep Agents v0.5 — 子代理架構與多模態文件系統（2026-04-08）</h4>
+      <p>
+        LangChain Deep Agents 平台發布 v0.5，核心更新包含：新的子代理（sub-agents）架構，
+        允許主 Agent 動態創建並調度子任務；多模態文件系統支援，Agent 可直接處理圖像、PDF 等非文字資料。
+        這是 Deep Agents 平台最具實質功能意義的版本更新。
+      </p>
+    </div>
+
+    <div class="warn-box">
+      <h4>⚠️ Arcade.dev 整合 LangSmith Fleet — Partner Post 值得關注</h4>
+      <p>
+        Arcade.dev 工具現可在 LangSmith Fleet 中直接使用，作為 Partner Post 發布代表雙方有官方合作關係。
+        Arcade.dev 提供預建的 SaaS 工具連接器（Gmail、Slack、GitHub 等），
+        整合至 Fleet 後企業 Agent 可直接調用這些工具而無需自行開發連接層。
+      </p>
+    </div>
+  </div>
+
+  <!-- 4. 來源詳情 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📁</span> 來源詳情</div>
+
+    <!-- LangChain -->
+    <div class="card">
+      <div class="source-header">
+        <span class="source-badge badge-langchain">LangChain Blog</span>
+        <h3 style="margin:0">2 篇新文章 · 頁數增至 33 頁</h3>
+      </div>
+      <ul class="article-list">
+        <li>
+          <span>🆕 <strong>Deep Agents v0.5</strong> — 新子代理架構、多模態文件系統支援</span>
+          <span class="meta">Featured · 4 min</span>
+        </li>
+        <li>
+          <span>🆕 <strong>Arcade.dev tools now in LangSmith Fleet</strong> — 外部工具整合合作</span>
+          <span class="meta">Partner Post · 3 min</span>
+        </li>
+        <li>
+          <span>The Anatomy of an Agent Harness — Agent 框架解剖</span>
+          <span class="meta">Featured · 9 min</span>
+        </li>
+        <li>
+          <span>How we built LangChain's GTM Agent — GTM Agent 實作案例</span>
+          <span class="meta">Featured · 10 min</span>
+        </li>
+        <li>
+          <span>Evaluating Skills — Agent Skills 評估方法論</span>
+          <span class="meta">Featured · 7 min</span>
+        </li>
+        <li>
+          <span>Continual learning for AI agents — Agent 三層學習架構</span>
+          <span class="meta">Harrison's In the Loop · 4 min</span>
+        </li>
+        <li>
+          <span>How My Agents Self-Heal in Production — 生產環境自愈 Agent</span>
+          <span class="meta">Engineering · 6 min</span>
+        </li>
+      </ul>
+      <div style="margin-top:10px">
+        <span class="tag">LangGraph</span>
+        <span class="tag">LangSmith Fleet</span>
+        <span class="tag">Deep Agents</span>
+        <span class="tag">Agent Harness</span>
+        <span class="tag">Skills</span>
+        <span class="tag">Arcade.dev</span>
+      </div>
+    </div>
+
+    <!-- Anthropic -->
+    <div class="card">
+      <div class="source-header">
+        <span class="source-badge badge-anthropic">Anthropic News</span>
+        <h3 style="margin:0">2 篇新文章 · 連續兩日更新</h3>
+      </div>
+      <ul class="article-list">
+        <li>
+          <span>🆕 <strong>Project Glasswing</strong> — 多方聯合關鍵軟體安全計畫（AWS/Apple/Broadcom/Cisco）</span>
+          <span class="meta">2026-04-07</span>
+        </li>
+        <li>
+          <span>🆕 <strong>Anthropic expands partnership with Google and Broadcom</strong> — 多 GW 算力擴張</span>
+          <span class="meta">2026-04-06</span>
+        </li>
+        <li>
+          <span>Australian government and Anthropic sign MOU for AI safety and research</span>
+          <span class="meta">2026-03-31</span>
+        </li>
+        <li>
+          <span>What 81,000 people want from AI — 最大規模多語言 AI 使用研究</span>
+          <span class="meta">2026-03-18</span>
+        </li>
+        <li>
+          <span>Anthropic invests $100 million into the Claude Partner Network</span>
+          <span class="meta">2026-03-12</span>
+        </li>
+        <li>
+          <span>Introducing The Anthropic Institute — 獨立 AI 安全研究機構</span>
+          <span class="meta">2026-03-11</span>
+        </li>
+        <li>
+          <span>Anthropic acquires Vercept to advance Claude's computer use capabilities</span>
+          <span class="meta">2026-02-25</span>
+        </li>
+      </ul>
+      <div style="margin-top:10px">
+        <span class="tag">Project Glasswing</span>
+        <span class="tag">算力基礎設施</span>
+        <span class="tag">AI 安全</span>
+        <span class="tag">Claude Agent SDK</span>
+        <span class="tag">MCP</span>
+      </div>
+    </div>
+
+    <!-- LlamaIndex -->
+    <div class="card">
+      <div class="source-header">
+        <span class="source-badge badge-llamaindex">LlamaIndex Blog</span>
+        <h3 style="margin:0">無新文章 · Agentic OCR 深度系列持續</h3>
+      </div>
+      <ul class="article-list">
+        <li>
+          <span>AI Document Classification: A Practical Guide — 自動化分類與標籤</span>
+          <span class="meta">最新（無標示日期）</span>
+        </li>
+        <li>
+          <span>Agentic Document Processing: How AI Agents Are Automating Complex Workflows</span>
+          <span class="meta">系列文</span>
+        </li>
+        <li>
+          <span>What Is Agentic OCR? The Next Evolution of Intelligent Document Automation</span>
+          <span class="meta">系列文</span>
+        </li>
+        <li>
+          <span>OCR for Tables / Receipts / Images / Invoices / Accounts Payable（5 篇）</span>
+          <span class="meta">場景系列</span>
+        </li>
+        <li>
+          <span>Best OCR Libraries for Developers in 2026 / Building an OCR Pipeline（2026-04-01）</span>
+          <span class="meta">2026-04-01</span>
+        </li>
+        <li>
+          <span>LlamaIndex Newsletter 2026-03-31</span>
+          <span class="meta">2026-03-31</span>
+        </li>
+      </ul>
+      <div style="margin-top:10px">
+        <span class="tag">LlamaParse</span>
+        <span class="tag">Agentic OCR</span>
+        <span class="tag">LlamaExtract</span>
+        <span class="tag">LiteParse</span>
+        <span class="tag">Document Processing</span>
+      </div>
+    </div>
+
+    <!-- CrewAI -->
+    <div class="card">
+      <div class="source-header">
+        <span class="source-badge badge-crewai">CrewAI Blog</span>
+        <h3 style="margin:0">無新文章 · 最新：2026-03-17</h3>
+      </div>
+      <ul class="article-list">
+        <li>
+          <span>Orchestrating Self-Evolving Agents with CrewAI and NVIDIA NemoClaw（最新）</span>
+          <span class="meta">2026-03-17</span>
+        </li>
+        <li>
+          <span>How we built Cognitive Memory for Agentic Systems</span>
+          <span class="meta">2026-03-05</span>
+        </li>
+        <li>
+          <span>Lessons From 2 Billion Agentic Workflows — 生產規模設計原則</span>
+          <span class="meta">2026-01-24</span>
+        </li>
+        <li>
+          <span>The state of agentic AI in 2026（精選置頂）</span>
+          <span class="meta">2026-02-11</span>
+        </li>
+      </ul>
+      <div style="margin-top:10px">
+        <span class="tag">CrewAI AMP</span>
+        <span class="tag">Multi-Agent</span>
+        <span class="tag">NVIDIA NemoClaw</span>
+        <span class="tag">Cognitive Memory</span>
+        <span class="tag">OSS 1.0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 深度分析 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🔬</span> 深度分析</div>
+
+    <div class="card">
+      <h3>Anthropic 的雙軌戰略：安全主導 + 算力卡位</h3>
+      <p>
+        本週 Anthropic 的兩個動作放在一起讀更有意思：
+        Project Glasswing（安全計畫）+ 多 GW 算力擴張（基礎設施）——這是同一個戰略的兩面。
+        算力決定 Anthropic 未來能訓練多強的模型，而 Project Glasswing 則讓 Anthropic
+        在整個科技產業的安全治理中取得話語權。
+        當 AI Agent 被大規模部署到關鍵軟體系統後，誰主導安全標準就掌握了最重要的入場券。
+        Anthropic 正在同時卡住算力上游與安全話語權下游。
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>LangChain Deep Agents v0.5：從框架到平台的轉型節點</h3>
+      <p>
+        Deep Agents v0.5 的子代理架構是個重要里程碑。
+        傳統的 LangChain 是工具組合層，開發者自己決定 Agent 怎麼跑；
+        但 Deep Agents 的子代理架構意味著 LangChain 現在要管理「Agent 生產 Agent」的整個生命週期。
+        這讓 LangChain 從「AI 應用開發框架」升格為「Agent 部署與管理平台」，
+        與 CrewAI AMP 的競爭賽道更加重疊。
+        多模態文件系統支援則填補了現有 Agent 框架在非結構化資料處理上的短板，
+        配合 LlamaIndex 在 Agentic Document Processing 的布局，整個文件理解層正在快速成熟。
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>工具市集生態正在形成：Arcade.dev 案例解析</h3>
+      <p>
+        Arcade.dev 整合 LangSmith Fleet 的本質不是技術整合，而是商業模式整合。
+        Arcade.dev 提供的是「預建工具連接器」——這是一個工具供應商角色，
+        而 LangSmith Fleet 提供的是「Agent 執行與管理環境」。
+        當兩者合作時，形成的是「App Store 模式的 Agent 工具市集」：
+        開發者從 Fleet 的市集挑選工具，工具提供商在生態中銷售能力。
+        這個模式一旦成熟，LangSmith Fleet 的護城河將不只是技術而是生態網絡效應。
+      </p>
+    </div>
+  </div>
+
+  <!-- 6. 建議行動 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🎯</span> 建議行動</div>
+    <ol class="rec-list">
+      <li>
+        <strong>評估 Deep Agents v0.5 子代理架構</strong>：如果你的 Agent 系統有任務分解需求，
+        v0.5 的 sub-agents 架構值得立刻試驗。重點看子代理的生命週期管理與錯誤傳遞機制。
+      </li>
+      <li>
+        <strong>追蹤 Project Glasswing 的具體技術規格</strong>：Anthropic 主導的安全標準若形成行業共識，
+        後續 Agent 部署到關鍵系統時的合規要求可能以此為基準，提前了解有利於架構決策。
+      </li>
+      <li>
+        <strong>評估 Arcade.dev 是否適用於你的 Agent 工具層</strong>：
+        若你在 LangSmith Fleet 環境中開發，Arcade.dev 的預建 SaaS 連接器可節省大量整合工時，
+        重點確認它支援的 SaaS 工具清單是否涵蓋你的需求。
+      </li>
+      <li>
+        <strong>LlamaIndex 在 Agentic OCR 的定位值得長期關注</strong>：
+        其 12 篇深度系列雖是行銷內容，但整體框架呈現了 Agentic Document Processing 的完整技術圖景，
+        適合作為這個領域的入門知識地圖。
+      </li>
+      <li>
+        <strong>注意 Anthropic 算力擴張對模型更新節奏的影響</strong>：
+        多 GW 算力意味著更快的訓練週期，Claude 系列下一代模型（Opus/Sonnet）的更新可能提前。
+        關注 Claude 模型能力更新對你的 Agent 應用的影響。
+      </li>
+    </ol>
+  </div>
+
+  <!-- 7. 術語解釋 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📖</span> 術語解釋</div>
+    <div class="glossary-grid">
+      <div class="glossary-item">
+        <div class="term">Sub-agents（子代理）</div>
+        <div class="def">由主 Agent 動態創建並調度的子任務執行單元，具有獨立的工具存取權限與執行上下文，完成後將結果回傳主 Agent。</div>
+      </div>
+      <div class="glossary-item">
+        <div class="term">Project Glasswing</div>
+        <div class="def">Anthropic 主導、聯合 AWS/Apple/Broadcom/Cisco 的關鍵軟體安全計畫，目標是保護全球最重要的軟體基礎設施免受 AI 相關威脅。</div>
+      </div>
+      <div class="glossary-item">
+        <div class="term">Agent Harness</div>
+        <div class="def">LangChain 提出的 Agent 框架架構概念，包含三層：Anatomy（骨架）、Middleware（中間件）、Skills（技能）。是建構可維護 Agent 的結構化方法。</div>
+      </div>
+      <div class="glossary-item">
+        <div class="term">Agentic OCR</div>
+        <div class="def">LlamaIndex 定義的新一代文件處理範式，將 OCR 從純解析工作轉為 AI 推理任務，由 Agent 主動判斷文件結構並決定提取策略，準確率可達 90-95%+。</div>
+      </div>
+      <div class="glossary-item">
+        <div class="term">LangSmith Fleet</div>
+        <div class="def">LangChain 的企業 Agent 車隊管理平台，支援大規模部署、監控、Skills 共享與第三方工具市集整合。</div>
+      </div>
+      <div class="glossary-item">
+        <div class="term">NemoClaw（NVIDIA）</div>
+        <div class="def">NVIDIA 針對 Agent 推論最佳化的加速框架，CrewAI 整合後宣稱可帶來 100x 速度提升，主要透過推論批次化與記憶體最佳化實現。</div>
+      </div>
+      <div class="glossary-item">
+        <div class="term">Cognitive Memory</div>
+        <div class="def">CrewAI 提出的 Agentic 認知記憶架構，模擬人類短期/長期記憶機制，解決 Agent 在多輪對話與跨任務場景的上下文連貫性問題。</div>
+      </div>
+      <div class="glossary-item">
+        <div class="term">Gigawatt（GW）級算力</div>
+        <div class="def">等同於支撐數百個大型資料中心的電力規模。Anthropic 與 Google/Broadcom 合作取得的算力量級，用於支撐大規模 AI 模型訓練與推論。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. 學習重點 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🎓</span> 學習重點</div>
+
+    <div class="learning-card">
+      <h4>學習一：Sub-agent 架構的設計原則</h4>
+      <p>
+        Deep Agents v0.5 的子代理架構提出了一個重要的設計問題：
+        何時應該讓主 Agent 分裂出子代理，而不是直接處理任務？
+        核心判斷依據是任務的「獨立性」——如果子任務可以並行執行且結果互不依賴，
+        子代理架構才能發揮效益。強行用子代理處理串行依賴任務反而增加通訊開銷。
+      </p>
+    </div>
+
+    <div class="learning-card">
+      <h4>學習二：AI 安全從研究議題轉為工程議題</h4>
+      <p>
+        Project Glasswing 代表 AI 安全的一個重要轉折：從「學術研究安全風險」轉為「工程部署安全防護」。
+        對 Agent 開發者來說，這意味著未來的 Agent 部署清單中，
+        「安全合規性驗證」將成為與「功能正確性驗證」同等重要的要求。
+        現在開始建立安全測試框架比事後補救更有效率。
+      </p>
+    </div>
+
+    <div class="learning-card">
+      <h4>學習三：文件處理的「推理優先」思維轉換</h4>
+      <p>
+        LlamaIndex 的 Agentic OCR 框架核心洞察是：傳統 OCR 把文件處理視為解析問題（規則驅動），
+        Agentic OCR 把它視為推理問題（模型驅動）。
+        這個思維轉換適用於所有「非結構化資料處理」場景——
+        當資料格式複雜多變時，讓 Agent 推理如何提取往往比硬編碼規則更穩健。
+      </p>
+    </div>
+
+    <div class="learning-card">
+      <h4>學習四：生態平台的護城河來自網絡效應而非技術</h4>
+      <p>
+        Arcade.dev 整合 LangSmith Fleet 這個案例說明：
+        Agent 平台的競爭優勢不在於底層技術（都基於 LLM），而在於「誰的生態整合更豐富」。
+        工具提供商數量、預建整合品質、開發者社群規模才是決定性因素。
+        這與移動 App Store 的演化路徑高度相似，值得在架構選型時納入考量。
+      </p>
+    </div>
+  </div>
+
+  <!-- 9. 今日總結 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">✅</span> 今日總結</div>
+    <div class="summary-box">
+      <p>
+        <strong>2026-04-08 的 AI Agent 生態有兩條主線：</strong>
+        一是 Anthropic 在基礎設施層的戰略卡位（Project Glasswing 安全聯盟 + 多 GW 算力），
+        這標誌著 Anthropic 正從模型公司向 AI 基礎設施協調者轉型；
+        二是 LangChain Deep Agents v0.5 帶來的子代理架構，
+        Agent 平台從「幫你組合 LLM 呼叫」升格為「管理 Agent 生態系統」。
+      </p>
+      <p>
+        LlamaIndex 在 Agentic Document Processing 上繼續深耕但無新增，
+        CrewAI 自 3/17 後未有新文章——兩者可能都在醞釀下一個大更新。
+        CrewAI 2 Billion Workflows 里程碑後的沉寂，可能預示著平台層的重大版本即將發布。
+      </p>
+      <p>
+        整體而言，AI Agent 生態正在進入「基礎設施成熟化」階段：
+        算力、安全、工具市集、子代理管理等底層問題正在被系統性解決，
+        這意味著應用層的開發者可以在更穩固的地基上建構，
+        Agent 應用的工程可行性在 2026 下半年將顯著提升。
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  AI Agent Workflows 日報 · 2026-04-08 · 自動爬取生成 · 來源：LangChain / Anthropic / LlamaIndex / CrewAI
+</div>
+
+</body>
+</html>

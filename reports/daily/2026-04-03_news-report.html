@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Industry News Daily Report — 2026-04-03</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    /* ── Header ── */
+    .site-header {
+      background: #ffffff;
+      border-bottom: 3px solid #dc2626;
+      padding: 24px 40px 20px;
+    }
+    .site-header .label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #dc2626;
+      margin-bottom: 6px;
+    }
+    .site-header h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #111111;
+      line-height: 1.2;
+    }
+    .site-header .meta {
+      font-size: 13px;
+      color: #666666;
+      margin-top: 8px;
+    }
+    .site-header .meta span { margin-right: 20px; }
+    /* ── Nav ── */
+    nav {
+      background: #f8f9fa;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 0 40px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+    nav a {
+      display: block;
+      padding: 14px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #444444;
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    nav a:hover { color: #dc2626; border-bottom-color: #dc2626; }
+    /* ── Layout ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 40px 80px;
+    }
+    /* ── Section ── */
+    .section {
+      margin-bottom: 56px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #f1f1f1;
+    }
+    .section-number {
+      background: #dc2626;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #111111;
+    }
+    /* ── Cards ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 10px;
+      padding: 20px 22px;
+    }
+    .card.featured {
+      border-left: 4px solid #dc2626;
+      background: #fff5f5;
+    }
+    .card .source-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #e9ecef;
+      color: #555555;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    .card.featured .source-badge {
+      background: #fecaca;
+      color: #991b1b;
+    }
+    .card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111111;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .card p {
+      font-size: 13px;
+      color: #555555;
+      line-height: 1.6;
+    }
+    .card .tag {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #dc2626;
+      background: #fee2e2;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .card .author {
+      font-size: 12px;
+      color: #888888;
+      margin-top: 8px;
+    }
+    /* ── List style ── */
+    .story-list { list-style: none; }
+    .story-list li {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .story-list li .bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #dc2626;
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+    .story-list li .content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 4px;
+    }
+    .story-list li .content p {
+      font-size: 13px;
+      color: #555555;
+      line-height: 1.55;
+    }
+    .story-list li .content .meta-line {
+      font-size: 11px;
+      color: #999999;
+      margin-top: 5px;
+    }
+    /* ── Stat pills ── */
+    .stats-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-pill {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 12px 20px;
+      min-width: 160px;
+    }
+    .stat-pill .num {
+      font-size: 22px;
+      font-weight: 800;
+      color: #dc2626;
+      line-height: 1;
+    }
+    .stat-pill .lbl {
+      font-size: 11px;
+      color: #666666;
+      margin-top: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    /* ── Analysis block ── */
+    .analysis-block {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 10px;
+      padding: 28px 30px;
+      margin-bottom: 20px;
+    }
+    .analysis-block h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #111111;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .analysis-block h3 .icon {
+      width: 22px;
+      height: 22px;
+      background: #dc2626;
+      border-radius: 5px;
+      flex-shrink: 0;
+    }
+    .analysis-block p, .analysis-block li {
+      font-size: 14px;
+      color: #333333;
+      line-height: 1.7;
+    }
+    .analysis-block ul { list-style: none; padding: 0; }
+    .analysis-block ul li { padding-left: 18px; position: relative; margin-bottom: 8px; }
+    .analysis-block ul li::before { content: "→"; position: absolute; left: 0; color: #dc2626; font-weight: 700; }
+    /* ── Outlook table ── */
+    .outlook-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .outlook-item {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-top: 3px solid #dc2626;
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+    .outlook-item .timeframe {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #dc2626;
+      margin-bottom: 8px;
+    }
+    .outlook-item h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 6px;
+    }
+    .outlook-item p {
+      font-size: 13px;
+      color: #555555;
+      line-height: 1.55;
+    }
+    /* ── Source summary bar ── */
+    .sources-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin-bottom: 40px;
+    }
+    .source-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #333333;
+    }
+    .source-chip .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #dc2626;
+    }
+    .source-chip .status {
+      font-size: 10px;
+      font-weight: 600;
+      color: #888888;
+      background: #e9ecef;
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+    /* ── New badge ── */
+    .new-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #dc2626;
+      color: #ffffff;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid #e9ecef;
+      padding: 24px 40px;
+      font-size: 12px;
+      color: #999999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    footer strong { color: #555555; }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="label">Daily Intelligence Report · Group: News</div>
+  <h1>AI Industry News Daily Report</h1>
+  <div class="meta">
+    <span>📅 2026-04-03</span>
+    <span>Sources: The Verge · MIT Technology Review · TechCrunch · Ars Technica</span>
+    <span>Report #3</span>
+  </div>
+</header>
+
+<!-- Navigation -->
+<nav>
+  <a href="#headlines">Headlines</a>
+  <a href="#announcements">Announcements</a>
+  <a href="#funding">Funding &amp; Acquisitions</a>
+  <a href="#policy">Policy &amp; Regulation</a>
+  <a href="#research">Research</a>
+  <a href="#analysis">Analysis</a>
+  <a href="#outlook">Outlook</a>
+</nav>
+
+<div class="container">
+
+  <!-- Sources bar -->
+  <div class="sources-bar">
+    <div class="source-chip"><span class="dot"></span>The Verge<span class="status">Search Fallback</span></div>
+    <div class="source-chip"><span class="dot"></span>MIT Tech Review<span class="status">Search Fallback</span></div>
+    <div class="source-chip"><span class="dot"></span>TechCrunch<span class="status">Live Crawl</span></div>
+    <div class="source-chip"><span class="dot"></span>Ars Technica<span class="status">Search Fallback</span></div>
+  </div>
+
+  <!-- Key stats -->
+  <div class="stats-row">
+    <div class="stat-pill"><div class="num">$1.03B</div><div class="lbl">AMI Labs Seed Round</div></div>
+    <div class="stat-pill"><div class="num">$5.5B</div><div class="lbl">Microsoft Singapore</div></div>
+    <div class="stat-pill"><div class="num">512K+</div><div class="lbl">Lines of Code Leaked</div></div>
+    <div class="stat-pill"><div class="num">$122B</div><div class="lbl">OpenAI Valuation</div></div>
+    <div class="stat-pill"><div class="num">$600B</div><div class="lbl">Anthropic Implied Val.</div></div>
+    <div class="stat-pill"><div class="num">3</div><div class="lbl">New Microsoft AI Models</div></div>
+  </div>
+
+  <!-- ── Section 1: Headlines ── -->
+  <section class="section" id="headlines">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2>Headlines — Top Stories of the Day</h2>
+    </div>
+
+    <div class="card-grid">
+      <div class="card featured">
+        <div class="source-badge">Ars Technica / TechCrunch</div>
+        <h3>Anthropic Claude Code Source Code Leak: 512,000+ Lines Exposed</h3>
+        <p>A debug file accidentally shipped in a public npm package exposed the entire source code of Claude Code CLI, revealing unreleased features including persistent agents and a virtual assistant codenamed "Buddy." Anthropic issued thousands of DMCA takedowns on GitHub — which the company admits went too far.</p>
+        <span class="tag">Breaking</span>
+        <div class="author">Tim Fernholz · TechCrunch</div>
+      </div>
+
+      <div class="card featured">
+        <div class="source-badge">TechCrunch / Multiple</div>
+        <h3>Microsoft Launches Three New In-House AI Foundational Models</h3>
+        <p>MAI-Transcribe-1 (25-language speech-to-text), MAI-Voice-1, and MAI-Image-2 — built under Mustafa Suleyman at half the GPU cost of competing models. A clear signal that Microsoft is diversifying beyond its OpenAI dependency.</p>
+        <span class="tag">Product Launch</span>
+        <div class="author">Rebecca Szkutak · TechCrunch</div>
+      </div>
+
+      <div class="card featured">
+        <div class="source-badge">The Verge / Multiple</div>
+        <h3>Yann LeCun's AMI Labs Raises $1.03B Seed Round</h3>
+        <p>The largest seed round in European history. The Paris-based lab, backed by Nvidia and Temasek, is valued at $3.5B and building "world models" — an alternative architecture to LLMs targeting robotics, healthcare, and manufacturing.</p>
+        <span class="tag">Funding</span>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">TechCrunch</div>
+        <h3>Google Enables Prompt-Directed Avatars in Vids App</h3>
+        <p>Google's Vids app now lets users direct virtual presenters via text prompts using the new Veo 3.1 model. Free accounts get 10 videos/month (8 seconds each). Veo 3.1 Lite cuts compute costs by 50%.</p>
+        <span class="tag">Product Update</span>
+        <div class="author">Ivan Mehta · TechCrunch</div>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">The Verge</div>
+        <h3>White House Releases National AI Policy Framework</h3>
+        <p>The administration published a federal AI framework to pre-empt a patchwork of state laws. Key priorities: protecting children, preventing elder scams, securing the power grid. Notably opposes creating a centralized AI regulatory agency.</p>
+        <span class="tag">Policy</span>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">Multiple</div>
+        <h3>Anthropic Wins Pentagon Injunction</h3>
+        <p>A federal court granted Anthropic a preliminary injunction blocking the Department of Defense from labeling it a "supply chain risk." The court found the blacklisting likely constituted First Amendment retaliation against Anthropic's public AI safety stances.</p>
+        <span class="tag">Legal</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 2: Major Announcements ── -->
+  <section class="section" id="announcements">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2>Major Announcements</h2>
+    </div>
+
+    <ul class="story-list">
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>Microsoft MAI Model Suite <span class="new-badge">New</span></h4>
+          <p>Three specialized models released under Microsoft AI CEO Mustafa Suleyman: <strong>MAI-Transcribe-1</strong> (25-language speech recognition), <strong>MAI-Voice-1</strong> (voice synthesis), <strong>MAI-Image-2</strong> (image generation). Performance on par with state-of-the-art at half the GPU cost. Suleyman steps back from day-to-day Copilot ops to focus on frontier model research.</p>
+          <div class="meta-line">Source: TechCrunch, GeekWire · 2026-04-03</div>
+        </div>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>Google Veo 3.1 + TurboQuant Breakthrough <span class="new-badge">New</span></h4>
+          <p>Google shipped Veo 3.1 powering avatar control in Google Vids, plus announced <strong>TurboQuant</strong> — a model compression technique reducing memory usage by 6× and attention computation by 8× with no accuracy loss. Gemma 4 models (2B to 31B) also optimized for NVIDIA RTX PCs in partnership with NVIDIA.</p>
+          <div class="meta-line">Source: TechCrunch, NVIDIA · 2026-04-03</div>
+        </div>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>Salesforce: 30 New AI Features for Slack</h4>
+          <p>Salesforce announced 30 new AI-powered capabilities across Slack, affecting hundreds of millions of enterprise users. Signals full-scale AI integration of enterprise collaboration platforms.</p>
+          <div class="meta-line">Source: TechCrunch · Lucas Ropek · 2026-04-01</div>
+        </div>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>Meta Unveils MTIA 300/400/450/500 Custom AI Chip Family</h4>
+          <p>Meta announced four generations of in-house MTIA chips designed to handle recommendation algorithms through high-end generative AI inferencing. MTIA 450 and 500 targeted for mass data center deployment by end of 2027, as Meta seeks to reduce Nvidia dependence.</p>
+          <div class="meta-line">Source: The Verge, crescendo.ai · 2026-04-02</div>
+        </div>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>OpenAI Acquires Tech Media Network TBPN</h4>
+          <p>OpenAI acquired the Technology Business Programming Network, a daily tech talk show hosted by Jordi Hays and John Coogan. The move signals OpenAI's intent to build a proprietary communications and narrative platform for the AI era.</p>
+          <div class="meta-line">Source: openai.com · 2026-04-02</div>
+        </div>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>Atlassian Lays Off 1,600 (10%) to Pivot to AI</h4>
+          <p>Atlassian cut roughly 1,600 employees — 10% of its global workforce — to redirect resources toward AI development and enterprise sales. One of the clearest examples yet of AI-driven workforce restructuring at a major software company.</p>
+          <div class="meta-line">Source: The Verge, crescendo.ai · 2026-04-02</div>
+        </div>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>Ollama Adds MLX Backend for Apple Silicon</h4>
+          <p>Ars Technica reports Ollama's new MLX support dramatically improves local AI model inference on Apple M-series chips by leveraging unified memory architecture. Models like Alibaba's Qwen now run noticeably faster with lower latency.</p>
+          <div class="meta-line">Source: Ars Technica · 2026-04-02</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ── Section 3: Funding & Acquisitions ── -->
+  <section class="section" id="funding">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>Funding &amp; Acquisitions</h2>
+    </div>
+
+    <div class="card-grid">
+      <div class="card featured">
+        <div class="source-badge">Multiple</div>
+        <h3>AMI Labs — $1.03B Seed Round <span class="new-badge">New</span></h3>
+        <p>Yann LeCun's Paris-based startup closed the largest seed round in European history. Backed by Nvidia and Temasek, valued at $3.5B. Focus: "world models" as an alternative to LLMs for robotics, healthcare, manufacturing.</p>
+      </div>
+
+      <div class="card featured">
+        <div class="source-badge">Multiple</div>
+        <h3>Microsoft — $5.5B Singapore Investment <span class="new-badge">New</span></h3>
+        <p>Microsoft committed $5.5B over five years for cloud and AI infrastructure in Singapore. Every tertiary student gets a free 12-month Microsoft 365 Premium + Copilot subscription.</p>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">TechCrunch</div>
+        <h3>OpenAI — $3B Retail Investor Round ($122B Valuation)</h3>
+        <p>OpenAI completed the largest retail investor round in history, pushing its valuation to $122B. Secondary market investors are struggling to offload $600M in shares as demand rotates to Anthropic.</p>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">TechCrunch</div>
+        <h3>Cognichip — $60M Series A</h3>
+        <p>AI chip design startup using AI to design AI chips. Raised $60M to scale its recursive AI-driven hardware development process.</p>
+        <div class="author">Tim Fernholz · TechCrunch</div>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">TechCrunch</div>
+        <h3>Runway — $10M Fund + Builders Program</h3>
+        <p>AI video generation company Runway launched a $10M early-stage fund and a structured builders program to support ecosystem startups.</p>
+        <div class="author">Rebecca Bellan · TechCrunch</div>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">TechCrunch</div>
+        <h3>Rebellions AI Chip — $400M Pre-IPO</h3>
+        <p>Korean AI chip maker Rebellions raised $400M in a pre-IPO round, implying a valuation of $2.3B. Positions as a serious challenger in the Nvidia alternatives space.</p>
+        <div class="author">Lucas Ropek · TechCrunch</div>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">TechCrunch</div>
+        <h3>Starcloud — $170M Series A</h3>
+        <p>GPU cloud infrastructure startup Starcloud raised $170M Series A to expand AI compute capacity for enterprise customers.</p>
+        <div class="author">Tim Fernholz · TechCrunch</div>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">TechCrunch</div>
+        <h3>ScaleOps — $130M Series C</h3>
+        <p>Kubernetes cost optimization platform for AI workloads raised $130M as enterprises seek to control escalating AI infrastructure spending.</p>
+        <div class="author">Kate Park · TechCrunch</div>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">TechCrunch</div>
+        <h3>Mistral AI — €830M Debt Financing</h3>
+        <p>French AI lab Mistral secured €830M in structured debt financing, the largest European AI debt deal to date, to fund model training and expansion.</p>
+        <div class="author">Ivan Mehta · TechCrunch</div>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">TechCrunch</div>
+        <h3>Qodo — $70M Series Funding</h3>
+        <p>AI-powered code quality and testing platform raised $70M as enterprise demand for AI-assisted software quality assurance surges.</p>
+        <div class="author">Kate Park · TechCrunch</div>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">TechCrunch</div>
+        <h3>Nomadic — $8.4M Seed</h3>
+        <p>Autonomous vehicle data management startup raised $8.4M to build AI-powered data pipelines for AV training datasets.</p>
+        <div class="author">Tim Fernholz · TechCrunch</div>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">TechCrunch</div>
+        <h3>OpenAI Acquires TBPN Media Network</h3>
+        <p>OpenAI acquired tech talk show TBPN (hosted by Jordi Hays &amp; John Coogan) to build a proprietary AI industry communications platform.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 4: Policy & Regulation ── -->
+  <section class="section" id="policy">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>Policy &amp; Regulation</h2>
+    </div>
+
+    <ul class="story-list">
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>White House: National AI Policy Framework <span class="new-badge">New</span></h4>
+          <p>The U.S. executive branch published a national AI policy framework designed to preempt fragmented state-level AI laws. Priorities include child protection online, preventing AI-powered elder scams, and grid security as data centers consume increasing energy. The administration recommended <em>against</em> a centralized federal AI agency, favoring sector-specific oversight models.</p>
+          <div class="meta-line">Source: Faegre Drinker, KTS Law · 2026-04-02</div>
+        </div>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>Anthropic vs. Pentagon: Federal Injunction Granted <span class="new-badge">New</span></h4>
+          <p>A federal judge granted Anthropic a preliminary injunction blocking the U.S. Department of Defense from classifying it as a supply chain risk. The ruling found the government's blacklisting was likely unconstitutional retaliation against Anthropic's public positions on AI safety and military applications. A significant legal precedent for AI companies operating in national security contexts.</p>
+          <div class="meta-line">Source: LA Times, hsfkramer.com · 2026-04-02</div>
+        </div>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>Anthropic–Australia AI Safety MOU</h4>
+          <p>Anthropic CEO Dario Amodei signed a Memorandum of Understanding with Australia's Prime Minister establishing formal AI safety and research rules. Signals Anthropic's strategy of bilateral government partnerships to shape AI governance internationally.</p>
+          <div class="meta-line">Source: mediapost.com · 2026-04-02</div>
+        </div>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>Pentagon's Classified AI Training Data Programs</h4>
+          <p>MIT Technology Review reported (March 17) on how the U.S. military is utilizing classified datasets to train and fine-tune defense AI models. The programs are operating amid escalating AI sovereignty debates and geopolitical tensions.</p>
+          <div class="meta-line">Source: MIT Technology Review · 2026-03-17</div>
+        </div>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>Meet the New Tech Laws of 2026 — State AI Legislation Wave</h4>
+          <p>The Verge catalogued a wave of state-level AI legislation taking effect in 2026. The proliferation of conflicting state laws is cited as the primary driver behind the White House push for a federal preemption framework.</p>
+          <div class="meta-line">Source: The Verge · 2026-Q1</div>
+        </div>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="content">
+          <h4>Anthropic GitHub DMCA Mass Takedowns — Fallout</h4>
+          <p>Anthropic's attempt to remove leaked Claude Code source code from GitHub resulted in DMCA notices against thousands of repositories, including unrelated projects. The company acknowledged the takedowns were accidental in scope, triggering developer backlash and raising questions about AI company IP enforcement strategies.</p>
+          <div class="meta-line">Source: TechCrunch · Tim Fernholz · 2026-04-02</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ── Section 5: Research Breakthroughs ── -->
+  <section class="section" id="research">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>Research Breakthroughs</h2>
+    </div>
+
+    <div class="card-grid">
+      <div class="card featured">
+        <div class="source-badge">MIT Tech Review</div>
+        <h3>"AI MRI" — Interpretability as Breakthrough Technology</h3>
+        <p>MIT Technology Review named "AI MRI" — tools that visually map AI model internals — as one of its 10 Breakthrough Technologies of 2026. Labs at Anthropic, OpenAI, and Google DeepMind are developing circuit-mapping techniques to trace model reasoning, reducing hallucination and preventing malicious outputs before physical deployment. Critical for safe agentic AI in robotics and autonomous systems.</p>
+        <span class="tag">Interpretability</span>
+      </div>
+
+      <div class="card featured">
+        <div class="source-badge">Google / NVIDIA</div>
+        <h3>Google TurboQuant: 6× Memory, 8× Attention Reduction</h3>
+        <p>Google's TurboQuant compression technique achieves 6× memory reduction and 8× attention computation reduction with zero accuracy loss. Could fundamentally reshape AI infrastructure economics and enable significantly larger models on the same hardware.</p>
+        <span class="tag">Model Efficiency</span>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">MIT Tech Review / Multiple</div>
+        <h3>Yann LeCun: World Models vs. LLMs</h3>
+        <p>AMI Labs (LeCun's new venture) is betting that "world models" — architectures that learn how the physical world works — will outperform pure LLMs for embodied AI tasks in robotics, healthcare, and manufacturing. The $1.03B seed round is the largest validation of this architectural bet to date.</p>
+        <span class="tag">Architecture</span>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">Ars Technica</div>
+        <h3>Ollama MLX: Apple Silicon Local AI Acceleration</h3>
+        <p>New MLX backend in Ollama enables dramatically faster local AI inference on Apple M-series chips via unified memory architecture. Makes on-device, privacy-preserving AI workflows practical for complex models like Qwen.</p>
+        <span class="tag">Local AI</span>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">Ars Technica</div>
+        <h3>AI-Driven LIGO Astrophysics Analysis</h3>
+        <p>AI automated data analysis pipelines are being applied to LIGO gravitational wave detector data, accelerating black hole discovery research. Demonstrates AI's expanding role in computationally intensive scientific domains.</p>
+        <span class="tag">Science AI</span>
+      </div>
+
+      <div class="card">
+        <div class="source-badge">MIT Tech Review</div>
+        <h3>MIT Technology Review EmTech AI 2026: "From Pilots to Production"</h3>
+        <p>Upcoming conference (April 21–23, MIT campus) will address closing the gap between AI potential and enterprise deployment reliability. Focus areas: agentic AI workforce integration, LLM trust deficits, and bridging pilot-to-production gaps. Key signal of where the industry's intellectual focus is in Q2 2026.</p>
+        <span class="tag">Industry</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 6: Analysis ── -->
+  <section class="section" id="analysis">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>Analysis — What Today's News Means</h2>
+    </div>
+
+    <div class="analysis-block">
+      <h3><span class="icon"></span>The Platform War Enters a New Phase: Microsoft's Independence Signal</h3>
+      <p>Microsoft releasing three in-house AI models under Mustafa Suleyman is more significant than a product launch — it's a declaration of strategic independence from OpenAI. For years, Microsoft's AI story was essentially OpenAI's story. MAI models suggest Microsoft is building a parallel AI capability stack. Combined with the leadership restructuring (Suleyman stepping back from Copilot to focus on frontier research), Microsoft is openly positioning itself as an AI lab, not just an AI distributor. OpenAI shareholders on the secondary market struggling to offload $600M in shares — while Anthropic's implied valuation rockets toward $600B — tells the same story from a capital markets angle: the market is repricing AI market share expectations.</p>
+    </div>
+
+    <div class="analysis-block">
+      <h3><span class="icon"></span>Anthropic: Legal Win, Security Embarrassment, Same Day</h3>
+      <p>The juxtaposition is striking. Anthropic won a landmark First Amendment case against the Pentagon while simultaneously managing the fallout from the largest AI source code leak in history and a botched DMCA enforcement campaign that damaged developer relations. This is a company simultaneously winning in courts and losing in perception. The Claude Code leak — 512,000 lines revealing the "Buddy" assistant and persistent agent plans — is the most significant unintentional competitive intelligence disclosure the AI industry has seen. The broader implication: as AI companies build increasingly complex products, operational security failures will be routine, not exceptional.</p>
+    </div>
+
+    <div class="analysis-block">
+      <h3><span class="icon"></span>The Capital Concentration Problem Intensifies</h3>
+      <ul>
+        <li>Yann LeCun raises $1.03B before writing a single line of product code. European AI is finally competing for talent and capital at American scale.</li>
+        <li>OpenAI at $122B valuation, Anthropic implied at $600B — combined AI lab valuations now exceed the GDP of many G20 countries.</li>
+        <li>TechCrunch's funding density this week (Cognichip $60M, Starcloud $170M, ScaleOps $130M, Qodo $70M, Nomadic $8.4M, Runway $10M) suggests infrastructure and tooling are absorbing capital at rates comparable to the application layer.</li>
+        <li>Meta's natural gas consumption equivalent to all of South Dakota signals the physical resource bottleneck is real and growing faster than efficiency gains.</li>
+      </ul>
+    </div>
+
+    <div class="analysis-block">
+      <h3><span class="icon"></span>Policy: The Preemption Gambit and Its Risks</h3>
+      <p>The White House AI policy framework is strategically designed to prevent states from building divergent regulatory regimes — a playbook borrowed from financial services regulation. The recommendation against a centralized AI agency is notable: it suggests the administration prefers industry self-governance with sector-specific guardrails over a powerful independent regulator. The Anthropic Pentagon injunction adds a constitutional dimension: AI companies now have precedent that government retaliation against their public policy positions may violate the First Amendment. This will be tested extensively as AI defense contracts become more valuable.</p>
+    </div>
+
+    <div class="analysis-block">
+      <h3><span class="icon"></span>The Agentic AI Credibility Gap</h3>
+      <p>MIT Sloan researchers warning that agentic AI won't be enterprise-ready for five years, while simultaneously Salesforce ships 30 Slack AI features and Gartner reports enterprises are "rapidly moving toward" autonomous AI workflows — this tension is the defining friction point of 2026. The industry is selling agentic capability faster than it can deliver reliability. The "AI MRI" interpretability research being named a breakthrough technology is a direct acknowledgment that we cannot safely deploy autonomous AI systems without understanding their internal reasoning. The current deployment wave is betting that reliability can be engineered in production rather than established in research.</p>
+    </div>
+  </section>
+
+  <!-- ── Section 7: Outlook ── -->
+  <section class="section" id="outlook">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2>Outlook — What to Watch</h2>
+    </div>
+
+    <div class="outlook-grid">
+      <div class="outlook-item">
+        <div class="timeframe">This Week</div>
+        <h4>Anthropic's Response to Source Code Leak</h4>
+        <p>Anthropic will likely need to communicate formally to developers and enterprise customers about the implications of 512K lines of exposed code. Watch for security advisories, feature timeline disclosures, and whether "Buddy" assistant gets formally announced.</p>
+      </div>
+
+      <div class="outlook-item">
+        <div class="timeframe">This Week</div>
+        <h4>Microsoft MAI Model Developer Adoption</h4>
+        <p>Will MAI-Transcribe-1 attract developers away from OpenAI Whisper and competing speech APIs? Early API pricing and benchmark comparisons will determine whether this is a serious competitor or a positioning play.</p>
+      </div>
+
+      <div class="outlook-item">
+        <div class="timeframe">Next 2 Weeks</div>
+        <h4>White House AI Framework Legislative Response</h4>
+        <p>The framework explicitly calls on Congress to act. Watch for bill introductions in the Senate Commerce Committee and House Energy &amp; Commerce. AI lobbying intensity is at an all-time high.</p>
+      </div>
+
+      <div class="outlook-item">
+        <div class="timeframe">Next 2 Weeks</div>
+        <h4>OpenAI Compute Reallocation Impact</h4>
+        <p>With Sora officially discontinued and CFO Sarah Friar citing compute shortages, watch which other experimental products get quietly shelved. This is the first major signal that OpenAI's resource allocation is under meaningful constraint despite $122B in capital.</p>
+      </div>
+
+      <div class="outlook-item">
+        <div class="timeframe">April 21–23</div>
+        <h4>MIT EmTech AI 2026 Conference</h4>
+        <p>"From Pilots to Production" will bring together enterprise AI decision-makers. Expected announcements on AI deployment frameworks, reliability benchmarks, and agentic workforce tools. Likely to shape enterprise procurement decisions for H2 2026.</p>
+      </div>
+
+      <div class="outlook-item">
+        <div class="timeframe">Q2 2026</div>
+        <h4>AMI Labs: First Technical Publications</h4>
+        <p>With $1.03B raised and Yann LeCun's credibility behind it, AMI Labs' first papers or model releases will be closely scrutinized. The "world model" thesis needs technical evidence — the AI research community will not simply defer to LeCun's reputation.</p>
+      </div>
+
+      <div class="outlook-item">
+        <div class="timeframe">Q2 2026</div>
+        <h4>Anthropic Pentagon Case — Appeal</h4>
+        <p>The preliminary injunction will likely be challenged on appeal. The outcome could set lasting precedent for how AI companies can be classified in national security contexts, affecting every major lab with government ambitions.</p>
+      </div>
+
+      <div class="outlook-item">
+        <div class="timeframe">Q2 2026</div>
+        <h4>Energy Infrastructure Crunch</h4>
+        <p>Meta's natural gas consumption story is early. As more infrastructure investments (Microsoft Singapore $5.5B, Starcloud $170M) come online, expect energy grid capacity and environmental criticism to intensify — especially if nuclear SMR timelines slip.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div>
+    <strong>AI Industry News Daily Report</strong> — Generated 2026-04-03 |
+    Sources: The Verge, MIT Technology Review, TechCrunch, Ars Technica
+  </div>
+  <div>
+    Data from: Direct crawl (TechCrunch) + Gemini Search fallback (The Verge, MIT TR, Ars Technica)
+  </div>
+</footer>
+
+</body>
+</html>
