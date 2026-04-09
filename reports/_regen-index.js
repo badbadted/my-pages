@@ -20,6 +20,27 @@ if (!fs.existsSync(dailyDir)) {
   process.exit(1);
 }
 
+const pad2 = n => String(n).padStart(2, '0');
+
+// Rolling cleanup: keep daily-group reports for last 7 days only.
+// Weekly (opensource-report) is kept indefinitely — small volume.
+const DAILY_KEEP_DAYS = 7;
+const _today = new Date();
+const _cutoff = new Date(_today);
+_cutoff.setDate(_today.getDate() - DAILY_KEEP_DAYS);
+const cutoffStr = `${_cutoff.getFullYear()}-${pad2(_cutoff.getMonth() + 1)}-${pad2(_cutoff.getDate())}`;
+const dailyRollTypes = new Set(['daily-report', 'app-report', 'news-report', 'aiot-report']);
+let _removed = 0;
+for (const fn of fs.readdirSync(dailyDir)) {
+  const m = fn.match(/^(\d{4}-\d{2}-\d{2})_(.+)\.html$/);
+  if (!m) continue;
+  const [, d, t] = m;
+  if (dailyRollTypes.has(t) && d < cutoffStr) {
+    try { fs.unlinkSync(path.join(dailyDir, fn)); _removed++; } catch {}
+  }
+}
+if (_removed) console.log(`Rolling cleanup: removed ${_removed} reports older than ${cutoffStr}`);
+
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const files = fs.readdirSync(dailyDir)
