@@ -79,19 +79,19 @@ tr:nth-child(even){background:#fafaf9}
 </div>
 <span class="flow-arrow">→</span>
 <div style="display:flex;flex-direction:column;gap:6px;align-items:center">
-<div class="flow-box" style="background:#dbeafe">OpenClaw<br><span class="port">:18789</span></div>
-<div class="flow-box" style="background:#fef3c7">Voice Bridge<br><span class="port">:18790</span></div>
-<div class="flow-box" style="background:#d1fae5">Luna HTTPS<br><span class="port">:18796</span></div>
+<div class="flow-box" style="background:#dbeafe">OpenClaw</div>
+<div class="flow-box" style="background:#fef3c7">Voice Bridge</div>
+<div class="flow-box" style="background:#d1fae5">Luna HTTPS</div>
 </div>
 <span class="flow-arrow">→</span>
 <div class="flow-box" style="background:#fef3c7;border-color:#f59e0b;border-width:3px">
-<strong>Luna Server</strong><br><span class="port">:18797</span><br>
+<strong>Luna Server</strong><br>
 <span style="font-size:.65rem;color:#78716c">Gemini 2.5 Flash Lite<br>Function Calling</span>
 </div>
 <span class="flow-arrow">→</span>
 <div style="display:flex;flex-direction:column;gap:6px;align-items:center">
 <div class="flow-box">Voice Bridge<br><span style="font-size:.65rem;color:#78716c">執行設備控制</span></div>
-<div class="flow-box">SoVITS TTS<br><span class="port">:9880</span></div>
+<div class="flow-box">SoVITS TTS</div>
 </div>
 <span class="flow-arrow">→</span>
 <div style="display:flex;flex-direction:column;gap:6px;align-items:center">
@@ -104,20 +104,17 @@ tr:nth-child(even){background:#fafaf9}
 
 <!-- 2. 端口一覽 -->
 <section id="ports">
-<h2 class="section-title">2. 服務端口一覽</h2>
+<h2 class="section-title">2. 主要服務</h2>
 <div class="card">
-<table>
-<tr><th>服務</th><th>Port</th><th>綁定</th><th>說明</th></tr>
-<tr><td>OpenClaw Gateway</td><td class="port">18789</td><td>127.0.0.1</td><td>LINE webhook 接收、agent 調度</td></tr>
-<tr><td>Voice Bridge HTTP</td><td class="port">18790</td><td>0.0.0.0</td><td>語音/設備控制 API</td></tr>
-<tr><td>Voice Bridge HTTPS</td><td class="port">18793</td><td>0.0.0.0</td><td>Web 前端存取</td></tr>
-<tr><td>Luna Server HTTPS</td><td class="port">18796</td><td>0.0.0.0</td><td>網頁 Chat（SSE 串流）</td></tr>
-<tr><td>Luna Server HTTP</td><td class="port">18797</td><td>127.0.0.1</td><td>內部 API（OpenClaw / VB 呼叫）</td></tr>
-<tr><td>ReSpeaker Listener</td><td class="port">18810</td><td>0.0.0.0</td><td>喚醒詞控制 + 按鈕觸發</td></tr>
-<tr><td>Home Assistant</td><td class="port">8123</td><td>0.0.0.0</td><td>設備控制（OrbStack VM）</td></tr>
-<tr><td>SoVITS TTS</td><td class="port">9880</td><td>127.0.0.1</td><td>文字轉語音（Docker）</td></tr>
-<tr><td>Mosquitto MQTT</td><td class="port">1883</td><td>—</td><td>Zigbee2MQTT 通訊</td></tr>
-</table>
+<ul style="line-height:1.9;padding-left:20px">
+<li>OpenClaw Gateway — LINE webhook 接收、agent 調度</li>
+<li>Voice Bridge — 語音/設備控制 API、Web 前端存取</li>
+<li>Luna Server — 網頁 Chat（SSE 串流）、內部 API</li>
+<li>ReSpeaker Listener — 喚醒詞控制 + 按鈕觸發</li>
+<li>Home Assistant（OrbStack VM）— 設備控制</li>
+<li>SoVITS TTS（Docker）— 文字轉語音</li>
+<li>Mosquitto MQTT — Zigbee2MQTT 通訊</li>
+</ul>
 </div>
 </section>
 
@@ -128,11 +125,11 @@ tr:nth-child(even){background:#fafaf9}
 <div class="flow-row">
 <div class="flow-box" style="border-color:#06c755"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%2306C755'/%3E%3C/svg%3E" style="vertical-align:middle" alt=""> LINE<br><span style="font-size:.65rem;color:#78716c">用戶傳訊 / @露娜</span></div>
 <span class="flow-arrow">→</span>
-<div class="flow-box">Cloudflare Tunnel<br><span style="font-size:.65rem;color:#78716c">bot.pushbike-training.app</span></div>
+<div class="flow-box">Cloudflare Tunnel<br><span style="font-size:.65rem;color:#78716c">&lt;tunnel-host&gt;</span></div>
 <span class="flow-arrow">→</span>
-<div class="flow-box" style="background:#dbeafe">OpenClaw<br><span class="port">:18789</span><br><span style="font-size:.65rem;color:#78716c">六層資安 + 路由</span></div>
+<div class="flow-box" style="background:#dbeafe">OpenClaw<br><span style="font-size:.65rem;color:#78716c">六層資安 + 路由</span></div>
 <span class="flow-arrow">→</span>
-<div class="flow-box" style="background:#fef3c7">Luna Server<br><span class="port">:18797</span><br><span style="font-size:.65rem;color:#78716c">/v1/chat/completions</span></div>
+<div class="flow-box" style="background:#fef3c7">Luna Server<br><span style="font-size:.65rem;color:#78716c">/v1/chat/completions</span></div>
 </div>
 <div class="flow-row">
 <div class="flow-box" style="background:#fef3c7">Gemini FC<br><span style="font-size:.65rem;color:#78716c">意圖理解 + Tool Use</span></div>
@@ -211,7 +208,7 @@ tr:nth-child(even){background:#fafaf9}
 <h2 class="section-title">5. 網頁 Chat 流程</h2>
 <div class="card">
 <div class="flow-row">
-<div class="flow-box" style="border-color:#10b981">瀏覽器<br><span style="font-size:.65rem;color:#78716c">https://:18796</span></div>
+<div class="flow-box" style="border-color:#10b981">瀏覽器<br><span style="font-size:.65rem;color:#78716c">HTTPS</span></div>
 <span class="flow-arrow">→</span>
 <div class="flow-box">POST /api/chat<br><span style="font-size:.65rem;color:#78716c">SSE 串流</span></div>
 <span class="flow-arrow">→</span>
@@ -290,7 +287,7 @@ tr:nth-child(even){background:#fafaf9}
 <span class="flow-arrow">→</span>
 <div class="flow-box">clean_for_tts()<br><span style="font-size:.65rem;color:#78716c">移除 Markdown</span></div>
 <span class="flow-arrow">→</span>
-<div class="flow-box" style="background:#e0e7ff">SoVITS TTS<br><span class="port">:9880</span><br><span style="font-size:.65rem;color:#78716c">嘉嵐語音合成</span></div>
+<div class="flow-box" style="background:#e0e7ff">SoVITS TTS<br><span style="font-size:.65rem;color:#78716c">嘉嵐語音合成</span></div>
 <span class="flow-arrow">→</span>
 <div class="flow-box">ffmpeg<br><span style="font-size:.65rem;color:#78716c">音量 ×3.0</span></div>
 <span class="flow-arrow">→</span>
