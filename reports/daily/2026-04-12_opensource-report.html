@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開源 AI 週報 2026-04-12</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --accent: #3b82f6;
+    --accent-light: #eff6ff;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --orange: #f59e0b;
+    --orange-light: #fffbeb;
+    --red: #ef4444;
+    --red-light: #fef2f2;
+    --purple: #8b5cf6;
+    --purple-light: #f5f3ff;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--t1);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .header {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: white;
+    padding: 48px 40px 36px;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .header p { color: rgba(255,255,255,0.7); font-size: 14px; }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .meta-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.1);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+  /* Overview Cards */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .ov-card {
+    background: var(--s1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .ov-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .ov-label { color: var(--t2); font-size: 12px; margin-top: 4px; }
+  /* Section */
+  .section { margin-bottom: 48px; }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--t1);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  /* Repo cards */
+  .repo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+  .repo-card {
+    background: var(--s1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: border-color 0.2s;
+  }
+  .repo-card:hover { border-color: var(--accent); }
+  .repo-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+  .repo-name { font-weight: 700; font-size: 13px; color: var(--accent); word-break: break-all; }
+  .star-badge {
+    display: flex; align-items: center; gap: 4px;
+    background: var(--orange-light);
+    color: var(--orange);
+    border: 1px solid #fcd34d;
+    border-radius: 8px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .repo-desc { font-size: 12px; color: var(--t2); line-height: 1.5; margin-bottom: 8px; }
+  .repo-footer { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    background: var(--s2);
+    color: var(--t2);
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .tag.new { background: var(--green-light); color: var(--green); }
+  .tag.hot { background: var(--red-light); color: var(--red); }
+  /* Model table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    background: var(--s1);
+    color: var(--t2);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:hover td { background: var(--s1); }
+  .rank-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 12px;
+  }
+  .rank-1 { background: #fef3c7; color: #d97706; }
+  .rank-2 { background: #f1f5f9; color: #64748b; }
+  .rank-3 { background: #fef2f2; color: #ef4444; }
+  .rank-n { background: var(--s2); color: var(--t2); }
+  .model-name { font-weight: 600; font-size: 12px; color: var(--t1); }
+  .model-org { font-size: 11px; color: var(--t2); }
+  .task-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .task-gen { background: var(--accent-light); color: var(--accent); }
+  .task-mm { background: var(--purple-light); color: var(--purple); }
+  .task-tts { background: var(--green-light); color: var(--green); }
+  .task-vid { background: var(--orange-light); color: var(--orange); }
+  .task-any { background: #fdf4ff; color: #a21caf; }
+  /* Paper cards */
+  .paper-list { display: flex; flex-direction: column; gap: 12px; }
+  .paper-card {
+    background: var(--s1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    gap: 14px;
+  }
+  .paper-vote {
+    flex-shrink: 0;
+    width: 52px;
+    text-align: center;
+  }
+  .vote-num {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .vote-label { font-size: 10px; color: var(--t2); }
+  .paper-body { flex: 1; min-width: 0; }
+  .paper-title { font-weight: 700; font-size: 13px; color: var(--t1); margin-bottom: 4px; }
+  .paper-meta { font-size: 11px; color: var(--t2); margin-bottom: 6px; }
+  .paper-desc { font-size: 12px; color: var(--t2); line-height: 1.5; }
+  /* Space grid */
+  .space-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
+  .space-card {
+    background: var(--s1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+  }
+  .space-creator { font-size: 10px; color: var(--t2); margin-bottom: 2px; }
+  .space-name { font-weight: 700; font-size: 13px; color: var(--t1); margin-bottom: 6px; }
+  .space-desc { font-size: 11px; color: var(--t2); line-height: 1.5; }
+  /* Highlights */
+  .highlight-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+  .highlight-card {
+    border-radius: 12px;
+    padding: 18px;
+    border: 1px solid transparent;
+  }
+  .hl-blue { background: var(--accent-light); border-color: #bfdbfe; }
+  .hl-green { background: var(--green-light); border-color: #a7f3d0; }
+  .hl-orange { background: var(--orange-light); border-color: #fcd34d; }
+  .hl-purple { background: var(--purple-light); border-color: #ddd6fe; }
+  .hl-red { background: var(--red-light); border-color: #fecaca; }
+  .highlight-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .highlight-card p { font-size: 12px; color: var(--t2); line-height: 1.6; }
+  /* Recommendations */
+  .rec-list { display: flex; flex-direction: column; gap: 10px; }
+  .rec-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--s1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .rec-num {
+    width: 28px; height: 28px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .rec-text { flex: 1; }
+  .rec-text strong { font-size: 13px; }
+  .rec-text p { font-size: 12px; color: var(--t2); margin-top: 2px; line-height: 1.5; }
+  /* Summary */
+  .summary-box {
+    background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .summary-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: var(--accent); }
+  .summary-box ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .summary-box li {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .summary-box li::before { content: "→"; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+  /* Diff badge */
+  .diff-new { color: var(--green); font-weight: 700; font-size: 11px; }
+  .diff-drop { color: var(--red); font-weight: 700; font-size: 11px; }
+  /* arxiv section */
+  .arxiv-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 768px) { .arxiv-2col { grid-template-columns: 1fr; } }
+  .arxiv-panel {
+    background: var(--s1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .arxiv-panel h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--t2);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .arxiv-item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .arxiv-item:last-child { border-bottom: none; }
+  .arxiv-title { font-size: 12px; font-weight: 600; color: var(--t1); margin-bottom: 2px; }
+  .arxiv-meta { font-size: 11px; color: var(--t2); }
+  /* Footer */
+  .footer {
+    background: var(--s1);
+    border-top: 1px solid var(--border);
+    padding: 20px 40px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--t2);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="badge">開源 AI 週報</div>
+    <h1>開源 AI 動態報告</h1>
+    <p>涵蓋 GitHub Trending、HuggingFace 模型/Spaces、熱門論文、arXiv 最新研究</p>
+    <div class="header-meta">
+      <div class="meta-chip">📅 2026-04-12</div>
+      <div class="meta-chip">📡 6 個資料來源</div>
+      <div class="meta-chip">🔄 上次爬取：2026-04-05</div>
+      <div class="meta-chip">⏱ 週期：每 7 天</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Overview -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:#eff6ff;">📊</div>
+      本週概覽
+    </div>
+    <div class="overview-grid">
+      <div class="ov-card">
+        <div class="ov-num">14</div>
+        <div class="ov-label">熱門 GitHub 專案</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-num">15</div>
+        <div class="ov-label">熱門 HuggingFace 模型</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-num">16</div>
+        <div class="ov-label">熱門 HF Spaces</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-num" style="color:var(--purple)">15</div>
+        <div class="ov-label">HF 熱門論文</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-num" style="color:var(--green)">30</div>
+        <div class="ov-label">arXiv 新論文追蹤</div>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <h3>本週三大主線</h3>
+      <ul>
+        <li><strong>GLM-5 + Gemma-4 生態爆發：</strong>Zhipu AI 754B GLM-5.1 登頂 HF 模型榜，Google Gemma-4 派生出 6 款量化/微調版本同時在榜，開源大模型生態化正在加速</li>
+        <li><strong>具身 AI 與機器人浮出水面：</strong>騰訊 HY-Embodied-0.5、LeRobot 疊衣機器人 Space、TRELLIS.2 3D 生成三者同週入榜，embodied AI 從論文走向可互動展示</li>
+        <li><strong>推論效率成研究共識：</strong>TriAttention（NVIDIA）、KV Cache 卸載、TTVS 測試時計算在 HF Papers + arXiv 跨榜出現，本週業界對「長上下文效率」形成研究共識</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GitHub Trending Repos -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:#f0fdf4;">🐙</div>
+      熱門 GitHub 開源專案（Python，週排行）
+    </div>
+    <div class="repo-grid">
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">NousResearch/hermes-agent</div>
+          <div class="star-badge">⭐ 58,043</div>
+        </div>
+        <div class="repo-desc">隨你成長的 AI 代理框架，本週單週暴增 +26,783 stars，為全榜最高成長幅度</div>
+        <div class="repo-footer">
+          <span class="tag hot">🔥 週增+26,783</span>
+          <span class="tag">Agent Framework</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">microsoft/markitdown</div>
+          <div class="star-badge">⭐ 101,777</div>
+        </div>
+        <div class="repo-desc">Python 工具：將各類檔案與 Office 文件轉為 Markdown，本週突破 10 萬星里程碑</div>
+        <div class="repo-footer">
+          <span class="tag hot">💯 破十萬星</span>
+          <span class="tag">Document</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">luongnv89/claude-howto</div>
+          <div class="star-badge">⭐ 25,143</div>
+        </div>
+        <div class="repo-desc">Claude Code 視覺化教學指南，涵蓋基礎到進階 Agent 範本，週增 +7,215</div>
+        <div class="repo-footer">
+          <span class="tag">Claude Tooling</span>
+          <span class="tag">教學資源</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">HKUDS/DeepTutor</div>
+          <div class="star-badge">⭐ 16,619</div>
+        </div>
+        <div class="repo-desc">Agent-Native 個人化學習助理，香港大學出品，本週以 +4,698 強勢入榜首位</div>
+        <div class="repo-footer">
+          <span class="tag new">🆕 新入榜</span>
+          <span class="tag">Education AI</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">onyx-dot-app/onyx</div>
+          <div class="star-badge">⭐ 26,563</div>
+        </div>
+        <div class="repo-desc">支援所有 LLM 的開源 AI 聊天平台，高級功能齊全，週增 +3,804 持續穩健</div>
+        <div class="repo-footer">
+          <span class="tag">AI Platform</span>
+          <span class="tag">Open Source</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">NVIDIA/personaplex</div>
+          <div class="star-badge">⭐ 9,001</div>
+        </div>
+        <div class="repo-desc">NVIDIA 釋出的 Persona-based AI 個性化系統，週增 +2,939</div>
+        <div class="repo-footer">
+          <span class="tag new">🆕 新入榜</span>
+          <span class="tag">Persona AI</span>
+          <span class="tag">NVIDIA</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">google-research/timesfm</div>
+          <div class="star-badge">⭐ 16,363</div>
+        </div>
+        <div class="repo-desc">Google 預訓練時間序列基礎模型，用於未來預測，週增 +2,481 連續在榜</div>
+        <div class="repo-footer">
+          <span class="tag">Time Series</span>
+          <span class="tag">Google</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">HKUDS/AI-Trader</div>
+          <div class="star-badge">⭐ 13,095</div>
+        </div>
+        <div class="repo-desc">100% 全自動 Agent-Native 量化交易系統，與 DeepTutor 同為 HKUDS 本週雙榜</div>
+        <div class="repo-footer">
+          <span class="tag new">🆕 新入榜</span>
+          <span class="tag">Trading</span>
+          <span class="tag">Agent</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">microsoft/agent-framework</div>
+          <div class="star-badge">⭐ 9,326</div>
+        </div>
+        <div class="repo-desc">企業級 AI 代理多工編排框架，支援 Python 與 .NET，週增 +845</div>
+        <div class="repo-footer">
+          <span class="tag new">🆕 新入榜</span>
+          <span class="tag">Microsoft</span>
+          <span class="tag">Enterprise</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">Blaizzy/mlx-vlm</div>
+          <div class="star-badge">⭐ 4,279</div>
+        </div>
+        <div class="repo-desc">在 Mac 上使用 MLX 推論與微調視覺語言模型的套件，Apple Silicon 生態成長</div>
+        <div class="repo-footer">
+          <span class="tag new">🆕 新入榜</span>
+          <span class="tag">MLX</span>
+          <span class="tag">Apple Silicon</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">TheCraigHewitt/seomachine</div>
+          <div class="star-badge">⭐ 5,650</div>
+        </div>
+        <div class="repo-desc">專為 SEO 最佳化部落格內容設計的 Claude workspace，週增 +2,526</div>
+        <div class="repo-footer">
+          <span class="tag new">🆕 新入榜</span>
+          <span class="tag">SEO</span>
+          <span class="tag">Claude</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">google-deepmind/gemma</div>
+          <div class="star-badge">⭐ 4,760</div>
+        </div>
+        <div class="repo-desc">Gemma 開放權重 LLM 官方 Python 函式庫，因 Gemma-4 發布帶動新關注</div>
+        <div class="repo-footer">
+          <span class="tag">Google DeepMind</span>
+          <span class="tag">Gemma-4</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">punitarani/fli</div>
+          <div class="star-badge">⭐ 1,785</div>
+        </div>
+        <div class="repo-desc">Google Flights MCP 整合 + Python 函式庫，MCP 應用垂直化延伸</div>
+        <div class="repo-footer">
+          <span class="tag new">🆕 新入榜</span>
+          <span class="tag">MCP</span>
+          <span class="tag">Travel</span>
+        </div>
+      </div>
+
+      <div class="repo-card">
+        <div class="repo-top">
+          <div class="repo-name">MervinPraison/PraisonAI</div>
+          <div class="star-badge">⭐ 6,900</div>
+        </div>
+        <div class="repo-desc">無需樣板程式碼的自主代理快速部署框架，24/7 AI Workforce 概念</div>
+        <div class="repo-footer">
+          <span class="tag new">🆕 新入榜</span>
+          <span class="tag">Agent Deploy</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- New Models -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:#f5f3ff;">🤗</div>
+      HuggingFace 熱門模型
+    </div>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>模型</th>
+          <th>機構</th>
+          <th>任務類型</th>
+          <th>下載量</th>
+          <th>動態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="rank-num rank-1">1</span></td>
+          <td>
+            <div class="model-name">GLM-5.1</div>
+            <div class="model-org">zai-org（Zhipu AI）</div>
+          </td>
+          <td>Zhipu AI</td>
+          <td><span class="task-pill task-gen">Text Generation</span></td>
+          <td>24k</td>
+          <td><span class="diff-new">🆕 新入榜</span><br><small>754B 參數巨模型</small></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-2">2</span></td>
+          <td>
+            <div class="model-name">Gemma-4-31B-JANG_4M-CRACK</div>
+            <div class="model-org">dealignai</div>
+          </td>
+          <td>社群微調</td>
+          <td><span class="task-pill task-mm">Image-Text-to-Text</span></td>
+          <td>89.8k</td>
+          <td><span class="diff-new">🆕 新入榜</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-3">3</span></td>
+          <td>
+            <div class="model-name">gemma-4-31B-it</div>
+            <div class="model-org">google</div>
+          </td>
+          <td>Google DeepMind</td>
+          <td><span class="task-pill task-mm">Image-Text-to-Text</span></td>
+          <td>2.03M</td>
+          <td>持續高榜</td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">4</span></td>
+          <td>
+            <div class="model-name">VoxCPM2</div>
+            <div class="model-org">openbmb</div>
+          </td>
+          <td>openbmb</td>
+          <td><span class="task-pill task-tts">Text-to-Speech</span></td>
+          <td>5.72k</td>
+          <td><span class="diff-new">🆕 新入榜</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">5</span></td>
+          <td>
+            <div class="model-name">void-model</div>
+            <div class="model-org">netflix</div>
+          </td>
+          <td>Netflix</td>
+          <td><span class="task-pill task-vid">Video-to-Video</span></td>
+          <td>755</td>
+          <td>持續在榜</td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">6</span></td>
+          <td>
+            <div class="model-name">OmniVoice</div>
+            <div class="model-org">k2-fsa</div>
+          </td>
+          <td>k2-fsa</td>
+          <td><span class="task-pill task-tts">Text-to-Speech</span></td>
+          <td>340k</td>
+          <td><span class="diff-new">🆕 新入榜</span><br><small>600+ 語言</small></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">7</span></td>
+          <td>
+            <div class="model-name">Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled</div>
+            <div class="model-org">Jackrong</div>
+          </td>
+          <td>社群蒸餾</td>
+          <td><span class="task-pill task-mm">Image-Text-to-Text</span></td>
+          <td>567k</td>
+          <td>連續在榜</td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">8</span></td>
+          <td>
+            <div class="model-name">gemma-4-E4B-it</div>
+            <div class="model-org">google</div>
+          </td>
+          <td>Google DeepMind</td>
+          <td><span class="task-pill task-any">Any-to-Any</span></td>
+          <td>1.14M</td>
+          <td>持續高榜</td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">9</span></td>
+          <td>
+            <div class="model-name">gemma-4-26B-A4B-it</div>
+            <div class="model-org">google</div>
+          </td>
+          <td>Google DeepMind</td>
+          <td><span class="task-pill task-mm">Image-Text-to-Text</span></td>
+          <td>1.52M</td>
+          <td>持續高榜（MoE）</td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">10</span></td>
+          <td>
+            <div class="model-name">Qianfan-OCR</div>
+            <div class="model-org">baidu</div>
+          </td>
+          <td>百度</td>
+          <td><span class="task-pill task-mm">Image-Text-to-Text</span></td>
+          <td>44.4k</td>
+          <td>持續在榜</td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">11</span></td>
+          <td>
+            <div class="model-name">gemma-4-26B-A4B-it-GGUF</div>
+            <div class="model-org">unsloth</div>
+          </td>
+          <td>unsloth</td>
+          <td><span class="task-pill task-mm">Image-Text-to-Text</span></td>
+          <td>1.52M</td>
+          <td><span class="diff-new">🆕 新入榜</span><br><small>量化版</small></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">12</span></td>
+          <td>
+            <div class="model-name">Gemma-4-31B-IT-NVFP4</div>
+            <div class="model-org">nvidia</div>
+          </td>
+          <td>NVIDIA</td>
+          <td><span class="task-pill task-gen">Text Generation</span></td>
+          <td>566k</td>
+          <td><span class="diff-new">🆕 新入榜</span><br><small>NVIDIA 量化</small></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">13</span></td>
+          <td>
+            <div class="model-name">Gemma-4-E4B-Uncensored</div>
+            <div class="model-org">HauhauCS</div>
+          </td>
+          <td>社群去限制版</td>
+          <td><span class="task-pill task-mm">Image-Text-to-Text</span></td>
+          <td>373k</td>
+          <td><span class="diff-new">🆕 新入榜</span></td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">14</span></td>
+          <td>
+            <div class="model-name">gemma-4-E2B-it</div>
+            <div class="model-org">google</div>
+          </td>
+          <td>Google DeepMind</td>
+          <td><span class="task-pill task-any">Any-to-Any</span></td>
+          <td>775k</td>
+          <td>持續在榜</td>
+        </tr>
+        <tr>
+          <td><span class="rank-num rank-n">15</span></td>
+          <td>
+            <div class="model-name">Bonsai-8B-gguf</div>
+            <div class="model-org">prism-ml</div>
+          </td>
+          <td>prism-ml</td>
+          <td><span class="task-pill task-gen">Text Generation</span></td>
+          <td>71.7k</td>
+          <td>持續在榜</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- Hot Papers -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:#fef3c7;">📄</div>
+      熱門論文（HuggingFace Papers Trending）
+    </div>
+    <div class="paper-list">
+
+      <div class="paper-card">
+        <div class="paper-vote">
+          <div class="vote-num">224</div>
+          <div class="vote-label">upvotes</div>
+        </div>
+        <div class="paper-body">
+          <div class="paper-title">Video-MME-v2: Towards the Next Stage in Benchmarks for Comprehensive Video Understanding</div>
+          <div class="paper-meta">MME-Benchmarks &nbsp;|&nbsp; <span class="diff-new">🆕 本週新入 #1</span></div>
+          <div class="paper-desc">全新影片理解綜合評測基準，採用漸進式層次結構與群組評估方法，評測模型在影片理解的魯棒性與可信度。本週以最高票數奪冠，影片多模態評測進入新世代。</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-vote">
+          <div class="vote-num">197</div>
+          <div class="vote-label">upvotes</div>
+        </div>
+        <div class="paper-body">
+          <div class="paper-title">OpenWorldLib: A Unified Codebase and Definition of Advanced World Models</div>
+          <div class="paper-meta">Peking University &nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+          <div class="paper-desc">北京大學發布的世界模型統一框架，整合感知、互動與長期記憶能力，為世界理解和預測提供標準化架構。具身 AI 基礎設施邁向標準化。</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-vote">
+          <div class="vote-num">189</div>
+          <div class="vote-label">upvotes</div>
+        </div>
+        <div class="paper-body">
+          <div class="paper-title">Rethinking Generalization in Reasoning SFT</div>
+          <div class="paper-meta">AI45Research &nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+          <div class="paper-desc">重新審視監督微調（SFT）與強化學習（RL）在推理任務的跨域泛化能力，發現兩者在最佳化動態、資料品質和模型能力影響下有條件性的泛化。SFT vs RL 訓練方法論大討論。</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-vote">
+          <div class="vote-num">182</div>
+          <div class="vote-label">upvotes</div>
+        </div>
+        <div class="paper-body">
+          <div class="paper-title">LlamaFactory: Unified Efficient Fine-Tuning of 100+ Language Models</div>
+          <div class="paper-meta">5 authors &nbsp;|&nbsp; GitHub 69.9k ⭐ &nbsp;|&nbsp; 持續熱門</div>
+          <div class="paper-desc">支援 100+ LLM 的統一高效微調框架，透過友善的網頁介面降低微調門檻。作為開源微調基礎設施持續高熱度。</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-vote">
+          <div class="vote-num">160</div>
+          <div class="vote-label">upvotes</div>
+        </div>
+        <div class="paper-body">
+          <div class="paper-title">VibeVoice Technical Report</div>
+          <div class="paper-meta">Microsoft Research &nbsp;|&nbsp; GitHub 38.5k ⭐ &nbsp;|&nbsp; 連續在榜</div>
+          <div class="paper-desc">微軟的長篇多說話者語音合成，採用下一個 token 擴散模型與高效連續語音 tokenizer，實現高品質高保真語音生成。連續兩週維持高票。</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-vote">
+          <div class="vote-num">156</div>
+          <div class="vote-label">upvotes</div>
+        </div>
+        <div class="paper-body">
+          <div class="paper-title">SmolDocling: An ultra-compact vision-language model for end-to-end document conversion</div>
+          <div class="paper-meta">IBM Granite &nbsp;|&nbsp; GitHub 57.6k ⭐ &nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+          <div class="paper-desc">IBM 推出的 256M 參數超緊湊文件 VLM，透過新的標記格式實現端對端文件轉換，在多種文件類型上達到 SOTA，效能/大小比極佳。</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-vote">
+          <div class="vote-num">155</div>
+          <div class="vote-label">upvotes</div>
+        </div>
+        <div class="paper-body">
+          <div class="paper-title">MinerU2.5: A Decoupled Vision-Language Model for Efficient High-Resolution Document Parsing</div>
+          <div class="paper-meta">OpenDataLab &nbsp;|&nbsp; GitHub 59.3k ⭐ &nbsp;|&nbsp; 持續在榜</div>
+          <div class="paper-desc">1.2B 參數文件解析 VLM，採用粗到精解析策略，在高解析度文件理解達到 SOTA，計算效率與精準度兼顧。</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-vote">
+          <div class="vote-num">139</div>
+          <div class="vote-label">upvotes</div>
+        </div>
+        <div class="paper-body">
+          <div class="paper-title">HY-Embodied-0.5: Embodied Foundation Models for Real-World Agents</div>
+          <div class="paper-meta">Tencent Hunyuan &nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+          <div class="paper-desc">騰訊混元發布的具身基礎模型系列，採用 Mixture-of-Transformers 架構與迭代後訓練，增強視覺感知與推理能力，面向現實世界機器人代理。</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-vote">
+          <div class="vote-num">139</div>
+          <div class="vote-label">upvotes</div>
+        </div>
+        <div class="paper-body">
+          <div class="paper-title">GLM-5: from Vibe Coding to Agentic Engineering</div>
+          <div class="paper-meta">Zhipu AI（186 位作者）&nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+          <div class="paper-desc">智譜 AI 的 GLM-5 技術報告，披露 DSA 降低訓練成本、非同步強化學習改善對齊、以及增強 Coding 能力的完整技術細節。754B 參數，從 Vibe Coding 到 Agentic Engineering 的全面升級。</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-vote">
+          <div class="vote-num">99</div>
+          <div class="vote-label">upvotes</div>
+        </div>
+        <div class="paper-body">
+          <div class="paper-title">TriAttention: Efficient Long Reasoning with Trigonometric KV Compression</div>
+          <div class="paper-meta">NVIDIA &nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+          <div class="paper-desc">NVIDIA 提出利用 Q/K 向量在 pre-RoPE 空間的集中特性進行三角函數 KV 壓縮，解決長推理場景的 KV Cache 記憶體瓶頸，大幅提升長上下文生成效率。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Notable Spaces -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:#fdf4ff;">🚀</div>
+      HuggingFace 熱門 Spaces / Demo
+    </div>
+    <div class="space-grid">
+
+      <div class="space-card" style="border-top:3px solid var(--accent);">
+        <div class="space-creator">k2-fsa &nbsp;|&nbsp; <span class="diff-new">🆕 連2週 #1</span></div>
+        <div class="space-name">OmniVoice</div>
+        <div class="space-desc">600+ 語言高品質語音克隆 TTS，連續兩週位居 Spaces 榜首。多語言語音克隆進入新層次。</div>
+        <div style="margin-top:8px;"><span class="tag">TTS</span> <span class="tag">Voice Clone</span></div>
+      </div>
+
+      <div class="space-card" style="border-top:3px solid #10b981;">
+        <div class="space-creator">microsoft &nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+        <div class="space-name">TRELLIS.2</div>
+        <div class="space-desc">從單張圖片高保真生成 3D 模型，微軟最新 3D 生成技術 Demo，3D 創作門檻大幅降低。</div>
+        <div style="margin-top:8px;"><span class="tag new">新</span> <span class="tag">3D Generation</span></div>
+      </div>
+
+      <div class="space-card" style="border-top:3px solid #8b5cf6;">
+        <div class="space-creator">lerobot &nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+        <div class="space-name">Unfolding Robotics: Open-Source Shirt Folding</div>
+        <div class="space-desc">HuggingFace LeRobot 的開源機器人疊衣示範，具身 AI 首次以互動 Demo 形式大規模觸及大眾。</div>
+        <div style="margin-top:8px;"><span class="tag new">新</span> <span class="tag">Robot</span> <span class="tag">Embodied AI</span></div>
+      </div>
+
+      <div class="space-card" style="border-top:3px solid #f59e0b;">
+        <div class="space-creator">black-forest-labs &nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+        <div class="space-name">FLUX.2 [dev]</div>
+        <div class="space-desc">FLUX 下一代圖片生成模型正式登場，支援文字生圖與可選的圖片參考輸入。</div>
+        <div style="margin-top:8px;"><span class="tag new">新</span> <span class="tag">Image Generation</span></div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-creator">r3gm</div>
+        <div class="space-name">Wan2.2 14B Preview</div>
+        <div class="space-desc">給定一張圖片與文字提示，生成高品質影片。持續穩居 Spaces 前列。</div>
+        <div style="margin-top:8px;"><span class="tag">Video Gen</span></div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-creator">webml-community</div>
+        <div class="space-name">Gemma 4 WebGPU</div>
+        <div class="space-desc">在瀏覽器本地以 WebGPU 執行 Gemma 4，邊緣 AI 部署門檻歸零，無需伺服器。</div>
+        <div style="margin-top:8px;"><span class="tag">WebGPU</span> <span class="tag">Edge AI</span></div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-creator">multimodalart</div>
+        <div class="space-name">Qwen Image Multiple Angles 3D Camera</div>
+        <div class="space-desc">AI 以互動方式改變照片的拍攝視角，3D 相機控制技術的直觀展示。</div>
+        <div style="margin-top:8px;"><span class="tag">3D Camera</span> <span class="tag">Qwen</span></div>
+      </div>
+
+      <div class="space-card" style="border-top:3px solid #ef4444;">
+        <div class="space-creator">24yearsold &nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+        <div class="space-name">See-through: Layer Decomposition</div>
+        <div class="space-desc">將動漫插圖分解為可獨立編輯的圖層，創作者最愛的動畫 AI 工具。</div>
+        <div style="margin-top:8px;"><span class="tag new">新</span> <span class="tag">Anime</span> <span class="tag">Layer Edit</span></div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-creator">openbmb &nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+        <div class="space-name">VoxCPM Demo</div>
+        <div class="space-desc">VoxCPM2 語音模型的互動 Demo，搭配 Nano-vLLM 部署，展示 CPM 語音生成能力。</div>
+        <div style="margin-top:8px;"><span class="tag new">新</span> <span class="tag">TTS</span></div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-creator">mrfakename</div>
+        <div class="space-name">Z Image Turbo</div>
+        <div class="space-desc">高速文字轉圖片，持續穩居熱門。快速圖片生成的社群最愛選項。</div>
+        <div style="margin-top:8px;"><span class="tag">Image Gen</span> <span class="tag">Fast</span></div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-creator">linoyts &nbsp;|&nbsp; <span class="diff-new">🆕 新入榜</span></div>
+        <div class="space-name">Flux2 Klein Face Swap</div>
+        <div class="space-desc">使用 Flux.2 Klein 9B LoRA 實現高品質人臉替換，創作者與娛樂應用。</div>
+        <div style="margin-top:8px;"><span class="tag new">新</span> <span class="tag">Face Swap</span> <span class="tag">LoRA</span></div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-creator">Qwen</div>
+        <div class="space-name">Qwen3-TTS Demo</div>
+        <div class="space-desc">Qwen3 語音生成，支援自訂聲音、聲音克隆及預設聲線，持續在榜。</div>
+        <div style="margin-top:8px;"><span class="tag">TTS</span> <span class="tag">Qwen</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- arXiv Hot Papers -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:#fef2f2;">🔬</div>
+      arXiv 最新研究精選
+    </div>
+    <div class="arxiv-2col">
+      <div class="arxiv-panel">
+        <h4>📘 cs.AI — 人工智慧</h4>
+        <div class="arxiv-item">
+          <div class="arxiv-title">SUPERNOVA: 用 RL 在自然指令上激發 LLM 通用推理</div>
+          <div class="arxiv-meta">Suvarna, Phan, Bansal et al. &nbsp;|&nbsp; RL + Natural Instructions</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">Verify Before You Commit: 透過自我審計實現忠實推理</div>
+          <div class="arxiv-meta">Yuan, Lin, Chen et al. &nbsp;|&nbsp; Self-Auditing Agent</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">Ads in AI Chatbots? LLM 如何應對利益衝突</div>
+          <div class="arxiv-meta">Wu, Liu, Li et al. &nbsp;|&nbsp; LLM 廣告倫理</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">SkillClaw: 以 Agentic Evolver 讓技能集體演化</div>
+          <div class="arxiv-meta">Ma, Yang, Ji et al. &nbsp;|&nbsp; Multi-Agent Skill Evolution</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">KnowU-Bench: 行動端 AI 代理的互動/主動/個性化評測</div>
+          <div class="arxiv-meta">Chen, Lu, Xu et al. &nbsp;|&nbsp; Mobile Agent Evaluation</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">ProMedical: 醫療 LLM 對齊的層次細粒度準則建模</div>
+          <div class="arxiv-meta">Geng, Huang, Lai et al. &nbsp;|&nbsp; Medical AI Alignment</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">Don't Overthink It: rollout 共識作為自適應計算信號</div>
+          <div class="arxiv-meta">Sethi, K. &nbsp;|&nbsp; Adaptive Compute</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">From Safety Risk to Design Principle: 多代理同伴保護</div>
+          <div class="arxiv-meta">Dietrich, J. &nbsp;|&nbsp; Multi-Agent Safety</div>
+        </div>
+      </div>
+
+      <div class="arxiv-panel">
+        <h4>📗 cs.LG — 機器學習</h4>
+        <div class="arxiv-item">
+          <div class="arxiv-title">元學習 In-Context 實現無需訓練的跨受試者腦解碼</div>
+          <div class="arxiv-meta">Nan, Yu, Mai et al. &nbsp;|&nbsp; BCI + Meta-learning</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">What Drives Representation Steering? 拒絕行為機制分析</div>
+          <div class="arxiv-meta">Cheng, Wiegreffe, Manocha &nbsp;|&nbsp; LLM 安全可解釋</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">KV Cache Offloading for Context-Intensive Tasks</div>
+          <div class="arxiv-meta">Bocharnikov, Ermakov et al. &nbsp;|&nbsp; LLM 長上下文記憶體</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">TTVS: 測試時變分合成提升自我探索強化學習</div>
+          <div class="arxiv-meta">Bai, Li, Zhang et al. &nbsp;|&nbsp; Test-time RL</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">Persistence-Augmented Neural Networks</div>
+          <div class="arxiv-meta">Wang, Nigmetov, Morozov &nbsp;|&nbsp; 拓撲持久性融入 NN</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">AA-SVD: 錨定自適應 SVD 用於 LLM 壓縮</div>
+          <div class="arxiv-meta">Sinha, Fleuret &nbsp;|&nbsp; LLM 壓縮</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">Zero-shot 多變量時間序列預測（Tabular Prior Networks）</div>
+          <div class="arxiv-meta">Jayawardhana, Sharma et al. &nbsp;|&nbsp; 零樣本預測</div>
+        </div>
+        <div class="arxiv-item">
+          <div class="arxiv-title">SOLAR: 子空間潛在分解的通訊高效聯邦模型自適應</div>
+          <div class="arxiv-meta">Sajjadi, Ma, Yang et al. &nbsp;|&nbsp; Federated Learning</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weekly Highlights -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:#ecfdf5;">⚡</div>
+      本週重點事件
+    </div>
+    <div class="highlight-grid">
+
+      <div class="highlight-card hl-blue">
+        <h4>🏆 GLM-5.1（754B）登頂 HF 模型榜</h4>
+        <p>Zhipu AI 以 754B 參數的 GLM-5.1 奪下 HF 模型趨勢榜第一，這是本週 HF 上最大的開源模型。GLM-5 技術報告同時以 139 票入選熱門論文，中國開源大模型在全球社群曝光度創高。</p>
+      </div>
+
+      <div class="highlight-card hl-purple">
+        <h4>🤖 具身 AI 首週多點爆發</h4>
+        <p>LeRobot 疊衣機器人 Space 入榜、騰訊 HY-Embodied-0.5 技術報告（139 upvotes）、北大 OpenWorldLib 世界模型框架（197 votes）三者同週入榜，具身 AI 正式進入展示與框架建設雙軌並行期。</p>
+      </div>
+
+      <div class="highlight-card hl-green">
+        <h4>📈 hermes-agent 單週暴增 +26,783 Stars</h4>
+        <p>NousResearch 的 hermes-agent 在本週實現驚人的 +26,783 週增，從上週 #3 躍升第一。「隨你成長的 AI 代理框架」概念引爆社群，總星數已達 58,043，顯示可成長代理需求達高峰。</p>
+      </div>
+
+      <div class="highlight-card hl-orange">
+        <h4>💎 Microsoft markitdown 突破 10 萬星</h4>
+        <p>microsoft/markitdown 本週突破 100,000 星里程碑，成為本榜首個破十萬的工具性專案。文件轉 Markdown 工具已從「便利工具」晉升為 AI 工具鏈的基礎設施，各類 AI 應用均需處理文件格式轉換。</p>
+      </div>
+
+      <div class="highlight-card hl-red">
+        <h4>🎯 推論效率研究形成跨榜共識</h4>
+        <p>NVIDIA TriAttention（KV 壓縮）、cs.LG KV Cache Offloading、TTVS（測試時計算）在 HF Papers + arXiv 跨榜同步出現，本週業界對「長上下文 + 推論效率」形成研究共識，預示效率優化即將成為下一波競賽焦點。</p>
+      </div>
+
+      <div class="highlight-card hl-blue">
+        <h4>🎨 FLUX.2 + TRELLIS.2 雙新登場</h4>
+        <p>black-forest-labs 的 FLUX.2 [dev] 與 microsoft 的 TRELLIS.2 同週在 HF Spaces 亮相。前者是下一代文字生圖模型，後者可從單張圖片生成高保真 3D 模型。圖像 AI 工具朝向「更高品質、更多維度」演進。</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Recommendations -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:#fffbeb;">💡</div>
+      本週值得關注 / 建議行動
+    </div>
+    <div class="rec-list">
+
+      <div class="rec-item">
+        <div class="rec-num">1</div>
+        <div class="rec-text">
+          <strong>試用 GLM-5.1 GGUF 量化版</strong>
+          <p>Zhipu AI 754B GLM-5.1 已有社群量化版本流通，適合在高端工作站本地測試中文大模型能力。若要比較推理品質，可以與 Gemma-4-31B-it 做對比評測，了解同規模中英文模型差距。</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">2</div>
+        <div class="rec-text">
+          <strong>關注 hermes-agent 的可成長代理架構</strong>
+          <p>NousResearch/hermes-agent 本週爆炸性成長（+26,783）值得深入研究。其「隨你成長」的代理設計理念——持久化記憶 + 動態技能習得——代表代理設計的新方向。建議 clone 研究其架構與記憶管理實作。</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">3</div>
+        <div class="rec-text">
+          <strong>測試 TRELLIS.2 的 3D 生成能力</strong>
+          <p>Microsoft TRELLIS.2 的 HF Space 可直接使用，從照片生成 3D 模型的能力在創作、遊戲資產、AR/VR 製作均有高應用潛力。建議用產品渲染圖、人物照片測試，評估是否能整合進現有工作流。</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">4</div>
+        <div class="rec-text">
+          <strong>追蹤「Rethinking Generalization in Reasoning SFT」討論</strong>
+          <p>SFT vs RL 在推理任務的泛化辯論（189 votes）正在引發廣泛討論。如果有在訓練推理模型，這篇論文提供了何時用 SFT、何時用 RL 的條件性指引，對訓練資料選擇與訓練策略有直接影響。</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">5</div>
+        <div class="rec-text">
+          <strong>留意騰訊 HY-Embodied-0.5 的開源進度</strong>
+          <p>騰訊混元具身基礎模型（139 votes）與北大 OpenWorldLib（197 votes）同週發表，顯示中國頂尖院校與大廠開始在具身 AI 基礎設施競爭。追蹤這兩個項目的 GitHub 開源進度，可提前布局具身 AI 工具鏈。</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">6</div>
+        <div class="rec-text">
+          <strong>研究 TriAttention 的 KV 壓縮方法</strong>
+          <p>NVIDIA TriAttention（99 votes）在 HF Papers + arXiv cs.LG KV Cache Offloading 同週出現，顯示 KV Cache 效率是業界共同攻關的瓶頸。若有部署長上下文 LLM 的需求，這兩個方案的技術細節值得優先研究。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:#f0fdf4;">📝</div>
+      週報摘要
+    </div>
+    <div class="summary-box">
+      <h3>2026-04-12 開源 AI 週報總結</h3>
+      <ul>
+        <li><strong>開源大模型競賽升溫：</strong>Zhipu AI GLM-5.1（754B）登頂 HF 模型榜，Gemma-4 生態系化為 6 款衍生版本，開源超大模型不再只是發布，而是進入生態化競爭階段</li>
+        <li><strong>具身 AI 元年開始成形：</strong>騰訊具身模型 + 北大世界模型框架 + LeRobot Demo 三點同週爆發，具身 AI 的「基礎設施 + 展示 + 大廠入場」三要素本週首次齊現</li>
+        <li><strong>hermes-agent 的暴力成長（+26,783）：</strong>代理框架市場從百家爭鳴轉向頭部集中，可成長型代理概念獲得最大規模社群驗證</li>
+        <li><strong>推論效率成下一波主戰場：</strong>KV Cache 壓縮、測試時計算、模型量化跨榜共振，業界正在為「更長上下文、更低成本」的下一代 LLM 服務做技術儲備</li>
+        <li><strong>TTS 浪潮持續：</strong>OmniVoice、VoxCPM2、Qwen3-TTS 三款語音模型/Space 本週同時在榜，語音 AI 的基礎能力（多語言、克隆、即時性）在 2026 年 Q2 達到新高度</li>
+        <li><strong>創作 AI 多維進化：</strong>FLUX.2（文生圖）+ TRELLIS.2（文/圖生 3D）+ See-through（2D 圖層分解），創作工具鏈從二維向三維延伸，創作者 AI 工具進入新維度</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  🤖 開源 AI 週報 &nbsp;|&nbsp; 資料來源：GitHub Trending · HuggingFace Models · HuggingFace Spaces · HF Papers · arXiv cs.AI · arXiv cs.LG &nbsp;|&nbsp; 報告日期：2026-04-12
+</div>
+
+</body>
+</html>
