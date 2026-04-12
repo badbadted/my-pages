@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 應用趨勢日報 — 2026-04-13</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --s1: #f8fafc;
+      --s2: #e2e8f0;
+      --t1: #1e293b;
+      --t2: #64748b;
+      --accent: #6366f1;
+      --accent-light: #eef2ff;
+      --green: #10b981;
+      --green-light: #ecfdf5;
+      --orange: #f59e0b;
+      --orange-light: #fffbeb;
+      --red: #ef4444;
+      --red-light: #fef2f2;
+      --blue: #3b82f6;
+      --blue-light: #eff6ff;
+      --purple: #8b5cf6;
+      --purple-light: #f5f3ff;
+      --border: #e2e8f0;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Noto Sans TC', sans-serif;
+      background: var(--bg);
+      color: var(--t1);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+      color: white;
+      padding: 48px 40px 40px;
+    }
+    .header-inner { max-width: 1100px; margin: 0 auto; }
+    .header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600;
+      letter-spacing: 0.5px; margin-bottom: 16px; text-transform: uppercase;
+    }
+    .header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+    .header .subtitle { font-size: 16px; opacity: 0.85; margin-bottom: 24px; }
+    .header-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+    .header-meta-item { display: flex; align-items: center; gap: 6px; opacity: 0.9; font-size: 14px; }
+
+    /* ── Layout ── */
+    .main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+    .section { margin-bottom: 48px; }
+    .section-title {
+      font-size: 20px; font-weight: 700; color: var(--t1);
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 2px solid var(--s2);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+
+    /* ── Stats Grid ── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px; margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 16px; text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .stat-card .stat-number { font-size: 28px; font-weight: 800; color: var(--accent); }
+    .stat-card .stat-label { font-size: 12px; color: var(--t2); margin-top: 4px; font-weight: 500; }
+
+    /* ── Cards Grid ── */
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+      box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    .card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+    .card-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .card-title { font-size: 15px; font-weight: 700; color: var(--t1); line-height: 1.3; }
+    .card-meta { font-size: 12px; color: var(--t2); margin-top: 2px; }
+    .card-desc { font-size: 13px; color: var(--t2); line-height: 1.5; margin-top: 8px; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 600;
+    }
+    .badge-new { background: var(--green-light); color: var(--green); }
+    .badge-hot { background: var(--orange-light); color: var(--orange); }
+    .badge-watch { background: var(--blue-light); color: var(--blue); }
+    .badge-agent { background: var(--purple-light); color: var(--purple); }
+    .badge-free { background: var(--green-light); color: var(--green); }
+    .badge-paid { background: var(--accent-light); color: var(--accent); }
+    .badge-trend { background: #fdf4ff; color: #a21caf; }
+
+    /* ── Source Tag ── */
+    .source-tag {
+      display: inline-block; background: var(--s2);
+      color: var(--t2); border-radius: 4px; padding: 1px 6px;
+      font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;
+    }
+
+    /* ── News List ── */
+    .news-list { display: flex; flex-direction: column; gap: 12px; }
+    .news-item {
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 20px;
+      box-shadow: var(--shadow); display: flex; gap: 16px; align-items: flex-start;
+    }
+    .news-date {
+      flex-shrink: 0; font-size: 11px; font-weight: 700; color: var(--t2);
+      background: var(--s2); border-radius: 6px; padding: 4px 8px;
+      white-space: nowrap; margin-top: 2px;
+    }
+    .news-content { flex: 1; }
+    .news-title { font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 4px; }
+    .news-desc { font-size: 13px; color: var(--t2); line-height: 1.5; }
+
+    /* ── Tools Table ── */
+    .tools-table {
+      width: 100%; border-collapse: collapse; background: var(--s1);
+      border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border); box-shadow: var(--shadow);
+    }
+    .tools-table th {
+      background: var(--s2); color: var(--t2); font-size: 11px; font-weight: 700;
+      padding: 10px 16px; text-align: left; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .tools-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .tools-table tr:last-child td { border-bottom: none; }
+    .tools-table tr:hover td { background: #f1f5f9; }
+    .tool-name { font-weight: 600; color: var(--t1); }
+    .tool-price { color: var(--accent); font-weight: 600; font-size: 12px; }
+
+    /* ── Recommendation Cards ── */
+    .rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .rec-card {
+      background: var(--s1); border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius); padding: 18px 20px;
+      box-shadow: var(--shadow);
+    }
+    .rec-card.green { border-left-color: var(--green); }
+    .rec-card.orange { border-left-color: var(--orange); }
+    .rec-card.blue { border-left-color: var(--blue); }
+    .rec-card.purple { border-left-color: var(--purple); }
+    .rec-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--t1); }
+    .rec-desc { font-size: 13px; color: var(--t2); line-height: 1.5; }
+
+    /* ── Summary Box ── */
+    .summary-box {
+      background: linear-gradient(135deg, var(--accent-light) 0%, #f0fdf4 100%);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 28px 32px; box-shadow: var(--shadow);
+    }
+    .summary-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--t1); }
+    .summary-box ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .summary-box li {
+      font-size: 14px; color: var(--t1); padding-left: 20px; position: relative; line-height: 1.5;
+    }
+    .summary-box li::before {
+      content: "▸"; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+    }
+
+    /* ── Trend Bars ── */
+    .trend-list { display: flex; flex-direction: column; gap: 10px; }
+    .trend-item { display: flex; align-items: center; gap: 12px; }
+    .trend-label { width: 180px; font-size: 13px; font-weight: 600; color: var(--t1); flex-shrink: 0; }
+    .trend-bar-wrap { flex: 1; background: var(--s2); border-radius: 4px; height: 10px; overflow: hidden; }
+    .trend-bar { height: 100%; border-radius: 4px; }
+    .trend-pct { width: 36px; font-size: 12px; font-weight: 700; color: var(--t2); text-align: right; flex-shrink: 0; }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--s1); border-top: 1px solid var(--border);
+      padding: 24px 40px; text-align: center;
+      color: var(--t2); font-size: 12px; margin-top: 20px;
+    }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+    @media (max-width: 640px) {
+      .header { padding: 32px 20px; }
+      .header h1 { font-size: 24px; }
+      .main { padding: 24px 16px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-badge">🤖 AI 應用趨勢日報</div>
+    <h1>AI 應用趨勢日報</h1>
+    <p class="subtitle">彙整全球主要 AI 應用平台與電子報，掌握最新工具、產品上線與產業動態</p>
+    <div class="header-meta">
+      <div class="header-meta-item">📅 2026 年 4 月 13 日（週一）</div>
+      <div class="header-meta-item">📡 6 個資料來源</div>
+      <div class="header-meta-item">🔍 17+ 新工具收錄</div>
+      <div class="header-meta-item">📰 10+ 產業動態</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+
+  <!-- ── 1. 總覽 ── -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-icon" style="background:#eef2ff">📊</span>
+      總覽
+    </h2>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">6</div>
+        <div class="stat-label">監控來源數</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:var(--green)">3</div>
+        <div class="stat-label">有新內容來源</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:var(--orange)">17</div>
+        <div class="stat-label">AI 工具 / 產品</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:var(--purple)">47,941+</div>
+        <div class="stat-label">TAAFT 累計工具</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:var(--blue)">3.5M+</div>
+        <div class="stat-label">電子報訂閱總數</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:var(--red)">80M+</div>
+        <div class="stat-label">TAAFT 使用者</div>
+      </div>
+    </div>
+
+    <!-- 來源狀態列表 -->
+    <div class="news-list">
+      <div class="news-item">
+        <div class="news-date">TAAFT</div>
+        <div class="news-content">
+          <div class="news-title">There's an AI For That</div>
+          <div class="news-desc">403 防護持續啟動，沿用 04-10 資料。累計工具 47,941+，本週無法直接爬取新增工具數。</div>
+        </div>
+        <span class="badge badge-watch">⚠ 受限</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">Bens Bites</div>
+        <div class="news-content">
+          <div class="news-title">Ben's Bites Newsletter</div>
+          <div class="news-desc">Substack 框架渲染限制，最新可見文章仍為 2026-04-02 Claude Code 洩露文件分析。</div>
+        </div>
+        <span class="badge badge-watch">⚠ 受限</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">Rundown AI</div>
+        <div class="news-content">
+          <div class="news-title">The Rundown AI</div>
+          <div class="news-desc">JS 框架渲染，最新確認期刊為 2026-04-09，內容涵蓋 Perplexity 十億挑戰。</div>
+        </div>
+        <span class="badge badge-watch">⚠ 受限</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">Product Hunt</div>
+        <div class="news-content">
+          <div class="news-title">Product Hunt AI 分類</div>
+          <div class="news-desc">成功爬取。Claude Code 評論數再增 5 則（339→344），Cursor 評論數達 802 則。</div>
+        </div>
+        <span class="badge badge-new">✓ 有更新</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">Superhuman</div>
+        <div class="news-content">
+          <div class="news-title">Superhuman AI Newsletter</div>
+          <div class="news-desc">成功爬取。新增 3 篇文章（04-10/04-11/04-12），含 Unitree 人形機器人美國上市、Artemis II 濺落。</div>
+        </div>
+        <span class="badge badge-new">✓ 有更新</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">Matt Shumer</div>
+        <div class="news-content">
+          <div class="news-title">Matt's Newsletter (Substack)</div>
+          <div class="news-desc">連續 7 日無公開文章，頁面僅顯示作者簡介與電子報元資料。</div>
+        </div>
+        <span class="badge badge-watch">⚠ 無更新</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 2. 新工具 / 產品 ── -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-icon" style="background:var(--green-light)">🚀</span>
+      新工具 ／ 產品
+    </h2>
+
+    <h3 style="font-size:14px;color:var(--t2);margin-bottom:14px;font-weight:600">There's an AI For That — 近期收錄工具</h3>
+    <table class="tools-table" style="margin-bottom:24px">
+      <thead>
+        <tr>
+          <th>工具名稱</th>
+          <th>類別</th>
+          <th>定價</th>
+          <th>評分 / Saves</th>
+          <th>用途</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tool-name">OpenGraph</span></td>
+          <td><span class="source-tag">Meta tags</span></td>
+          <td><span class="tool-price">Free + $29/mo</span></td>
+          <td>5.0 ★ · 40 saves</td>
+          <td>Meta 標籤自動化生成</td>
+        </tr>
+        <tr>
+          <td><span class="tool-name">Featherless</span></td>
+          <td><span class="source-tag">Agents</span></td>
+          <td><span class="tool-price">$100/mo+</span></td>
+          <td>34 saves</td>
+          <td>AI 代理雲端平台</td>
+        </tr>
+        <tr>
+          <td><span class="tool-name">Storypitch.ai v2.0</span></td>
+          <td><span class="source-tag">Writing</span></td>
+          <td><span class="tool-price">Free + $19/mo</span></td>
+          <td>5.0 ★ · 2,986 saves</td>
+          <td>故事 / 提案寫作</td>
+        </tr>
+        <tr>
+          <td><span class="tool-name">OrbitMeet</span></td>
+          <td><span class="source-tag">Meeting</span></td>
+          <td><span class="tool-price">Free + $14.75/mo</span></td>
+          <td>20 saves</td>
+          <td>會議摘要 AI</td>
+        </tr>
+        <tr>
+          <td><span class="tool-name">Mygom SEO</span></td>
+          <td><span class="source-tag">SEO</span></td>
+          <td><span class="tool-price">Free + $39/mo</span></td>
+          <td>5.0 ★ · 44 saves</td>
+          <td>SEO 優化助理</td>
+        </tr>
+        <tr>
+          <td><span class="tool-name">domzip</span></td>
+          <td><span class="source-tag">Domains</span></td>
+          <td><span class="tool-price">Free + $19.90/mo</span></td>
+          <td>81 saves</td>
+          <td>AI 域名命名靈感</td>
+        </tr>
+        <tr>
+          <td><span class="tool-name">SnapTo3D</span></td>
+          <td><span class="source-tag">3D</span></td>
+          <td><span class="tool-price">Free + $4.99</span></td>
+          <td>54 saves</td>
+          <td>圖片轉 3D 物件</td>
+        </tr>
+        <tr>
+          <td><span class="tool-name">Mo by Motionode</span></td>
+          <td><span class="source-tag">Code Review</span></td>
+          <td><span class="tool-price">Free + $49/mo</span></td>
+          <td>22 saves</td>
+          <td>程式碼審查 AI</td>
+        </tr>
+        <tr>
+          <td><span class="tool-name">MyClaw.ai</span></td>
+          <td><span class="source-tag">Agents</span></td>
+          <td><span class="tool-price">$16/年</span></td>
+          <td>74 saves</td>
+          <td>低年費 AI 代理工具</td>
+        </tr>
+        <tr>
+          <td><span class="tool-name">MojoMake</span></td>
+          <td><span class="source-tag">Video</span></td>
+          <td><span class="tool-price">Free + $6.33/mo</span></td>
+          <td>5.0 ★ · 3,691 saves</td>
+          <td>AI 圖片轉影片</td>
+        </tr>
+        <tr>
+          <td><span class="tool-name">SignSmart</span></td>
+          <td><span class="source-tag">Legal</span></td>
+          <td><span class="tool-price">Free + $8.08/mo</span></td>
+          <td>43 saves</td>
+          <td>合約審查 AI</td>
+        </tr>
+        <tr>
+          <td><span class="tool-name">Jason AI v3.6</span></td>
+          <td><span class="source-tag">Sales</span></td>
+          <td><span class="tool-price">$500/mo+</span></td>
+          <td>4.6 ★ · 378,509 saves</td>
+          <td>AI 銷售自動化巨頭</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:14px;color:var(--t2);margin-bottom:14px;font-weight:600">Product Hunt AI — 近期上線</h3>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:#fdf4ff">🎙️</div>
+          <div>
+            <div class="card-title">Klariqo AI Voice Assistants</div>
+            <div class="card-meta">2026-04-08 · Product Hunt · ⭐ 5.0</div>
+          </div>
+        </div>
+        <div class="card-desc">3 分鐘內建立語音助理，專為非開發者設計。支援服務業預約排程、電話接待等場景。</div>
+        <div class="card-tags">
+          <span class="badge badge-new">🆕 新上線</span>
+          <span class="badge badge-agent">AI Agent</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:#eff6ff">⚡</div>
+          <div>
+            <div class="card-title">Raydian</div>
+            <div class="card-meta">2026-04-08 · Product Hunt · Vibe Coding</div>
+          </div>
+        </div>
+        <div class="card-desc">對話式全端網頁開發平台，被歸類為 Vibe Coding Tools。透過聊天介面建立完整 Web App。</div>
+        <div class="card-tags">
+          <span class="badge badge-new">🆕 新上線</span>
+          <span class="badge badge-hot">🔥 Vibe Coding</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:#ecfdf5">🌐</div>
+          <div>
+            <div class="card-title">AI Browser</div>
+            <div class="card-meta">2026-04-08 · Product Hunt</div>
+          </div>
+        </div>
+        <div class="card-desc">用單一 prompt 自動化任何線上操作，內建雲端 session 管理與 CAPTCHA 自動處理能力。</div>
+        <div class="card-tags">
+          <span class="badge badge-new">🆕 新上線</span>
+          <span class="badge badge-agent">AI Automation</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3. 熱門應用趨勢 ── -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-icon" style="background:var(--orange-light)">📈</span>
+      熱門應用趨勢
+    </h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+      <!-- 趨勢排行 -->
+      <div style="background:var(--s1);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)">
+        <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;color:var(--t1)">Product Hunt AI 熱門分類熱度</h3>
+        <div class="trend-list">
+          <div class="trend-item">
+            <div class="trend-label">Vibe Coding Tools</div>
+            <div class="trend-bar-wrap"><div class="trend-bar" style="width:95%;background:var(--accent)"></div></div>
+            <div class="trend-pct">95%</div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-label">AI Dictation Apps</div>
+            <div class="trend-bar-wrap"><div class="trend-bar" style="width:82%;background:var(--green)"></div></div>
+            <div class="trend-pct">82%</div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-label">AI Coding Agents</div>
+            <div class="trend-bar-wrap"><div class="trend-bar" style="width:78%;background:var(--blue)"></div></div>
+            <div class="trend-pct">78%</div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-label">AI Voice Agents</div>
+            <div class="trend-bar-wrap"><div class="trend-bar" style="width:70%;background:var(--purple)"></div></div>
+            <div class="trend-pct">70%</div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-label">AI Meeting Notetakers</div>
+            <div class="trend-bar-wrap"><div class="trend-bar" style="width:65%;background:var(--orange)"></div></div>
+            <div class="trend-pct">65%</div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-label">AI Workflow Automation</div>
+            <div class="trend-bar-wrap"><div class="trend-bar" style="width:60%;background:#ec4899"></div></div>
+            <div class="trend-pct">60%</div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-label">Code Review Tools</div>
+            <div class="trend-bar-wrap"><div class="trend-bar" style="width:55%;background:#14b8a6"></div></div>
+            <div class="trend-pct">55%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PH 評論增量 -->
+      <div style="background:var(--s1);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)">
+        <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;color:var(--t1)">Product Hunt AI 工具評論成長（近 3 天）</h3>
+        <div class="trend-list">
+          <div class="trend-item">
+            <div class="trend-label">Claude Code</div>
+            <div class="trend-bar-wrap"><div class="trend-bar" style="width:100%;background:var(--accent)"></div></div>
+            <div class="trend-pct" style="color:var(--green);font-weight:800">+5</div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-label">Cursor</div>
+            <div class="trend-bar-wrap"><div class="trend-bar" style="width:100%;background:var(--blue)"></div></div>
+            <div class="trend-pct" style="color:var(--green);font-weight:800">+5</div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-label">Claude by Anthropic</div>
+            <div class="trend-bar-wrap"><div class="trend-bar" style="width:60%;background:var(--purple)"></div></div>
+            <div class="trend-pct" style="color:var(--green);font-weight:800">+3</div>
+          </div>
+          <div class="trend-item">
+            <div class="trend-label">OpenAI</div>
+            <div class="trend-bar-wrap"><div class="trend-bar" style="width:40%;background:var(--orange)"></div></div>
+            <div class="trend-pct" style="color:var(--green);font-weight:800">+2</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding:12px;background:var(--accent-light);border-radius:8px;font-size:12px;color:var(--accent)">
+          <strong>洞察：</strong>Claude Code 與 Cursor 評論增速並列第一，Agentic Code Editor 品類持續高度活躍。
+        </div>
+      </div>
+    </div>
+
+    <!-- 趨勢主題卡片 -->
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--purple-light)">🤖</div>
+          <div>
+            <div class="card-title">個人 AI 代理崛起</div>
+            <div class="card-meta">來源：Superhuman AI</div>
+          </div>
+        </div>
+        <div class="card-desc">「Agents for your personal life are here」——Claude 開始被用於自動化求職流程（履歷篩選、投遞追蹤），AI 代理從企業場景擴展至個人生活。</div>
+        <div class="card-tags"><span class="badge badge-hot">🔥 熱門趨勢</span><span class="badge badge-agent">AI Agents</span></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--blue-light)">🗣️</div>
+          <div>
+            <div class="card-title">語音輸入無所不在</div>
+            <div class="card-meta">來源：Superhuman AI / Product Hunt</div>
+          </div>
+        </div>
+        <div class="card-desc">Wispr Flow 新增 Android 全系統語音輸入，AI Dictation Apps 類別在 Product Hunt 快速崛起。語音作為 AI 輸入介面正從桌機向行動端全面滲透。</div>
+        <div class="card-tags"><span class="badge badge-hot">🔥 快速崛起</span><span class="badge badge-trend">語音 AI</span></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--green-light)">💻</div>
+          <div>
+            <div class="card-title">Vibe Coding 持續主導</div>
+            <div class="card-meta">來源：Product Hunt / Rundown AI</div>
+          </div>
+        </div>
+        <div class="card-desc">Vibe Coding Tools 蟬聯 Product Hunt AI 分類熱度第一，Claude Code 評論持續增長，Raydian 等新平台陸續入場，對話式開發成為主流範式。</div>
+        <div class="card-tags"><span class="badge badge-hot">🔥 持續主導</span><span class="badge badge-trend">Vibe Coding</span></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--orange-light)">🦾</div>
+          <div>
+            <div class="card-title">人形機器人進入消費市場</div>
+            <div class="card-meta">來源：Superhuman AI</div>
+          </div>
+        </div>
+        <div class="card-desc">Unitree R1 人形機器人正式登陸美國市場（2026-04-11），機器人不再是工廠專屬，消費級人形機器人時代加速到來。</div>
+        <div class="card-tags"><span class="badge badge-new">🆕 新動態</span><span class="badge badge-trend">Robotics</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 4. 產業動態 ── -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-icon" style="background:var(--blue-light)">🏢</span>
+      產業動態
+    </h2>
+    <div class="news-list">
+      <div class="news-item">
+        <div class="news-date">04-12</div>
+        <div class="news-content">
+          <div class="news-title">NASA Artemis II 成功濺落，人類重返月球里程碑</div>
+          <div class="news-desc">NASA Artemis II 任務圓滿成功，宇航員安全返回地球。AI 輔助系統在任務關鍵階段扮演重要角色，標誌人類重返月球探索的重大里程碑。 <span class="source-tag">Superhuman AI</span></div>
+        </div>
+        <span class="badge badge-new">🆕 新</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">04-11</div>
+        <div class="news-content">
+          <div class="news-title">Unitree R1 人形機器人正式進軍美國市場</div>
+          <div class="news-desc">中國機器人品牌 Unitree 將 R1 人形機器人帶入美國，象徵消費級人形機器人正式叩關全球最大科技市場，與 Boston Dynamics、Figure AI 展開競爭。 <span class="source-tag">Superhuman AI</span></div>
+        </div>
+        <span class="badge badge-new">🆕 新</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">04-09</div>
+        <div class="news-content">
+          <div class="news-title">Perplexity 展開十億美元融資挑戰</div>
+          <div class="news-desc">Perplexity 推進新一輪估值十億美元融資，同時其 Computer 功能已可協助完成報稅等複雜真實世界任務，代理式 AI 商業化進程加快。 <span class="source-tag">Superhuman AI / Rundown AI</span></div>
+        </div>
+        <span class="badge badge-watch">重要</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">04-08</div>
+        <div class="news-content">
+          <div class="news-title">Anthropic 正式發布 Claude Mythos 模型</div>
+          <div class="news-desc">Anthropic 宣布新的 Claude Mythos 模型，為旗艦模型家族新成員，進一步強化推理與多模態能力。 <span class="source-tag">Superhuman AI / Rundown AI</span></div>
+        </div>
+        <span class="badge badge-watch">重要</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">04-07</div>
+        <div class="news-content">
+          <div class="news-title">OpenAI 公布「智慧時代」戰略計畫</div>
+          <div class="news-desc">OpenAI 揭示 Intelligence Age 路線圖，結合 $1,220 億美元新一輪融資，布局超智能基礎設施與 AGI 商業化。 <span class="source-tag">Rundown AI / Superhuman AI</span></div>
+        </div>
+        <span class="badge badge-watch">重要</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">04-07</div>
+        <div class="news-content">
+          <div class="news-title">Anthropic 宣布對 OpenClaw 用戶收費</div>
+          <div class="news-desc">Anthropic 進一步緊縮對 OpenClaw（非官方 Claude 客戶端）的免費使用，推動用戶轉入付費訂閱，平台商業化步伐加速。 <span class="source-tag">Rundown AI</span></div>
+        </div>
+        <span class="badge badge-watch">重要</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">04-06</div>
+        <div class="news-content">
+          <div class="news-title">Jack Dorsey：AI 讓中層管理者角色式微</div>
+          <div class="news-desc">Twitter / Block 創辦人 Jack Dorsey 公開論述 AI 取代中層管理職能，引發科技圈廣泛討論，AI 對職場結構的衝擊再度成為焦點。 <span class="source-tag">Rundown AI</span></div>
+        </div>
+        <span class="badge badge-watch">討論熱烈</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">04-04</div>
+        <div class="news-content">
+          <div class="news-title">OpenAI 與迪士尼達成重大合作</div>
+          <div class="news-desc">OpenAI 與迪士尼簽署逾十億美元的內容 AI 合作協議，涉及電影後製、創作輔助與內容生成，媒體娛樂業 AI 轉型加速。 <span class="source-tag">Rundown AI</span></div>
+        </div>
+        <span class="badge badge-watch">重要</span>
+      </div>
+      <div class="news-item">
+        <div class="news-date">04-02</div>
+        <div class="news-content">
+          <div class="news-title">Claude Code 內部文件外洩，架構細節曝光</div>
+          <div class="news-desc">Ben's Bites 深度分析洩露的 Claude Code 內部檔案，揭示新 Markdown 編輯器功能、Hooks 機制與代理框架設計，開發社群高度關注。 <span class="source-tag">Ben's Bites</span></div>
+        </div>
+        <span class="badge badge-watch">熱議</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 5. 應用案例 ── -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-icon" style="background:var(--green-light)">💡</span>
+      應用案例
+    </h2>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--purple-light)">🔍</div>
+          <div>
+            <div class="card-title">Claude 自動化求職流程</div>
+            <div class="card-meta">來源：Superhuman AI (2026-04-10)</div>
+          </div>
+        </div>
+        <div class="card-desc">利用 Claude 建立個人求職 AI 代理：自動分析職缺要求、比對個人履歷關鍵詞、追蹤投遞狀態，將求職效率提升數倍。適合積極求職者與人資顧問。</div>
+        <div class="card-tags">
+          <span class="badge badge-agent">AI Agent</span>
+          <span class="badge badge-free">Claude</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--blue-light)">🎙️</div>
+          <div>
+            <div class="card-title">Wispr Flow 全系統語音輸入</div>
+            <div class="card-meta">來源：Superhuman AI (2026-04-09)</div>
+          </div>
+        </div>
+        <div class="card-desc">Wispr Flow 在 Android 任意 App 中啟用語音輸入，AI 即時轉錄並修正語音，讓行動工作者在通勤、外出時也能高效記錄想法與回覆訊息。</div>
+        <div class="card-tags">
+          <span class="badge badge-trend">語音 AI</span>
+          <span class="badge badge-hot">🔥 Android 新增</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--orange-light)">🎥</div>
+          <div>
+            <div class="card-title">Pika Labs AI 即時視訊通話代理</div>
+            <div class="card-meta">來源：Superhuman AI (2026-04-07)</div>
+          </div>
+        </div>
+        <div class="card-desc">透過 PikaStream 與 Pika Labs，建立可進行即時視訊對話的 AI 代理。可應用於客服、虛擬助理、遠端教學等場景，賦予 AI 代理「面貌」與即時互動能力。</div>
+        <div class="card-tags">
+          <span class="badge badge-agent">AI Agent</span>
+          <span class="badge badge-trend">視訊 AI</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--green-light)">💼</div>
+          <div>
+            <div class="card-title">Perplexity Computer 自主完成報稅</div>
+            <div class="card-meta">來源：Superhuman AI (2026-04-03)</div>
+          </div>
+        </div>
+        <div class="card-desc">Perplexity Computer 展示全自主代理能力：無需人工介入自動完成線上報稅流程，包括表單填寫、資料核對與提交。是代理式 AI 處理高複雜度真實任務的里程碑。</div>
+        <div class="card-tags">
+          <span class="badge badge-agent">Agentic AI</span>
+          <span class="badge badge-hot">🔥 突破性</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--accent-light)">⚡</div>
+          <div>
+            <div class="card-title">Oumi 數小時內訓練自訂 AI 模型</div>
+            <div class="card-meta">來源：Superhuman AI (2026-04-02)</div>
+          </div>
+        </div>
+        <div class="card-desc">Oumi 平台讓個人或小團隊在數小時內完成 AI 模型微調訓練，降低自訂 AI 的技術門檻，適合特定領域（醫療、法律、財務）的專業應用。</div>
+        <div class="card-tags">
+          <span class="badge badge-trend">自訂模型</span>
+          <span class="badge badge-paid">進階</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background:#fdf4ff)">🖼️</div>
+          <div>
+            <div class="card-title">圖片轉可編輯設計檔</div>
+            <div class="card-meta">來源：Superhuman AI (2026-04-08)</div>
+          </div>
+        </div>
+        <div class="card-desc">結合 Claude Mythos 的多模態能力，將任意截圖或圖片自動轉換為可編輯的設計草稿，大幅加速設計師的重新設計（redesign）工作流程。</div>
+        <div class="card-tags">
+          <span class="badge badge-trend">多模態</span>
+          <span class="badge badge-free">Claude</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6. 選用建議 ── -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-icon" style="background:var(--orange-light)">🎯</span>
+      選用建議
+    </h2>
+    <div class="rec-grid">
+      <div class="rec-card green">
+        <div class="rec-title">想提升個人生產力 → Claude + Wispr Flow</div>
+        <div class="rec-desc">Claude 代理可自動化日常工作流（求職、整理收件匣、排程），Wispr Flow 讓語音輸入無縫覆蓋全裝置。兩者搭配是目前個人效率提升的最佳組合。</div>
+      </div>
+      <div class="rec-card blue">
+        <div class="rec-title">想快速建立網頁應用 → Cursor 或 Raydian</div>
+        <div class="rec-desc">Cursor 擁有最佳評論口碑（4.96/5，802 則），適合有程式基礎的開發者。Raydian 則面向非開發者，透過對話完成全端建置，屬 Vibe Coding 新浪潮。</div>
+      </div>
+      <div class="rec-card purple">
+        <div class="rec-title">想建立語音 AI 服務 → Klariqo AI Voice Assistants</div>
+        <div class="rec-desc">3 分鐘設定、無需程式背景，適合服務業（餐廳、診所、店面）快速部署電話接待語音代理。評分 5.0，適合中小企業優先試用。</div>
+      </div>
+      <div class="rec-card orange">
+        <div class="rec-title">想自動化線上操作 → AI Browser</div>
+        <div class="rec-desc">單一 prompt 觸發瀏覽器自動化，含 CAPTCHA 處理與雲端 session，適合電商比價、資料蒐集、表單填寫等重複性線上工作的自動化需求。</div>
+      </div>
+      <div class="rec-card" style="border-left-color:var(--red)">
+        <div class="rec-title">想研究 AI 銷售工具 → Jason AI v3.6</div>
+        <div class="rec-desc">37 萬+ saves 驗證的頂級銷售 AI，v3.6 版本已相當成熟。高月費（$500+）意味著面向企業級銷售團隊，ROI 需評估，但值得中大型銷售組織深入調查。</div>
+      </div>
+      <div class="rec-card" style="border-left-color:var(--t2)">
+        <div class="rec-title">觀察項目 → Perplexity Computer（代理式 AI）</div>
+        <div class="rec-desc">報稅自主完成只是開端，Perplexity Computer 代表「代理式 AI 全面接管真實世界任務」的方向。目前建議持續觀察，等功能穩定後優先引入高重複性流程。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 7. 本日總結 ── -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-icon" style="background:var(--accent-light)">📝</span>
+      本日總結
+    </h2>
+    <div class="summary-box">
+      <h3>2026-04-13 AI 應用趨勢重點摘要</h3>
+      <ul>
+        <li><strong>個人代理全面落地：</strong>Claude 用於求職自動化、Perplexity Computer 自主報稅，AI 代理已從企業工具擴展至每個人的日常任務，「個人 AI 員工」正在成真。</li>
+        <li><strong>語音輸入覆蓋加速：</strong>Wispr Flow 新增 Android 支援，AI Dictation Apps 在 Product Hunt 快速崛起，語音正成為繼鍵盤後最主流的 AI 互動介面。</li>
+        <li><strong>Vibe Coding 無可撼動：</strong>Cursor（802 則評論）、Claude Code（344 則評論）評論持續增長，Raydian 等新玩家入場，對話式程式開發已從趨勢變成主流。</li>
+        <li><strong>機器人走入消費市場：</strong>Unitree R1 人形機器人登陸美國，2026 年標誌著消費級人形機器人競賽正式開啟，軟硬整合的 AI 應用邊界持續擴張。</li>
+        <li><strong>巨頭資本競賽加劇：</strong>OpenAI $1,220 億融資、與迪士尼合作，Perplexity 十億估值融資，Anthropic 推出 Claude Mythos，Top 3 AI 公司同步加速衝刺。</li>
+        <li><strong>爬取覆蓋率待改善：</strong>TAAFT（403）、Ben's Bites（Substack 框架）、Rundown AI（JS 渲染）三個來源持續受技術限制，建議後續評估 RSS 或 API 替代方案。</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <p>AI 應用趨勢日報 · 2026-04-13 · 資料來源：theresanaiforthat / bensbites / therundown-ai / producthunt-ai / superhuman-ai / mattshumer</p>
+  <p style="margin-top:4px">本報告由 Claude Code 自動生成，資料截止時間以各來源實際爬取內容為準</p>
+</div>
+
+</body>
+</html>
