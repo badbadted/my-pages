@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent 工作流每日報告 — 2026-04-15</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --accent: #3b82f6;
+    --accent-light: #eff6ff;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --orange: #f59e0b;
+    --orange-light: #fffbeb;
+    --red: #ef4444;
+    --red-light: #fef2f2;
+    --purple: #8b5cf6;
+    --purple-light: #f5f3ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--t1); line-height: 1.6; }
+  .header { background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); color: white; padding: 40px 48px; }
+  .header-meta { font-size: 13px; opacity: 0.75; margin-bottom: 8px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  .header-sub { font-size: 15px; opacity: 0.85; }
+  .stats-bar { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+  .stat { background: rgba(255,255,255,0.15); border-radius: 8px; padding: 10px 18px; font-size: 14px; }
+  .stat strong { display: block; font-size: 22px; font-weight: 700; }
+  nav { background: var(--s1); border-bottom: 1px solid var(--s2); padding: 12px 48px; position: sticky; top: 0; z-index: 10; }
+  nav ul { display: flex; gap: 4px; list-style: none; flex-wrap: wrap; }
+  nav a { font-size: 13px; color: var(--t2); text-decoration: none; padding: 4px 10px; border-radius: 6px; transition: all 0.15s; }
+  nav a:hover { background: var(--s2); color: var(--t1); }
+  main { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+  section { margin-bottom: 48px; }
+  section h2 { font-size: 20px; font-weight: 700; color: var(--t1); border-left: 4px solid var(--accent); padding-left: 12px; margin-bottom: 20px; }
+  .card { background: var(--s1); border: 1px solid var(--s2); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
+  .card-title { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+  .card-meta { font-size: 12px; color: var(--t2); margin-bottom: 8px; }
+  .card p { font-size: 14px; color: var(--t2); }
+  .new-badge { display: inline-block; background: var(--green); color: white; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 12px; margin: 2px; font-weight: 500; }
+  .tag-blue { background: var(--accent-light); color: var(--accent); }
+  .tag-green { background: var(--green-light); color: var(--green); }
+  .tag-orange { background: var(--orange-light); color: #92400e; }
+  .tag-purple { background: var(--purple-light); color: var(--purple); }
+  .tag-red { background: var(--red-light); color: var(--red); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .source-block { background: var(--s1); border: 1px solid var(--s2); border-radius: 12px; padding: 18px 20px; }
+  .source-block h3 { font-size: 14px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .source-block ul { list-style: none; }
+  .source-block li { font-size: 13px; color: var(--t2); padding: 5px 0; border-bottom: 1px solid var(--s2); }
+  .source-block li:last-child { border: none; }
+  .source-block li .item-title { color: var(--t1); font-weight: 500; }
+  .trend-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--s2); }
+  .trend-item:last-child { border: none; }
+  .trend-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+  .trend-content h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .trend-content p { font-size: 13px; color: var(--t2); }
+  .rec-item { background: var(--accent-light); border: 1px solid #bfdbfe; border-radius: 10px; padding: 14px 18px; margin-bottom: 12px; }
+  .rec-item h4 { font-size: 14px; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
+  .rec-item p { font-size: 13px; color: #1e40af; }
+  .glossary-item { padding: 12px 0; border-bottom: 1px solid var(--s2); }
+  .glossary-item:last-child { border: none; }
+  .glossary-term { font-weight: 700; font-size: 14px; color: var(--t1); margin-bottom: 4px; }
+  .glossary-def { font-size: 13px; color: var(--t2); }
+  .summary-box { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid var(--s2); border-radius: 12px; padding: 24px 28px; }
+  .summary-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: var(--t1); }
+  .summary-box p { font-size: 14px; color: var(--t2); line-height: 1.8; }
+  .diff-new { background: var(--green-light); border-left: 3px solid var(--green); padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px; font-size: 13px; }
+  .diff-same { background: var(--s1); border-left: 3px solid var(--s2); padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 8px; font-size: 13px; color: var(--t2); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: var(--s2); padding: 8px 12px; text-align: left; font-weight: 600; color: var(--t1); }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--s2); color: var(--t2); }
+  tr:last-child td { border: none; }
+  footer { text-align: center; font-size: 12px; color: var(--t2); padding: 32px; border-top: 1px solid var(--s2); margin-top: 32px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-meta">AI Agent 工作流日報 · Report 1 of 3</div>
+  <h1>AI Agent 工作流動態</h1>
+  <div class="header-sub">2026 年 4 月 15 日 · 涵蓋 LangChain、Anthropic、LlamaIndex、CrewAI 四大來源</div>
+  <div class="stats-bar">
+    <div class="stat"><strong>4</strong>來源監控</div>
+    <div class="stat"><strong>4</strong>新增文章</div>
+    <div class="stat"><strong>1</strong>重大更新</div>
+    <div class="stat"><strong>第 14 次</strong>爬取</div>
+  </div>
+</div>
+
+<nav>
+  <ul>
+    <li><a href="#overview">總覽</a></li>
+    <li><a href="#trends">趨勢</a></li>
+    <li><a href="#updates">今日更新</a></li>
+    <li><a href="#sources">來源詳情</a></li>
+    <li><a href="#deep">深度分析</a></li>
+    <li><a href="#recommendations">建議</a></li>
+    <li><a href="#glossary">詞彙</a></li>
+    <li><a href="#learning">學習路徑</a></li>
+    <li><a href="#summary">本日小結</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- 1. 總覽 -->
+<section id="overview">
+  <h2>§1 總覽</h2>
+  <div class="card">
+    <div class="card-title">今日 AI Agent 技術生態概況</div>
+    <p>今日 4 個 tech 來源中，LlamaIndex 帶來最活躍的更新，發布 4 篇新文章（含 ParseBench 基準測試、兩篇 OCR 深度技術文及 newsletter）。Anthropic 官方正式公告 Vas Narasimhan 加入 Long-Term Benefit Trust 董事會，同時外部消息指出共同創辦人已向川普政府簡報 Mythos 模型。LangChain 聚焦於 Agent Harness 架構鞏固，CrewAI 則維持靜默（逾 29 日無新文章）。</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">最活躍來源</div>
+      <p>🏆 <strong>LlamaIndex</strong> — 今日 4 篇新文章，ParseBench 基準測試與 OCR 技術深度探討</p>
+    </div>
+    <div class="card">
+      <div class="card-title">最重要動態</div>
+      <p>🔑 <strong>Anthropic Mythos</strong> — 政府關係升溫，共同創辦人確認向川普政府進行簡報</p>
+    </div>
+    <div class="card">
+      <div class="card-title">技術焦點</div>
+      <p>🧠 <strong>Agent Harness 架構</strong> — LangChain 持續深耕 Harness 三層架構（Skills / Middleware / Orchestration）</p>
+    </div>
+    <div class="card">
+      <div class="card-title">注意事項</div>
+      <p>⚠️ <strong>CrewAI</strong> — 博客已 29 日未更新，建議降低監控頻率</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 趨勢 -->
+<section id="trends">
+  <h2>§2 趨勢觀察</h2>
+
+  <div class="trend-item">
+    <div class="trend-num">1</div>
+    <div class="trend-content">
+      <h4>Agent Harness 成為架構核心語彙</h4>
+      <p>LangChain 連續多篇文章以「Harness」為主軸，定義 Skills、Middleware、Orchestration 三層。「Your harness, your memory」更將記憶系統直接與框架設計綁定，意味著 Agent 架構討論正從單一工具升級為整合性作業系統級設計。</p>
+    </div>
+  </div>
+
+  <div class="trend-item">
+    <div class="trend-num">2</div>
+    <div class="trend-content">
+      <h4>文件解析成為 Agent 的關鍵能力層</h4>
+      <p>LlamaIndex 密集推出 ParseBench（首個文件解析基準，84.9% 準確率）、LiteParse、LlamaParse v2，說明在企業 Agent 工作流中「讀懂文件」已是不可迴避的核心能力。OCR 管線不再是後端工具，而是 Agent 的「眼睛」。</p>
+    </div>
+  </div>
+
+  <div class="trend-item">
+    <div class="trend-num">3</div>
+    <div class="trend-content">
+      <h4>開源 vs 商業管理型 Agent 平台的競爭升溫</h4>
+      <p>LangChain 的「Deep Agents Deploy」定位為「Claude Managed Agents 的開源替代」，直接挑戰 Anthropic 的企業代理服務。模型無關（model-agnostic）、開源成為差異化優勢訴求，代表開發者生態正在選邊站。</p>
+    </div>
+  </div>
+
+  <div class="trend-item">
+    <div class="trend-num">4</div>
+    <div class="trend-content">
+      <h4>政府與 AI 安全模型的關係深化</h4>
+      <p>Anthropic Mythos 由美國政府推動銀行業測試，共同創辦人親自向川普政府簡報，顯示 AI 安全模型正從學術研究走向國家戰略資產。這是 AI Agent 產業的政治化訊號。</p>
+    </div>
+  </div>
+
+  <div class="trend-item">
+    <div class="trend-num">5</div>
+    <div class="trend-content">
+      <h4>自我演化代理（Self-Evolving Agent）加速落地</h4>
+      <p>CrewAI × NVIDIA NemoClaw 的「Orchestrating Self-Evolving Agents」（100x 速度提升）、LangChain 的「Continual learning for AI agents」三層架構，共同指向 Agent 系統自我改進循環的工程化實作熱潮。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 今日更新 -->
+<section id="updates">
+  <h2>§3 今日更新（vs 2026-04-14）</h2>
+
+  <div class="diff-new">
+    🆕 <strong>[LlamaIndex] Financial Document Field Extraction Templates</strong>（2026-04-15）— 生產發票版面異常的提取模板設計策略
+  </div>
+  <div class="diff-new">
+    🆕 <strong>[LlamaIndex] PDF Character Recognition: How OCR Works and Where It Breaks Down</strong>（2026-04-15）— 像素型 PDF 的技術本質與 OCR 失效分析
+  </div>
+  <div class="diff-new">
+    🆕 <strong>[LlamaIndex] LlamaIndex Newsletter 2026-04-14</strong>（2026-04-14）— ParseBench 結果、LiteParse 快速採用、工作坊預告
+  </div>
+  <div class="diff-new">
+    🆕 <strong>[LlamaIndex] Introducing ParseBench</strong>（2026-04-13）— 首個文件解析基準，~2,000 頁人工驗證，LlamaParse Agentic 達 84.9%
+  </div>
+  <div class="diff-new">
+    🆕 <strong>[Anthropic] Vas Narasimhan 加入 Long-Term Benefit Trust Board</strong>（2026-04-14）— 諾華 CEO 加入 Anthropic 治理核心
+  </div>
+  <div class="diff-same">
+    ⏸ <strong>[LangChain]</strong> 無新增文章，Agent Harness 系列維持前次內容
+  </div>
+  <div class="diff-same">
+    ⏸ <strong>[CrewAI]</strong> 第 29 日無更新，最新文章仍為 2026-03-17
+  </div>
+</section>
+
+<!-- 4. 來源詳情 -->
+<section id="sources">
+  <h2>§4 來源詳情</h2>
+
+  <div class="source-block" style="margin-bottom:16px">
+    <h3><span class="tag tag-blue">LangChain Blog</span> <span class="tag tag-orange">無新文章</span></h3>
+    <ul>
+      <li><span class="item-title">Your harness, your memory</span> — Agent 框架與記憶系統深度連結，Harrison Chase 最新洞察</li>
+      <li><span class="item-title">The Anatomy of an Agent Harness</span> — Skills / Middleware / Orchestration 三層架構解析（精選）</li>
+      <li><span class="item-title">How we built LangChain's GTM Agent</span> — 自愈部署 pipeline 與自動 PR 修復（精選）</li>
+      <li><span class="item-title">Deep Agents Deploy</span> — 開源替代 Claude Managed Agents，模型無關，Beta 中</li>
+      <li><span class="item-title">Interrupt 2026 預告</span> — 5/13-14 舊金山，企業規模代理大會</li>
+    </ul>
+  </div>
+
+  <div class="source-block" style="margin-bottom:16px">
+    <h3><span class="tag tag-green">Anthropic News</span> <span class="tag tag-green">1 項更新 <span class="new-badge">NEW</span></span></h3>
+    <ul>
+      <li><span class="item-title">Vas Narasimhan 加入 Long-Term Benefit Trust</span> <span class="new-badge">NEW</span> — 諾華 CEO，2026-04-14</li>
+      <li><span class="item-title">Project Glasswing</span> — 11 家科技巨頭聯合保護軟體供應鏈安全，2026-04-07</li>
+      <li><span class="item-title">Google + Broadcom 算力合作</span> — 多 gigawatt 次世代算力擴展，2026-04-06</li>
+      <li><span class="item-title">Claude Mythos 政府簡報</span> — 共同創辦人確認向川普政府說明（外部確認）</li>
+    </ul>
+  </div>
+
+  <div class="source-block" style="margin-bottom:16px">
+    <h3><span class="tag tag-purple">LlamaIndex Blog</span> <span class="tag tag-green">4 篇新文章 <span class="new-badge">NEW</span></span></h3>
+    <ul>
+      <li><span class="item-title">Financial Document Field Extraction Templates</span> <span class="new-badge">NEW</span> — 2026-04-15</li>
+      <li><span class="item-title">PDF Character Recognition Deep Dive</span> <span class="new-badge">NEW</span> — 2026-04-15</li>
+      <li><span class="item-title">Newsletter 2026-04-14</span> <span class="new-badge">NEW</span> — ParseBench 84.9%，LiteParse 快速擴張</li>
+      <li><span class="item-title">Introducing ParseBench</span> <span class="new-badge">NEW</span> — 首個 AI 代理文件解析基準，2026-04-13</li>
+      <li><span class="item-title">Beyond Raw Text</span> — LlamaParse + LiteParse 結構化文件理解，2026-04-09</li>
+    </ul>
+  </div>
+
+  <div class="source-block">
+    <h3><span class="tag tag-orange">CrewAI Blog</span> <span class="tag tag-red">29 日未更新</span></h3>
+    <ul>
+      <li><span class="item-title">Orchestrating Self-Evolving Agents with NVIDIA NemoClaw</span> — 100x 速度提升，最新文章 2026-03-17</li>
+      <li><span class="item-title">Cognitive Memory for Agentic Systems</span> — 跨任務記憶持久化，2026-03-05</li>
+      <li><span class="item-title">Lessons From 2 Billion Agentic Workflows</span> — 20 億次執行量洞察，2026-01-24</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 5. 深度分析 -->
+<section id="deep">
+  <h2>§5 深度分析</h2>
+
+  <div class="card">
+    <div class="card-title">ParseBench：文件解析基準化的意義</div>
+    <div class="card-meta">LlamaIndex · 2026-04-13</div>
+    <p>ParseBench 是第一個專為 AI 代理設計的文件解析基準測試，涵蓋 ~2,000 頁人工驗證頁面，測試表格、圖表和內容準確性三大維度。LlamaParse Agentic 達成 84.9% 整體表現，確立了業界評測標準的話語權。這不只是技術指標，更是 LlamaIndex 試圖成為文件 AI 領域「評測定義者」的戰略動作——誰定義基準，誰就掌握敘事權。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Agent Harness 架構 vs 傳統 Agent 框架的本質差異</div>
+    <div class="card-meta">LangChain · Harrison Chase 分析</div>
+    <p>傳統 Agent 框架（如 AutoGPT、BabyAGI 時代）以「目標 → 工具呼叫 → 輸出」線性循環為主。LangChain 提出的 Agent Harness 三層架構（Skills 技能層 / Middleware 中介層 / Orchestration 編排層）更接近作業系統架構：Middleware 負責記憶、狀態、安全閘道；Orchestration 負責多代理調度與人機協作觸發點。這是 Agent 工程從「腳本化」走向「系統化」的里程碑式轉型。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Anthropic 的政治佈局：Mythos 作為國家戰略資產</div>
+    <div class="card-meta">Anthropic News + TechCrunch · 2026-04-15</div>
+    <p>Anthropic 共同創辦人親自向川普政府簡報 Mythos，同時 Vas Narasimhan（諾華製藥 CEO）加入 Long-Term Benefit Trust，Anthropic 正在建立一種「受信任 AI 供應商」的政治形象。Mythos 主攻資安與滲透測試，政府推動銀行業測試，這條路線與 Palantir 當年進入政府市場的策略高度相似。AI 安全模型的商業化，正在走一條「先得政府信任，再擴散至金融/關鍵基礎設施」的路徑。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">LangChain Deep Agents Deploy：開源替代 Managed Agent 的可行性評估</div>
+    <div class="card-meta">LangChain · Beta 版</div>
+    <p>Claude Managed Agents 提供封閉式、開箱即用的代理託管服務，而 Deep Agents Deploy 強調「模型無關、開源、可自架」。對中型企業而言，主要考量是：(1) 資料隱私 — 不想讓代理記憶存於 Anthropic 伺服器；(2) 成本彈性 — 可混用不同模型降低 API 費用；(3) 客製化程度。目前仍在 Beta 階段，企業採用的成熟度與 Managed Agent 尚有差距，但方向正確。</p>
+  </div>
+</section>
+
+<!-- 6. 建議 -->
+<section id="recommendations">
+  <h2>§6 實作建議</h2>
+
+  <div class="rec-item">
+    <h4>🔧 評估 ParseBench 作為內部 OCR 管線基準</h4>
+    <p>若你的 Agent 工作流涉及文件處理，ParseBench 是目前業界唯一公開的 AI 代理文件解析基準。建議用它評測你目前使用的 PDF 解析工具（如 Apache PDFBox、pdfplumber），與 LlamaParse 做對比，找出生產環境中的真實差距。</p>
+  </div>
+
+  <div class="rec-item">
+    <h4>🏗 採納 Agent Harness 三層架構作為系統設計藍圖</h4>
+    <p>在設計新的 Agent 系統前，先用 Skills / Middleware / Orchestration 三層框架做系統劃分。Middleware 層通常是最容易忽視但最關鍵的部分（記憶管理、安全閘道、狀態追蹤）。建議在架構審查時逐層確認職責。</p>
+  </div>
+
+  <div class="rec-item">
+    <h4>📅 關注 Interrupt 2026 議程（5/13-14，舊金山）</h4>
+    <p>這是目前最大規模的企業 Agent 工程師大會。關鍵議題是「企業規模代理部署」——如何在生產環境中可靠地運行多代理系統。若無法現場參與，建議預訂直播與後續文字記錄。</p>
+  </div>
+
+  <div class="rec-item">
+    <h4>⚠️ 調降 CrewAI 監控頻率</h4>
+    <p>CrewAI 博客已連續 29 日無更新，建議將 reminderDays 從 3 調整為 7，避免無效爬取耗費資源。CrewAI 的重要動態改以 Twitter/X 或 GitHub Release 為主要觀測點。</p>
+  </div>
+</section>
+
+<!-- 7. 詞彙 -->
+<section id="glossary">
+  <h2>§7 本週關鍵詞彙</h2>
+
+  <div class="glossary-item">
+    <div class="glossary-term">Agent Harness（代理框架）</div>
+    <div class="glossary-def">由 LangChain 提出的 Agent 系統架構概念，分為 Skills（技能層）、Middleware（中介層）、Orchestration（編排層）三層。類比於軟體工程中的框架（Framework），定義 Agent 的執行環境與生命週期。</div>
+  </div>
+
+  <div class="glossary-item">
+    <div class="glossary-term">ParseBench</div>
+    <div class="glossary-def">LlamaIndex 於 2026-04-13 發布的首個 AI 代理文件解析基準測試，含 ~2,000 頁人工驗證頁面，覆蓋表格、圖表、文字準確性三維度。LlamaParse Agentic 在該基準達 84.9%。</div>
+  </div>
+
+  <div class="glossary-item">
+    <div class="glossary-term">Long-Term Benefit Trust（長期利益信託）</div>
+    <div class="glossary-def">Anthropic 的特殊治理結構，由公益公司（Public Benefit Corporation）架構支撐，確保 AI 安全使命優先於短期商業利益。董事會成員包含外部治理人員（如 Vas Narasimhan）。</div>
+  </div>
+
+  <div class="glossary-item">
+    <div class="glossary-term">Self-Evolving Agent（自我演化代理）</div>
+    <div class="glossary-def">能在執行任務過程中持續改進自身能力的 AI 代理。CrewAI × NVIDIA NemoClaw 方案宣稱達到 100x 速度提升，主要透過自適應權重更新與記憶系統協同實現。</div>
+  </div>
+
+  <div class="glossary-item">
+    <div class="glossary-term">LiteParse</div>
+    <div class="glossary-def">LlamaIndex 於 2026-03-19 發布的零依賴開源本地文件解析器，設計目標是 AI 代理友好（agent-friendly），可在無雲端依賴的環境中運行文件解析管線。</div>
+  </div>
+
+  <div class="glossary-item">
+    <div class="glossary-term">Claude Mythos</div>
+    <div class="glossary-def">Anthropic 最新旗艦模型預覽版，主攻資安應用（滲透測試、威脅分析），目前由美國政府推動在銀行業進行測試評估。Anthropic 創辦人已向川普政府進行簡報。</div>
+  </div>
+</section>
+
+<!-- 8. 學習路徑 -->
+<section id="learning">
+  <h2>§8 推薦學習路徑</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>主題</th>
+        <th>推薦資源</th>
+        <th>難度</th>
+        <th>優先級</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Agent Harness 架構入門</td>
+        <td>LangChain Blog: "The Anatomy of an Agent Harness"</td>
+        <td>中級</td>
+        <td>⭐⭐⭐⭐⭐</td>
+      </tr>
+      <tr>
+        <td>文件解析管線工程</td>
+        <td>LlamaIndex: "Engineering Insights: Failure Modes That Break VLM-Powered OCR"</td>
+        <td>進階</td>
+        <td>⭐⭐⭐⭐</td>
+      </tr>
+      <tr>
+        <td>代理記憶系統設計</td>
+        <td>LangChain: "Your harness, your memory" + CrewAI: "Cognitive Memory"</td>
+        <td>中級</td>
+        <td>⭐⭐⭐⭐</td>
+      </tr>
+      <tr>
+        <td>企業代理部署實踐</td>
+        <td>LangChain: "How we built LangChain's GTM Agent"</td>
+        <td>進階</td>
+        <td>⭐⭐⭐⭐</td>
+      </tr>
+      <tr>
+        <td>ParseBench 評測工具</td>
+        <td>LlamaIndex: "Introducing ParseBench" (GitHub 開源)</td>
+        <td>初級</td>
+        <td>⭐⭐⭐</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 9. 本日小結 -->
+<section id="summary">
+  <h2>§9 本日小結</h2>
+  <div class="summary-box">
+    <h3>2026-04-15 AI Agent 工作流重點摘要</h3>
+    <p>
+      今日最重要的技術動態來自 <strong>LlamaIndex</strong>，連續發布 ParseBench（業界首個文件解析 AI 基準）及兩篇 OCR 深度技術文，正式確立其在企業文件 AI 領域的話語權。
+      <br><br>
+      <strong>Anthropic</strong> 方面，諾華 CEO Vas Narasimhan 加入 Long-Term Benefit Trust 董事會，強化治理信任背書；Mythos 模型的政府關係持續深化，共同創辦人親自簡報的動作說明 AI 安全模型的商業化已進入國家戰略層級。
+      <br><br>
+      <strong>LangChain</strong> 繼續鞏固 Agent Harness 架構論述，「記憶系統」成為框架設計的核心關鍵詞，預示 Interrupt 2026 大會（5/13-14）將是下一個重大技術發布節點。
+      <br><br>
+      <strong>CrewAI</strong> 沉默超過 29 日，建議降低監控頻率。整體而言，今日是以「文件 AI 基準化」和「AI 政治化」為主題的一天。
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  AI Agent 工作流日報 · 2026-04-15 · 資料來源：LangChain、Anthropic、LlamaIndex、CrewAI<br>
+  爬取時間：2026-04-15 · 生成工具：Claude Sonnet 4.6
+</footer>
+
+</body>
+</html>
