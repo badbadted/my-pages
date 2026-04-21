@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent 工作流日報 — 2026-04-22</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --s3: #cbd5e1;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --accent: #3b82f6;
+    --accent2: #8b5cf6;
+    --accent3: #10b981;
+    --new: #f59e0b;
+    --danger: #ef4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--t1); line-height: 1.6; }
+  header { background: linear-gradient(135deg, #1e3a5f 0%, #1e293b 100%); color: #fff; padding: 2.5rem 2rem; }
+  header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; }
+  header p { color: #94a3b8; font-size: 0.9rem; }
+  .meta-badges { display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,0.12); border-radius: 999px; padding: 0.25rem 0.75rem; font-size: 0.8rem; color: #e2e8f0; }
+  .badge.new { background: rgba(245,158,11,0.25); color: #fcd34d; }
+  nav { background: var(--s1); border-bottom: 1px solid var(--s2); padding: 0.75rem 2rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  nav a { color: var(--t2); text-decoration: none; font-size: 0.85rem; font-weight: 500; }
+  nav a:hover { color: var(--accent); }
+  main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+  section { margin-bottom: 2.5rem; }
+  h2 { font-size: 1.2rem; font-weight: 700; color: var(--t1); border-left: 4px solid var(--accent); padding-left: 0.75rem; margin-bottom: 1.25rem; }
+  h3 { font-size: 1rem; font-weight: 600; color: var(--t1); margin-bottom: 0.5rem; }
+  .card { background: var(--s1); border: 1px solid var(--s2); border-radius: 10px; padding: 1.25rem; margin-bottom: 1rem; }
+  .card:hover { border-color: var(--s3); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .tag { font-size: 0.72rem; background: var(--s2); color: var(--t2); border-radius: 4px; padding: 0.15rem 0.45rem; white-space: nowrap; }
+  .tag.new { background: rgba(245,158,11,0.15); color: #b45309; font-weight: 600; }
+  .tag.tech { background: rgba(59,130,246,0.1); color: #1d4ed8; }
+  .tag.update { background: rgba(16,185,129,0.1); color: #065f46; }
+  p { color: var(--t2); font-size: 0.9rem; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .stat { background: var(--s1); border: 1px solid var(--s2); border-radius: 10px; padding: 1rem; text-align: center; }
+  .stat .num { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .stat .label { font-size: 0.8rem; color: var(--t2); margin-top: 0.25rem; }
+  .source-block { border-left: 3px solid var(--s3); padding-left: 1rem; margin-bottom: 1.5rem; }
+  .source-block.new-content { border-left-color: var(--new); }
+  .source-title { font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+  ul { padding-left: 1.25rem; }
+  li { color: var(--t2); font-size: 0.88rem; margin-bottom: 0.35rem; }
+  li strong { color: var(--t1); }
+  .diff-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 1rem; margin-top: 0.75rem; }
+  .diff-box p { color: #92400e; font-size: 0.85rem; }
+  .rec-card { background: linear-gradient(135deg, #eff6ff, #f0fdf4); border: 1px solid #bfdbfe; border-radius: 10px; padding: 1.25rem; margin-bottom: 0.75rem; }
+  .rec-card h4 { color: #1e40af; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .rec-card p { font-size: 0.86rem; }
+  .gloss-item { display: flex; gap: 1rem; margin-bottom: 0.75rem; align-items: flex-start; }
+  .gloss-term { min-width: 160px; font-weight: 600; font-size: 0.9rem; color: var(--accent); }
+  .gloss-def { font-size: 0.88rem; color: var(--t2); }
+  .learn-card { background: var(--s1); border-radius: 10px; padding: 1.25rem; border-left: 4px solid var(--accent2); margin-bottom: 0.75rem; }
+  .learn-card h4 { color: var(--accent2); font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; }
+  footer { background: var(--s1); border-top: 1px solid var(--s2); padding: 1.5rem 2rem; text-align: center; color: var(--t2); font-size: 0.82rem; }
+  .trend-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: var(--s1); border-radius: 8px; margin-bottom: 0.5rem; border: 1px solid var(--s2); }
+  .trend-num { font-size: 1.5rem; font-weight: 700; color: var(--s3); min-width: 2rem; text-align: center; }
+  .trend-content h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .trend-content p { font-size: 0.82rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🤖 AI Agent 工作流日報</h1>
+  <p>每日追蹤 LangChain・Anthropic・LlamaIndex・CrewAI 四大 Agent 框架最新動態</p>
+  <div class="meta-badges">
+    <span class="badge">📅 2026-04-22</span>
+    <span class="badge">4 個來源</span>
+    <span class="badge new">🆕 1 篇新文章</span>
+    <span class="badge">第 19 次爬取</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#overview">概覽</a>
+  <a href="#trends">趨勢</a>
+  <a href="#updates">更新</a>
+  <a href="#sources">來源詳情</a>
+  <a href="#analysis">深度分析</a>
+  <a href="#recs">建議</a>
+  <a href="#glossary">詞彙表</a>
+  <a href="#learning">學習重點</a>
+  <a href="#summary">總結</a>
+</nav>
+
+<main>
+
+<!-- 1. 概覽 -->
+<section id="overview">
+  <h2>一、今日概覽</h2>
+  <div class="stat-grid">
+    <div class="stat"><div class="num">4</div><div class="label">監測來源</div></div>
+    <div class="stat"><div class="num">1</div><div class="label">🆕 新文章</div></div>
+    <div class="stat"><div class="num">84.9%</div><div class="label">LlamaParse Agentic 基準分</div></div>
+    <div class="stat"><div class="num">4,300</div><div class="label">LiteParse GitHub ⭐</div></div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h3>今日核心要點</h3>
+    </div>
+    <ul>
+      <li><strong>CrewAI 重要新發現：</strong>「Agent Harnesses are Dead, Long Live Agent Harnesses」（João Moura, 2026-04-14）——前次爬取遺漏的重磅觀點文章，宣告傳統 harness 架構典範轉移</li>
+      <li><strong>LangChain：</strong>無新文章，最新仍為 Credit Genie 金融助理案例研究（2026-04-20）</li>
+      <li><strong>Anthropic：</strong>亞馬遜確認追加 $50 億投資（TechCrunch 交叉確認），官網最新文章為 Claude Design（2026-04-17）</li>
+      <li><strong>LlamaIndex：</strong>LiteParse 達 4,300 GitHub 星標（Newsletter 確認），持續聚焦文件解析管道</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 2. 趨勢 -->
+<section id="trends">
+  <h2>二、今日趨勢分析</h2>
+  <div class="trend-item">
+    <div class="trend-num">1</div>
+    <div class="trend-content">
+      <h4>Agent Harness 架構典範轉移</h4>
+      <p>CrewAI 創辦人 João Moura 宣告「Agent Harnesses are Dead」——舊框架正被新一代更靈活的代理系統取代。此觀點與 LangChain 的 Deep Agents 開放框架呼應，預示 2026 年代理架構將大幅解構重組。</p>
+    </div>
+  </div>
+  <div class="trend-item">
+    <div class="trend-num">2</div>
+    <div class="trend-content">
+      <h4>文件解析 AI 競爭升溫</h4>
+      <p>LlamaIndex 的 ParseBench（84.9% 分）確立業界評估標準；LiteParse 4,300 星表示開源社群對本地解析的強烈需求。文件 AI 正從研究走向生產基礎設施。</p>
+    </div>
+  </div>
+  <div class="trend-item">
+    <div class="trend-num">3</div>
+    <div class="trend-content">
+      <h4>代理安全商業化加速</h4>
+      <p>Cisco AI Defense 整合 LangChain（「10 分鐘教學」文章），顯示企業代理安全防護正從研究概念走向即插即用的商業產品。</p>
+    </div>
+  </div>
+  <div class="trend-item">
+    <div class="trend-num">4</div>
+    <div class="trend-content">
+      <h4>超大算力押注——Amazon $50 億</h4>
+      <p>Amazon 對 Anthropic 的 $50 億追加投資（換 $1,000 億 AWS 承諾）是 AI 基礎設施競賽最新信號，直接影響 Claude 未來算力儲備與 Agent SDK 能力天花板。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 更新 -->
+<section id="updates">
+  <h2>三、各來源更新摘要</h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header"><h3>LangChain Blog</h3><span class="tag">無新文章</span></div>
+      <p>最新仍為 2026-04-20 Credit Genie 案例研究。Interrupt 2026 大會（5/13-14 SF）倒計時進行中。Deep Agents v0.5 後台子代理架構持續穩定。</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><h3>Anthropic News</h3><span class="tag update">外部確認</span></div>
+      <p>官網最新為 Claude Design（04-17）。TechCrunch 確認 Amazon 追加 $50 億投資（04-20）。NSA 部署 Claude Mythos 已成確定事實。</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><h3>LlamaIndex Blog</h3><span class="tag update">數據更新</span></div>
+      <p>LiteParse 達 4,300 GitHub ⭐。ParseBench 成為業界首個代理文件解析基準（84.9%）。最新文章為 04-20「Why Single-Pass Extraction Fails」。</p>
+    </div>
+    <div class="card" style="border-color: #fde68a;">
+      <div class="card-header"><h3>CrewAI Blog</h3><span class="tag new">🆕 新發現</span></div>
+      <p>發現前次遺漏文章：「Agent Harnesses are Dead, Long Live Agent Harnesses」（2026-04-14，João Moura）。CrewAI 同期上架 Product Hunt，尋求社群曝光。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 來源詳情 -->
+<section id="sources">
+  <h2>四、來源詳細內容</h2>
+
+  <div class="source-block">
+    <div class="source-title">🔗 LangChain Blog <span class="tag tech">tech</span></div>
+    <ul>
+      <li><strong>How Credit Genie used Insights Agent</strong>（04-20）：LangSmith Insights Agent 金融助理案例——提升準確性與可靠性</li>
+      <li><strong>Agentic Engineering: How Swarms of AI Agents Are Redefining Software Engineering</strong>（04-17）：多代理群組協作改革軟體工程實踐</li>
+      <li><strong>Running Subagents in the Background</strong>（04-16）：Deep Agents 後台子代理並行運行技術方法</li>
+      <li><strong>Reusable Evaluators in LangSmith</strong>（04-16）：企業級評估標準化可重用模板</li>
+      <li><strong>Secure LangChain Agents with Cisco AI Defense</strong>（04-16）：10 分鐘代理安全防護整合教學</li>
+    </ul>
+  </div>
+
+  <div class="source-block">
+    <div class="source-title">🔗 Anthropic News <span class="tag tech">tech</span></div>
+    <ul>
+      <li><strong>Claude Design by Anthropic Labs</strong>（04-17）：視覺設計協作工具，支援設計稿、原型、簡報</li>
+      <li><strong>Claude Opus 4.7</strong>（04-16）：最強版本，覆蓋 coding、agents、vision、multi-step</li>
+      <li><strong>Vas Narasimhan 加入 Long-Term Benefit Trust</strong>（04-14）：諾華 CEO 強化外部治理</li>
+      <li><strong>Amazon $50 億追加投資</strong>（04-20，TechCrunch）：換 $1,000 億 AWS 雲端承諾</li>
+      <li><strong>NSA 部署 Claude Mythos</strong>（04-20）：情報機構確認採用資安模型</li>
+    </ul>
+  </div>
+
+  <div class="source-block">
+    <div class="source-title">🔗 LlamaIndex Blog <span class="tag tech">tech</span></div>
+    <ul>
+      <li><strong>Why Single-Pass Extraction Fails</strong>（04-20）：深度提取架構解決單次遺漏問題</li>
+      <li><strong>AI Document Classification: A Practical Guide</strong>（04-19）：NLP 自動文件分類實戰</li>
+      <li><strong>OCR Accuracy Explained</strong>（04-19）：多層次 OCR 優化策略</li>
+      <li><strong>Introducing ParseBench</strong>（04-13）：業界首個代理文件解析基準（84.9%）</li>
+      <li><strong>LiteParse 4,300 GitHub ⭐</strong>（Newsletter 04-21）：開源本地解析器快速成長</li>
+    </ul>
+  </div>
+
+  <div class="source-block new-content">
+    <div class="source-title">🔗 CrewAI Blog <span class="tag tech">tech</span> <span class="tag new">🆕 新發現</span></div>
+    <ul>
+      <li><strong>Agent Harnesses are Dead, Long Live Agent Harnesses</strong>（04-14）：João Moura 宣告傳統 harness 架構終結，新一代系統崛起</li>
+      <li><strong>Orchestrating Self-Evolving Agents with NVIDIA NemoClaw</strong>（03-17）：自我演化代理，速度提升 100x</li>
+      <li><strong>How we built Cognitive Memory for Agentic Systems</strong>（03-05）：長期記憶與跨任務持久化解決方案</li>
+      <li><strong>Lessons From 2 Billion Agentic Workflows</strong>（01-24）：20 億次工作流執行的設計原則</li>
+    </ul>
+    <div class="diff-box">
+      <p>⚠️ <strong>前次遺漏：</strong>「Agent Harnesses are Dead」（2026-04-14）在前次爬取（04-21）中未被發現，本次補全。此文為近期最具觀點衝擊力的代理架構反思文章。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 深度分析 -->
+<section id="analysis">
+  <h2>五、深度分析</h2>
+  <div class="card">
+    <h3>「Agent Harnesses are Dead」的深層含義</h3>
+    <p style="margin-top:0.5rem;">João Moura 的文章標題看似聳動，但背後邏輯清晰：早期 Agent 框架（包括 LangChain 的舊版 Executor、甚至 CrewAI 自身早期版本）以「harness」為核心——預設流程、硬編碼工具清單、固定角色綁定。2026 年的代理系統正在轉向<strong>自主任務規劃 + 動態工具選擇 + 記憶持久化</strong>三位一體的架構。LangChain 的 Deep Agents 和 CrewAI 的 AMP 都朝此方向演進，Anthropic Claude Agent SDK 亦然。</p>
+  </div>
+  <div class="card">
+    <h3>Amazon $50 億對 Claude Agent SDK 的影響</h3>
+    <p style="margin-top:0.5rem;">這不僅是財務事件。Amazon 的條件是 Anthropic 承諾 $1,000 億 AWS 雲端支出，意味著 Claude 的推論基礎設施將深度鎖定在 AWS Trainium/Inferentia 晶片上。對開發者而言，未來 Claude Agent SDK 的最佳部署路徑大概率是 AWS Bedrock，而非其他雲端平台。</p>
+  </div>
+  <div class="card">
+    <h3>文件解析 AI 的基礎設施化</h3>
+    <p style="margin-top:0.5rem;">ParseBench 的推出（業界首個客觀基準）預示文件解析正在從差異化功能走向標準化基礎設施。當評估標準確立，競爭者將快速湧入，LlamaIndex 的先發優勢是 ParseBench 自身——它既是標準又是廣告。LiteParse 4,300 ⭐ 的快速增長印證了開源社群對本地解析能力的強烈需求。</p>
+  </div>
+</section>
+
+<!-- 6. 建議 -->
+<section id="recs">
+  <h2>六、行動建議</h2>
+  <div class="rec-card">
+    <h4>📌 立即關注：閱讀「Agent Harnesses are Dead」</h4>
+    <p>CrewAI 創辦人的架構反思文章提供了 2026 年代理系統設計的最新思維框架。若你正在規劃或重構 Agent 系統，此文值得優先閱讀。</p>
+  </div>
+  <div class="rec-card">
+    <h4>📌 評估 ParseBench 作為文件解析決策基準</h4>
+    <p>若你的系統涉及 PDF/文件處理管道，ParseBench 提供了客觀的效能對比起點。LlamaParse Agentic（84.9%）vs 其他 14 種方法的比較是選型的重要參考。</p>
+  </div>
+  <div class="rec-card">
+    <h4>📌 留意 Interrupt 2026（5/13-14 SF）</h4>
+    <p>LangChain 的年度代理大會即將舉行。預期會有 Deep Agents 正式版、LangSmith 企業功能、以及大規模 Agent 部署案例分享。</p>
+  </div>
+  <div class="rec-card">
+    <h4>📌 AWS + Anthropic 深度綁定的部署考量</h4>
+    <p>Amazon $50 億投資確認後，若你的 AI 工作負載有機會使用 Claude，優先評估 AWS Bedrock 部署路徑——未來算力優化很可能集中在此。</p>
+  </div>
+</section>
+
+<!-- 7. 詞彙表 -->
+<section id="glossary">
+  <h2>七、詞彙快查</h2>
+  <div class="gloss-item"><span class="gloss-term">Agent Harness</span><span class="gloss-def">代理框架的「束具」——預設的工具清單、執行流程和角色綁定機制。CrewAI 創辦人認為此典範已過時。</span></div>
+  <div class="gloss-item"><span class="gloss-term">Deep Extraction</span><span class="gloss-def">LlamaIndex 的多輪驗證文件提取架構，解決單次提取遺漏問題，提供問責迴圈確保生產完整性。</span></div>
+  <div class="gloss-item"><span class="gloss-term">ParseBench</span><span class="gloss-def">業界首個 AI 代理文件解析基準，涵蓋 ~2,000 個人工驗證文件頁面，五個評估維度，LlamaParse Agentic 達 84.9%。</span></div>
+  <div class="gloss-item"><span class="gloss-term">LiteParse</span><span class="gloss-def">LlamaIndex 開源本地文件解析器，零 Python 依賴，完全本地執行，已達 4,300 GitHub 星標。</span></div>
+  <div class="gloss-item"><span class="gloss-term">Claude Mythos</span><span class="gloss-def">Anthropic 資安專用模型，主攻滲透測試與威脅分析，已獲 NSA 正式部署，設計上不採用 OpenAI Codex 路線。</span></div>
+  <div class="gloss-item"><span class="gloss-term">NemoClaw (NVIDIA)</span><span class="gloss-def">NVIDIA 技術，與 CrewAI 整合實現自我演化代理編排，速度提升 100 倍。</span></div>
+  <div class="gloss-item"><span class="gloss-term">AWS Trainium/Inferentia</span><span class="gloss-def">Amazon 自研 AI 訓練/推論晶片，Amazon $50 億投資後將成為 Claude 未來主要計算基礎設施。</span></div>
+</section>
+
+<!-- 8. 學習重點 -->
+<section id="learning">
+  <h2>八、今日學習重點</h2>
+  <div class="learn-card">
+    <h4>🧠 從「工具清單」到「自主規劃」</h4>
+    <p>CrewAI 的「harness is dead」宣言提醒我們：真正的代理不是預定義工具的執行者，而是能夠動態規劃、選擇工具、調整策略的系統。設計代理時，先問「它需要什麼工具」不如先問「它需要完成什麼目標」。</p>
+  </div>
+  <div class="learn-card">
+    <h4>🧠 文件解析是 RAG 的隱形瓶頸</h4>
+    <p>LlamaIndex 的系列文章（ParseBench、Deep Extraction、OCR 分析）統一指向一個洞察：大多數 RAG 系統的真正問題不在模型，而在資料解析品質。「垃圾進、垃圾出」在文件 AI 尤其明顯。</p>
+  </div>
+  <div class="learn-card">
+    <h4>🧠 資安模型的分化趨勢</h4>
+    <p>Claude Mythos 被 NSA 採用而 Sam Altman 批評其為「恐懼行銷」，顯示 AI 安全模型市場正在分化：一派主張特化資安模型（Anthropic Mythos），另一派主張通用模型的安全外掛（OpenAI 方向）。兩種路線各有使用場景。</p>
+  </div>
+</section>
+
+<!-- 9. 總結 -->
+<section id="summary">
+  <h2>九、今日總結</h2>
+  <div class="card">
+    <p style="font-size:0.95rem; line-height:1.8;">
+      <strong>2026-04-22 AI Agent 工作流日報總結：</strong> 今日最重要的發現是補全了 CrewAI 創辦人 João Moura 的「Agent Harnesses are Dead」文章（04-14）——這篇代理架構反思代表了框架設計思維的重要轉折點。LlamaIndex 的文件解析生態系統持續強化，LiteParse 達 4,300 GitHub 星標顯示開源採用快速增長。Anthropic 的 Amazon $50 億追加投資確認了 AWS 成為 Claude 未來主要算力夥伴的格局。整體而言，Agent 框架正從「固定流程+工具清單」進化為「自主規劃+動態執行」，2026 年將是代理架構的關鍵重塑之年。
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>AI Agent 工作流日報 · 2026-04-22 · 監測來源：LangChain、Anthropic、LlamaIndex、CrewAI</p>
+  <p style="margin-top:0.5rem;">資料抓取時間：2026-04-22 · 下次預定：2026-04-23</p>
+</footer>
+
+</body>
+</html>
