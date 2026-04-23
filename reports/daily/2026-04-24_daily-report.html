@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent 工作流每日技術報告 — 2026-04-24</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --accent: #3b82f6;
+    --accent-light: #eff6ff;
+    --green: #10b981;
+    --orange: #f59e0b;
+    --red: #ef4444;
+    --purple: #8b5cf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--t1); line-height: 1.65; }
+
+  /* Header */
+  header { background: linear-gradient(135deg, #1e3a5f 0%, #1e293b 100%); color: #fff; padding: 2.5rem 2rem 2rem; }
+  header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.4rem; }
+  header .sub { color: #94a3b8; font-size: 0.9rem; }
+  .meta-badges { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,0.12); border-radius: 999px; padding: 0.25rem 0.8rem; font-size: 0.8rem; color: #e2e8f0; }
+  .badge.new { background: rgba(16,185,129,0.25); color: #6ee7b7; }
+  .badge.hot { background: rgba(239,68,68,0.25); color: #fca5a5; }
+
+  /* Nav */
+  nav { background: var(--s1); border-bottom: 1px solid var(--s2); padding: 0.7rem 2rem; display: flex; gap: 1.25rem; flex-wrap: wrap; position: sticky; top: 0; z-index: 10; }
+  nav a { color: var(--t2); text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 0.15s; }
+  nav a:hover { color: var(--accent); }
+
+  /* Layout */
+  main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  section { margin-bottom: 3rem; scroll-margin-top: 52px; }
+  h2 { font-size: 1.2rem; font-weight: 700; color: var(--t1); border-left: 4px solid var(--accent); padding-left: 0.8rem; margin-bottom: 1.25rem; }
+  h2 .en { font-size: 0.75rem; font-weight: 400; color: var(--t2); margin-left: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  h3 { font-size: 0.98rem; font-weight: 600; color: var(--t1); margin-bottom: 0.5rem; margin-top: 1rem; }
+
+  /* Cards */
+  .card { background: var(--s1); border: 1px solid var(--s2); border-radius: 10px; padding: 1.25rem; margin-bottom: 0.85rem; transition: box-shadow 0.15s, border-color 0.15s; }
+  .card:hover { border-color: #cbd5e1; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+
+  /* Stats */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .stat { background: var(--s1); border: 1px solid var(--s2); border-radius: 10px; padding: 1.1rem; text-align: center; }
+  .stat .num { font-size: 2.2rem; font-weight: 800; color: var(--accent); line-height: 1.1; }
+  .stat .num.green { color: var(--green); }
+  .stat .num.orange { color: var(--orange); }
+  .stat .label { font-size: 0.78rem; color: var(--t2); margin-top: 0.3rem; }
+
+  /* Table */
+  .tbl-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  thead th { background: var(--s1); color: var(--t2); font-weight: 600; padding: 0.65rem 0.9rem; border-bottom: 2px solid var(--s2); text-align: left; white-space: nowrap; }
+  tbody td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--s2); color: var(--t2); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--s1); }
+  .status-new { color: var(--green); font-weight: 700; }
+  .status-ok { color: var(--accent); font-weight: 600; }
+  .status-none { color: var(--t2); }
+
+  /* Tags */
+  .tag { display: inline-block; font-size: 0.72rem; border-radius: 4px; padding: 0.15rem 0.45rem; white-space: nowrap; margin-right: 0.3rem; }
+  .tag.new { background: rgba(16,185,129,0.12); color: #065f46; font-weight: 700; border: 1px solid rgba(16,185,129,0.3); }
+  .tag.tech { background: rgba(59,130,246,0.1); color: #1d4ed8; }
+  .tag.hot { background: rgba(239,68,68,0.1); color: #991b1b; }
+  .tag.biz { background: rgba(245,158,11,0.1); color: #92400e; }
+  .tag.purple { background: rgba(139,92,246,0.1); color: #5b21b6; }
+
+  /* Source blocks */
+  .source-block { border-left: 3px solid var(--s2); padding-left: 1.1rem; margin-bottom: 1.75rem; }
+  .source-block.has-new { border-left-color: var(--green); }
+  .source-title { font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; color: var(--t1); }
+  .source-title .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--s2); flex-shrink: 0; }
+  .source-title .dot.green { background: var(--green); }
+  .source-title .dot.blue { background: var(--accent); }
+
+  ul { padding-left: 1.2rem; }
+  li { color: var(--t2); font-size: 0.88rem; margin-bottom: 0.35rem; }
+  li strong { color: var(--t1); }
+  p { color: var(--t2); font-size: 0.9rem; margin-bottom: 0.5rem; }
+
+  /* Article highlight */
+  .new-article { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.25); border-radius: 8px; padding: 1rem 1.1rem; margin-bottom: 0.85rem; }
+  .new-article .article-title { font-weight: 600; color: var(--t1); font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; }
+  .new-article .article-meta { font-size: 0.8rem; color: var(--t2); margin-top: 0.25rem; }
+  .new-article .article-desc { font-size: 0.86rem; color: var(--t2); margin-top: 0.5rem; }
+
+  /* Article list */
+  .article-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--s2); }
+  .article-item:last-child { border-bottom: none; }
+  .article-date { font-size: 0.75rem; color: var(--t2); min-width: 60px; padding-top: 0.15rem; }
+  .article-info { flex: 1; }
+  .article-info .title { font-size: 0.9rem; font-weight: 600; color: var(--t1); }
+  .article-info .desc { font-size: 0.82rem; color: var(--t2); margin-top: 0.2rem; }
+
+  /* Trend */
+  .trend-item { display: flex; align-items: flex-start; gap: 1rem; padding: 0.85rem 1rem; background: var(--s1); border-radius: 8px; margin-bottom: 0.6rem; border: 1px solid var(--s2); }
+  .trend-num { font-size: 1.6rem; font-weight: 800; color: var(--s2); min-width: 2.5rem; text-align: center; line-height: 1.3; }
+  .trend-content h4 { font-size: 0.93rem; font-weight: 700; color: var(--t1); margin-bottom: 0.2rem; }
+  .trend-content p { font-size: 0.84rem; margin-bottom: 0; }
+
+  /* Recommendations */
+  .rec-card { background: var(--accent-light); border: 1px solid #bfdbfe; border-radius: 10px; padding: 1.1rem 1.25rem; margin-bottom: 0.75rem; }
+  .rec-card .rec-num { font-size: 0.78rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+  .rec-card h4 { color: #1e40af; font-size: 0.93rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .rec-card p { font-size: 0.86rem; margin-bottom: 0; }
+
+  /* Glossary */
+  .gloss-item { display: flex; gap: 1.25rem; padding: 0.75rem 0; border-bottom: 1px solid var(--s2); align-items: flex-start; }
+  .gloss-item:last-child { border-bottom: none; }
+  .gloss-term { min-width: 185px; font-weight: 700; font-size: 0.9rem; color: var(--accent); }
+  .gloss-def { font-size: 0.87rem; color: var(--t2); }
+
+  /* Learning */
+  .learn-card { background: var(--s1); border-radius: 10px; padding: 1.1rem 1.25rem; border-left: 4px solid var(--purple); margin-bottom: 0.75rem; }
+  .learn-card h4 { color: #6d28d9; font-size: 0.93rem; font-weight: 700; margin-bottom: 0.35rem; }
+  .learn-card p { font-size: 0.85rem; margin-bottom: 0; }
+  .learn-card a { color: var(--accent); text-decoration: none; }
+  .learn-card a:hover { text-decoration: underline; }
+
+  /* Analysis */
+  .analysis-block { background: var(--s1); border: 1px solid var(--s2); border-radius: 10px; padding: 1.25rem; margin-bottom: 1rem; }
+  .analysis-block h3 { margin-top: 0; }
+
+  /* Summary */
+  .summary-box { background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1px solid #bfdbfe; border-radius: 12px; padding: 1.5rem 1.75rem; }
+  .summary-box p { font-size: 0.95rem; color: var(--t1); line-height: 1.8; margin-bottom: 0; }
+
+  /* Footer */
+  footer { background: var(--s1); border-top: 1px solid var(--s2); padding: 1.5rem 2rem; text-align: center; color: var(--t2); font-size: 0.82rem; }
+
+  /* Two col */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } nav { gap: 0.75rem; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>AI Agent 工作流每日技術報告</h1>
+  <div class="sub">group: tech &nbsp;|&nbsp; 2026-04-24 &nbsp;|&nbsp; 4 個來源</div>
+  <div class="meta-badges">
+    <span class="badge">LangChain</span>
+    <span class="badge">Anthropic</span>
+    <span class="badge">LlamaIndex</span>
+    <span class="badge">CrewAI</span>
+    <span class="badge new">2 個來源有新文章</span>
+    <span class="badge hot">Agent Runtime 成焦點</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#overview">整體概覽</a>
+  <a href="#trends">技術趨勢</a>
+  <a href="#updates">最新更新</a>
+  <a href="#sources">來源詳情</a>
+  <a href="#analysis">深度分析</a>
+  <a href="#actions">建議行動</a>
+  <a href="#glossary">專有名詞</a>
+  <a href="#learning">學習資源</a>
+  <a href="#summary">今日總結</a>
+</nav>
+
+<main>
+
+  <!-- S1: 整體概覽 -->
+  <section id="overview">
+    <h2>整體概覽 <span class="en">Overview</span></h2>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="num">4</div><div class="label">監控來源</div></div>
+      <div class="stat"><div class="num green">2</div><div class="label">有新文章</div></div>
+      <div class="stat"><div class="num">11</div><div class="label">本週新文章</div></div>
+      <div class="stat"><div class="num orange">1</div><div class="label">重大新品發布</div></div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>來源</th>
+            <th>今日狀態</th>
+            <th>最新文章</th>
+            <th>核心重點</th>
+            <th>標籤</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>LangChain Blog</strong></td>
+            <td><span class="status-new">有新文章</span></td>
+            <td>Generative Agent Runtime（04-20）</td>
+            <td>代理執行時基礎設施深度指南；Arcade.dev 工具整合 LangSmith Fleet</td>
+            <td><span class="tag tech">Agent</span><span class="tag new">新</span></td>
+          </tr>
+          <tr>
+            <td><strong>Anthropic News</strong></td>
+            <td><span class="status-ok">持續監控</span></td>
+            <td>Claude Design（04-17）</td>
+            <td>Claude Opus 4.7 正式上線；Project Glasswing 12 家機構聯合資安</td>
+            <td><span class="tag biz">商業</span><span class="tag hot">重磅</span></td>
+          </tr>
+          <tr>
+            <td><strong>LlamaIndex Blog</strong></td>
+            <td><span class="status-new">有新文章</span></td>
+            <td>ParseBench × Kaggle OCR 排行榜（04-22）</td>
+            <td>與 Kaggle 合作推出業界首個文件解析公開排行榜，5 大評測維度</td>
+            <td><span class="tag tech">解析</span><span class="tag new">新</span></td>
+          </tr>
+          <tr>
+            <td><strong>CrewAI Blog</strong></td>
+            <td><span class="status-none">無更新</span></td>
+            <td>Agent Harnesses are Dead（04-14）</td>
+            <td>代理 Harness 典範轉移論點；AMP 三大產品線確認</td>
+            <td><span class="tag purple">架構</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- S2: 技術趨勢 -->
+  <section id="trends">
+    <h2>技術趨勢 <span class="en">Trends</span></h2>
+
+    <div class="trend-item">
+      <div class="trend-num">01</div>
+      <div class="trend-content">
+        <h4>代理執行時（Agent Runtime）成為核心基礎設施競逐點</h4>
+        <p>LangChain 發布《Generative Agent Runtime》深度指南（24 分鐘閱讀），CrewAI CEO 宣告「Harness 已死」——兩大框架同步指向同一個訊號：業界正從「如何串接工具」轉向「如何設計穩定、可觀測、可擴展的代理執行環境」。Runtime 層的競爭正式開打。</p>
+      </div>
+    </div>
+
+    <div class="trend-item">
+      <div class="trend-num">02</div>
+      <div class="trend-content">
+        <h4>文件解析基準化：ParseBench × Kaggle 開放競技場</h4>
+        <p>LlamaIndex 與 Kaggle 合作推出業界首個文件 OCR 公開排行榜，涵蓋表格、圖表、格式保留、忠實度、視覺接地 5 大維度。這是 AI Agent 工作流中「資料輸入品質」從主觀評測走向客觀基準的里程碑，將加速競品收斂到可比較的精度標準。</p>
+      </div>
+    </div>
+
+    <div class="trend-item">
+      <div class="trend-num">03</div>
+      <div class="trend-content">
+        <h4>後台子代理（Background Subagent）架構普及</h4>
+        <p>LangChain 的《Running Subagents in the Background》和 Anthropic 的多代理 SDK 同步強調異步子代理設計。代理任務的「主流程不阻塞 + 背景並行 + 結果彙整」架構正在成為生產部署標準模式，對複雜工作流的吞吐量有 3-10 倍提升潛力。</p>
+      </div>
+    </div>
+
+    <div class="trend-item">
+      <div class="trend-num">04</div>
+      <div class="trend-content">
+        <h4>Agent 評估與可觀測性工具趨向企業標準化</h4>
+        <p>LangSmith 推出可重用評估器範本、CrewAI 推出 AMP 管理平台、Anthropic 強化 Claude 多步驟任務追蹤——三大生態同步往「讓企業可衡量、可比較、可審計 Agent 行為」方向聚攏，顯示評估工具已從研究側進入產品側。</p>
+      </div>
+    </div>
+
+    <div class="trend-item">
+      <div class="trend-num">05</div>
+      <div class="trend-content">
+        <h4>AI 安全從口號落地為合約與聯盟</h4>
+        <p>Anthropic 主導的 Project Glasswing 擴展至 12 家機構（含 Amazon、Apple、Cisco、Google、NVIDIA），並確認 NSA 已部署 Claude Mythos 資安專用模型。AI 安全正從學術研究轉為有法律約束力的產業聯盟行為，對 Agent 部署合規性要求將隨之提升。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- S3: 最新更新 -->
+  <section id="updates">
+    <h2>最新更新 <span class="en">Latest Updates</span></h2>
+
+    <div class="source-block has-new">
+      <div class="source-title">
+        <div class="dot green"></div>
+        LangChain Blog <span class="tag new">新文章</span>
+      </div>
+
+      <div class="new-article">
+        <div class="article-title">
+          <span class="tag new">新</span>
+          Generative Agent Runtime
+        </div>
+        <div class="article-meta">2026-04-20 &nbsp;|&nbsp; Sydney Runkle, Vivek Trivedy &nbsp;|&nbsp; 24 分鐘閱讀</div>
+        <div class="article-desc">深度探討支撐生產環境中複雜代理系統的「執行時基礎設施」，涵蓋狀態管理、錯誤處理、並發控制、工具呼叫生命週期等核心議題。這是目前 LangChain 最完整的 Agent Runtime 架構指南。</div>
+      </div>
+
+      <div class="new-article">
+        <div class="article-title">
+          <span class="tag new">新發現</span>
+          Arcade.dev 工具整合 LangSmith Fleet
+        </div>
+        <div class="article-meta">2026-04-07 &nbsp;|&nbsp; 產品公告</div>
+        <div class="article-desc">Arcade.dev 提供的工具集現已可直接整合進 LangSmith Agent Fleet，擴展可觀測性範疇，讓外部工具呼叫也能被統一追蹤與評估。</div>
+      </div>
+    </div>
+
+    <div class="source-block has-new">
+      <div class="source-title">
+        <div class="dot green"></div>
+        LlamaIndex Blog <span class="tag new">新文章</span>
+      </div>
+
+      <div class="new-article">
+        <div class="article-title">
+          <span class="tag new">新</span>
+          LlamaIndex and Kaggle launch a new Document OCR leaderboard for AI agents
+        </div>
+        <div class="article-meta">2026-04-22 &nbsp;|&nbsp; LlamaIndex Team</div>
+        <div class="article-desc">與 Kaggle 合作推出 ParseBench 公開排行榜，基於真實企業文件評測各家文件解析器，5 大維度（表格、圖表、格式保留、忠實度、視覺接地）全面覆蓋。目前 LlamaParse Agentic 以 84.9% 整體精度領先。</div>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-title">
+        <div class="dot blue"></div>
+        Anthropic News
+      </div>
+      <div class="card">
+        <h3>Claude Opus 4.7 全面上線</h3>
+        <p>覆蓋 coding、agents、vision、multi-step tasks 四大場景，強調「更高的徹底性與一致性」。這是目前 Anthropic 性能最強的模型，定位 Agent 執行的主力引擎。</p>
+      </div>
+      <div class="card">
+        <h3>Project Glasswing：12 家機構聯合保護軟體供應鏈</h3>
+        <p>成員包含 Amazon、Apple、Broadcom、Cisco、CrowdStrike、Google、Microsoft、NVIDIA 等，聚焦 AI 輔助發現與修補關鍵軟體漏洞，為 Agent 系統的安全部署提供產業級背書。</p>
+      </div>
+    </div>
+
+    <div class="source-block">
+      <div class="source-title">
+        <div class="dot"></div>
+        CrewAI Blog
+      </div>
+      <div class="card">
+        <h3>Agent Harnesses are Dead, Long Live Agent Harnesses（04-14）</h3>
+        <p>CEO João Moura 的觀點文章：舊式 harness 框架（以腳本串接代理）已不足以應對生產需求，新一代代理系統需要原生的記憶管理、狀態持久化與自我演化能力。CrewAI AMP 三大產品線（Cloud / Factory / OSS）代表其對「後 Harness 時代」的解答。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4: 來源詳情 -->
+  <section id="sources">
+    <h2>來源詳情 <span class="en">Source Details</span></h2>
+
+    <!-- LangChain -->
+    <div class="source-block has-new">
+      <div class="source-title"><div class="dot green"></div>LangChain Blog &nbsp;<a href="https://www.langchain.com/blog/" style="font-size:0.8rem;color:var(--accent);font-weight:400;">langchain.com/blog</a></div>
+      <p style="font-size:0.85rem;margin-bottom:0.75rem;">本週聚焦：Agent Runtime 架構 + LangSmith 企業評估工具 + Deep Agents 框架演進</p>
+
+      <div class="article-item">
+        <div class="article-date">04-20</div>
+        <div class="article-info">
+          <div class="title"><span class="tag new">新</span> Generative Agent Runtime</div>
+          <div class="desc">生產環境代理執行時基礎設施全面指南，涵蓋狀態管理、並發、工具生命週期。作者：Sydney Runkle, Vivek Trivedy</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-20</div>
+        <div class="article-info">
+          <div class="title">How Credit Genie used Insights Agent to improve their AI financial assistant</div>
+          <div class="desc">金融領域 Agent 落地案例，LangSmith Insights Agent 提升準確性與可靠性實踐</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-17</div>
+        <div class="article-info">
+          <div class="title">Agentic Engineering: How Swarms of AI Agents Are Redefining Software Engineering</div>
+          <div class="desc">多代理群組如何重塑軟體工程實踐，涵蓋代理協作架構與系統設計新方向</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-16</div>
+        <div class="article-info">
+          <div class="title">Running Subagents in the Background</div>
+          <div class="desc">Deep Agents 框架中後台子代理並行執行的技術方法與最佳實踐</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-16</div>
+        <div class="article-info">
+          <div class="title">Reusable Evaluators and Evaluator Templates in LangSmith</div>
+          <div class="desc">企業 Agent 評估標準化新功能，可重用評估器範本，提升評估效率與一致性</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-11</div>
+        <div class="article-info">
+          <div class="title">Your harness, your memory（Harrison Chase）</div>
+          <div class="desc">代理系統中如何自訂記憶管理策略，LangChain 共同創辦人觀點</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-09</div>
+        <div class="article-info">
+          <div class="title">Deep Agents Deploy: an open alternative to Claude Managed Agents</div>
+          <div class="desc">Beta 版——模型無關的開源代理框架，可取代廠商鎖定方案</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:1rem;">重要公告</h3>
+      <ul>
+        <li><strong>Interrupt 2026</strong>：5/13-14 舊金山，主題「企業規模下部署代理系統」</li>
+        <li><strong>Arcade.dev 整合</strong>：工具集已納入 LangSmith Fleet（2026-04-07）</li>
+        <li><strong>Deep Agents v0.5</strong>：非同步子代理架構 + 多模態檔案系統支援</li>
+      </ul>
+    </div>
+
+    <!-- Anthropic -->
+    <div class="source-block">
+      <div class="source-title"><div class="dot blue"></div>Anthropic News &nbsp;<a href="https://www.anthropic.com/news" style="font-size:0.8rem;color:var(--accent);font-weight:400;">anthropic.com/news</a></div>
+      <p style="font-size:0.85rem;margin-bottom:0.75rem;">本週聚焦：Claude Opus 4.7 發布 + Claude Design 工具 + 大規模資安聯盟</p>
+
+      <div class="article-item">
+        <div class="article-date">04-17</div>
+        <div class="article-info">
+          <div class="title">Claude Design by Anthropic Labs</div>
+          <div class="desc">全新視覺設計協作工具，與 Claude 共同創作設計稿、原型、簡報等視覺作品</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-16</div>
+        <div class="article-info">
+          <div class="title">Claude Opus 4.7 發布</div>
+          <div class="desc">覆蓋 coding / agents / vision / multi-step tasks 四大場景，最強 Anthropic 模型</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-14</div>
+        <div class="article-info">
+          <div class="title">Vas Narasimhan joins Anthropic's Long-Term Benefit Trust Board</div>
+          <div class="desc">諾華 CEO 加入 Anthropic 長期利益信託董事會，強化醫藥產業連結</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-07</div>
+        <div class="article-info">
+          <div class="title">Project Glasswing</div>
+          <div class="desc">12 家科技機構聯合保護軟體供應鏈安全，AI 輔助漏洞偵測與修補</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-06</div>
+        <div class="article-info">
+          <div class="title">Anthropic expands partnership with Google and Broadcom</div>
+          <div class="desc">取得多 gigawatt 等級次世代算力，支撐 Claude 大規模推論需求</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:1rem;">重要商業數據</h3>
+      <ul>
+        <li>估值：<strong>$3,800 億美元</strong>（Series G）</li>
+        <li>年化營收：<strong>$140 億</strong>，年成長 10x</li>
+        <li>Amazon 追加投資 <strong>$50 億</strong>，換取 $1,000 億雲端承諾</li>
+        <li>Claude Mythos：<strong>NSA 已部署</strong>資安專用模型</li>
+        <li>MCP 協定：已捐贈給 Agentic AI Foundation</li>
+      </ul>
+    </div>
+
+    <!-- LlamaIndex -->
+    <div class="source-block has-new">
+      <div class="source-title"><div class="dot green"></div>LlamaIndex Blog &nbsp;<a href="https://www.llamaindex.ai/blog" style="font-size:0.8rem;color:var(--accent);font-weight:400;">llamaindex.ai/blog</a></div>
+      <p style="font-size:0.85rem;margin-bottom:0.75rem;">本週聚焦：文件解析基準化 + OCR 公開排行榜 + LiteParse 技術深潛</p>
+
+      <div class="article-item">
+        <div class="article-date">04-22</div>
+        <div class="article-info">
+          <div class="title"><span class="tag new">新</span> LlamaIndex and Kaggle launch Document OCR leaderboard for AI agents</div>
+          <div class="desc">與 Kaggle 合作推出 ParseBench 公開排行榜，5 大評測維度覆蓋企業文件全場景</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-22</div>
+        <div class="article-info">
+          <div class="title">How LiteParse Turns PDFs Into Text</div>
+          <div class="desc">網格投影演算法深度解析，零 Python 依賴的本地 PDF 解析技術原理</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-20</div>
+        <div class="article-info">
+          <div class="title">Why Single-Pass Extraction Fails and What Deep Extraction Actually Solves</div>
+          <div class="desc">深度提取架構的問責迴圈設計，解決生產環境資料完整性問題</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-18</div>
+        <div class="article-info">
+          <div class="title">Parsing the Unreadable: How LlamaParse Handles Legal Discovery Documents</div>
+          <div class="desc">法律文件低解析度掃描挑戰，客製提示與影像呈現技術解決方案</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">04-13</div>
+        <div class="article-info">
+          <div class="title">Introducing ParseBench</div>
+          <div class="desc">首個 AI 代理文件解析基準，~2,000 個人工驗證企業頁面，LlamaParse Agentic 84.9%</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:1rem;">重要產品更新</h3>
+      <ul>
+        <li><strong>ParseBench × Kaggle</strong>：公開排行榜，5 大維度評測</li>
+        <li><strong>LiteParse</strong>：4,300 GitHub 星標，零依賴本地執行</li>
+        <li><strong>LlamaParse v2</strong>：成本降低 50%（4 層配置）</li>
+        <li><strong>LlamaSheets Beta</strong>：.xlsx 智能試算表分析</li>
+        <li><strong>LlamaSplit Beta</strong>：AI 文件自動分段</li>
+      </ul>
+    </div>
+
+    <!-- CrewAI -->
+    <div class="source-block">
+      <div class="source-title"><div class="dot"></div>CrewAI Blog &nbsp;<a href="https://www.crewai.com/blog" style="font-size:0.8rem;color:var(--accent);font-weight:400;">crewai.com/blog</a></div>
+      <p style="font-size:0.85rem;margin-bottom:0.75rem;">本週聚焦：代理架構典範轉移 + AMP 產品線完整確認</p>
+
+      <div class="article-item">
+        <div class="article-date">04-14</div>
+        <div class="article-info">
+          <div class="title">Agent Harnesses are Dead, Long Live Agent Harnesses（João Moura）</div>
+          <div class="desc">代理框架設計典範轉移論點，舊式 harness 的侷限與新一代代理系統設計原則</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">03-17</div>
+        <div class="article-info">
+          <div class="title">Orchestrating Self-Evolving Agents with CrewAI and NVIDIA NemoClaw</div>
+          <div class="desc">NVIDIA NemoClaw 整合，自我演化代理速度提升 100x</div>
+        </div>
+      </div>
+      <div class="article-item">
+        <div class="article-date">03-05</div>
+        <div class="article-info">
+          <div class="title">How we built Cognitive Memory for Agentic Systems</div>
+          <div class="desc">認知記憶機制實作，解決長期上下文管理與跨任務記憶持久化</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:1rem;">產品線</h3>
+      <ul>
+        <li><strong>CrewAI AMP Cloud</strong>：視覺化編輯與管理平台</li>
+        <li><strong>CrewAI AMP Factory</strong>：企業級內部部署方案</li>
+        <li><strong>CrewAI OSS</strong>：開源多代理編排框架</li>
+        <li>主要客戶：PwC（全球 Agent OS）</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- S5: 深度分析 -->
+  <section id="analysis">
+    <h2>深度分析 <span class="en">Deep Analysis</span></h2>
+
+    <div class="analysis-block">
+      <h3>Agent 執行層：從框架競爭到基礎設施競爭</h3>
+      <p>2026 年 4 月，AI Agent 領域正在經歷一次悄然但深刻的結構性轉變：競爭焦點從「哪個框架 API 更好用」轉移到「誰能提供更穩定、可觀測、可擴展的 Agent 執行環境」。</p>
+      <p>LangChain 的《Generative Agent Runtime》深度指南，代表這一轉型最清晰的信號。24 分鐘的閱讀量說明這不是一篇工具教學，而是一份生產部署架構指引——涵蓋狀態管理、錯誤恢復、工具呼叫生命週期、並發控制等生產環境必須面對的複雜問題。這些問題在早期 Agent 概念驗證階段可以忽略，但要上線服務千人以上的規模，每一個都是必須回答的工程問題。</p>
+      <p>CrewAI CEO João Moura 的《Agent Harnesses are Dead》則從另一個角度印證了同樣的趨勢。他指出舊式 harness（以腳本、胡亂串接為特徵的代理架構）面臨根本性挑戰：缺乏記憶持久化、缺乏狀態追蹤、缺乏自我修復能力。他的「Long Live Agent Harnesses」暗示新一代 harness 需要原生支援認知記憶與自我演化，而非只是工具的容器。</p>
+      <p>在評估與可觀測性維度，LangSmith 可重用評估器範本的推出，以及 LlamaIndex 與 Kaggle 合作的 ParseBench OCR 排行榜，共同指向 Agent 工作流品質管理的系統化。尤其後者意義深遠：文件解析是幾乎所有知識型 Agent 的輸入層，解析精度的可量化、可比較，將讓「用 AI 讀文件」從玄學變成可工程化的問題。</p>
+      <p>Anthropic 在這個時間點推出 Claude Opus 4.7，同時強化 Project Glasswing 的產業聯盟，說明頂層模型廠商的策略是：用更強的基礎模型佔據 Agent 的推理核心，同時以安全聯盟建立合規部署的信任背書。Claude Mythos 被 NSA 採用，是這一策略在最敏感場景的落地驗證。</p>
+      <p>綜合四個來源的訊號，2026 年 Q2 的 AI Agent 發展主軸可以概括為：<strong>執行時架構成熟化、評估工具標準化、安全部署合規化</strong>。開發者若要在這一波浪潮中保持領先，需要開始認真對待 Agent 的 DevOps 層——不只是「讓 Agent 能跑」，而是「讓 Agent 能穩定、可追蹤地跑在生產環境」。</p>
+    </div>
+  </section>
+
+  <!-- S6: 建議行動 -->
+  <section id="actions">
+    <h2>建議行動 <span class="en">Recommended Actions</span></h2>
+
+    <div class="rec-card">
+      <div class="rec-num">建議 01</div>
+      <h4>評估並試用 LangChain Generative Agent Runtime 架構</h4>
+      <p>若你的 Agent 系統已進入或即將進入生產環境，《Generative Agent Runtime》是本週最值得精讀的技術文章。重點關注：狀態管理策略、工具呼叫的錯誤恢復機制、並發子代理的協調模式。可以對照自己目前的 Agent 架構做差距分析。</p>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-num">建議 02</div>
+      <h4>在 ParseBench 排行榜上測試你的文件解析方案</h4>
+      <p>LlamaIndex × Kaggle 的公開排行榜提供了一個難得的客觀基準。如果你的 Agent 工作流有文件輸入環節，建議把現用的解析方案（無論是 LlamaParse、自建 OCR、還是其他方案）拿到 ParseBench 跑一次，建立基線數據。這將是後續優化的起點。</p>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-num">建議 03</div>
+      <h4>升級評估框架：從一次性測試走向可重用評估器</h4>
+      <p>LangSmith 可重用評估器範本的推出，是個好機會重新審視你的 Agent 評估流程。如果目前是手動抽測或一次性腳本，考慮將評估邏輯封裝為標準化範本，便於不同模型版本間的橫向比較，以及新功能上線前的自動化回歸測試。</p>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-num">建議 04</div>
+      <h4>關注 Claude Opus 4.7 在多步驟 Agent 場景的表現</h4>
+      <p>Anthropic 特別強調 Opus 4.7 在 multi-step tasks 上的性能提升。如果你目前使用 Claude 系列模型，建議在關鍵的多步驟工作流場景進行 A/B 測試（4.5 vs 4.7），量化精度提升是否足以抵消成本增加。</p>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-num">建議 05</div>
+      <h4>評估 Agent 部署的安全合規要求</h4>
+      <p>Project Glasswing 的 12 家機構聯盟、NSA 採用 Claude Mythos，預示企業級 Agent 部署的合規門檻將提高。建議現在開始整理你的 Agent 系統：工具呼叫是否有審計日誌？敏感資料是否有存取控制？輸出內容是否有人工審核機制？提前建立文件，避免未來合規壓力突襲。</p>
+    </div>
+  </section>
+
+  <!-- S7: 專有名詞解釋 -->
+  <section id="glossary">
+    <h2>專有名詞解釋 <span class="en">Glossary</span></h2>
+    <div class="card">
+      <div class="gloss-item">
+        <div class="gloss-term">Agent Runtime</div>
+        <div class="gloss-def">代理執行時環境。負責管理 AI Agent 的執行生命週期，包含狀態管理、工具呼叫調度、錯誤恢復、並發控制等基礎設施層。類比軟體開發中的「執行時（Runtime）」概念。</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Agent Harness</div>
+        <div class="gloss-def">代理框架骨架。指用來串接、協調多個 AI 代理的腳手架程式碼或框架。CrewAI CEO 用「Harness is Dead」隱喻舊式腳本型框架已被新一代有狀態、有記憶的代理系統取代。</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Background Subagent</div>
+        <div class="gloss-def">後台子代理。在主代理流程之外非同步執行的子任務代理，結果完成後再回傳給主流程。可大幅提升複雜工作流的吞吐量，避免主流程等待。</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">ParseBench</div>
+        <div class="gloss-def">文件解析基準。LlamaIndex 推出的 AI 代理文件解析評測框架，包含約 2,000 個人工驗證企業文件頁面，涵蓋表格、圖表、格式保留、忠實度、視覺接地 5 大維度。</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">LiteParse</div>
+        <div class="gloss-def">LlamaIndex 推出的輕量級開源本地文件解析器，使用網格投影演算法從 PDF 提取文字，無需 Python 依賴即可在本地執行，已獲 4,300 GitHub 星標。</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Deep Extraction</div>
+        <div class="gloss-def">深度提取架構。相對於「單次提取（Single-Pass Extraction）」的多輪驗證文件提取框架，內建問責迴圈，可標記遺漏內容並觸發補充提取，確保生產環境資料完整性。</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">LangSmith Fleet</div>
+        <div class="gloss-def">LangChain 的代理群組管理與可觀測性平台，提供多代理系統的統一監控、追蹤、評估功能，現已支援整合外部工具（如 Arcade.dev）的追蹤。</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Project Glasswing</div>
+        <div class="gloss-def">Anthropic 主導的軟體供應鏈安全聯合計畫，12 家科技機構參與，利用 AI 輔助發現和修補關鍵軟體漏洞，目標建立業界級 AI 資安防護標準。</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Claude Mythos</div>
+        <div class="gloss-def">Anthropic 的資安專用 Claude 模型，特別優化滲透測試、威脅分析等資安場景，已被美國 NSA（國家安全局）採用部署。</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">MCP（Model Context Protocol）</div>
+        <div class="gloss-def">模型上下文協定。Anthropic 開發並已捐贈給 Agentic AI Foundation 的開放標準，定義 AI 模型與外部工具、資料來源之間的通訊介面，使不同廠商的 Agent 工具可互通。</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">CrewAI AMP</div>
+        <div class="gloss-def">Agent Management Platform，CrewAI 的企業代理管理平台，分三個層次：AMP Cloud（雲端視覺化管理）、AMP Factory（企業內部部署）、OSS（開源編排框架）。</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">VLM（Vision Language Model）</div>
+        <div class="gloss-def">視覺語言模型。能同時處理圖像與文字的多模態大型語言模型，常用於 OCR、文件理解、圖像問答等場景。LlamaIndex 文章中討論其在生產 OCR 系統中的故障模式。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S8: 學習資源 -->
+  <section id="learning">
+    <h2>學習資源 <span class="en">Learning Resources</span></h2>
+
+    <div class="learn-card">
+      <h4>Generative Agent Runtime（LangChain）</h4>
+      <p>本週最值得深讀的技術文章。24 分鐘閱讀量，完整覆蓋生產環境代理執行時架構。適合：準備將 Agent 系統上線的工程師。</p>
+      <a href="https://www.langchain.com/blog/generative-agent-runtime" target="_blank">前往閱讀 →</a>
+    </div>
+
+    <div class="learn-card">
+      <h4>ParseBench × Kaggle OCR 排行榜（LlamaIndex）</h4>
+      <p>業界首個文件解析公開基準，可提交自己的解析方案進行評測。適合：有文件處理需求的 Agent 開發者。</p>
+      <a href="https://www.llamaindex.ai/blog" target="_blank">前往 LlamaIndex Blog →</a>
+    </div>
+
+    <div class="learn-card">
+      <h4>Running Subagents in the Background（LangChain）</h4>
+      <p>後台子代理並行架構的實作教學，Deep Agents 框架具體用法。適合：需要提升 Agent 工作流吞吐量的工程師。</p>
+      <a href="https://www.langchain.com/blog/" target="_blank">前往 LangChain Blog →</a>
+    </div>
+
+    <div class="learn-card">
+      <h4>Agent Harnesses are Dead, Long Live Agent Harnesses（CrewAI）</h4>
+      <p>CrewAI CEO 的架構觀點文章，理解代理框架設計的典範轉移脈絡。適合：對 Agent 系統架構有興趣的架構師與技術決策者。</p>
+      <a href="https://www.crewai.com/blog" target="_blank">前往 CrewAI Blog →</a>
+    </div>
+
+    <div class="learn-card">
+      <h4>Why Single-Pass Extraction Fails（LlamaIndex）</h4>
+      <p>深度提取架構的問責迴圈設計，解釋為何生產環境不能依賴單次提取。適合：建構知識型 Agent 輸入管道的工程師。</p>
+      <a href="https://www.llamaindex.ai/blog" target="_blank">前往 LlamaIndex Blog →</a>
+    </div>
+
+    <div class="learn-card">
+      <h4>Reusable Evaluators in LangSmith（LangChain）</h4>
+      <p>企業級 Agent 評估標準化的實作方法。適合：需要建立 Agent 品質管理流程的團隊。</p>
+      <a href="https://www.langchain.com/blog/" target="_blank">前往 LangChain Blog →</a>
+    </div>
+  </section>
+
+  <!-- S9: 今日總結 -->
+  <section id="summary">
+    <h2>今日總結 <span class="en">Daily Summary</span></h2>
+    <div class="summary-box">
+      <p>2026-04-24，AI Agent 工作流領域同步傳出兩個重要信號：LangChain 發布《Generative Agent Runtime》深度指南，LlamaIndex 與 Kaggle 聯手推出業界首個文件解析公開排行榜。這兩件事合起來說明一件事——Agent 工作流正在從概念驗證進入工程成熟期，執行時穩定性與資料輸入品質成為核心競爭維度。Anthropic 的 Claude Opus 4.7 持續強化多步驟代理場景的性能，Project Glasswing 的 12 機構安全聯盟則預示合規部署門檻將提高。CrewAI 雖本週無新文，但其「Harness is Dead」論點持續在業界發酵。開發者現在的行動重點：評估 Agent Runtime 架構、建立文件解析基準、升級評估框架，並提前準備安全合規文件。</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>AI Agent 工作流每日技術報告 &nbsp;|&nbsp; 報告日期：2026-04-24 &nbsp;|&nbsp; group: tech</p>
+  <p class="ts" style="margin-top:0.4rem;">生成時間：2026-04-24 &nbsp;|&nbsp; 來源：LangChain Blog / Anthropic News / LlamaIndex Blog / CrewAI Blog</p>
+</footer>
+
+</body>
+</html>
