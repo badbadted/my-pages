@@ -50,6 +50,12 @@
     font-size: 12px;
     color: var(--t2);
   }
+  .meta-badge.urgent {
+    background: var(--red-light);
+    border-color: #fca5a5;
+    color: #991b1b;
+    font-weight: 600;
+  }
   .container { max-width: 960px; margin: 0 auto; padding: 32px 20px; }
 
   /* TOC */
@@ -95,6 +101,7 @@
   .card.new { border-left: 4px solid var(--green); }
   .card.warning { border-left: 4px solid var(--amber); }
   .card.info { border-left: 4px solid var(--purple); background: var(--purple-light); }
+  .card.danger { border-left: 4px solid var(--red); background: var(--red-light); }
 
   .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
   .card-title { font-size: 15px; font-weight: 700; color: var(--t1); }
@@ -112,6 +119,7 @@
   .badge-release { background: var(--purple-light); color: #6d28d9; border: 1px solid #ddd6fe; }
   .badge-warn { background: var(--amber-light); color: #92400e; border: 1px solid #fde68a; }
   .badge-fail { background: var(--red-light); color: #991b1b; border: 1px solid #fecaca; }
+  .badge-security { background: #fef2f2; color: #7f1d1d; border: 1px solid #fca5a5; font-weight: 700; }
   .badge-info { background: var(--s1); color: var(--t2); border: 1px solid var(--border); }
 
   .card-date { font-size: 12px; color: var(--t2); margin-bottom: 8px; }
@@ -128,6 +136,8 @@
   }
   .points li:last-child { border-bottom: none; }
   .points li::before { content: "›"; position: absolute; left: 4px; color: var(--accent); font-weight: 700; }
+  .points li.danger-item { background: #fff1f2; border-radius: 4px; padding-left: 22px; }
+  .points li.danger-item::before { color: var(--red); }
 
   .action-box {
     background: var(--bg);
@@ -139,6 +149,11 @@
     color: var(--t2);
   }
   .action-box strong { color: var(--t1); }
+  .action-box.urgent {
+    background: #fff1f2;
+    border-color: #fca5a5;
+    color: #7f1d1d;
+  }
   .impact-box {
     background: var(--bg);
     border: 1px solid var(--border);
@@ -165,7 +180,9 @@
     text-align: center;
     box-shadow: var(--shadow);
   }
+  .top3-card.urgent-card { border-color: #fca5a5; background: #fff8f8; }
   .top3-rank { font-size: 28px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+  .top3-rank.red { color: var(--red); }
   .top3-title { font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 6px; }
   .top3-desc { font-size: 12px; color: var(--t2); line-height: 1.5; }
 
@@ -212,6 +229,7 @@
     font-size: 13px; font-weight: 700;
     flex-shrink: 0;
   }
+  .trend-num.red { background: var(--red); }
   .trend-content { flex: 1; }
   .trend-title { font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 4px; }
   .trend-desc { font-size: 13px; color: var(--t2); line-height: 1.5; }
@@ -232,10 +250,11 @@
   <h1>AIoT 週報</h1>
   <div class="subtitle">開源智能家庭・商業生態系・邊緣 AI 動態彙整</div>
   <div class="meta">
-    <span class="meta-badge">📅 最後更新：2026-04-21</span>
+    <span class="meta-badge">📅 最後更新：2026-04-24</span>
     <span class="meta-badge">📡 20 個來源</span>
-    <span class="meta-badge">✅ 14 個成功・❌ 6 個失敗</span>
-    <span class="meta-badge">🆕 4 個來源有新更新</span>
+    <span class="meta-badge">✅ 15 個成功・❌ 5 個失敗</span>
+    <span class="meta-badge">🆕 6 個來源有新更新</span>
+    <span class="meta-badge urgent">🚨 安全警報：llama.cpp CVE-2026-21869 CVSS 8.8</span>
   </div>
 </div>
 
@@ -257,22 +276,22 @@
 
   <!-- TOP 3 -->
   <div class="section" id="top3">
-    <div class="section-title"><span class="icon">🏆</span> 本期三大亮點</div>
+    <div class="section-title"><span class="icon">🏆</span> 本期三大亮點（2026-04-24）</div>
     <div class="top3">
-      <div class="top3-card">
-        <div class="top3-rank">#1</div>
-        <div class="top3-title">ESPHome 2026.4.0<br>感測器發佈速度 46 倍提升</div>
-        <div class="top3-desc">ESP32 預設 240MHz、Client 端 log 格式化、簽名 OTA 不需硬體 Secure Boot、LVGL 9.5.0。ESP 韌體開發近期最重磅更新。</div>
+      <div class="top3-card urgent-card">
+        <div class="top3-rank red">#1</div>
+        <div class="top3-title">🚨 llama.cpp CVE-2026-21869<br>CVSS 8.8 — 立即升級</div>
+        <div class="top3-desc">b8908 修正 heap-buffer-overflow（CWE-787），客戶端 JSON 注入負數 n_discard 即可觸發。執行 llama.cpp server 的本地 AI 環境必須立即升級至 b8908+。</div>
       </div>
       <div class="top3-card">
         <div class="top3-rank">#2</div>
-        <div class="top3-title">WLED 16.0.0-beta<br>持續 nightly 迭代中</div>
-        <div class="top3-desc">真正 Segment 圖層疊加、粒子系統、GIF 播放、HUB75 矩陣、DMX 輸入。nightly 20260420 持續優化，正式版準備中。</div>
+        <div class="top3-title">🆕 ESPresense v4.1.0b0<br>ESP32-C6 + SCD4x 感測器</div>
+        <div class="top3-desc">首個具備 ESP32-C6 支援（WiFi 6 + BT 5.3）的版本，同步新增 SCD40/41/43 CO2 感測家族支援。室內定位 + CO2 感測一體化方案首次可行。</div>
       </div>
       <div class="top3-card">
         <div class="top3-rank">#3</div>
-        <div class="top3-title">🆕 Aqara U400 UWB 智能門鎖<br>HomeKit UWB 精確感應到來</div>
-        <div class="top3-desc">2026-04-20 上市評測，Ultra Wideband 支援讓 HomeKit 門鎖具備精確方向感知，走近即感知，Aqara 生態整合最佳化。</div>
+        <div class="top3-title">🆕 Walmart onn 4K Box<br>Gemini + Matter + Thread</div>
+        <div class="top3-desc">零售通路最暢銷的串流裝置更新加入 Matter/Thread 支援及 Gemini AI。代表 Matter 生態正從智能家庭發燒友擴散到普通消費者手中。</div>
       </div>
     </div>
   </div>
@@ -284,34 +303,35 @@
     <!-- Home Assistant -->
     <div class="card">
       <div class="card-header">
-        <div class="card-title">Home Assistant 2026.4</div>
+        <div class="card-title">Home Assistant 2026.4 + ubisys 新夥伴</div>
         <div class="card-meta">
           <span class="badge badge-release">版本發布</span>
-          <span class="badge badge-info">已收錄</span>
+          <span class="badge badge-new">🆕 夥伴更新 2026-04-24</span>
         </div>
       </div>
-      <div class="card-date">首次收錄：2026-04-18 ｜ 來源：home-assistant-blog</div>
+      <div class="card-date">首次收錄：2026-04-18 ｜ 🆕 ubisys 夥伴：2026-04-23 ｜ 來源：home-assistant-blog</div>
       <ul class="points">
+        <li><strong>🆕 ubisys 加入 Works with Home Assistant（2026-04-23）：</strong>德國 Zigbee 改裝裝置老牌廠商（20+ 年），擴展 HA 相容設備生態</li>
         <li>紅外線 (IR) 控制升為一級功能，可直接控制傳統冷氣、電視等家電</li>
         <li>Matter 門鎖 PIN 碼管理全面支援，強化安全門禁控制</li>
         <li>AI Assist 透明度功能：顯示推理邏輯，讓自動化決策可解釋</li>
         <li>備份加密現代化（SecureTar v3），Trail of Bits 獨立審計確認「最佳實踐」</li>
         <li>新增 14 個整合項目，儀表板新增背景色與卡片收藏功能</li>
       </ul>
-      <div class="impact-box"><strong>影響層面：</strong>既有使用者受惠最多；IR 功能讓無 WiFi 的傳統家電納入自動化範疇</div>
+      <div class="impact-box"><strong>影響層面：</strong>既有使用者受惠最多；IR 功能讓無 WiFi 的傳統家電納入自動化範疇；ubisys 加入擴大 Zigbee 高品質設備選擇</div>
       <div class="action-box"><strong>行動建議：</strong>升級至 2026.4 後確認備份加密已自動遷移；IR 控制者可開始設定 Broadlink/SB 紅外線整合</div>
     </div>
 
     <!-- ESPHome -->
-    <div class="card new">
+    <div class="card">
       <div class="card-header">
         <div class="card-title">ESPHome 2026.4.0</div>
         <div class="card-meta">
           <span class="badge badge-release">重大版本</span>
-          <span class="badge badge-update">首次收錄：2026-04-18</span>
+          <span class="badge badge-info">已收錄，無新版本</span>
         </div>
       </div>
-      <div class="card-date">2026-04 ｜ 來源：esphome-changelog</div>
+      <div class="card-date">首次收錄：2026-04-18 ｜ 2026-04-24 確認仍為最新 ｜ 來源：esphome-changelog</div>
       <ul class="points">
         <li><strong>46 倍更快的感測器發佈：</strong>log 格式化移至 client 端，大幅降低裝置運算負擔</li>
         <li><strong>ESP32 預設 240MHz：</strong>API 操作速度提升 33%，額外釋放 40KB IRAM</li>
@@ -319,9 +339,10 @@
         <li><strong>原生 Mitsubishi CN105：</strong>無需 IR 橋接，直接接大金/三菱空調控制板</li>
         <li>GPIO 擴展器改為中斷驅動，閒置 I2C 流量減少 99.7%；LVGL 升至 9.5.0 支援原生旋轉</li>
         <li>新增感測器：SPA06、HDC2080、emonTx；乙太網路新增 5 種晶片（含 RP2040）</li>
+        <li>⚠️ Breaking：i2s_audio media player 移除，需遷移至 speaker 元件</li>
       </ul>
       <div class="impact-box"><strong>影響層面：</strong>所有 ESP32 裝置受益效能提升；商業空調整合者（Mitsubishi）可捨棄第三方橋接方案</div>
-      <div class="action-box"><strong>行動建議：</strong>升級 ESPHome 2026.4.0 即可獲得效能紅利（無需改設定）；Mitsubishi 空調用戶可評估移除 HA-bridge 層</div>
+      <div class="action-box"><strong>行動建議：</strong>升級 ESPHome 2026.4.0 即可獲得效能紅利；使用電池供電 ESP32 者需手動加 `cpu_frequency: 160MHZ` 節能</div>
     </div>
 
     <!-- Zigbee2MQTT -->
@@ -330,38 +351,39 @@
         <div class="card-title">Zigbee2MQTT v2.9.2</div>
         <div class="card-meta">
           <span class="badge badge-release">版本發布</span>
-          <span class="badge badge-info">已收錄</span>
+          <span class="badge badge-info">已收錄，無新版本</span>
         </div>
       </div>
-      <div class="card-date">首次收錄：2026-04-18 ｜ 來源：GitHub Releases（官網 /changelog 持續 404）</div>
+      <div class="card-date">首次收錄：2026-04-18 ｜ 2026-04-24 確認仍為最新（發布：2026-04-01）｜ 來源：GitHub Releases</div>
       <ul class="points">
         <li>70+ 項改進與修復，涵蓋 IKEA KAJPLATS、Tuya 智能灑水器、SONOFF 裝置</li>
         <li>自定義 cluster 屬性從 ZH 遷移至 ZHC，提升擴充規範性</li>
         <li>修復停用裝置持續被輪詢的問題；修復 HA 天氣感測器實體命名錯誤</li>
-        <li>4月21日爬取：無新版本，v2.9.2 仍為最新（發布於 2026-04-01）</li>
       </ul>
       <div class="impact-box"><strong>影響層面：</strong>IKEA 與 Tuya 裝置用戶可升級改善穩定性；自訂 cluster 開發者需確認遷移</div>
       <div class="action-box"><strong>行動建議：</strong>升級至 v2.9.2；有自定義 ZH cluster 者需將屬性遷移至 ZHC 命名空間</div>
     </div>
 
     <!-- Matter / CSA -->
-    <div class="card">
+    <div class="card new">
       <div class="card-header">
-        <div class="card-title">Matter 1.5.1 + IoT 安全標準新進展</div>
+        <div class="card-title">Matter + Zigbee Direct 生態新進展</div>
         <div class="card-meta">
-          <span class="badge badge-update">規格更新</span>
-          <span class="badge badge-info">已收錄</span>
+          <span class="badge badge-new">🆕 2026-04-24 更新</span>
+          <span class="badge badge-update">生態擴展</span>
         </div>
       </div>
-      <div class="card-date">首次收錄：2026-04-18 ｜ 最新 CSA 公告至 2026-04-15 ｜ 來源：csa-matter-news</div>
+      <div class="card-date">🆕 最新至 2026-04-23 ｜ 來源：csa-matter-news</div>
       <ul class="points">
+        <li><strong>🆕 Zigbee Direct Security（2026-04-23）：</strong>CSA 發布 Zigbee Direct 安全機制資訊圖，BLE 直連 Zigbee 網路的安全保護說明</li>
+        <li><strong>🆕 Samsung SmartThings 談 Matter 採用（2026-04-21）：</strong>SmartThings 官方分享 Matter 整合實戰經驗，支持生態互通</li>
+        <li><strong>🆕 Walmart onn 4K 串流盒加入 Gemini + Matter（2026-04-20）：</strong>零售通路暢銷串流裝置獲得 Matter/Thread 支援，AIoT 走向大眾普及</li>
         <li><strong>Matter 1.5.1：</strong>攝影機可同時多路串流，不再壓垮家庭網路頻寬</li>
-        <li><strong>Zigbee Direct（infographic 2026-04-15）：</strong>透過 BLE 直連 Zigbee 網路，無需 Hub，降低部署門檻</li>
-        <li><strong>U.S. Cyber Trust Mark（2026-04-13）：</strong>美國政府 IoT 安全標章規範正式發布，產品設計需符合</li>
+        <li><strong>U.S. Cyber Trust Mark（2026-04-13）：</strong>美國政府 IoT 安全標章規範正式發布</li>
         <li>Aliro 數位門鑰協定：UL Solutions 認證測試服務上線；Eve Systems 分享 Matter 整合實戰心得</li>
       </ul>
-      <div class="impact-box"><strong>影響層面：</strong>攝影機整合商受益最大；美國市場銷售的 IoT 產品未來需取得 Cyber Trust Mark</div>
-      <div class="action-box"><strong>行動建議：</strong>關注 Matter 1.5.1 攝影機 streaming 規格；準備銷售美國市場的廠商盡早了解 Cyber Trust Mark 認證流程</div>
+      <div class="impact-box"><strong>影響層面：</strong>Walmart + SmartThings + Samsung 同時強化 Matter，標誌生態臨界點已到；普通消費者開始接觸 Matter 生態</div>
+      <div class="action-box"><strong>行動建議：</strong>評估家中裝置 Matter 相容性；準備銷售美國市場的廠商盡早了解 Cyber Trust Mark 認證流程</div>
     </div>
 
     <!-- Frigate -->
@@ -370,10 +392,10 @@
         <div class="card-title">Frigate NVR v0.17.1</div>
         <div class="card-meta">
           <span class="badge badge-release">版本發布</span>
-          <span class="badge badge-info">已收錄</span>
+          <span class="badge badge-info">已收錄，無新版本</span>
         </div>
       </div>
-      <div class="card-date">首次收錄：2026-04-18 ｜ v0.17.1: 2026-03-22 ｜ v0.17.0: 2026-02-27</div>
+      <div class="card-date">首次收錄：2026-04-18 ｜ v0.17.1: 2026-03-22 ｜ 2026-04-24 確認仍為最新</div>
       <ul class="points">
         <li>v0.17.0 重大功能：本地分類模型訓練（MobileNetV2），自訂物件/狀態分類</li>
         <li>全本地音訊轉錄（sherpa-onnx / faster-whisper）、語義搜尋觸發自動化</li>
@@ -388,22 +410,22 @@
     <!-- WLED -->
     <div class="card new">
       <div class="card-header">
-        <div class="card-title">WLED 16.0.0-beta — 持續 nightly 迭代</div>
+        <div class="card-title">WLED 16.0.0-beta — nightly 20260423 持續迭代</div>
         <div class="card-meta">
-          <span class="badge badge-new">🆕 nightly 20260420</span>
+          <span class="badge badge-new">🆕 nightly 20260423</span>
           <span class="badge badge-warn">Beta 版</span>
         </div>
       </div>
-      <div class="card-date">🆕 2026-04-21 更新 ｜ nightly 20260420 (2026-04-20) ｜ beta 發布：2026-04-11 ｜ 來源：wled-releases</div>
+      <div class="card-date">🆕 2026-04-24 更新 ｜ nightly 20260423（2026-04-23）｜ beta 發布：2026-04-11 ｜ 來源：wled-releases</div>
       <ul class="points">
-        <li><strong>nightly 20260420（2026-04-20）：</strong>最新 nightly build，含近期提交修正持續整合</li>
+        <li><strong>🆕 nightly 20260423（2026-04-23）：</strong>Safari/webkit 瀏覽器 1D 段效果顯示修正；GoL（生命遊戲效果）missing return 修正</li>
         <li><strong>真正的圖層（Segment Layering）：</strong>多種效果可疊加合成，不再互相覆蓋</li>
         <li><strong>粒子系統 + GIF 播放：</strong>支援燈帶與矩陣面板的 GIF 動畫播放</li>
         <li><strong>HUB75 LED 矩陣支援 + DMX 輸入：</strong>跨越業餘邁入準專業燈控領域</li>
         <li>自定義字型滾動文字、Pixelforge 多工具（GIF 處理 + 繪圖）、100+ 自訂調色盤</li>
-        <li>正式穩定版（v16.0.0）尚未發布，持續 nightly 累積修正中</li>
+        <li>v16.0.0 正式穩定版尚未發布，beta 已持續 13 天，正式版可望近期發布</li>
       </ul>
-      <div class="impact-box"><strong>影響層面：</strong>DIY 燈光裝置可實現過去需付費軟體才能做到的效果；HUB75 支援大幅降低 LED 矩陣部署成本</div>
+      <div class="impact-box"><strong>影響層面：</strong>DIY 燈光裝置可實現商業燈控軟體等級功能；HUB75 支援大幅降低 LED 矩陣部署成本</div>
       <div class="action-box"><strong>行動建議：</strong>⚠️ Beta/nightly 安裝前先備份設定；穩定環境建議等 v16.0.0 正式版，預計近期發布</div>
     </div>
 
@@ -411,10 +433,10 @@
     <div class="grid-2">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">Node-RED — 5.0 路線圖</div>
+          <div class="card-title">Node-RED — 5.0 路線圖進行中</div>
           <div class="card-meta"><span class="badge badge-info">無新版本</span></div>
         </div>
-        <div class="card-date">路線圖宣布：2025-12-03 ｜ 目前穩定版：4.1</div>
+        <div class="card-date">路線圖宣布：2025-12-03 ｜ 目前穩定版：4.1（2025-07）</div>
         <ul class="points">
           <li>Node-RED Con 2025 宣布 5.0 路線圖，重大現代化計畫進行中</li>
           <li>使用者體驗調查結果公開，5.0 設計方向確立</li>
@@ -435,17 +457,24 @@
         <div class="action-box"><strong>建議：</strong>觀察 2026 mid-year 下一個重大版本</div>
       </div>
 
-      <div class="card">
+      <!-- ESPresense - NOW HAS NEW RELEASE -->
+      <div class="card new">
         <div class="card-header">
-          <div class="card-title">ESPresense — 藍牙室內定位</div>
-          <div class="card-meta"><span class="badge badge-info">無版本更新</span></div>
+          <div class="card-title">ESPresense v4.1.0b0 — ESP32-C6 支援</div>
+          <div class="card-meta">
+            <span class="badge badge-new">🆕 2026-04-24 首次收錄</span>
+            <span class="badge badge-release">新版本</span>
+          </div>
         </div>
-        <div class="card-date">來源：espresense.com（官網無版本日期）</div>
+        <div class="card-date">🆕 首次收錄：2026-04-24 ｜ 發布：2026-03-29 ｜ 來源：GitHub Releases</div>
         <ul class="points">
-          <li>IRK-based Apple 裝置被動追蹤，支援私有隨機地址</li>
-          <li>mqtt_room（單間）與 Companion（精確 X,Y 定位，需 5-8+ nodes）雙模式</li>
+          <li><strong>ESP32-C6 正式支援：</strong>WiFi 6 + Bluetooth 5.3，新一代高效能定位節點選擇</li>
+          <li>SCD40/SCD41/SCD43 CO2 感測家族支援：定位節點同時可量測室內空氣品質</li>
+          <li>Multiple Access Point 改善支援；過濾器前綴大小寫不敏感</li>
+          <li>IRK-based Apple 裝置被動追蹤（iPhone/Watch 私有隨機 MAC）</li>
+          <li>Companion Mode：5-8+ 節點可實現精確 X,Y 坐標追蹤</li>
         </ul>
-        <div class="action-box"><strong>建議：</strong>追蹤 GitHub releases 獲取版本資訊</div>
+        <div class="action-box"><strong>建議：</strong>新建 ESPresense 節點優先選用 ESP32-C6 模組；CO2+定位二合一可減少感測器數量</div>
       </div>
 
       <div class="card">
@@ -453,10 +482,11 @@
           <div class="card-title">Tasmota v15.3.0 "Susan"</div>
           <div class="card-meta"><span class="badge badge-info">無新動態</span></div>
         </div>
-        <div class="card-date">來源：tasmota-docs</div>
+        <div class="card-date">來源：tasmota-docs ｜ 2026-04-24 確認仍為最新</div>
         <ul class="points">
-          <li>Sensirion SEN6x 室內空氣品質感測器整合</li>
+          <li>Sensirion SEN6x 室內空氣品質感測器整合（多參數空品）</li>
           <li>RX8025T RTC 支援；ESP32 SPI bus2（乙太網路 + SDCard）</li>
+          <li>TCA9554 8-bit I/O 擴展器；Adafruit QT 旋轉編碼器</li>
         </ul>
         <div class="action-box"><strong>建議：</strong>SEN6x 空品感測整合的首選韌體方案</div>
       </div>
@@ -467,16 +497,16 @@
   <div class="section" id="commercial">
     <div class="section-title"><span class="icon">🏢</span> 商業生態系</div>
 
-    <!-- Aqara U400 NEW -->
-    <div class="card new">
+    <!-- Aqara U400 existing -->
+    <div class="card">
       <div class="card-header">
-        <div class="card-title">🆕 Aqara U400 UWB 智能門鎖 — HomeKit UWB 精確感應</div>
+        <div class="card-title">Aqara U400 UWB 智能門鎖 — HomeKit UWB 精確感應</div>
         <div class="card-meta">
-          <span class="badge badge-new">🆕 2026-04-21 新增</span>
           <span class="badge badge-release">新品上市</span>
+          <span class="badge badge-info">首次收錄：2026-04-21</span>
         </div>
       </div>
-      <div class="card-date">🆕 首次收錄：2026-04-21 ｜ 評測發布：2026-04-20 ｜ 來源：9to5mac-homekit</div>
+      <div class="card-date">首次收錄：2026-04-21 ｜ 評測發布：2026-04-20 ｜ 來源：9to5mac-homekit</div>
       <ul class="points">
         <li><strong>Ultra Wideband（UWB）技術：</strong>方向感知精確，走近即自動感應，優於一般 BLE 靠近感應</li>
         <li><strong>HomeKit 原生整合：</strong>評測者選其作為 HomeKit 生態主要門鎖，整合度為同類最佳</li>
@@ -493,48 +523,49 @@
         <div class="card-title">Apple HomeKit / Matter — iOS 26.5 Beta 動態</div>
         <div class="card-meta">
           <span class="badge badge-update">平台動態</span>
+          <span class="badge badge-info">首次收錄：2026-04-18</span>
         </div>
       </div>
-      <div class="card-date">首次收錄：2026-04-18 ｜ 最新：2026-04-13 ｜ 來源：9to5mac-homekit</div>
+      <div class="card-date">首次收錄：2026-04-18 ｜ 最新：2026-04-20（Aqara U400 評測）｜ 來源：9to5mac-homekit</div>
       <ul class="points">
         <li><strong>iOS 26.5 Beta 2（2026-04-13）：</strong>HomeKit 相關功能變動，待後續報導確認細節</li>
-        <li><strong>Apple 智能家庭顯示器：</strong>依賴 Siri 升級，預計 iOS 27 時代發布，硬體/AI 雙重依賴</li>
+        <li><strong>Apple 智能家庭顯示器：</strong>依賴 Siri 升級，預計 iOS 27 時代發布</li>
         <li><strong>IKEA Matter-over-Thread 連線問題（2026-02）：</strong>IKEA 官方承認，影響 Apple Home 等多個生態系</li>
         <li>HomeKit Secure Video 2026-03 服務中斷事件已恢復；舊 Wemo 裝置 2026-01 正式停服</li>
       </ul>
       <div class="impact-box"><strong>影響層面：</strong>Matter-over-Thread 互通性問題提醒——協定標準化≠設備互通；IKEA 廉價設備風險較高</div>
-      <div class="action-box"><strong>行動建議：</strong>IKEA Thread 裝置不穩定者可嘗試更新韌體或改用 Zigbee2MQTT 橋接；蘋果顯示器繼續等待</div>
+      <div class="action-box"><strong>行動建議：</strong>IKEA Thread 裝置不穩定者可嘗試更新韌體或改用 Zigbee2MQTT 橋接</div>
     </div>
 
     <div class="grid-2">
       <!-- Google Home -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">Google Home — Gemini + Home APIs</div>
+          <div class="card-title">Google Home — Gemini + Home APIs Vitals</div>
           <div class="card-meta">
-            <span class="badge badge-fail">404 爬取失敗</span>
+            <span class="badge badge-update">平台功能</span>
           </div>
         </div>
-        <div class="card-date">2026-04-21 爬取：/news 子路徑 404</div>
+        <div class="card-date">2026-04-24 爬取：首頁可訪問，/news 子路徑仍 404</div>
         <ul class="points">
-          <li>Home APIs 整合健康監控（Vitals），主動識別整合錯誤</li>
+          <li>Home APIs Vitals：主動識別整合錯誤、監控整合健康度的新工具套件</li>
           <li>Gemini 整合 Home APIs Knowledge Base，Android app AI 輔助開發</li>
           <li>平台支援 6 億+ 裝置；Matter Virtual Device 供開發測試</li>
         </ul>
-        <div class="action-box"><strong>建議：</strong>Android 開發者評估 Gemini+Home APIs；直接訪問 developers.home.google.com 查最新公告</div>
+        <div class="action-box"><strong>建議：</strong>Android 開發者評估 Gemini+Home APIs；直接訪問 developers.home.google.com</div>
       </div>
 
       <!-- Alexa / SmartThings / Thread -->
       <div class="card">
         <div class="card-header">
           <div class="card-title">SmartThings / Alexa / Thread Group</div>
-          <div class="card-meta"><span class="badge badge-fail">持續爬取失敗</span></div>
+          <div class="card-meta"><span class="badge badge-fail">持續爬取受限</span></div>
         </div>
-        <div class="card-date">2026-04-21 爬取</div>
+        <div class="card-date">2026-04-24 爬取 ｜ SmartThings 內容改從 CSA 新聞掌握</div>
         <ul class="points">
-          <li>SmartThings 開發者部落格：HTTP 404，頁面結構異常（持續）</li>
-          <li>Alexa 開發者部落格：頁面為 JS 渲染（React），無法取得文章列表</li>
-          <li>Thread Group 新聞頁：HTTP 404，頁面不存在（持續）</li>
+          <li><strong>SmartThings（via CSA）：</strong>2026-04-21 公開分享 Matter 技術採用心得，積極推進 Matter 生態</li>
+          <li>Alexa 開發者部落格：頁面為 JS 渲染（React），無法取得文章列表（持續）</li>
+          <li>Thread Group 新聞頁：HTTP 404，頁面結構異常（持續）</li>
         </ul>
         <div class="action-box"><strong>建議：</strong>直接訪問各官網或訂閱電子報；SmartThings 可查 GitHub Releases</div>
       </div>
@@ -545,44 +576,46 @@
   <div class="section" id="edge-ai">
     <div class="section-title"><span class="icon">🤖</span> 邊緣 AI 硬體與本地 LLM 執行框架</div>
 
-    <!-- llama.cpp NEW -->
-    <div class="card new">
+    <!-- llama.cpp SECURITY CRITICAL -->
+    <div class="card danger">
       <div class="card-header">
-        <div class="card-title">llama.cpp b8860–b8863 — Gemma-4 MoE 分散式修正</div>
+        <div class="card-title">🚨 llama.cpp CVE-2026-21869 — 高危安全漏洞修正（b8905–b8909）</div>
         <div class="card-meta">
-          <span class="badge badge-new">🆕 2026-04-21 更新</span>
-          <span class="badge badge-release">每日構建</span>
+          <span class="badge badge-new">🆕 2026-04-24 最新</span>
+          <span class="badge badge-security">🚨 CVE CVSS 8.8</span>
         </div>
       </div>
-      <div class="card-date">🆕 首次收錄：2026-04-21 ｜ b8860-b8863 發布：2026-04-20 ｜ 來源：llamacpp-releases</div>
+      <div class="card-date">🆕 首次收錄：2026-04-24 ｜ b8908 發布：2026-04-23 ｜ b8909：2026-04-24 ｜ 來源：llamacpp-releases</div>
       <ul class="points">
-        <li><strong>b8860：Tensor-parallel — 修正 Gemma-4 MoE AllReduce 延遲問題</strong>，多 GPU 推論更穩定</li>
-        <li><strong>b8861：server 移除 /api 端點</strong>，API 架構整理重構，影響直接呼叫 /api 的應用</li>
-        <li><strong>b8862：mtmd 位置追蹤修正</strong>（get_n_pos / get_decoder_pos）</li>
-        <li><strong>b8863：ggml-cuda OOM 自動重試</strong>，flush legacy pool 後重新分配，顯著改善長時推論穩定性</li>
-        <li>上週亮點（仍有效）：b8831 Android arm64 正式支援、b8832 CUDA LRU 記憶體管理、b8833 WebGPU 重構</li>
+        <li class="danger-item"><strong>b8908（2026-04-23）🚨 CVE-2026-21869 CVSS 8.8：</strong>server：修正 heap-buffer-overflow（CWE-787）。客戶端 JSON 傳入負數 n_discard 即可觸發 update_slots() context-shift loop 的 out-of-bound 寫入。修正：JSON ingress 處強制 clamp n_discard 為非負數</li>
+        <li><strong>b8909（2026-04-24）：</strong>server：convert_anthropic_to_oai — 同步複製 chat_template_kwargs</li>
+        <li><strong>b8907（2026-04-23）：</strong>vendor：更新 LibreSSL 至 4.3.1</li>
+        <li><strong>b8906（2026-04-23）：</strong>server（Anthropic API）：修正 prefix caching — 解決 Claude Code 與 llama.cpp 整合時 prompt cache 命中率問題</li>
+        <li><strong>b8905（2026-04-23）：</strong>SYCL 版本構建號修正</li>
+        <li>上週亮點（仍有效）：b8863 CUDA OOM 自動重試、b8860 Gemma-4 MoE 多 GPU 修正、b8831 Android arm64 正式支援</li>
       </ul>
-      <div class="impact-box"><strong>影響層面：</strong>RTX GPU 用戶的長時推論 OOM 問題改善；直接使用 /api 端點的應用需確認 b8861 影響</div>
-      <div class="action-box"><strong>行動建議：</strong>Gemma-4 多 GPU 推論用戶升級至 b8860+；使用 llama.cpp server /api 路徑的應用在升級前先測試相容性</div>
+      <div class="impact-box"><strong>影響層面：</strong>任何對外暴露 llama.cpp server（包含僅本地運行）的環境都需評估風險；Anthropic API 相容模式的 prefix caching 修復讓 Claude Code 使用開源模型的效率顯著提升</div>
+      <div class="action-box urgent"><strong>⚠️ 立即行動：</strong>運行 llama.cpp server 的環境必須升級至 b8908 或以上。CVE-2026-21869 CVSS 8.8 屬高危，負數 n_discard 可由任何有 API 存取權的客戶端觸發 heap-buffer-overflow。即使僅本地使用也建議升級。</div>
     </div>
 
     <!-- Jetson -->
-    <div class="card">
+    <div class="card new">
       <div class="card-header">
-        <div class="card-title">NVIDIA Jetson — Gemma 4 邊緣部署 + Physical AI LLM</div>
+        <div class="card-title">NVIDIA Jetson — 大型模型記憶體優化 + Gemma 4 邊緣部署</div>
         <div class="card-meta">
+          <span class="badge badge-new">🆕 2026-04-24 更新</span>
           <span class="badge badge-update">邊緣 AI</span>
-          <span class="badge badge-fail">2026-04-21 爬取失敗</span>
         </div>
       </div>
-      <div class="card-date">首次收錄：2026-04-18 ｜ 最新文章至 2026-04-02 ｜ 來源：nvidia-jetson-blog（持續 404）</div>
+      <div class="card-date">🆕 最新文章：2026-04-20 ｜ 來源：nvidia-jetson-blog（via workaround URL）</div>
       <ul class="points">
+        <li><strong>🆕 Maximizing Memory Efficiency to Run Bigger Models（2026-04-20）：</strong>在 Jetson 上最大化記憶體效率以運行更大型 LLM/VLM，開發者記憶體優化實戰指南</li>
         <li><strong>Gemma 4 on Edge（2026-04-02）：</strong>多模態、多語言 Gemma 4 正式支援 Jetson 邊緣部署</li>
         <li><strong>Edge-First LLMs for Robotics/AV（2026-03-12）：</strong>自動駕駛與機器人的邊緣優先 LLM 部署架構</li>
         <li><strong>Jetson T4000 + JetPack 7.1（2026-01-05）：</strong>高效能邊緣 AI 推論硬體，即時推理能力強化</li>
       </ul>
-      <div class="impact-box"><strong>影響層面：</strong>多模態 LLM 已可在邊緣裝置本地運行；機器人/AGV 廠商面臨「上雲 vs 邊緣 LLM」架構決策</div>
-      <div class="action-box"><strong>行動建議：</strong>評估 Gemma 4 on Jetson 取代需要 API 的視覺/NLP 任務；直接訪問 NVIDIA 部落格查最新文章</div>
+      <div class="impact-box"><strong>影響層面：</strong>多模態 LLM 已可在邊緣裝置本地運行；記憶體優化技術讓中低階 Jetson 硬體也能跑更大模型</div>
+      <div class="action-box"><strong>行動建議：</strong>評估 Gemma 4 on Jetson 取代需要 API 的視覺/NLP 任務；參考記憶體優化指南最大化現有硬體潛力</div>
     </div>
 
     <div class="grid-2">
@@ -592,11 +625,11 @@
           <div class="card-title">Ollama — MLX Apple Silicon 預覽</div>
           <div class="card-meta"><span class="badge badge-update">新功能預覽</span></div>
         </div>
-        <div class="card-date">首次收錄：2026-04-18 ｜ 最新：2026-03-30</div>
+        <div class="card-date">首次收錄：2026-04-18 ｜ 最新：2026-03-30 ｜ 2026-04-24 確認無新文章</div>
         <ul class="points">
           <li>Apple Silicon 用戶可透過 MLX 獲得最快 Ollama 效能（預覽版）</li>
           <li>支援 Claude Code 子代理與網路搜尋（2026-02-16）</li>
-          <li>2026-04-21 爬取：無新文章，MLX 預覽持續</li>
+          <li>OpenClaw：個人 AI 助理，單指令一鍵啟動（2026-02-01）</li>
         </ul>
         <div class="action-box"><strong>建議：</strong>Mac 用戶啟用 MLX 預覽版測試效能差異</div>
       </div>
@@ -604,17 +637,17 @@
       <!-- RPi -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">Raspberry Pi — OS 安全更新 + 社群展示</div>
+          <div class="card-title">Raspberry Pi — 安全更新 + 社群展示</div>
           <div class="card-meta">
-            <span class="badge badge-new">🆕 社群文章</span>
+            <span class="badge badge-info">持續社群更新</span>
           </div>
         </div>
-        <div class="card-date">🆕 2026-04-21 更新 ｜ Maker Monday：2026-04-20 ｜ OS 安全更新：2026-04-14</div>
+        <div class="card-date">最新：2026-04-23（鳥鳴研究）｜ 來源：raspberry-pi-news</div>
         <ul class="points">
-          <li><strong>Maker Monday（2026-04-20）：</strong>社群分享個人 Pi 專案（股票行情器、天氣站、GameCubes 等）</li>
+          <li>Maker Monday（2026-04-20）：股票行情器、天氣站、GameCubes 社群展示</li>
           <li><strong>Passwordless sudo 預設關閉（2026-04-14）：</strong>重大安全改動，網路部署場景強化防護</li>
           <li>新推 3GB Raspberry Pi 4（$83.75），Pi 5 省記憶體應用教學</li>
-          <li>Pi Connect 遠端更新功能（2026-03-20），邊緣裝置管理更便利</li>
+          <li>Pi Connect 遠端更新功能，邊緣裝置管理更便利</li>
         </ul>
         <div class="action-box"><strong>建議：</strong>依賴 passwordless sudo 的自動化腳本需更新為明確 sudo 設定</div>
       </div>
@@ -625,10 +658,10 @@
           <div class="card-title">Google Coral Edge TPU — 無新動態</div>
           <div class="card-meta"><span class="badge badge-fail">持續重定向</span></div>
         </div>
-        <div class="card-date">2026-04-21 爬取：coral.ai 重定向至 developers.google.com/coral，無具體版本更新</div>
+        <div class="card-date">2026-04-24 爬取：coral.ai 重定向至 developers.google.com/coral，無具體版本更新</div>
         <ul class="points">
           <li>定位：邊緣 AI 全棧平台，超低功耗 Always-on 推論</li>
-          <li>重定向後的 /coral 頁面為概覽，具體更新在 /coral/news/announcements</li>
+          <li>具體更新需直接訪問 developers.google.com/coral/news/announcements</li>
         </ul>
         <div class="action-box"><strong>建議：</strong>直接訪問 developers.google.com/coral/news/announcements 查詢最新資訊</div>
       </div>
@@ -637,41 +670,41 @@
 
   <!-- TRENDS -->
   <div class="section" id="trends">
-    <div class="section-title"><span class="icon">📈</span> 趨勢分析（3-5 個關鍵觀察）</div>
+    <div class="section-title"><span class="icon">📈</span> 趨勢分析（5 個關鍵觀察）</div>
     <div class="card info">
       <div class="trend-item">
-        <div class="trend-num">1</div>
+        <div class="trend-num red">!</div>
         <div class="trend-content">
-          <div class="trend-title">LLM 邊緣化全面加速——從伺服器室到口袋</div>
-          <div class="trend-desc">llama.cpp 本週修正 Gemma-4 MoE 多 GPU 推論問題（b8860）、CUDA OOM 自動重試（b8863），加上上週的 Android arm64 正式支援——這些同步進展表明：2026 年的 LLM 推論不再是雲端專屬，邊緣裝置已具備商用部署條件。AIoT 閘道器加裝本地 LLM 的方案開始有具體技術堆疊可選。</div>
+          <div class="trend-title">本地 AI 伺服器的安全性開始成為焦點——CVE 時代來臨</div>
+          <div class="trend-desc">llama.cpp CVE-2026-21869（CVSS 8.8）是本地 AI 推論引擎的首批高危漏洞之一。過去「本地運行 = 安全」的假設開始動搖：任何有 API 存取能力的客戶端都可能成為攻擊向量。這預示著 Home Assistant + Ollama/llama.cpp 的整合方案，未來需要像對待網路服務一樣對待安全更新。定期升級、隔離網段、限制 API 存取將成為本地 AI 部署的必要作法。</div>
         </div>
       </div>
       <div class="trend-item">
         <div class="trend-num">2</div>
+        <div class="trend-content">
+          <div class="trend-title">Matter 生態臨界點——從早期採用者到主流消費者</div>
+          <div class="trend-desc">本週三個訊號同時出現：Walmart 零售通路串流盒加入 Matter/Thread、SmartThings 公開擁抱 Matter、CSA 持續發布 Zigbee Direct 安全規範。這不再只是智能家庭發燒友的話題——全美最大零售商的暢銷裝置加入 Matter，代表普通消費者將在不知情的狀況下進入 Matter 生態。這對 HA + Zigbee2MQTT 用戶而言，意味著 Matter bridge 需求將持續增長。</div>
+        </div>
+      </div>
+      <div class="trend-item">
+        <div class="trend-num">3</div>
+        <div class="trend-content">
+          <div class="trend-title">室內定位進化：ESP32-C6 + CO2 感測二合一節點</div>
+          <div class="trend-desc">ESPresense v4.1.0b0 加入 ESP32-C6 支援（WiFi 6 + BT 5.3）與 SCD4x CO2 感測家族，讓單個感測節點同時具備「人在哪裡」與「空氣品質如何」兩種感知能力。這是硬體融合趨勢的體現：邊緣節點不再是單一功能感測器，而是多維情境感知平台。結合 WLED nightly 改善 Safari 相容性，DIY 智能家庭的軟硬體整合門檻持續降低。</div>
+        </div>
+      </div>
+      <div class="trend-item">
+        <div class="trend-num">4</div>
         <div class="trend-content">
           <div class="trend-title">UWB 從手機滲透至智能家庭入口感知</div>
           <div class="trend-desc">Aqara U400 將 Ultra Wideband 帶入門鎖，結合 Apple U1/U2 晶片的精確方向感應，讓「人從哪個方向靠近」成為可程式化的自動化觸發條件。這與毫米波（FP2）的「人是否存在」形成互補——前者感知方向/接近意圖，後者感知位置/姿態。UWB + mmWave 組合將是下一代存在感知架構。</div>
         </div>
       </div>
       <div class="trend-item">
-        <div class="trend-num">3</div>
-        <div class="trend-content">
-          <div class="trend-title">Matter 生態成熟但互通性仍是痛點</div>
-          <div class="trend-desc">Matter 1.5.1 持續改善攝影機串流，Eve/Fortune Brands 等品牌公開分享正向整合經驗；然而 IKEA Matter-over-Thread 設備連線問題提醒業界——協定標準化≠設備互通。各品牌韌體實作差異、Thread mesh 拓樸管理，仍是 Matter 生態的實際挑戰。</div>
-        </div>
-      </div>
-      <div class="trend-item">
-        <div class="trend-num">4</div>
-        <div class="trend-content">
-          <div class="trend-title">本地 AI 影像監控平民化——多 NPU 支援降低門檻</div>
-          <div class="trend-desc">Frigate v0.17 同時支援 Apple Silicon NPU、Intel NPU (OpenVINO)、RKNN、Google Coral/YOLOv9，使用者可依預算選擇加速硬體而非綁定特定生態。配合 WLED HUB75 支援，DIY 智能安防與燈光體驗正在向商業級功能靠攏。</div>
-        </div>
-      </div>
-      <div class="trend-item">
         <div class="trend-num">5</div>
         <div class="trend-content">
           <div class="trend-title">IoT 安全強化從選配走向監管必要</div>
-          <div class="trend-desc">美國 Cyber Trust Mark 正式發布，HA 備份採用 Trail of Bits 審計的現代密碼學，Raspberry Pi OS 預設關閉 passwordless sudo，Frigate 修補 admin 角色驗證漏洞——安全從事後補救轉向前置設計。面向美國市場的 IoT 廠商需盡早規劃認證流程。</div>
+          <div class="trend-desc">美國 Cyber Trust Mark 正式發布、HA 備份採用 Trail of Bits 審計、Raspberry Pi OS 預設關閉 passwordless sudo、Frigate 修補 admin 角色漏洞、llama.cpp CVE——安全從事後補救轉向前置設計。面向美國市場的 IoT 廠商需盡早規劃認證流程；個人 HA 用戶也應檢視暴露在外網的服務清單。</div>
         </div>
       </div>
     </div>
@@ -681,11 +714,28 @@
   <div class="section" id="watchlist">
     <div class="section-title"><span class="icon">🔭</span> 值得關注技術（持續追蹤中）</div>
 
+    <div class="card danger">
+      <div class="card-header">
+        <div class="card-title">⓪ 立即行動：llama.cpp CVE-2026-21869 升級確認</div>
+        <div class="card-meta">
+          <span class="badge badge-new">🆕 2026-04-24 新增</span>
+          <span class="badge badge-security">🚨 緊急</span>
+        </div>
+      </div>
+      <ul class="points">
+        <li class="danger-item"><strong>受影響範圍：</strong>所有運行 llama.cpp server 的環境（包含 Ollama 底層、LM Studio、本地 API 服務）</li>
+        <li class="danger-item"><strong>攻擊向量：</strong>客戶端 JSON 注入負數 n_discard → heap-buffer-overflow → 潛在 RCE</li>
+        <li><strong>修正版本：</strong>b8908（2026-04-23）已修補；建議升級至 b8909（最新）</li>
+        <li>短期額外防護：限制 llama.cpp server 僅 localhost 存取（`--host 127.0.0.1`）</li>
+      </ul>
+      <div class="action-box urgent"><strong>⚠️ 驗證升級：</strong>執行 `./llama-server --version` 確認 build 編號 ≥ b8908。如使用 Ollama，等待 Ollama 官方更新其內建 llama.cpp；暫時可改用 `--host 127.0.0.1` 限制存取</div>
+    </div>
+
     <div class="card highlight">
       <div class="card-header">
         <div class="card-title">① Aqara U400 UWB + FP2 mmWave — 複合存在感知閉環</div>
         <div class="card-meta">
-          <span class="badge badge-new">🆕 2026-04-21 新增</span>
+          <span class="badge badge-info">首次收錄：2026-04-21</span>
           <span class="badge badge-info">深度追蹤</span>
         </div>
       </div>
@@ -694,35 +744,38 @@
         <li><strong>毫米波（FP2）：</strong>室內存在感知，靜止人體偵測，精確 X,Y 定位</li>
         <li>組合邏輯：U400 偵測「人正在靠近入口」→ FP2 確認「人進入哪個區域」→ 串聯 HA 自動化</li>
       </ul>
-      <div class="action-box"><strong>為什麼重要：</strong>UWB + mmWave 的組合讓智能家庭從「有人嗎？」進化到「誰、在哪、意圖是什麼」——這是觸發精細化自動化的關鍵前提</div>
+      <div class="action-box"><strong>為什麼重要：</strong>UWB + mmWave 讓智能家庭從「有人嗎？」進化到「誰、在哪、意圖是什麼」——觸發精細化自動化的關鍵前提</div>
     </div>
 
     <div class="card highlight">
       <div class="card-header">
-        <div class="card-title">② ESPresense Companion Mode — 精確 X,Y 室內定位</div>
-        <div class="card-meta"><span class="badge badge-info">深度追蹤</span></div>
-      </div>
-      <ul class="points">
-        <li>5-8+ 個 ESP32 節點可實現每層樓的精確 X,Y 坐標追蹤（非僅房間級別）</li>
-        <li>IRK-based 追蹤：可被動追蹤 Apple 裝置（iPhone/Apple Watch）的隨機 MAC，無需配對</li>
-        <li>整合 median pre-filter + 1Euro filter，BLE 訊號雜訊過濾成熟</li>
-      </ul>
-      <div class="action-box"><strong>為什麼重要：</strong>精確室內定位 + 邊緣 LLM = 「我在哪裡」的真正情境感知。可驅動更細膩的自動化（人走近沙發才開電視，而非只是「人在客廳」）</div>
-    </div>
-
-    <div class="card highlight">
-      <div class="card-header">
-        <div class="card-title">③ WLED v16 穩定版 — 近期將正式發布</div>
+        <div class="card-title">② WLED v16 穩定版 — 近期將正式發布</div>
         <div class="card-meta">
           <span class="badge badge-warn">等待正式版</span>
         </div>
       </div>
       <ul class="points">
-        <li>nightly 20260420 持續迭代，beta 至今 10 天，正式版可望近期發布</li>
+        <li>nightly 20260423 持續迭代，beta 至今 13 天（2026-04-11 發布），正式版可望近期發布</li>
         <li>HUB75 LED 矩陣控制：ESP32 直接驅動專業顯示牆標準接口</li>
         <li>DMX 輸入讓 WLED 可整合專業舞台燈光控制台（DMX 512 協定）</li>
+        <li>Safari/webkit 1D 效果顯示已修正（nightly 20260423）</li>
       </ul>
-      <div class="action-box"><strong>為什麼重要：</strong>v16 正式版是 WLED 社群等待 16 個月的里程碑；穩定版發布後建議全面升級，GIF/粒子/圖層功能已等同商業燈控軟體</div>
+      <div class="action-box"><strong>為什麼重要：</strong>v16 正式版是 WLED 社群等待 16+ 個月的里程碑；穩定版發布後建議全面升級，GIF/粒子/圖層功能已等同商業燈控軟體</div>
+    </div>
+
+    <div class="card highlight">
+      <div class="card-header">
+        <div class="card-title">③ ESPresense v4.x + ESP32-C6 — 下一代室內定位節點</div>
+        <div class="card-meta">
+          <span class="badge badge-new">🆕 2026-04-24 新增</span>
+        </div>
+      </div>
+      <ul class="points">
+        <li>v4.1.0b0 首次支援 ESP32-C6：WiFi 6（更省電、更快）+ Bluetooth 5.3（更好訊號）</li>
+        <li>SCD40/41/43 CO2 感測支援：定位節點兼具空氣品質感知，一機多用</li>
+        <li>Companion Mode（5-8+ 節點）精確 X,Y 坐標追蹤 + IRK Apple 裝置被動追蹤</li>
+      </ul>
+      <div class="action-box"><strong>為什麼重要：</strong>ESP32-C6 的加入讓 ESPresense 節點在低功耗與 BLE 訊號品質上雙重提升；CO2 感測整合讓同一裝置具備空氣品質觸發自動化能力（如開窗、換氣扇）</div>
     </div>
 
     <div class="card highlight">
@@ -735,42 +788,58 @@
         <li>全本地音訊轉錄（Whisper）：影像+聲音+語義搜尋，監控事件完整記錄</li>
         <li>GenAI 摘要（危險/可疑/正常）：人類不需逐格看，AI 先過濾再推送通知</li>
       </ul>
-      <div class="action-box"><strong>為什麼重要：</strong>Frigate v0.17 已是功能完整的本地 AI 監控平台；加上 ESPHome 的 PIR/毫米波感測，可建構全本地隱私友好的智能安防系統</div>
+      <div class="action-box"><strong>為什麼重要：</strong>Frigate v0.17 已是功能完整的本地 AI 監控平台；配合 ESPHome PIR/毫米波感測，可建構全本地隱私友好的智能安防系統</div>
     </div>
   </div>
 
   <!-- CRAWL STATS -->
   <div class="section" id="crawl-stats">
-    <div class="section-title"><span class="icon">📊</span> 爬取摘要（2026-04-21）</div>
+    <div class="section-title"><span class="icon">📊</span> 爬取摘要（2026-04-24）</div>
     <div class="stats-row">
       <div class="stat-box">
         <div class="stat-num">20</div>
         <div class="stat-label">總來源數</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num" style="color: var(--green);">14</div>
+        <div class="stat-num" style="color: var(--green);">15</div>
         <div class="stat-label">成功爬取</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num" style="color: var(--red);">6</div>
+        <div class="stat-num" style="color: var(--red);">5</div>
         <div class="stat-label">爬取失敗</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num" style="color: var(--accent);">4</div>
+        <div class="stat-num" style="color: var(--accent);">6</div>
         <div class="stat-label">有新更新</div>
       </div>
+      <div class="stat-box">
+        <div class="stat-num" style="color: var(--red);">1</div>
+        <div class="stat-label">安全警報</div>
+      </div>
+    </div>
+
+    <div class="card danger">
+      <div class="card-header">
+        <div class="card-title">🚨 本次安全警報</div>
+        <div class="card-meta"><span class="badge badge-security">CVE-2026-21869</span></div>
+      </div>
+      <ul class="points">
+        <li class="danger-item"><strong>llamacpp-releases</strong> — b8908（2026-04-23）CVE-2026-21869：heap-buffer-overflow，CVSS 8.8，任何有 API 存取的客戶端可觸發。執行 llama.cpp server 的環境必須立即升級至 b8908+</li>
+      </ul>
     </div>
 
     <div class="card">
       <div class="card-header">
-        <div class="card-title">🆕 本次有新內容的來源（2026-04-21）</div>
+        <div class="card-title">🆕 本次有新內容的來源（2026-04-24）</div>
         <div class="card-meta"><span class="badge badge-new">🆕 已更新 latest.md</span></div>
       </div>
       <ul class="points">
-        <li><strong>wled-releases</strong> — nightly 20260420（2026-04-20），持續 beta 迭代</li>
-        <li><strong>llamacpp-releases</strong> — b8860-b8863（2026-04-20）：Gemma-4 MoE 修正、CUDA OOM 重試、API 重構、位置追蹤修正</li>
-        <li><strong>9to5mac-homekit</strong> — Aqara U400 UWB Smart Lock 評測（2026-04-20），HomeKit 精確感應新品</li>
-        <li><strong>raspberry-pi-news</strong> — Maker Monday 社群專案展示（2026-04-20），次要社群更新</li>
+        <li><strong>llamacpp-releases</strong> — b8905-b8909（2026-04-23-24）：CVE 安全修正、Anthropic API prefix caching 修復、LibreSSL 更新</li>
+        <li><strong>wled-releases</strong> — nightly 20260423（2026-04-23）：Safari 1D 效果修正、GoL 修正，持續 beta 迭代</li>
+        <li><strong>csa-matter-news</strong> — 3 筆新公告：Zigbee Direct 安全（04-23）、SmartThings Matter（04-21）、Walmart Gemini+Matter（04-20）</li>
+        <li><strong>espresense</strong> — v4.1.0b0（2026-03-29）：首次從 GitHub Releases 發現，ESP32-C6 支援、SCD4x CO2 整合</li>
+        <li><strong>nvidia-jetson-blog</strong> — 記憶體效率優化文章（2026-04-20），透過備用 URL 成功取得</li>
+        <li><strong>home-assistant-blog</strong> — ubisys 加入 Works with HA 夥伴計畫（2026-04-23）</li>
       </ul>
     </div>
 
@@ -780,15 +849,15 @@
         <div class="card-meta"><span class="badge badge-info">已確認</span></div>
       </div>
       <ul class="points">
-        <li><strong>home-assistant-blog</strong> — 最新：2026-04-01（HA 2026.4），無新文章</li>
         <li><strong>esphome-changelog</strong> — 最新：2026.4.0，無新版本</li>
-        <li><strong>zigbee2mqtt</strong> — 最新：v2.9.2（2026-04-01），GitHub Releases 備用確認</li>
-        <li><strong>csa-matter-news</strong> — 最新：2026-04-15（Zigbee Direct），無新公告</li>
+        <li><strong>zigbee2mqtt-changelog</strong> — 最新：v2.9.2（2026-04-01），GitHub Releases 備用確認</li>
         <li><strong>frigate-releases</strong> — 最新：v0.17.1（2026-03-22），無新版本</li>
         <li><strong>node-red-blog</strong> — 最新：2025-12-03（5.0 路線圖），無新文章</li>
         <li><strong>openhab-blog</strong> — 最新：2025-12-22（openHAB 5.1），無新文章</li>
         <li><strong>tasmota-docs</strong> — 最新：v15.3.0，無新版本</li>
         <li><strong>ollama-blog</strong> — 最新：2026-03-30（MLX 預覽），無新文章</li>
+        <li><strong>raspberry-pi-news</strong> — 最新：2026-04-23（鳥鳴研究，科普性質），無重大 IoT 更新</li>
+        <li><strong>9to5mac-homekit</strong> — 最新：2026-04-20（Aqara U400），已收錄</li>
       </ul>
     </div>
 
@@ -799,12 +868,11 @@
       </div>
       <ul class="fail-list">
         <li><span class="fail-dot"></span><strong>zigbee2mqtt-changelog</strong> — 官網 changelog 頁 HTTP 404；已改用 GitHub Releases 備用（內容有效）</li>
-        <li><span class="fail-dot"></span><strong>google-home-developers</strong> — /news 子路徑 404；直接訪問首頁可看概況</li>
-        <li><span class="fail-dot"></span><strong>smartthings-dev-blog</strong> — developer.smartthings.com/blog 持續 HTTP 404</li>
-        <li><span class="fail-dot"></span><strong>thread-group-news</strong> — threadgroup.org/news-events HTTP 404，頁面結構異常</li>
-        <li><span class="fail-dot"></span><strong>nvidia-jetson-blog</strong> — developer.nvidia.com/blog/category/jetson/ HTTP 404，需改用 NVIDIA 部落格首頁</li>
-        <li><span class="fail-dot"></span><strong>coral-ai-news</strong> — coral.ai 重定向至 developers.google.com/coral，無具體版本更新資訊</li>
+        <li><span class="fail-dot"></span><strong>google-home-developers</strong> — /news 子路徑 404；改抓首頁獲得平台概況</li>
+        <li><span class="fail-dot"></span><strong>smartthings-dev-blog</strong> — developer.smartthings.com/blog 持續 HTTP 404；改從 CSA 新聞掌握動態</li>
+        <li><span class="fail-dot"></span><strong>thread-group-news</strong> — threadgroup.org/news-events HTTP 404（持續）</li>
         <li><span class="fail-dot"></span><strong>alexa-dev-blog</strong> — 頁面為 React JS 渲染，爬取僅得導覽結構，無文章內容</li>
+        <li><span class="fail-dot"></span><strong>coral-ai-news</strong> — coral.ai 重定向至 developers.google.com/coral，無具體版本更新資訊</li>
       </ul>
     </div>
   </div>
@@ -812,7 +880,7 @@
 </div>
 
 <footer>
-  AIoT 週報 · 最後更新 2026-04-21 · 由 Claude AIoT 爬蟲自動產出 · 20 個來源（累計第 5 次爬取）· 本報告採用淺色主題 #ffffff
+  AIoT 週報 · 最後更新 2026-04-24 · 由 Claude AIoT 爬蟲自動產出 · 20 個來源（累計第 6 次爬取）· 🚨 本期含 CVE-2026-21869 安全警報 · 本報告採用淺色主題 #ffffff
 </footer>
 
 </body>
