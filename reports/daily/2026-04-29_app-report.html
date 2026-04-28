@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 應用趨勢日報 — 2026-04-29</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --accent: #3b82f6;
+    --accent-light: #eff6ff;
+    --new-bg: #fef3c7;
+    --new-border: #f59e0b;
+    --new-text: #92400e;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --toc-width: 210px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--t1);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* TOC sidebar */
+  .toc {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: var(--toc-width);
+    height: 100vh;
+    background: var(--s1);
+    border-right: 1px solid var(--s2);
+    overflow-y: auto;
+    padding: 20px 0;
+    z-index: 100;
+  }
+
+  .toc-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--t2);
+    text-transform: uppercase;
+    padding: 0 16px 12px;
+    border-bottom: 1px solid var(--s2);
+    margin-bottom: 8px;
+  }
+
+  .toc a {
+    display: block;
+    padding: 7px 16px;
+    color: var(--t2);
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .toc a:hover {
+    color: var(--accent);
+    background: var(--accent-light);
+    border-left-color: var(--accent);
+  }
+
+  .toc a.active {
+    color: var(--accent);
+    background: var(--accent-light);
+    border-left-color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Main content */
+  .main {
+    margin-left: var(--toc-width);
+    max-width: 960px;
+    padding: 0 40px 60px;
+  }
+
+  /* Header */
+  .report-header {
+    background: var(--s1);
+    border-bottom: 2px solid var(--s2);
+    padding: 32px 40px;
+    margin-left: var(--toc-width);
+    margin-bottom: 0;
+  }
+
+  .report-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--t1);
+    margin-bottom: 8px;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .meta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg);
+    border: 1px solid var(--s2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 13px;
+    color: var(--t2);
+    font-weight: 500;
+  }
+
+  .meta-badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+  }
+
+  .meta-badge .dot-warn {
+    background: var(--warning);
+  }
+
+  /* Sections */
+  section {
+    padding: 40px 0 0;
+  }
+
+  section:first-of-type {
+    padding-top: 36px;
+  }
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--t1);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--s2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-icon {
+    font-size: 22px;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t1);
+    margin-bottom: 4px;
+  }
+
+  .card-meta {
+    font-size: 12px;
+    color: var(--t2);
+    margin-bottom: 6px;
+  }
+
+  .card-body {
+    font-size: 14px;
+    color: var(--t1);
+    line-height: 1.6;
+  }
+
+  /* NEW badge */
+  .new-badge {
+    display: inline-block;
+    background: var(--new-bg);
+    border: 1px solid var(--new-border);
+    color: var(--new-text);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+    margin-left: 6px;
+  }
+
+  .card.is-new {
+    border-left: 3px solid var(--new-border);
+    background: #fffbeb;
+  }
+
+  /* Overview grid */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .overview-card {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+
+  .overview-card .source-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--t2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .overview-card .status {
+    font-size: 13px;
+    color: var(--t1);
+    margin-bottom: 6px;
+  }
+
+  .overview-card .new-count {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .overview-card .new-label {
+    font-size: 12px;
+    color: var(--t2);
+  }
+
+  /* Tool list */
+  .tool-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--s2);
+    align-items: flex-start;
+  }
+
+  .tool-item:last-child {
+    border-bottom: none;
+  }
+
+  .tool-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--s2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .tool-info { flex: 1; }
+
+  .tool-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t1);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tool-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 4px 0;
+  }
+
+  .tag {
+    font-size: 11px;
+    background: var(--s2);
+    color: var(--t2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .tag.accent {
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  .tool-desc {
+    font-size: 13px;
+    color: var(--t2);
+    margin-top: 3px;
+  }
+
+  /* News items */
+  .news-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--s2);
+  }
+
+  .news-item:last-child { border-bottom: none; }
+
+  .news-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t1);
+    margin-bottom: 4px;
+  }
+
+  .news-source {
+    font-size: 12px;
+    color: var(--t2);
+    margin-bottom: 6px;
+  }
+
+  .news-body {
+    font-size: 14px;
+    color: var(--t1);
+    line-height: 1.6;
+  }
+
+  /* Trend items */
+  .trend-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--s2);
+    align-items: flex-start;
+  }
+
+  .trend-item:last-child { border-bottom: none; }
+
+  .trend-rank {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .trend-content { flex: 1; }
+
+  .trend-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t1);
+  }
+
+  .trend-desc {
+    font-size: 13px;
+    color: var(--t2);
+    margin-top: 3px;
+  }
+
+  /* Recommendations */
+  .rec-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--s2);
+    align-items: flex-start;
+  }
+
+  .rec-item:last-child { border-bottom: none; }
+
+  .rec-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .rec-content { flex: 1; }
+
+  .rec-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t1);
+    margin-bottom: 4px;
+  }
+
+  .rec-body {
+    font-size: 14px;
+    color: var(--t2);
+    line-height: 1.6;
+  }
+
+  /* Summary box */
+  .summary-box {
+    background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    padding: 24px 28px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--t1);
+  }
+
+  .summary-box strong {
+    color: var(--accent);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    :root { --toc-width: 0px; }
+    .toc { display: none; }
+    .report-header { margin-left: 0; padding: 24px 20px; }
+    .main { margin-left: 0; padding: 0 20px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOC Sidebar -->
+<nav class="toc">
+  <div class="toc-title">目錄</div>
+  <a href="#overview">📊 總覽</a>
+  <a href="#new-tools">🆕 新工具/產品</a>
+  <a href="#trending-apps">🔥 熱門應用</a>
+  <a href="#industry-news">📰 產業動態</a>
+  <a href="#use-cases">💡 使用案例</a>
+  <a href="#recommendations">✅ 建議</a>
+  <a href="#summary">📝 總結</a>
+</nav>
+
+<!-- Header -->
+<header class="report-header">
+  <h1>AI 應用趨勢日報 — 2026-04-29</h1>
+  <p style="color: var(--t2); font-size: 14px;">每日 AI 工具與產業動態彙整，來源：6 個 app 類訂閱源</p>
+  <div class="header-meta">
+    <span class="meta-badge"><span class="dot"></span>爬取日期：2026-04-29</span>
+    <span class="meta-badge"><span class="dot"></span>監控來源：6 個</span>
+    <span class="meta-badge"><span class="dot"></span>新增條目：5 則</span>
+    <span class="meta-badge"><span class="dot"></span>今日焦點：OpenAI iPhone 計畫 × DeepSeek V4</span>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="main">
+
+  <!-- ===== 1. 總覽 ===== -->
+  <section id="overview">
+    <h2 class="section-title"><span class="section-icon">📊</span>總覽</h2>
+
+    <div class="overview-grid">
+      <div class="overview-card">
+        <div class="source-name">theresanaiforthat</div>
+        <div class="status">🔴 403 封鎖，數據沿用</div>
+        <div class="new-count">0</div>
+        <div class="new-label">新增條目（連線受阻）</div>
+      </div>
+      <div class="overview-card">
+        <div class="source-name">bensbites</div>
+        <div class="status">🟡 付費牆，交叉補充</div>
+        <div class="new-count">1</div>
+        <div class="new-label">新增條目</div>
+      </div>
+      <div class="overview-card">
+        <div class="source-name">therundown-ai</div>
+        <div class="status">🟢 正常抓取</div>
+        <div class="new-count">1</div>
+        <div class="new-label">新增條目</div>
+      </div>
+      <div class="overview-card">
+        <div class="source-name">producthunt-ai</div>
+        <div class="status">🟢 正常抓取</div>
+        <div class="new-count">2</div>
+        <div class="new-label">新增追蹤產品</div>
+      </div>
+      <div class="overview-card">
+        <div class="source-name">superhuman-ai</div>
+        <div class="status">🟢 正常抓取</div>
+        <div class="new-count">1</div>
+        <div class="new-label">新增條目</div>
+      </div>
+      <div class="overview-card">
+        <div class="source-name">mattshumer</div>
+        <div class="status">⚪ 連續 24 日無更新</div>
+        <div class="new-count">0</div>
+        <div class="new-label">新增條目</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">今日爬取摘要</div>
+      <div class="card-body">
+        <p>共監控 <strong>6 個來源</strong>，成功取得資料 <strong>4 個</strong>（therundown-ai、producthunt-ai、superhuman-ai、bensbites 交叉補充），封鎖 1 個（theresanaiforthat 403），靜默 1 個（mattshumer 連續 24 日無公開文章）。</p>
+        <br>
+        <p><strong>今日最大新聞：</strong>Superhuman AI 報導「OpenAI's iPhone competitor」——OpenAI 打造硬體裝置計畫曝光，直接挑戰 Apple iPhone 市場。The Rundown AI 同步確認 OpenAI × Microsoft 進入新合作模式，ChatGPT Workspace Agents 擴大部署。</p>
+        <br>
+        <p><strong>Product Hunt 觀察：</strong>Claude Code 評論數單日暴增 +8（387→395），增幅為所有追蹤產品最高，反映 Claude Code 熱度持續上升。Claude by Anthropic 亦增 +6（746→752）。</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">來源健康狀態</div>
+      <div class="card-body">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+          <thead>
+            <tr style="background:var(--s2);">
+              <th style="text-align:left; padding:8px 10px; border-radius:4px 0 0 4px;">來源</th>
+              <th style="text-align:center; padding:8px 10px;">狀態</th>
+              <th style="text-align:center; padding:8px 10px;">上次更新</th>
+              <th style="text-align:center; padding:8px 10px; border-radius:0 4px 4px 0;">新增</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--s2);">
+              <td style="padding:8px 10px; font-weight:600;">theresanaiforthat</td>
+              <td style="text-align:center; padding:8px 10px; color:#ef4444;">403 封鎖</td>
+              <td style="text-align:center; padding:8px 10px; color:var(--t2);">2026-04-28</td>
+              <td style="text-align:center; padding:8px 10px;">0</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--s2);">
+              <td style="padding:8px 10px; font-weight:600;">bensbites</td>
+              <td style="text-align:center; padding:8px 10px; color:#f59e0b;">付費牆</td>
+              <td style="text-align:center; padding:8px 10px; color:var(--t2);">2026-04-29</td>
+              <td style="text-align:center; padding:8px 10px; color:var(--accent); font-weight:700;">1</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--s2);">
+              <td style="padding:8px 10px; font-weight:600;">therundown-ai</td>
+              <td style="text-align:center; padding:8px 10px; color:#10b981;">正常</td>
+              <td style="text-align:center; padding:8px 10px; color:var(--t2);">2026-04-29</td>
+              <td style="text-align:center; padding:8px 10px; color:var(--accent); font-weight:700;">1</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--s2);">
+              <td style="padding:8px 10px; font-weight:600;">producthunt-ai</td>
+              <td style="text-align:center; padding:8px 10px; color:#10b981;">正常</td>
+              <td style="text-align:center; padding:8px 10px; color:var(--t2);">2026-04-29</td>
+              <td style="text-align:center; padding:8px 10px; color:var(--accent); font-weight:700;">2</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--s2);">
+              <td style="padding:8px 10px; font-weight:600;">superhuman-ai</td>
+              <td style="text-align:center; padding:8px 10px; color:#10b981;">正常</td>
+              <td style="text-align:center; padding:8px 10px; color:var(--t2);">2026-04-29</td>
+              <td style="text-align:center; padding:8px 10px; color:var(--accent); font-weight:700;">1</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 10px; font-weight:600;">mattshumer</td>
+              <td style="text-align:center; padding:8px 10px; color:#94a3b8;">靜默 24 日</td>
+              <td style="text-align:center; padding:8px 10px; color:var(--t2);">N/A</td>
+              <td style="text-align:center; padding:8px 10px;">0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 2. 新工具/產品 ===== -->
+  <section id="new-tools">
+    <h2 class="section-title"><span class="section-icon">🆕</span>新工具/產品</h2>
+
+    <p style="color:var(--t2); font-size:13px; margin-bottom:16px;">以下為今日新確認上線或首次追蹤的工具與產品，標有 <span class="new-badge">NEW</span> 的為今日新增。</p>
+
+    <!-- Product Hunt 今日新品 -->
+    <div style="font-size:13px; font-weight:700; color:var(--t2); letter-spacing:0.05em; text-transform:uppercase; margin:16px 0 10px;">Product Hunt 今日新品</div>
+
+    <div class="card is-new">
+      <div class="tool-item" style="border:none; padding:0;">
+        <div class="tool-icon">🎤</div>
+        <div class="tool-info">
+          <div class="tool-name">Klariqo AI Voice Assistants <span class="new-badge">NEW</span></div>
+          <div class="tool-tags">
+            <span class="tag accent">AI Agents</span>
+            <span class="tag">語音 AI</span>
+            <span class="tag">中小企業</span>
+          </div>
+          <div class="tool-desc">三分鐘內快速部署語音與聊天代理，專為服務業設計。無需技術背景即可建立 AI 客服助理，支援電話自動應答與即時訊息回覆。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card is-new">
+      <div class="tool-item" style="border:none; padding:0;">
+        <div class="tool-icon">🏗️</div>
+        <div class="tool-info">
+          <div class="tool-name">Raydian <span class="new-badge">NEW</span></div>
+          <div class="tool-tags">
+            <span class="tag accent">Vibe Coding</span>
+            <span class="tag">全端開發</span>
+            <span class="tag">視覺化編輯</span>
+          </div>
+          <div class="tool-desc">以對話輸入驅動全端網頁應用建置平台。使用者用自然語言描述需求，系統自動生成完整 Web App，並提供視覺化編輯介面微調細節，降低開發門檻。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card is-new">
+      <div class="tool-item" style="border:none; padding:0;">
+        <div class="tool-icon">🌐</div>
+        <div class="tool-info">
+          <div class="tool-name">AI Browser <span class="new-badge">NEW</span></div>
+          <div class="tool-tags">
+            <span class="tag accent">AI Agents</span>
+            <span class="tag">自動化</span>
+            <span class="tag">CAPTCHA 處理</span>
+          </div>
+          <div class="tool-desc">單一提示自動化線上任務的代理式瀏覽器。能夠處理 CAPTCHA 驗證、表單填寫、資料爬取等複雜網頁操作，將瀏覽器操作完全自動化，適合 RPA 與資料收集場景。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Superhuman 工具推薦 -->
+    <div style="font-size:13px; font-weight:700; color:var(--t2); letter-spacing:0.05em; text-transform:uppercase; margin:20px 0 10px;">Superhuman AI 工具推薦</div>
+
+    <div class="card">
+      <div class="tool-item" style="border:none; padding:0;">
+        <div class="tool-icon">🎬</div>
+        <div class="tool-info">
+          <div class="tool-name">Ella</div>
+          <div class="tool-tags">
+            <span class="tag accent">影片生成</span>
+            <span class="tag">AI 創作</span>
+          </div>
+          <div class="tool-desc">AI 驅動的影片生成與編輯工具，支援文字轉影片及智能剪輯功能。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tool-item" style="border:none; padding:0;">
+        <div class="tool-icon">🎵</div>
+        <div class="tool-info">
+          <div class="tool-name">Somio</div>
+          <div class="tool-tags">
+            <span class="tag accent">音樂生成</span>
+            <span class="tag">文字轉音樂</span>
+          </div>
+          <div class="tool-desc">文字轉音樂生成器，輸入描述即可生成原創音樂，適合內容創作者快速產製背景音樂。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tool-item" style="border:none; padding:0;">
+        <div class="tool-icon">📺</div>
+        <div class="tool-info">
+          <div class="tool-name">Claras</div>
+          <div class="tool-tags">
+            <span class="tag accent">YouTube</span>
+            <span class="tag">轉錄</span>
+            <span class="tag">問答</span>
+          </div>
+          <div class="tool-desc">YouTube 影片轉錄與互動問答工具，可針對影片內容提問，快速獲取關鍵資訊，大幅節省觀看長影片的時間。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tool-item" style="border:none; padding:0;">
+        <div class="tool-icon">⏰</div>
+        <div class="tool-info">
+          <div class="tool-name">Toki</div>
+          <div class="tool-tags">
+            <span class="tag accent">時間管理</span>
+            <span class="tag">AI 規劃</span>
+          </div>
+          <div class="tool-desc">AI 時間規劃助手，根據使用者的工作習慣與優先事項自動安排最佳行程，提升時間使用效率。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 沿用工具清單（theresanaiforthat） -->
+    <div style="font-size:13px; font-weight:700; color:var(--t2); letter-spacing:0.05em; text-transform:uppercase; margin:20px 0 10px;">theresanaiforthat 工具庫（沿用最新記錄）</div>
+
+    <div class="card">
+      <div class="tool-item" style="border:none; padding:0 0 12px;">
+        <div class="tool-icon">🏷️</div>
+        <div class="tool-info">
+          <div class="tool-name">OpenGraph</div>
+          <div class="tool-tags"><span class="tag">Meta Tags</span><span class="tag">Free + $29/mo</span><span class="tag">⭐ 5.0</span></div>
+          <div class="tool-desc">Meta 標籤自動化工具，一鍵生成符合 SEO 規範的 Open Graph 標籤，提升社群分享時的預覽效果。</div>
+        </div>
+      </div>
+      <div class="tool-item" style="border:none; padding:12px 0 12px;">
+        <div class="tool-icon">🤖</div>
+        <div class="tool-info">
+          <div class="tool-name">Storypitch.ai v2.0</div>
+          <div class="tool-tags"><span class="tag">Writing</span><span class="tag">Free + $19/mo</span><span class="tag">⭐ 5.0</span><span class="tag">2,986 saves</span></div>
+          <div class="tool-desc">AI 故事與提案寫作工具，協助創作者、編劇、行銷人員快速生成有吸引力的故事架構與提案文稿。</div>
+        </div>
+      </div>
+      <div class="tool-item" style="border:none; padding:12px 0 12px;">
+        <div class="tool-icon">📋</div>
+        <div class="tool-info">
+          <div class="tool-name">OrbitMeet</div>
+          <div class="tool-tags"><span class="tag">Meeting Summaries</span><span class="tag">Free + $14.75/mo</span></div>
+          <div class="tool-desc">AI 會議摘要工具，自動錄製與整理會議要點、待辦事項，節省會後整理時間。</div>
+        </div>
+      </div>
+      <div class="tool-item" style="border:none; padding:12px 0 12px;">
+        <div class="tool-icon">📈</div>
+        <div class="tool-info">
+          <div class="tool-name">Mygom SEO</div>
+          <div class="tool-tags"><span class="tag">SEO</span><span class="tag">Free + $39/mo</span><span class="tag">⭐ 5.0</span></div>
+          <div class="tool-desc">AI SEO 優化工具，自動分析關鍵字、競品，生成 SEO 友善內容，提升搜尋引擎排名。</div>
+        </div>
+      </div>
+      <div class="tool-item" style="border:none; padding:12px 0 12px;">
+        <div class="tool-icon">🧠</div>
+        <div class="tool-info">
+          <div class="tool-name">remio v2.14.0</div>
+          <div class="tool-tags"><span class="tag">Knowledge Bases</span><span class="tag">591,669 saves</span><span class="tag">⭐ 4.2</span></div>
+          <div class="tool-desc">個人 ChatGPT 知識庫，將上傳的文件、網頁、筆記整合成可對話的知識庫，591,669 次收藏反映高度需求。</div>
+        </div>
+      </div>
+      <div class="tool-item" style="border:none; padding:12px 0 12px;">
+        <div class="tool-icon">🎼</div>
+        <div class="tool-info">
+          <div class="tool-name">LIA - AI Music Assistant</div>
+          <div class="tool-tags"><span class="tag">Music</span><span class="tag">Free + $24.99/mo</span></div>
+          <div class="tool-desc">AI 音樂助理，協助音樂創作者進行曲譜分析、編曲建議、練習計畫設計等全方位音樂學習輔助。</div>
+        </div>
+      </div>
+      <div class="tool-item" style="border:none; padding:12px 0 12px;">
+        <div class="tool-icon">🎥</div>
+        <div class="tool-info">
+          <div class="tool-name">VidFlux AI v1.1.0</div>
+          <div class="tool-tags"><span class="tag">Videos</span><span class="tag">Waitlist</span><span class="tag">8,471 saves</span><span class="tag">⭐ 4.0</span></div>
+          <div class="tool-desc">AI 影片生成工具，候補等待中，已獲 8,471 次收藏，顯示市場需求龐大。</div>
+        </div>
+      </div>
+      <div class="tool-item" style="border:none; padding:12px 0 0;">
+        <div class="tool-icon">🎞️</div>
+        <div class="tool-info">
+          <div class="tool-name">MojoMake</div>
+          <div class="tool-tags"><span class="tag">Videos</span><span class="tag">Free + $6.33/mo</span><span class="tag">⭐ 5.0</span><span class="tag">3,691 saves</span></div>
+          <div class="tool-desc">AI 圖片轉影片工具，以超低月費將靜態圖片轉成動態影片，適合社群媒體內容創作。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3. 熱門應用 ===== -->
+  <section id="trending-apps">
+    <h2 class="section-title"><span class="section-icon">🔥</span>熱門應用</h2>
+
+    <p style="color:var(--t2); font-size:13px; margin-bottom:16px;">綜合 Product Hunt 評論增長、電子報提及頻率排行。</p>
+
+    <div class="trend-item">
+      <div class="trend-rank">1</div>
+      <div class="trend-content">
+        <div class="trend-name">Claude Code <span class="new-badge">NEW</span></div>
+        <div class="trend-desc">Product Hunt 今日評論增幅最高（+8，387→395）。作為 Anthropic 的深度上下文 AI 程式助手，在 Claude Code 原始碼外洩事件後反而引發更多開發者關注與討論，熱度持續攀升。評分 5.0/5。</div>
+      </div>
+    </div>
+
+    <div class="trend-item">
+      <div class="trend-rank">2</div>
+      <div class="trend-content">
+        <div class="trend-name">Cursor（AI Code Editor）</div>
+        <div class="trend-desc">Product Hunt 評論持續成長（+5，821→826），2024 年度最佳產品。AI 程式碼編輯器市場領導者，與 Claude Code 形成直接競爭格局，開發者工具賽道白熱化。評分 5.0/5。</div>
+      </div>
+    </div>
+
+    <div class="trend-item">
+      <div class="trend-rank">3</div>
+      <div class="trend-content">
+        <div class="trend-name">Claude by Anthropic</div>
+        <div class="trend-desc">Product Hunt 評論增長 +6（746→752），與 Claude Code 同步上升，顯示 Anthropic 品牌整體熱度提升。Claude Design 工具新推出亦帶動主品牌關注度。評分 5.0/5。</div>
+      </div>
+    </div>
+
+    <div class="trend-item">
+      <div class="trend-rank">4</div>
+      <div class="trend-content">
+        <div class="trend-name">Supabase</div>
+        <div class="trend-desc">Product Hunt 評論增長 +6（749→755）。開源 Firebase 替代方案，隨著 AI 應用開發需求激增，後端即服務（BaaS）平台需求大幅成長，AI 驅動的全端應用首選基礎設施。評分 5.0/5。</div>
+      </div>
+    </div>
+
+    <div class="trend-item">
+      <div class="trend-rank">5</div>
+      <div class="trend-content">
+        <div class="trend-name">AI Browser（代理式瀏覽器）</div>
+        <div class="trend-desc">Product Hunt 今日新品，代理式 AI 瀏覽器自動化趨勢的代表產品。隨著 AI Agents 熱潮持續，能處理 CAPTCHA 的自動化瀏覽工具備受開發者與企業關注。</div>
+      </div>
+    </div>
+
+    <div class="trend-item">
+      <div class="trend-rank">6</div>
+      <div class="trend-content">
+        <div class="trend-name">OpenAI 24/7 可共享代理</div>
+        <div class="trend-desc">ChatGPT 可共享全天候 AI 代理，研究預覽階段免費。協助準備簡報、撰寫程式碼或回覆訊息，可與團隊共享，正在重塑企業協作工作流程。</div>
+      </div>
+    </div>
+
+    <!-- Product Hunt 評論增長表 -->
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title">Product Hunt 主要追蹤產品評論動態（2026-04-28 → 2026-04-29）</div>
+      <div class="card-body">
+        <table style="width:100%; border-collapse:collapse; font-size:13px; margin-top:10px;">
+          <thead>
+            <tr style="background:var(--s2);">
+              <th style="text-align:left; padding:8px 10px;">產品</th>
+              <th style="text-align:center; padding:8px 10px;">昨日</th>
+              <th style="text-align:center; padding:8px 10px;">今日</th>
+              <th style="text-align:center; padding:8px 10px;">增幅</th>
+              <th style="text-align:center; padding:8px 10px;">評分</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--s2); background:#fffbeb;">
+              <td style="padding:8px 10px; font-weight:600;">Claude Code ⭐</td>
+              <td style="text-align:center; padding:8px 10px;">387</td>
+              <td style="text-align:center; padding:8px 10px; font-weight:700;">395</td>
+              <td style="text-align:center; padding:8px 10px; color:#10b981; font-weight:700;">+8</td>
+              <td style="text-align:center; padding:8px 10px;">5.0</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--s2);">
+              <td style="padding:8px 10px; font-weight:600;">Claude by Anthropic</td>
+              <td style="text-align:center; padding:8px 10px;">746</td>
+              <td style="text-align:center; padding:8px 10px; font-weight:700;">752</td>
+              <td style="text-align:center; padding:8px 10px; color:#10b981; font-weight:700;">+6</td>
+              <td style="text-align:center; padding:8px 10px;">5.0</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--s2);">
+              <td style="padding:8px 10px; font-weight:600;">Supabase</td>
+              <td style="text-align:center; padding:8px 10px;">749</td>
+              <td style="text-align:center; padding:8px 10px; font-weight:700;">755</td>
+              <td style="text-align:center; padding:8px 10px; color:#10b981; font-weight:700;">+6</td>
+              <td style="text-align:center; padding:8px 10px;">5.0</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--s2);">
+              <td style="padding:8px 10px; font-weight:600;">Cursor</td>
+              <td style="text-align:center; padding:8px 10px;">821</td>
+              <td style="text-align:center; padding:8px 10px; font-weight:700;">826</td>
+              <td style="text-align:center; padding:8px 10px; color:#10b981; font-weight:700;">+5</td>
+              <td style="text-align:center; padding:8px 10px;">5.0</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--s2);">
+              <td style="padding:8px 10px; font-weight:600;">Vercel</td>
+              <td style="text-align:center; padding:8px 10px;">849</td>
+              <td style="text-align:center; padding:8px 10px; font-weight:700;">852</td>
+              <td style="text-align:center; padding:8px 10px; color:#10b981; font-weight:700;">+3</td>
+              <td style="text-align:center; padding:8px 10px;">5.0</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--s2);">
+              <td style="padding:8px 10px; font-weight:600;">ChatGPT</td>
+              <td style="text-align:center; padding:8px 10px;">663</td>
+              <td style="text-align:center; padding:8px 10px; font-weight:700;">664</td>
+              <td style="text-align:center; padding:8px 10px; color:#94a3b8;">+1</td>
+              <td style="text-align:center; padding:8px 10px;">4.8</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 10px; font-weight:600;">OpenAI</td>
+              <td style="text-align:center; padding:8px 10px;">738</td>
+              <td style="text-align:center; padding:8px 10px; font-weight:700;">738</td>
+              <td style="text-align:center; padding:8px 10px; color:#94a3b8;">—</td>
+              <td style="text-align:center; padding:8px 10px;">5.0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. 產業動態 ===== -->
+  <section id="industry-news">
+    <h2 class="section-title"><span class="section-icon">📰</span>產業動態</h2>
+
+    <div class="news-item">
+      <div class="news-title">OpenAI 打造 iPhone 競爭對手 <span class="new-badge">NEW</span></div>
+      <div class="news-source">來源：Superhuman AI｜2026-04-29（今日最新）</div>
+      <div class="news-body">OpenAI 進軍消費性硬體市場的計畫曝光，目標打造直接競爭 Apple iPhone 的裝置。此前 OpenAI 已傳出與前 Apple 設計師 Jony Ive 合作開發 AI 硬體裝置。若成真，這將是 AI 公司從軟體生態跨入硬體賽道的重大轉折，也讓 Apple 在 AI 整合進度緩慢的背景下面臨更直接的威脅。</div>
+    </div>
+
+    <div class="news-item">
+      <div class="news-title">OpenAI × Microsoft 進入新合作模式 <span class="new-badge">NEW</span></div>
+      <div class="news-source">來源：The Rundown AI｜2026-04-29（今日最新）</div>
+      <div class="news-body">OpenAI 與 Microsoft 宣佈重新定義雙方合作關係，採更開放的整合架構。ChatGPT Workspace Agents 將在 Microsoft 企業環境中大規模部署，允許更廣泛的 API 整合。此舉標誌 OpenAI 在保持獨立性的同時，與 Microsoft 生態系深度綁定，鞏固企業市場地位。</div>
+    </div>
+
+    <div class="news-item">
+      <div class="news-title">DeepSeek V4 挑戰 Claude Opus 4.7 與 GPT-5.4</div>
+      <div class="news-source">來源：The Rundown AI、Superhuman AI、Ben's Bites｜2026-04-28</div>
+      <div class="news-body">DeepSeek 發布最新版本 V4，在多項能力基準測試中直接挑戰 Anthropic Claude Opus 4.7 和 OpenAI GPT-5.4。延續 DeepSeek 一貫的低成本高性能路線，再次衝擊前沿模型格局。中國 AI 在能力競賽中的持續突破，使全球 AI 賽局更加複雜多元。</div>
+    </div>
+
+    <div class="news-item">
+      <div class="news-title">Google $400 億美元投資 Anthropic 確認</div>
+      <div class="news-source">來源：Ben's Bites｜2026-04-25</div>
+      <div class="news-body">Google 對 Anthropic 的 $400 億美元投資計畫正式確認，創下 AI 領域史上最大單筆投資紀錄。此舉進一步鞏固 Google 在 Claude 生態系中的戰略地位，同時也表明科技巨頭對 AI 基礎模型公司的長期押注力道絲毫未減。</div>
+    </div>
+
+    <div class="news-item">
+      <div class="news-title">OpenAI 發布「Spud」模型，多項指標超越 Claude</div>
+      <div class="news-source">來源：The Rundown AI、Ben's Bites｜2026-04-26</div>
+      <div class="news-body">OpenAI 推出新前沿模型「Spud」，官方聲稱在多項能力評估指標上超越 Claude。緊接 DeepSeek V4 發布，前沿 AI 模型能力競賽進入空前激烈的階段，短期排行榜洗牌速度加快，模型能力已難以形成持久護城河。</div>
+    </div>
+
+    <div class="news-item">
+      <div class="news-title">Cohere 與 Aleph Alpha 宣佈合併</div>
+      <div class="news-source">來源：Ben's Bites｜2026-04-26</div>
+      <div class="news-body">企業 AI 基礎設施領域的兩大玩家 Cohere（加拿大）與 Aleph Alpha（德國）宣佈合併。此次合併凸顯 AI 企業在面對 OpenAI 和 Anthropic 主導的市場壓力下，加速整合資源、建立差異化競爭優勢的趨勢。</div>
+    </div>
+
+    <div class="news-item">
+      <div class="news-title">ComfyUI 達到 $5 億估值</div>
+      <div class="news-source">來源：Ben's Bites｜2026-04-25</div>
+      <div class="news-body">開源圖像生成工作流工具 ComfyUI 達到 $5 億估值，反映創意 AI 工具市場的爆發式增長。ComfyUI 以高度可客製化的節點式介面著稱，深受 AI 藝術家與專業用戶青睞，其高估值顯示資本對開源 AI 工具生態的強烈興趣。</div>
+    </div>
+
+    <div class="news-item">
+      <div class="news-title">Anthropic Mythos 模型疑似外洩</div>
+      <div class="news-source">來源：The Rundown AI｜2026-04-24</div>
+      <div class="news-body">Anthropic 從未公開的強力 Mythos 模型疑似遭外洩，未授權用戶透過第三方平台存取。Anthropic 聲稱未發現系統被入侵，但事件引發 AI 模型智慧財產保護與安全管理的廣泛討論，也讓外界對 Anthropic 內部是否存在更強大的保留模型充滿想像。</div>
+    </div>
+
+    <div class="news-item">
+      <div class="news-title">Sergey Brin 公開承諾 DeepMind 全力追趕 Claude</div>
+      <div class="news-source">來源：The Rundown AI｜2026-04-22</div>
+      <div class="news-body">Google DeepMind 聯合創辦人 Sergey Brin 罕見公開發聲，直接點名要追趕 Anthropic Claude，顯示 Google 在生成式 AI 賽道的追趕壓力之強烈。結合 $400 億投資 Anthropic 的矛盾姿態，Google 的 AI 策略呈現「投資 + 競爭」的雙軌並行模式。</div>
+    </div>
+
+    <div class="news-item">
+      <div class="news-title">反 AI 抗議升級，直達 Sam Altman 住所</div>
+      <div class="news-source">來源：The Rundown AI｜2026-04-22</div>
+      <div class="news-body">反 AI 運動人士將抗議行動從線上擴展至線下，直接在 OpenAI CEO Sam Altman 的住所進行抗議。此事件標誌 AI 社會反彈情緒的進一步激化，AI 治理與倫理議題正從學術討論演變為具實際政治壓力的社會運動。</div>
+    </div>
+  </section>
+
+  <!-- ===== 5. 使用案例 ===== -->
+  <section id="use-cases">
+    <h2 class="section-title"><span class="section-icon">💡</span>使用案例</h2>
+
+    <p style="color:var(--t2); font-size:13px; margin-bottom:16px;">來自各 AI 電子報的實用教學與 AI 應用案例。</p>
+
+    <div class="card">
+      <div class="card-title">如何設定與使用 Claude Design <span class="new-badge">NEW</span></div>
+      <div class="card-meta">來源：Superhuman AI｜2026-04-29</div>
+      <div class="card-body">
+        Claude Design 是 Anthropic 推出的 AI 設計工具，支援從文字描述生成專業視覺設計、簡報與動畫。教學重點：
+        <ul style="margin: 8px 0 0 16px; line-height:1.8;">
+          <li>在 Claude 介面中切換至 Design 模式</li>
+          <li>使用自然語言描述設計需求（色調、風格、元素）</li>
+          <li>迭代修改：透過對話調整細節直到滿意</li>
+          <li>匯出為 SVG 或圖片格式使用</li>
+        </ul>
+        適用場景：快速製作社群貼文視覺、簡報封面、品牌素材。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">用單一提示並排比較多個 AI 模型</div>
+      <div class="card-meta">來源：Superhuman AI、The Rundown AI｜2026-04-27~28</div>
+      <div class="card-body">
+        隨著 DeepSeek V4、OpenAI Spud、Claude Opus 4.7 接連發布，如何快速評估各模型差異變得重要。推薦做法：
+        <ul style="margin: 8px 0 0 16px; line-height:1.8;">
+          <li>使用 LM Arena 或 LMSYS Chatbot Arena 進行盲測比較</li>
+          <li>準備 5-10 個代表性測試 prompt（推理、創意、程式碼各類）</li>
+          <li>記錄每個模型的回應品質、速度、成本</li>
+          <li>重點評估：長上下文處理、指令遵循、多步驟推理</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">用 Claude 生成個人化每日新聞簡報</div>
+      <div class="card-meta">來源：The Rundown AI｜2026-04-26</div>
+      <div class="card-body">
+        設定 Claude 作為個人新聞策展助手的實用流程：
+        <ul style="margin: 8px 0 0 16px; line-height:1.8;">
+          <li>建立 System Prompt 定義你的關注領域（如：AI 工具、創投、科技政策）</li>
+          <li>每日貼入 RSS 摘要或新聞標題清單</li>
+          <li>請 Claude 篩選、摘要並排序最相關的 3-5 則</li>
+          <li>加上「為什麼這對我重要」的一句話評論</li>
+        </ul>
+        進階：結合 Zapier 或 Make 自動化，每早將新聞簡報推送到 Slack 或 Email。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">ChatGPT 可共享代理的 5 個實用場景</div>
+      <div class="card-meta">來源：Superhuman AI｜2026-04-23</div>
+      <div class="card-body">
+        OpenAI 推出的全天候可共享 AI 代理（研究預覽，免費）適合以下場景：
+        <ul style="margin: 8px 0 0 16px; line-height:1.8;">
+          <li><strong>簡報準備代理：</strong>輸入主題，自動收集資料、生成大綱、產出草稿</li>
+          <li><strong>程式碼審查代理：</strong>共享給團隊，統一 code review 標準</li>
+          <li><strong>客服回覆代理：</strong>基於 FAQ 知識庫，自動草擬回覆訊息</li>
+          <li><strong>會議摘要代理：</strong>輸入逐字稿，輸出結構化會議記錄與行動項目</li>
+          <li><strong>競品監測代理：</strong>每日爬取競品網站，摘要重要變動</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">用 AI Browser 自動化日常線上任務</div>
+      <div class="card-meta">來源：Product Hunt｜2026-04-29</div>
+      <div class="card-body">
+        AI Browser 作為代理式瀏覽器的典型應用場景：
+        <ul style="margin: 8px 0 0 16px; line-height:1.8;">
+          <li><strong>電商價格監測：</strong>自動定時掃描競品頁面，記錄價格變動</li>
+          <li><strong>表單批量填寫：</strong>一次性輸入資料，自動填寫多個表單頁面</li>
+          <li><strong>招募資訊爬取：</strong>從多個人才網站自動收集符合條件的職缺</li>
+          <li><strong>社群媒體監控：</strong>追蹤特定關鍵字的相關討論（CAPTCHA 自動處理）</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6. 建議 ===== -->
+  <section id="recommendations">
+    <h2 class="section-title"><span class="section-icon">✅</span>建議</h2>
+
+    <p style="color:var(--t2); font-size:13px; margin-bottom:16px;">基於今日趨勢，給使用者與創業者的行動建議。</p>
+
+    <div class="rec-item">
+      <div class="rec-num">1</div>
+      <div class="rec-content">
+        <div class="rec-title">立刻評估 Claude Code 與 Cursor 的適用性</div>
+        <div class="rec-body">Claude Code 今日 Product Hunt 增幅最高（+8），且原始碼外洩事件反而提升透明度，讓開發者更了解其「主動模式」與深度上下文能力。建議：若你目前使用 Cursor，本週花 30 分鐘試用 Claude Code，評估哪個更符合你的工作流程。兩者都可搭配 Supabase（今日評論也大增 +6）構建完整全端 AI 應用開發環境。</div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">2</div>
+      <div class="rec-content">
+        <div class="rec-title">OpenAI iPhone 計畫意味著 AI 硬體競賽正式開打</div>
+        <div class="rec-body">今日最大新聞是 OpenAI 的硬體野心曝光。對創業者來說：AI 原生硬體（非手機 App）的市場視窗正在打開，但主要玩家（OpenAI、Apple、Google）都會進場。機會在「垂直場景 AI 硬體」——醫療、工廠、零售等行業專用裝置，避開通用消費市場的直接競爭。</div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">3</div>
+      <div class="rec-content">
+        <div class="rec-title">別把賭注押在單一 AI 模型上</div>
+        <div class="rec-body">DeepSeek V4 今天又出現挑戰 Claude 和 GPT 的報導，加上 OpenAI Spud、Anthropic Mythos 的競爭，前沿模型能力的領先優勢可能只持續幾週。建議：應用架構採用模型無關設計（model-agnostic），透過統一 API 層（如 LiteLLM）隨時切換最優模型，而不是硬綁定特定模型 API。</div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">4</div>
+      <div class="rec-content">
+        <div class="rec-title">善用免費的 OpenAI 共享代理做工作流自動化</div>
+        <div class="rec-body">OpenAI 的全天候可共享 AI 代理目前在研究預覽階段免費。這是建立小型團隊 AI 自動化的難得視窗。建議本週內：(1) 找出團隊中 3 個重複性高的任務（週報整理、客服回覆、競品追蹤），(2) 各建一個共享代理原型，(3) 評估哪個節省最多時間後，投入正式優化。</div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">5</div>
+      <div class="rec-content">
+        <div class="rec-title">AI 社會反彈正在升溫，考量倫理定位</div>
+        <div class="rec-body">反 AI 運動升級到直達 CEO 住所，代表社會壓力不再只是抽象討論。對企業和創業者而言：在 AI 應用推廣時，主動說明「AI 如何協助人類，而非取代人類」的定位，比等到被質疑時再解釋要有效得多。建立清楚的 AI 使用政策與透明度機制，是現階段的風險管理必要項目。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 7. 總結 ===== -->
+  <section id="summary">
+    <h2 class="section-title"><span class="section-icon">📝</span>總結</h2>
+
+    <div class="summary-box">
+      今日（2026-04-29）AI 應用趨勢最大看點是 <strong>OpenAI 進軍硬體市場</strong>的計畫曝光——直接打造 iPhone 競爭對手，標誌 AI 巨頭從純軟體生態向硬體入口的戰略轉型；同日 <strong>OpenAI × Microsoft 宣布新合作模式</strong>，ChatGPT Workspace Agents 大規模企業部署正式啟動，形成「硬體前端 + 企業中台」的雙路並進策略。在模型競賽面，<strong>DeepSeek V4 持續挑戰 Claude Opus 4.7 與 GPT-5.4</strong>，中國 AI 對前沿模型的衝擊常態化；前沿模型能力優勢窗口縮短至以週計算。Product Hunt 數據顯示 <strong>Claude Code 單日評論增幅最高（+8）</strong>，開發者工具賽道熱度持續，Cursor 與 Claude Code 的競爭格局值得持續追蹤。社會面，反 AI 運動升溫至實體抗議，為 AI 治理議題帶來新的政治壓力。整體而言，今日是 AI 行業加速整合、賽局複雜化的典型一天。
+    </div>
+
+    <div style="margin-top: 24px; padding: 16px; background: var(--s1); border-radius: 8px; font-size: 13px; color: var(--t2);">
+      <strong style="color:var(--t1);">報告資訊</strong><br>
+      生成時間：2026-04-29｜監控來源：6 個（theresanaiforthat、bensbites、therundown-ai、producthunt-ai、superhuman-ai、mattshumer）<br>
+      新增條目：5 則｜有效來源：4 個｜無更新：2 個（theresanaiforthat 403 封鎖、mattshumer 靜默第 24 日）
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // TOC active state on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const tocLinks = document.querySelectorAll('.toc a');
+
+  function updateTOC() {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      if (window.scrollY >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+    tocLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateTOC);
+  updateTOC();
+</script>
+
+</body>
+</html>

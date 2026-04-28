@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 產業新聞日報 — 2026-04-29</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --s1: #f8fafc;
+  --s2: #e2e8f0;
+  --t1: #1e293b;
+  --t2: #64748b;
+  --accent: #ef4444;
+  --accent-l: #fef2f2;
+  --green: #10b981;
+  --green-l: #ecfdf5;
+  --amber: #f59e0b;
+  --amber-l: #fffbeb;
+  --blue: #3b82f6;
+  --blue-l: #eff6ff;
+  --purple: #8b5cf6;
+  --purple-l: #f5f3ff;
+  --toc-w: 210px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', sans-serif; background: var(--bg); color: var(--t1); line-height: 1.65; }
+
+/* Header */
+.header { background: linear-gradient(135deg, #1c1917 0%, #292524 50%, #44403c 100%); color: #fff; padding: 2.5rem 2rem; text-align: center; }
+.header .report-type { font-size: 0.78rem; letter-spacing: 0.12em; color: #d6d3d1; text-transform: uppercase; margin-bottom: 0.5rem; }
+.header h1 { font-size: 1.85rem; font-weight: 800; }
+.header .subtitle { color: #a8a29e; margin-top: 0.5rem; font-size: 0.92rem; }
+.header .meta { margin-top: 1.25rem; display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
+.header .meta-item { text-align: center; }
+.header .meta-item .num { font-size: 1.4rem; font-weight: 800; color: #fca5a5; }
+.header .meta-item .label { font-size: 0.72rem; color: #a8a29e; }
+
+/* Layout */
+.layout { display: flex; gap: 0; max-width: 1180px; margin: 0 auto; }
+
+/* TOC */
+.toc { width: var(--toc-w); flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 1.5rem 1rem; background: var(--s1); border-right: 1px solid var(--s2); }
+.toc h3 { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--t2); margin-bottom: 1rem; }
+.toc ul { list-style: none; }
+.toc li { margin-bottom: 0.1rem; }
+.toc a { display: block; padding: 0.4rem 0.6rem; border-radius: 5px; color: var(--t2); text-decoration: none; font-size: 0.82rem; line-height: 1.4; transition: background 0.15s, color 0.15s; }
+.toc a:hover { background: var(--s2); color: var(--t1); }
+.toc a.active { background: var(--accent-l); color: var(--accent); font-weight: 600; }
+.toc .toc-num { font-size: 0.68rem; margin-right: 0.3rem; color: var(--t2); }
+
+/* Main */
+.main { flex: 1; padding: 2rem 2rem 3rem; min-width: 0; }
+
+section { margin-bottom: 2.75rem; scroll-margin-top: 1.5rem; }
+section h2 { font-size: 1.15rem; font-weight: 800; color: var(--t1); padding-bottom: 0.5rem; border-bottom: 2.5px solid var(--accent); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+section h2 .section-icon { font-size: 1rem; }
+
+/* Badges */
+.badge { display: inline-block; padding: 0.12rem 0.5rem; border-radius: 4px; font-size: 0.68rem; font-weight: 700; margin-left: 0.35rem; vertical-align: middle; }
+.badge-new { background: var(--green-l); color: var(--green); }
+.badge-breaking { background: var(--accent-l); color: var(--accent); }
+.badge-funding { background: var(--blue-l); color: var(--blue); }
+.badge-policy { background: var(--purple-l); color: var(--purple); }
+.badge-research { background: var(--amber-l); color: var(--amber); }
+.badge-tech { background: #f0fdf4; color: #15803d; }
+
+/* Headlines */
+.headline-list { list-style: none; }
+.headline-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--s2); align-items: flex-start; }
+.headline-item:last-child { border-bottom: none; }
+.headline-rank { min-width: 2rem; height: 2rem; background: var(--t1); color: #fff; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; flex-shrink: 0; margin-top: 0.1rem; }
+.headline-rank.top { background: var(--accent); }
+.headline-body .headline-title { font-weight: 700; font-size: 0.95rem; line-height: 1.4; }
+.headline-body .headline-meta { font-size: 0.77rem; color: var(--t2); margin: 0.25rem 0; }
+.headline-body .headline-desc { font-size: 0.85rem; color: var(--t2); line-height: 1.55; }
+
+/* Cards */
+.card { background: var(--s1); border: 1px solid var(--s2); border-radius: 8px; padding: 1.1rem 1.25rem; margin-bottom: 0.8rem; }
+.card-title { font-size: 0.93rem; font-weight: 600; margin-bottom: 0.35rem; line-height: 1.4; }
+.card-sub { color: var(--t2); font-size: 0.83rem; line-height: 1.5; }
+.card-meta { font-size: 0.75rem; color: var(--t2); margin-top: 0.3rem; }
+
+/* Funding */
+.funding-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.8rem; }
+.funding-card { background: var(--s1); border: 1px solid var(--s2); border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0; padding: 0.875rem 1rem; }
+.funding-card.new { border-left-color: var(--green); }
+.funding-parties { font-weight: 700; font-size: 0.9rem; }
+.funding-amount { font-size: 1.05rem; font-weight: 800; color: var(--blue); margin: 0.2rem 0; }
+.funding-card.new .funding-amount { color: var(--green); }
+.funding-desc { font-size: 0.78rem; color: var(--t2); }
+
+/* Policy list */
+.policy-list { list-style: none; }
+.policy-item { padding: 0.85rem 0; border-bottom: 1px solid var(--s2); display: flex; gap: 0.75rem; align-items: flex-start; }
+.policy-item:last-child { border-bottom: none; }
+.policy-icon { font-size: 1.15rem; flex-shrink: 0; margin-top: 0.05rem; }
+.policy-body .policy-title { font-weight: 600; font-size: 0.9rem; line-height: 1.4; }
+.policy-body .policy-meta { font-size: 0.76rem; color: var(--t2); margin: 0.2rem 0; }
+.policy-body .policy-desc { font-size: 0.82rem; color: var(--t2); line-height: 1.5; }
+
+/* Analysis */
+.analysis-block { background: var(--s1); border: 1px solid var(--s2); border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+.analysis-block h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--t1); }
+.analysis-block p { font-size: 0.87rem; color: var(--t2); line-height: 1.6; margin-bottom: 0.5rem; }
+.analysis-block p:last-child { margin-bottom: 0; }
+
+/* Outlook */
+.outlook-list { list-style: none; counter-reset: outlook; }
+.outlook-item { counter-increment: outlook; padding: 0.8rem 0; border-bottom: 1px solid var(--s2); display: flex; gap: 0.75rem; }
+.outlook-item:last-child { border-bottom: none; }
+.outlook-num { min-width: 1.75rem; height: 1.75rem; background: var(--t1); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; margin-top: 0.05rem; }
+.outlook-body .outlook-title { font-weight: 600; font-size: 0.9rem; }
+.outlook-body .outlook-desc { font-size: 0.82rem; color: var(--t2); line-height: 1.5; margin-top: 0.2rem; }
+
+/* Source note */
+.source-note { background: var(--s1); border: 1px solid var(--s2); border-radius: 6px; padding: 0.75rem 1rem; margin-top: 1rem; font-size: 0.78rem; color: var(--t2); }
+.source-note strong { color: var(--t1); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .layout { flex-direction: column; }
+  .toc { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid var(--s2); }
+  .toc ul { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+  .toc li { margin-bottom: 0; }
+  .main { padding: 1.25rem; }
+  .header h1 { font-size: 1.4rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="report-type">AI 產業新聞日報 · REPORT 3</div>
+  <h1>AI 產業新聞日報 — 2026-04-29</h1>
+  <div class="subtitle">來源：The Verge · MIT Technology Review · TechCrunch · Ars Technica</div>
+  <div class="meta">
+    <div class="meta-item"><div class="num">4</div><div class="label">監控來源</div></div>
+    <div class="meta-item"><div class="num">20+</div><div class="label">今日新增條目</div></div>
+    <div class="meta-item"><div class="num">7</div><div class="label">分析 Section</div></div>
+    <div class="meta-item"><div class="num">2026-04-29</div><div class="label">報告日期</div></div>
+  </div>
+</div>
+
+<div class="layout">
+  <!-- TOC -->
+  <nav class="toc">
+    <h3>目錄導覽</h3>
+    <ul>
+      <li><a href="#headlines"><span class="toc-num">01</span>頭條新聞</a></li>
+      <li><a href="#announcements"><span class="toc-num">02</span>重大公告</a></li>
+      <li><a href="#funding"><span class="toc-num">03</span>融資 / 併購</a></li>
+      <li><a href="#policy"><span class="toc-num">04</span>政策 / 法規</a></li>
+      <li><a href="#research"><span class="toc-num">05</span>研究突破</a></li>
+      <li><a href="#analysis"><span class="toc-num">06</span>深度分析</a></li>
+      <li><a href="#outlook"><span class="toc-num">07</span>展望</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- Section 1: Headlines -->
+    <section id="headlines">
+      <h2><span class="section-icon">🗞️</span>頭條新聞</h2>
+      <ul class="headline-list">
+
+        <li class="headline-item">
+          <div class="headline-rank top">1</div>
+          <div class="headline-body">
+            <div class="headline-title">
+              Musk vs. Altman 世紀審判正式開庭
+              <span class="badge badge-breaking">BREAKING</span>
+              <span class="badge badge-new">NEW</span>
+            </div>
+            <div class="headline-meta">2026-04-28 · 聯邦法院 Oakland · 來源：PBS、Gemini Search</div>
+            <div class="headline-desc">Elon Musk 與 Sam Altman 雙雙出席加州 Oakland 聯邦法院，就 OpenAI 從非營利組織轉型為 $852B 商業巨頭的創始使命爭議展開為期 3 週的審判。Microsoft CEO Satya Nadella 預計在審判期間出庭作證。此案被視為 AI 時代最重要的司法案件之一，將直接影響 AI 公司的公司治理框架。</div>
+          </div>
+        </li>
+
+        <li class="headline-item">
+          <div class="headline-rank top">2</div>
+          <div class="headline-body">
+            <div class="headline-title">
+              Google 擴大五角大廈 AI 使用，填補 Anthropic 留下的缺口
+              <span class="badge badge-breaking">BREAKING</span>
+              <span class="badge badge-new">NEW</span>
+            </div>
+            <div class="headline-meta">2026-04-29 · 來源：TechCrunch（作者 Julie Bort）</div>
+            <div class="headline-desc">Google 宣佈擴大美國國防部對其 AI 工具的使用授權，明確填補了 Anthropic 以道德理由拒絕軍事合約所留下的空缺。此舉再次引發 AI 倫理 vs. 國防應用的激烈辯論，凸顯主要 AI 廠商在軍事 AI 立場上的明顯分歧。</div>
+          </div>
+        </li>
+
+        <li class="headline-item">
+          <div class="headline-rank top">3</div>
+          <div class="headline-body">
+            <div class="headline-title">
+              OpenAI 與 Microsoft 完成協議修訂，解除法律爭議
+              <span class="badge badge-new">NEW</span>
+            </div>
+            <div class="headline-meta">2026-04-28 · 來源：TechCrunch（作者 Julie Bort）、OpenAI 官方</div>
+            <div class="headline-desc">OpenAI 正式解決與 Microsoft 的合約爭議。根據修訂後協議，Microsoft 對 OpenAI 智慧財產的授權由獨家改為非獨家，OpenAI 可自由與任何雲端平台（包含 Amazon AWS $500 億合作案）合作。Microsoft 停止向 OpenAI 支付收益分成，OpenAI 仍繼續向 Microsoft 支付分成至 2030 年（設上限）。</div>
+          </div>
+        </li>
+
+        <li class="headline-item">
+          <div class="headline-rank">4</div>
+          <div class="headline-body">
+            <div class="headline-title">
+              中國封鎖 Meta $20 億收購 Manus AI
+              <span class="badge badge-breaking">BREAKING</span>
+              <span class="badge badge-new">NEW</span>
+            </div>
+            <div class="headline-meta">2026-04-28 · 來源：TechCrunch（作者 Kate Park）</div>
+            <div class="headline-desc">經數月調查，中國監管機構正式封鎖 Meta 收購 Manus AI 的 $20 億美元交易。Manus 是近期最受矚目的中國自主 AI 代理新創，此決定被視為中美 AI 技術脫鉤的新里程碑，也顯示中國政府對本土 AI 資產出售給美國科技巨頭的強硬立場。</div>
+          </div>
+        </li>
+
+        <li class="headline-item">
+          <div class="headline-rank">5</div>
+          <div class="headline-body">
+            <div class="headline-title">
+              OpenAI 提案 4 天工作週 + 機器人稅政策文件
+              <span class="badge badge-new">NEW</span>
+            </div>
+            <div class="headline-meta">2026-04-28 · 來源：Forbes、Gemini Search</div>
+            <div class="headline-desc">OpenAI 發布 13 頁政策文件，提議 AI 帶來的生產力紅利應轉化為「效率股利」回饋勞工：具體建議包含 32 小時（4 天）全薪工作週、成立公共財富基金，以及對以 AI 取代人力的企業徵收「機器人稅」。這是 OpenAI 首次系統性提出 AI 勞動影響的政策主張。</div>
+          </div>
+        </li>
+
+      </ul>
+    </section>
+
+    <!-- Section 2: Announcements -->
+    <section id="announcements">
+      <h2><span class="section-icon">📢</span>重大公告</h2>
+
+      <div class="card">
+        <div class="card-title">
+          Amazon 在商品頁面推出 AI 語音問答體驗
+          <span class="badge badge-new">NEW</span>
+        </div>
+        <div class="card-sub">Amazon 為電商商品頁面新增 AI 驅動的音訊 Q&A 功能，消費者可透過語音提問商品相關問題，AI 即時回答。這是 Amazon 推動電商 AI 化的最新舉措，也是繼 Rufus 購物助手後又一個嵌入購物流程的 AI 入口。</div>
+        <div class="card-meta">2026-04-29 · TechCrunch（作者 Lauren Forristal）· 來源：theverge-ai、techcrunch-ai</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          OpenAI 可能研發 AI 代理手機：以代理取代傳統 App
+          <span class="badge badge-new">NEW</span>
+        </div>
+        <div class="card-sub">TechCrunch 報導 OpenAI 正在研究可能發布一款 AI 優先的手機，核心概念是用 AI 代理取代傳統應用程式。使用者將透過自然語言與 AI 代理互動，代理自主完成任務，而不是手動開啟各種 App。此計畫若成真，將對 Apple iOS 與 Google Android 生態造成根本性挑戰。</div>
+        <div class="card-meta">2026-04-28 · TechCrunch（作者 Ivan Mehta）· 來源：theverge-ai、techcrunch-ai</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          Gen（Norton 母公司）× xAI 合作：Grok 進入消費者安全平台
+          <span class="badge badge-new">NEW</span>
+        </div>
+        <div class="card-sub">Norton、LifeLock、Avast 的母公司 Gen 宣佈與 Elon Musk 的 xAI 達成合作，將 Grok AI 模型整合到旗下「Norton Neo AI 瀏覽器與助手」產品中。這代表 xAI 透過 Gen 觸及的數億消費者安全產品用戶，完成了 Grok 面向大眾市場的重要分發渠道布局。</div>
+        <div class="card-meta">2026-04-28 · 來源：Gemini Search（gendigital.com）· arstechnica-ai</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          Anthropic 創建 Agent-on-Agent 商務測試市集
+        </div>
+        <div class="card-sub">Anthropic 建立了一個測試性市集，允許不同 AI 代理之間進行自主商業交易，探索多代理經濟生態系統的可能性。這是 AI Agent 商業化的重要概念驗證，直接呼應 Claude 代理生態的商業化方向。</div>
+        <div class="card-meta">2026-04-26 · TechCrunch · 來源：techcrunch-ai</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">YouTube 測試 AI 搜尋功能，提供引導式答案<span class="badge badge-new">NEW</span></div>
+        <div class="card-sub">YouTube 正在測試新版 AI 搜尋功能，搜尋結果除了影片清單外，還會顯示由 AI 生成的引導式答案，類似 Google AI Overviews 在搜尋引擎上的表現。這是 Google 將生成式 AI 全面滲透進 YouTube 內容發現機制的重要信號。</div>
+        <div class="card-meta">2026-04-29 · TechCrunch（作者 Ivan Mehta）· 來源：techcrunch-ai</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Lovable 上線 iOS/Android 版 Vibe-coding App<span class="badge badge-new">NEW</span></div>
+        <div class="card-sub">AI 輔助程式開發平台 Lovable 正式推出行動版應用程式。Vibe-coding（氛圍程式設計）概念——讓非技術用戶透過自然語言描述直接生成軟體——從桌面延伸至行動裝置，大幅降低創建軟體的門檻。</div>
+        <div class="card-meta">2026-04-29 · TechCrunch（作者 Sarah Perez）· 來源：techcrunch-ai</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">AMD 宣佈「Advancing AI 2026」旗艦活動，7 月登場</div>
+        <div class="card-sub">AMD 官方宣佈將於 2026 年 7 月 23 日在舊金山 Moscone 中心舉辦全球 AI 旗艦活動，CEO Lisa Su 預計揭示基於 AMD 晶片與軟體的端到端 AI 系統建構藍圖。</div>
+        <div class="card-meta">2026-04-28 · 來源：Gemini Search（amd.com）</div>
+      </div>
+
+    </section>
+
+    <!-- Section 3: Funding -->
+    <section id="funding">
+      <h2><span class="section-icon">💰</span>融資 / 併購</h2>
+
+      <div class="funding-grid">
+
+        <div class="funding-card new">
+          <div class="funding-parties">David Silver 新創（AlphaGo 之父）<span class="badge badge-new">NEW</span></div>
+          <div class="funding-amount">$11 億</div>
+          <div class="funding-desc">DeepMind 共同創辦人 David Silver 獲 $11 億融資，研究不依賴人類生成訓練數據的自主學習 AI 系統。2026-04-28</div>
+        </div>
+
+        <div class="funding-card new">
+          <div class="funding-parties">iMessage AI 社交（大學生新創）<span class="badge badge-new">NEW</span></div>
+          <div class="funding-amount">$510 萬（預種輪）</div>
+          <div class="funding-desc">兩名大學生創辦，在 iMessage 內建置 AI 驅動的社交網路功能。2026-04-28</div>
+        </div>
+
+        <div class="funding-card">
+          <div class="funding-parties">Google × Anthropic</div>
+          <div class="funding-amount">$400 億</div>
+          <div class="funding-desc">AI 史上最大單筆投資，Google 現金加算力押注 Anthropic。2026-04-25</div>
+        </div>
+
+        <div class="funding-card">
+          <div class="funding-parties">ComfyUI</div>
+          <div class="funding-amount">$5 億（估值）</div>
+          <div class="funding-desc">創意 AI 媒體生成平台，開源商業化模式，影像/影片生成賽道。2026-04-25</div>
+        </div>
+
+        <div class="funding-card">
+          <div class="funding-parties">SpaceX × Cursor</div>
+          <div class="funding-amount">600 億（選擇權）</div>
+          <div class="funding-desc">SpaceX 取得以 600 億美元收購 AI 編碼工具 Cursor 的選擇權，中止其原定融資計畫。2026-04-23</div>
+        </div>
+
+        <div class="funding-card">
+          <div class="funding-parties">Rebellions AI 晶片</div>
+          <div class="funding-amount">$4 億（Pre-IPO）</div>
+          <div class="funding-desc">韓國 AI 晶片新創，Pre-IPO 輪融資，挑戰 NVIDIA 主導地位。</div>
+        </div>
+
+        <div class="funding-card">
+          <div class="funding-parties">Factory（AI 編碼平台）</div>
+          <div class="funding-amount">$15 億（估值）</div>
+          <div class="funding-desc">AI 軟體工程代理平台，自動化整個軟體開發生命週期。</div>
+        </div>
+
+        <div class="funding-card">
+          <div class="funding-parties">Mistral AI</div>
+          <div class="funding-amount">€8.3 億（債務融資）</div>
+          <div class="funding-desc">歐洲 AI 龍頭透過債務融資擴充算力，維持與美國 AI 巨頭的技術競爭力。</div>
+        </div>
+
+        <div class="funding-card">
+          <div class="funding-parties">NeoCognition</div>
+          <div class="funding-amount">$4,000 萬（種子輪）</div>
+          <div class="funding-desc">類人自主學習 AI 代理，種子輪融資，以認知科學為基礎的 AI 架構。</div>
+        </div>
+
+        <div class="funding-card">
+          <div class="funding-parties">Era（AI 穿戴裝置）</div>
+          <div class="funding-amount">$1,100 萬</div>
+          <div class="funding-desc">涵蓋眼鏡、戒指、吊墜等多形態 AI 硬體平台。2026-04-23</div>
+        </div>
+
+        <div class="funding-card">
+          <div class="funding-parties">Parasail</div>
+          <div class="funding-amount">$3,200 萬</div>
+          <div class="funding-desc">Token 優化算力平台，優化 LLM 推論成本效益。</div>
+        </div>
+
+        <div class="funding-card">
+          <div class="funding-parties">InsightFinder</div>
+          <div class="funding-amount">$1,500 萬</div>
+          <div class="funding-desc">AI 代理驅動的 IT 問題診斷與根因分析平台。</div>
+        </div>
+
+      </div>
+
+      <div class="card" style="margin-top: 1rem;">
+        <div class="card-title">Cohere × Aleph Alpha 合併</div>
+        <div class="card-sub">加拿大 AI 公司 Cohere 與德國 Aleph Alpha 宣佈合併，組成跨大西洋的企業 AI 聯盟，共同對抗 OpenAI 和 Anthropic 在企業 LLM 市場的主導地位。合併後實體將整合雙方的歐洲隱私合規優勢與英語生成能力。</div>
+        <div class="card-meta">2026-04-26 · TechCrunch（作者 Anna Heim）</div>
+      </div>
+
+      <div class="source-note">
+        <strong>融資追蹤說明：</strong>本節彙整 TechCrunch AI、The Verge AI 近 7 日融資動態。新增條目以綠色左邊框標示。
+      </div>
+    </section>
+
+    <!-- Section 4: Policy -->
+    <section id="policy">
+      <h2><span class="section-icon">⚖️</span>政策 / 法規</h2>
+
+      <ul class="policy-list">
+
+        <li class="policy-item">
+          <div class="policy-icon">⚖️</div>
+          <div class="policy-body">
+            <div class="policy-title">Musk vs. Altman 審判：OpenAI 公司治理的司法審查<span class="badge badge-new">NEW</span></div>
+            <div class="policy-meta">2026-04-28 · 美國聯邦法院（Oakland）· 來源：PBS、arstechnica-ai</div>
+            <div class="policy-desc">審判核心爭議：OpenAI 是否違背其非營利創始使命，違法將控制權轉讓給商業實體。此案判決將為 AI 公司的非營利轉商業化設立法律先例，影響全球 AI 治理框架討論。</div>
+          </div>
+        </li>
+
+        <li class="policy-item">
+          <div class="policy-icon">🛡️</div>
+          <div class="policy-body">
+            <div class="policy-title">Google 擴大五角大廈 AI 使用——填補 Anthropic 拒絕的缺口<span class="badge badge-new">NEW</span></div>
+            <div class="policy-meta">2026-04-29 · 美國國防部 · 來源：techcrunch-ai（作者 Julie Bort）</div>
+            <div class="policy-desc">Google 擴充對美軍的 AI 工具授權，直接承接 Anthropic 因道德理由拒絕的軍事 AI 合約。主要 AI 廠商在軍事 AI 立場的分歧日益明顯，Anthropic「Constitutional AI」vs. Google「無邊界商業部署」的路線之爭成為業界討論焦點。</div>
+          </div>
+        </li>
+
+        <li class="policy-item">
+          <div class="policy-icon">🚫</div>
+          <div class="policy-body">
+            <div class="policy-title">中國封鎖 Meta $20 億收購 Manus AI<span class="badge badge-new">NEW</span></div>
+            <div class="policy-meta">2026-04-28 · 中國監管機構 · 來源：techcrunch-ai（作者 Kate Park）</div>
+            <div class="policy-desc">中國正式阻止 Meta 收購本土 AI 代理新創 Manus，數月調查後出具否決。此舉被視為中國「AI 資產出口管制」政策的具體落地，凸顯中美 AI 科技脫鉤加速的趨勢。</div>
+          </div>
+        </li>
+
+        <li class="policy-item">
+          <div class="policy-icon">📋</div>
+          <div class="policy-body">
+            <div class="policy-title">OpenAI 政策文件提案：4 天工作週 + 機器人稅<span class="badge badge-new">NEW</span></div>
+            <div class="policy-meta">2026-04-28 · 來源：Forbes、Gemini Search</div>
+            <div class="policy-desc">OpenAI 提出 13 頁政策主張，建議政府立法要求以 AI 取代人力的企業繳納「機器人稅」，並將 AI 生產力紅利轉化為 32 小時工時標準。此政策立場顯示 OpenAI 正積極塑造 AI 時代的勞動政策框架，同時也被批評為轉移監管壓力的公關策略。</div>
+          </div>
+        </li>
+
+        <li class="policy-item">
+          <div class="policy-icon">🏦</div>
+          <div class="policy-body">
+            <div class="policy-title">「多態代理 AI」引發金融安全警報，銀行業呼籲鬆綁監管<span class="badge badge-new">NEW</span></div>
+            <div class="policy-meta">2026-04-29 · Nacha Smarter Faster Payments 年會（聖地牙哥）· 來源：mit-tech-review-ai</div>
+            <div class="policy-desc">銀行業資安專家警告「多態代理 AI」正被犯罪集團用於即時測試並調整金融攻擊策略，傳統規則型防禦形同虛設。業者要求國會授權銀行部署等效 AI 防禦工具，而無須面對合規瓶頸。</div>
+          </div>
+        </li>
+
+        <li class="policy-item">
+          <div class="policy-icon">🌐</div>
+          <div class="policy-body">
+            <div class="policy-title">緬因州州長否決資料中心凍結法案</div>
+            <div class="policy-meta">2026-04-26 · 美國 · 來源：techcrunch-ai</div>
+            <div class="policy-desc">緬因州長否決州議會通過的資料中心建設暫停令，此法案原意是限制 AI 算力設施的快速擴張對環境與用電的衝擊。否決後，AI 算力基礎設施投資繼續在美東擴張。</div>
+          </div>
+        </li>
+
+        <li class="policy-item">
+          <div class="policy-icon">📊</div>
+          <div class="policy-body">
+            <div class="policy-title">Stanford 2026 AI Index：企業採用率 88%，生成式 AI 滲透率 53%<span class="badge badge-new">NEW</span></div>
+            <div class="policy-meta">2026-04-29 · Stanford HAI · 來源：mit-tech-review-ai</div>
+            <div class="policy-desc">最新年度報告顯示企業 AI 採用率已達 88%。生成式 AI 在不到 3 年內達到 53% 人口滲透率，超越網路與個人電腦的早期採用速度。金融業 4 成以上機構已積極部署 AI，包含代理型系統，遠超過監管更新速度。</div>
+          </div>
+        </li>
+
+      </ul>
+    </section>
+
+    <!-- Section 5: Research -->
+    <section id="research">
+      <h2><span class="section-icon">🔬</span>研究突破</h2>
+
+      <div class="card">
+        <div class="card-title">
+          MOLEXA：AI 從 X 光爆破重建分子結構
+          <span class="badge badge-research">研究</span>
+          <span class="badge badge-new">NEW</span>
+        </div>
+        <div class="card-sub">美國 Argonne 國家實驗室（DOE）開發生成式 AI 模型 MOLEXA，透過分析 Coulomb 爆炸成像（X 光爆破分子後的離子動量模式）重建完整分子結構。此技術大幅縮短化學反應的計算時間，對能源、製造業與醫藥研發具有重大潛在應用價值。</div>
+        <div class="card-meta">2026-04-29 · Argonne 國家實驗室 · 來源：mit-tech-review-ai、Gemini Search</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          David Silver 新創：無人類訓練數據的自主學習 AI
+          <span class="badge badge-research">研究</span>
+          <span class="badge badge-new">NEW</span>
+        </div>
+        <div class="card-sub">AlphaGo 之父、DeepMind 共同創辦人 David Silver 獲 $11 億融資，研究方向為完全不依賴人類生成訓練數據的自主學習 AI 系統。若成功，將突破現有 LLM 對大規模人工標記數據的依賴，是 AGI 路徑上的關鍵技術節點。</div>
+        <div class="card-meta">2026-04-28 · TechCrunch（作者 Anna Heim）· 來源：techcrunch-ai、arstechnica-ai</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          DeepSeek 預覽新模型：「縮小與前沿模型差距」
+          <span class="badge badge-research">研究</span>
+        </div>
+        <div class="card-sub">DeepSeek 發布下一代模型預覽，官方宣稱在多項能力指標上顯著縮小與 OpenAI、Anthropic 前沿模型的差距。低成本高性能的架構設計持續挑戰西方 AI 公司的定價優勢，再次引發 AI 全球競賽的討論。</div>
+        <div class="card-meta">2026-04-25 · TechCrunch（作者 Ram Iyer）· 來源：techcrunch-ai</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          Neurable：腦機介面技術授權至消費者穿戴裝置
+          <span class="badge badge-research">研究</span>
+          <span class="badge badge-new">NEW</span>
+        </div>
+        <div class="card-sub">BCI（腦機介面）新創 Neurable 尋求將其「讀心術」技術授權給消費性穿戴裝置製造商。此技術能從 EEG 腦波訊號中解讀使用者意圖，潛在應用涵蓋 AI 輔助注意力追蹤、情緒識別與直覺式人機互動。</div>
+        <div class="card-meta">2026-04-29 · TechCrunch（作者 Lucas Ropek）· 來源：techcrunch-ai</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          MIT 新訓練方法：AI 教 AI 說「我不確定」
+        </div>
+        <div class="card-sub">MIT 研究團隊開發新的模型訓練方法，使 LLM 能更準確地估計自身回答的信心程度。透過強化學習讓模型學習在不確定時主動表達「我不確定」，降低幻覺（Hallucination）對高風險決策的影響。</div>
+        <div class="card-meta">2026-04-22 · MIT / MIT Technology Review · 來源：mit-tech-review-ai</div>
+      </div>
+
+    </section>
+
+    <!-- Section 6: Analysis -->
+    <section id="analysis">
+      <h2><span class="section-icon">📈</span>深度分析</h2>
+
+      <div class="analysis-block">
+        <h3>主題 1：OpenAI 的三線博弈——Microsoft、Amazon、Musk</h3>
+        <p>本週最大的結構性變化是 OpenAI 與 Microsoft 的協議修訂。表面上是「解決法律爭議」，實質是 OpenAI 為 $500 億 Amazon AWS 合作案打通最後障礙。這一修訂使 OpenAI 從「Microsoft 的獨家 AI 引擎」轉型為「雲端中立的 AI 供應商」，理論上可以同時服務 AWS、Google Cloud、Azure，大幅提升談判籌碼。</p>
+        <p>與此同時，Musk vs. Altman 審判開庭，直接威脅 OpenAI 向 for-profit 轉型的合法性。即便 Musk 敗訴的概率被認為偏高，審判期間的媒體曝光與證詞公開（Satya Nadella 出庭）仍可能造成信任損傷，影響企業客戶採購決策。OpenAI 的 4 天工作週政策文件，可能也有轉移輿論視線的功能。</p>
+      </div>
+
+      <div class="analysis-block">
+        <h3>主題 2：AI 軍事化分歧——Anthropic 拒絕，Google 接單</h3>
+        <p>Google 明確填補 Anthropic 拒絕的五角大廈 AI 合約，使主要 AI 廠商的軍事 AI 立場出現明顯分裂。Anthropic 堅守「Constitutional AI」框架，拒絕不符道德準則的應用；Google 則走「商業務實」路線，不設特定領域禁區。</p>
+        <p>這一分歧的長期影響值得觀察：採取道德限制的廠商是否能在企業採購中因「可信賴 AI」定位獲得溢價？抑或軍事應用的龐大預算最終將使商業務實路線佔優？2026 年的美國國防 AI 支出規模預計超過 $20 億，這個問題的答案將在未來 12 個月內逐漸清晰。</p>
+      </div>
+
+      <div class="analysis-block">
+        <h3>主題 3：中美 AI 脫鉤加速——Manus 封鎖的訊號意義</h3>
+        <p>中國封鎖 Meta 收購 Manus 的決定不只是單一交易否決，而是系統性政策的具體落地。結合此前中國加強管制出海 AI 公司、限制人才與研究外流的一系列動作，可以看出北京正在構建「AI 資產出口管制」體系，以防止本土前沿 AI 技術被西方巨頭吸納。</p>
+        <p>對比之下，David Silver 在英國獲得 $11 億自主學習 AI 研究資金，顯示歐洲也在建立獨立於美國和中國的 AI 研究力量。全球 AI 正在從「美國主導」走向「三極格局」（美、中、歐），各自在核心技術、資料主權與治理框架上形成獨立生態。</p>
+      </div>
+
+      <div class="analysis-block">
+        <h3>主題 4：AI 代理化浪潮的硬體新入口</h3>
+        <p>OpenAI 研發 AI 代理手機的傳聞，加上 Neurable 的 BCI 穿戴授權計畫、Lovable 的行動版 Vibe-coding App 上線，勾勒出 AI 代理進入日常生活的多元入口：手機、穿戴裝置、瀏覽器（Gen × xAI Norton Neo）。</p>
+        <p>如果 OpenAI 真的推出以 AI 代理取代 App 的手機，其商業模式可能是：使用者訂閱 OpenAI 服務，由 AI 代理自主完成所有任務，App Store 生態系統被根本性繞過。Apple 和 Google 面對的不只是競爭，而是對現有分發模型的存亡威脅。</p>
+      </div>
+
+    </section>
+
+    <!-- Section 7: Outlook -->
+    <section id="outlook">
+      <h2><span class="section-icon">🔭</span>展望</h2>
+
+      <ul class="outlook-list">
+
+        <li class="outlook-item">
+          <div class="outlook-num">1</div>
+          <div class="outlook-body">
+            <div class="outlook-title">Musk vs. Altman 審判進程（持續 3 週）</div>
+            <div class="outlook-desc">審判預計 5 月中旬結束。重點關注：Satya Nadella 出庭時間與證詞內容；OpenAI 非營利使命的法律定義；判決對 OpenAI for-profit 轉型的直接影響。</div>
+          </div>
+        </li>
+
+        <li class="outlook-item">
+          <div class="outlook-num">2</div>
+          <div class="outlook-body">
+            <div class="outlook-title">OpenAI Amazon AWS $500 億合作案細節公開</div>
+            <div class="outlook-desc">Microsoft 法律障礙解除後，預計 AWS 合作條款將陸續公開。市場關注算力分配比例、Claude vs. GPT 在 AWS 平台上的競爭安排，以及對 Microsoft Azure AI 市佔率的影響。</div>
+          </div>
+        </li>
+
+        <li class="outlook-item">
+          <div class="outlook-num">3</div>
+          <div class="outlook-body">
+            <div class="outlook-title">DeepSeek 新模型完整評測</div>
+            <div class="outlook-desc">DeepSeek 預覽版發布後，完整模型發布預計在近期。業界關注其在 MMLU、HumanEval、MATH 等基準測試的表現，以及是否真的達到「縮小與前沿模型差距」的宣稱。</div>
+          </div>
+        </li>
+
+        <li class="outlook-item">
+          <div class="outlook-num">4</div>
+          <div class="outlook-body">
+            <div class="outlook-title">David Silver 新創技術路線揭露</div>
+            <div class="outlook-desc">$11 億融資的「無人類訓練數據 AI」具體技術路線尚未公開。關注點：是否基於強化學習（類 AlphaZero 路線）？能否擴展到語言任務？對 LLM 資料依賴問題的突破程度。</div>
+          </div>
+        </li>
+
+        <li class="outlook-item">
+          <div class="outlook-num">5</div>
+          <div class="outlook-body">
+            <div class="outlook-title">AMD Advancing AI 2026 活動預熱（7 月前）</div>
+            <div class="outlook-desc">AMD 宣佈 7 月 23 日舉行旗艦 AI 活動，前期應有新晶片與軟體棧的預告訊息流出。值得關注 AMD MI400 系列的規格與對 NVIDIA H200 的競爭力。</div>
+          </div>
+        </li>
+
+        <li class="outlook-item">
+          <div class="outlook-num">6</div>
+          <div class="outlook-body">
+            <div class="outlook-title">OpenAI 代理手機傳聞的官方回應</div>
+            <div class="outlook-desc">TechCrunch 的報導引發廣泛討論。預計 OpenAI 將在近期就此傳聞做出澄清或確認。若確認，Apple WWDC 2026（6 月）的重要性將大幅提升。</div>
+          </div>
+        </li>
+
+      </ul>
+
+      <div class="source-note">
+        <strong>資料來源說明：</strong>本日報彙整自 <strong>TechCrunch AI</strong>（直接抓取成功）、<strong>The Verge AI</strong>（封鎖，交叉確認）、<strong>MIT Technology Review AI</strong>（封鎖，交叉確認）、<strong>Ars Technica AI</strong>（封鎖，交叉確認），並輔以 Gemini Search 即時搜尋補充。「NEW」標籤代表相較 2026-04-28 日報新增的條目。
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// TOC active state on scroll
+const sections = document.querySelectorAll('section[id]');
+const tocLinks = document.querySelectorAll('.toc a');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocLinks.forEach(link => link.classList.remove('active'));
+      const activeLink = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(section => observer.observe(section));
+</script>
+
+</body>
+</html>

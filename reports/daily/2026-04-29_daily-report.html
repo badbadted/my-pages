@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent 工作流日報 — 2026-04-29</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --s1: #f8fafc;
+  --s2: #e2e8f0;
+  --t1: #1e293b;
+  --t2: #64748b;
+  --accent: #3b82f6;
+  --accent-l: #eff6ff;
+  --green: #10b981;
+  --green-l: #ecfdf5;
+  --amber: #f59e0b;
+  --amber-l: #fffbeb;
+  --purple: #8b5cf6;
+  --purple-l: #f5f3ff;
+  --red: #ef4444;
+  --red-l: #fef2f2;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', sans-serif; background: var(--bg); color: var(--t1); line-height: 1.65; }
+
+.header { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: #fff; padding: 2.5rem 2rem; text-align: center; }
+.header .report-type { font-size: 0.8rem; letter-spacing: 0.1em; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.5rem; }
+.header h1 { font-size: 1.8rem; font-weight: 800; }
+.header .subtitle { color: #94a3b8; margin-top: 0.5rem; font-size: 0.95rem; }
+.header .meta { margin-top: 1rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+.header .meta-item { text-align: center; }
+.header .meta-item .num { font-size: 1.5rem; font-weight: 700; color: #60a5fa; }
+.header .meta-item .label { font-size: 0.75rem; color: #94a3b8; }
+
+nav { background: var(--s1); border-bottom: 1px solid var(--s2); padding: 0.75rem 2rem; position: sticky; top: 0; z-index: 10; }
+nav ul { display: flex; gap: 1.25rem; list-style: none; flex-wrap: wrap; max-width: 1100px; margin: 0 auto; }
+nav a { color: var(--t2); text-decoration: none; font-size: 0.82rem; padding: 0.25rem 0.5rem; border-radius: 4px; }
+nav a:hover { color: var(--accent); background: var(--accent-l); }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: 200px 1fr; gap: 2rem; }
+
+.toc-sidebar { position: sticky; top: 4rem; align-self: start; height: calc(100vh - 5rem); overflow-y: auto; }
+.toc-sidebar ul { list-style: none; border-left: 2px solid var(--s2); padding-left: 1rem; }
+.toc-sidebar li { margin-bottom: 0.5rem; }
+.toc-sidebar a { color: var(--t2); text-decoration: none; font-size: 0.82rem; display: block; padding: 0.25rem 0; transition: color 0.15s; }
+.toc-sidebar a:hover { color: var(--accent); }
+.toc-sidebar .toc-label { font-size: 0.72rem; font-weight: 700; color: var(--t2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; margin-top: 0.75rem; }
+
+.main-content { min-width: 0; }
+
+section { margin-bottom: 2.5rem; scroll-margin-top: 4rem; }
+section h2 { font-size: 1.2rem; font-weight: 700; color: var(--t1); padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+
+.card { background: var(--s1); border: 1px solid var(--s2); border-radius: 8px; padding: 1.25rem; margin-bottom: 0.875rem; }
+.card-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+.card-sub { color: var(--t2); font-size: 0.85rem; line-height: 1.6; }
+.card-date { font-size: 0.78rem; color: var(--t2); margin-bottom: 0.4rem; }
+.card-link { font-size: 0.8rem; color: var(--accent); text-decoration: none; }
+.card-link:hover { text-decoration: underline; }
+
+.badge { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 600; margin-left: 0.4rem; vertical-align: middle; }
+.badge-new { background: var(--green-l); color: var(--green); }
+.badge-same { background: var(--s2); color: var(--t2); }
+.badge-redirect { background: var(--purple-l); color: var(--purple); }
+.badge-important { background: var(--amber-l); color: var(--amber); }
+
+.source-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+.source-card { background: var(--s1); border: 1px solid var(--s2); border-radius: 8px; padding: 1rem; }
+.source-card.has-new { border-left: 3px solid var(--green); }
+.source-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.35rem; }
+.source-stat { font-size: 0.8rem; color: var(--t2); margin-top: 0.2rem; }
+.source-stat span { font-weight: 600; color: var(--t1); }
+.source-new-count { font-size: 0.85rem; font-weight: 700; color: var(--green); margin-top: 0.4rem; }
+
+.trend-list { list-style: none; }
+.trend-item { display: flex; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid var(--s2); align-items: flex-start; }
+.trend-item:last-child { border-bottom: none; }
+.trend-num { min-width: 1.75rem; height: 1.75rem; background: var(--accent); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+.trend-body .trend-title { font-weight: 600; font-size: 0.92rem; }
+.trend-body .trend-desc { color: var(--t2); font-size: 0.84rem; margin-top: 0.2rem; }
+.trend-body .trend-sources { font-size: 0.78rem; color: var(--accent); margin-top: 0.3rem; }
+
+table.diff-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.diff-table th { background: var(--s2); padding: 0.6rem 0.75rem; text-align: left; font-size: 0.82rem; }
+.diff-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--s2); vertical-align: top; }
+.diff-table tr:last-child td { border-bottom: none; }
+.diff-table .new-row { background: var(--green-l); }
+
+.source-section { margin-bottom: 1.75rem; }
+.source-section-title { font-size: 1rem; font-weight: 700; color: var(--t1); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+.article-list { list-style: none; }
+.article-list li { padding: 0.7rem 0; border-bottom: 1px solid var(--s2); font-size: 0.88rem; }
+.article-list li:last-child { border-bottom: none; }
+.article-title { font-weight: 600; }
+.article-meta { font-size: 0.78rem; color: var(--t2); margin-top: 0.15rem; }
+.article-desc { font-size: 0.83rem; color: var(--t2); margin-top: 0.2rem; line-height: 1.55; }
+
+.insight { background: var(--accent-l); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 0.75rem 0; font-size: 0.9rem; }
+.insight strong { color: var(--accent); }
+
+.analysis-block { margin-bottom: 1.5rem; }
+.analysis-block h3 { font-size: 0.95rem; font-weight: 700; color: var(--t1); margin-bottom: 0.5rem; }
+.analysis-block p { font-size: 0.88rem; color: var(--t2); line-height: 1.65; }
+
+.rec-list { list-style: none; counter-reset: rc; }
+.rec-list li { counter-increment: rc; padding: 0.75rem 0 0.75rem 2.75rem; border-bottom: 1px solid var(--s2); position: relative; font-size: 0.9rem; }
+.rec-list li:last-child { border-bottom: none; }
+.rec-list li::before { content: counter(rc); position: absolute; left: 0; top: 0.75rem; width: 1.6rem; height: 1.6rem; background: var(--green); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; }
+.rec-title { font-weight: 600; }
+.rec-desc { font-size: 0.84rem; color: var(--t2); margin-top: 0.2rem; }
+
+.glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 0.75rem; }
+.glossary-item { background: var(--s1); border: 1px solid var(--s2); border-radius: 6px; padding: 0.75rem 1rem; }
+.glossary-term { font-weight: 700; font-size: 0.88rem; color: var(--accent); }
+.glossary-def { font-size: 0.82rem; color: var(--t2); margin-top: 0.2rem; line-height: 1.5; }
+
+.learning-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.875rem; }
+.learning-item { background: var(--s1); border: 1px solid var(--s2); border-radius: 8px; padding: 1rem; }
+.learning-item .l-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); margin-bottom: 0.35rem; }
+.learning-item .l-title { font-size: 0.9rem; font-weight: 600; color: var(--t1); margin-bottom: 0.3rem; }
+.learning-item .l-desc { font-size: 0.82rem; color: var(--t2); line-height: 1.55; }
+
+.summary-box { background: #1e293b; color: #f1f5f9; border-radius: 8px; padding: 1.5rem; }
+.summary-box .summary-title { font-size: 0.85rem; font-weight: 700; color: #60a5fa; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.summary-box p { font-size: 0.92rem; line-height: 1.75; }
+.summary-box .summary-next { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #334155; font-size: 0.84rem; color: #94a3b8; }
+
+footer { background: var(--s1); border-top: 1px solid var(--s2); padding: 1.25rem 2rem; text-align: center; color: var(--t2); font-size: 0.8rem; }
+
+@media (max-width: 768px) {
+  .container { grid-template-columns: 1fr; }
+  .toc-sidebar { display: none; }
+  .header .meta { gap: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="report-type">REPORT 1 · Tech Group · 4 Sources</div>
+  <h1>AI Agent 工作流日報</h1>
+  <div class="subtitle">LangChain · Anthropic · LlamaIndex · CrewAI 技術趨勢彙整</div>
+  <div class="meta">
+    <div class="meta-item"><div class="num">4</div><div class="label">監控來源</div></div>
+    <div class="meta-item"><div class="num">24</div><div class="label">累計爬取次數</div></div>
+    <div class="meta-item"><div class="num">2026-04-29</div><div class="label">報告日期</div></div>
+    <div class="meta-item"><div class="num">5</div><div class="label">今日新條目</div></div>
+  </div>
+</div>
+
+<nav>
+  <ul>
+    <li><a href="#overview">總覽</a></li>
+    <li><a href="#trends">趨勢分析</a></li>
+    <li><a href="#updates">重要更新</a></li>
+    <li><a href="#source-details">來源詳情</a></li>
+    <li><a href="#deep-analysis">深度分析</a></li>
+    <li><a href="#recommendations">建議行動</a></li>
+    <li><a href="#glossary">名詞解釋</a></li>
+    <li><a href="#learning">學習資源</a></li>
+    <li><a href="#summary">總結</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+
+<!-- TOC 側欄 -->
+<aside class="toc-sidebar">
+  <div class="toc-label">目錄</div>
+  <ul>
+    <li><a href="#overview">1. 總覽</a></li>
+    <li><a href="#trends">2. 趨勢分析</a></li>
+    <li><a href="#updates">3. 重要更新</a></li>
+    <li><a href="#source-details">4. 來源詳情</a></li>
+    <li><a href="#deep-analysis">5. 深度分析</a></li>
+    <li><a href="#recommendations">6. 建議行動</a></li>
+    <li><a href="#glossary">7. 名詞解釋</a></li>
+    <li><a href="#learning">8. 學習資源</a></li>
+    <li><a href="#summary">9. 總結</a></li>
+  </ul>
+  <div style="margin-top: 1.5rem; padding: 0.75rem; background: var(--green-l); border-radius: 6px; border: 1px solid #6ee7b7;">
+    <div style="font-size: 0.72rem; font-weight: 700; color: #065f46; margin-bottom: 0.25rem;">今日亮點</div>
+    <div style="font-size: 0.8rem; color: #047857;">新增 5 條目</div>
+    <div style="font-size: 0.78rem; color: #047857; margin-top: 0.2rem;">Anthropic 創意工作<br>LangChain 會議預覽<br>LlamaParse SDK 整合</div>
+  </div>
+</aside>
+
+<!-- 主要內容 -->
+<div class="main-content">
+
+<!-- Section 1: 總覽 -->
+<section id="overview">
+  <h2>📊 總覽</h2>
+  <div class="card">
+    <div class="card-title">今日（2026-04-29）爬取摘要</div>
+    <div class="card-sub">針對 4 大 AI Agent 框架技術部落格進行第 24 次爬取。今日共發現 <strong>5 個新條目</strong>：Anthropic 新增 2 篇（Claude 創意工作定位 + 澳紐擴張）、LangChain 新增 1 篇（Interrupt 2026 大會 MC 預覽）、LlamaIndex 新增 2 篇（房貸收入驗證工作流 + OCR for KYC）。CrewAI 無新增。整體趨勢仍圍繞「AI Agent 生產環境化」、「文件智能化處理」與「框架典範轉移」三大主軸。</div>
+  </div>
+  <div class="source-grid">
+    <div class="source-card has-new">
+      <div class="source-name">LangChain Blog <span class="badge badge-redirect">301 重導向</span></div>
+      <div class="source-stat">最新文章：<span>2026-04-28</span></div>
+      <div class="source-stat">網址：<span>www.langchain.com/blog</span></div>
+      <div class="source-new-count">+1 新條目</div>
+    </div>
+    <div class="source-card has-new">
+      <div class="source-name">Anthropic News</div>
+      <div class="source-stat">最新公告：<span>2026-04-28</span></div>
+      <div class="source-stat">Claude Opus 4.7 / Design</div>
+      <div class="source-new-count">+2 新條目</div>
+    </div>
+    <div class="source-card has-new">
+      <div class="source-name">LlamaIndex Blog</div>
+      <div class="source-stat">最新文章：<span>2026-04-27</span></div>
+      <div class="source-stat">ParseBench + LlamaParse v2</div>
+      <div class="source-new-count">+2 新條目</div>
+    </div>
+    <div class="source-card">
+      <div class="source-name">CrewAI Blog</div>
+      <div class="source-stat">最新文章：<span>2026-04-14</span></div>
+      <div class="source-stat">Agent Harnesses + AMP</div>
+      <div class="source-new-count" style="color: var(--t2);">無新增</div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: 趨勢分析 -->
+<section id="trends">
+  <h2>📈 趨勢分析</h2>
+  <p style="font-size: 0.85rem; color: var(--t2); margin-bottom: 1rem;">基於本週（2026-04-23～2026-04-29）跨來源觀察，整理出以下 5 個主要趨勢。</p>
+  <ul class="trend-list">
+    <li class="trend-item">
+      <div class="trend-num">1</div>
+      <div class="trend-body">
+        <div class="trend-title">AI Agent 向「創意工作」滲透加速</div>
+        <div class="trend-desc">Anthropic 在本週推出「Claude for Creative Work」並稍早發佈「Claude Design」，標誌著 Agent 的應用場景已從程式開發、資料分析向設計、媒體創作等非結構化創意任務延伸。這是繼 coding assistant 之後，Agent 的第二波主力滲透方向。</div>
+        <div class="trend-sources">來源：Anthropic（2026-04-28、2026-04-17）</div>
+      </div>
+    </li>
+    <li class="trend-item">
+      <div class="trend-num">2</div>
+      <div class="trend-body">
+        <div class="trend-title">Agent 框架大會化——Interrupt 2026 成業界焦點</div>
+        <div class="trend-desc">LangChain 的 Interrupt 2026（5/13-14，舊金山）正積極預告，此次發佈 MC 介紹顯示大會規模升級。類似 AWS re:Invent，Agent 框架供應商開始把年度大會作為生態宣示的舞台，預示著框架競爭將從 API 比拼轉向生態與社群建設。</div>
+        <div class="trend-sources">來源：LangChain（2026-04-28）</div>
+      </div>
+    </li>
+    <li class="trend-item">
+      <div class="trend-num">3</div>
+      <div class="trend-body">
+        <div class="trend-title">文件 AI 進入「垂直場景化」階段</div>
+        <div class="trend-desc">LlamaIndex 連續推出房貸收入驗證（LlamaParse + Claude Agent SDK）、KYC 合規、法律文件等垂直場景解決方案。這表明通用文件解析技術已成熟，市場競爭正轉向行業縱深——誰能快速覆蓋金融、法律、醫療場景，誰就能建立護城河。</div>
+        <div class="trend-sources">來源：LlamaIndex（2026-04-27、2026-04-18）</div>
+      </div>
+    </li>
+    <li class="trend-item">
+      <div class="trend-num">4</div>
+      <div class="trend-body">
+        <div class="trend-title">Agent 框架典範轉移：「Harness 已死」論持續發酵</div>
+        <div class="trend-desc">CrewAI CEO João Moura 的「Agent Harnesses are Dead」觀點（4/14 發佈）持續在業界引起討論。LangChain 也以「The Anatomy of an Agent Harness」從正面回應。兩家框架的論戰揭示了一個深層問題：現有 Agent 架構是否真的能支撐生產環境需求？</div>
+        <div class="trend-sources">來源：CrewAI（2026-04-14）、LangChain（2026-03-10）</div>
+      </div>
+    </li>
+    <li class="trend-item">
+      <div class="trend-num">5</div>
+      <div class="trend-body">
+        <div class="trend-title">Anthropic 全球版圖擴張——亞太佈局加速</div>
+        <div class="trend-desc">Anthropic 在一週內接連宣佈：NEC 合作推動日本 AI 工程師培育（4/24）、任命澳紐總經理並開設雪梨辦公室（4/27）。加上稍早的亞馬遜 5 gigawatt 算力合作，Anthropic 的亞太戰略已從「商務合作」升級為「實體落地」，對 Agent 開發者選型有直接影響。</div>
+        <div class="trend-sources">來源：Anthropic（2026-04-27、2026-04-24）</div>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<!-- Section 3: 重要更新 -->
+<section id="updates">
+  <h2>🆕 重要更新</h2>
+  <p style="font-size: 0.85rem; color: var(--t2); margin-bottom: 1rem;">今日（2026-04-29 爬取）相較前次（2026-04-28）的差異條目：</p>
+  <table class="diff-table">
+    <thead>
+      <tr>
+        <th>來源</th>
+        <th>標題</th>
+        <th>日期</th>
+        <th>類型</th>
+        <th>摘要</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="new-row">
+        <td><strong>Anthropic</strong></td>
+        <td><strong>Claude for Creative Work</strong> <span class="badge badge-new">NEW</span></td>
+        <td>2026-04-28</td>
+        <td>公告</td>
+        <td>Claude 在創意工作場景的全新定位與功能強化，涵蓋設計、創作、原型等應用</td>
+      </tr>
+      <tr class="new-row">
+        <td><strong>Anthropic</strong></td>
+        <td><strong>ANZ GM 任命 + 雪梨辦公室開幕</strong> <span class="badge badge-new">NEW</span></td>
+        <td>2026-04-27</td>
+        <td>公告</td>
+        <td>任命 Theo Hourmouzis 為澳洲與紐西蘭總經理，正式開設雪梨辦公室，進軍大洋洲市場</td>
+      </tr>
+      <tr class="new-row">
+        <td><strong>LangChain</strong></td>
+        <td><strong>Interrupt Preview: Meet the MC</strong> <span class="badge badge-new">NEW</span></td>
+        <td>2026-04-28</td>
+        <td>公司公告</td>
+        <td>Interrupt 2026 大會（5/13-14，舊金山）主持人預覽介紹，7 分鐘閱讀，作者 Becca Weng</td>
+      </tr>
+      <tr class="new-row">
+        <td><strong>LlamaIndex</strong></td>
+        <td><strong>Build Automated Loan Income Verification with LlamaParse + Claude Agent SDK</strong> <span class="badge badge-new">NEW</span></td>
+        <td>2026-04-27</td>
+        <td>技術教學</td>
+        <td>房貸（Mortgage）收入驗證自動化工作流：LlamaParse Extract 提取多份文件結構化資料，Claude 進行跨文件驗證</td>
+      </tr>
+      <tr class="new-row">
+        <td><strong>LlamaIndex</strong></td>
+        <td><strong>OCR for KYC: Why Standard Text Extraction Falls Short</strong> <span class="badge badge-new">NEW</span></td>
+        <td>日期待確認</td>
+        <td>技術深潛</td>
+        <td>探討標準 OCR 在 KYC（了解你的客戶）合規場景的不足之處，以及 LlamaParse 的解決方案</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Section 4: 來源詳情 -->
+<section id="source-details">
+  <h2>📋 來源詳情</h2>
+
+  <!-- LangChain -->
+  <div class="source-section">
+    <div class="source-section-title">
+      <span style="background: #3b82f6; color: #fff; width: 1.5rem; height: 1.5rem; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">LC</span>
+      LangChain Blog
+      <span class="badge badge-new">+1 今日新增</span>
+      <span class="badge badge-redirect">重導向至 langchain.com/blog</span>
+    </div>
+    <ul class="article-list">
+      <li>
+        <div class="article-title">Interrupt Preview: Meet the MC <span class="badge badge-new">NEW</span></div>
+        <div class="article-meta">2026-04-28 · Becca Weng · 7 min · 公司公告</div>
+        <div class="article-desc">Interrupt 2026 大會預覽，介紹主持人陣容。Interrupt 是 LangChain 年度技術峰會，今年定於 5 月 13-14 日在舊金山舉行，聚焦大規模 Agent 部署。</div>
+      </li>
+      <li>
+        <div class="article-title">The runtime behind production deep agents</div>
+        <div class="article-meta">2026-04-20 · Sydney Runkle, Vivek Trivedy · 24 min · 概念指南</div>
+        <div class="article-desc">深度探討生產環境中複雜代理系統的「執行時基礎設施」。涵蓋：非同步子代理架構、多模態檔案系統支援、記憶管理策略、可觀測性設計。為近期最重量級技術文章。</div>
+      </li>
+      <li>
+        <div class="article-title">How Credit Genie used Insights Agent to improve their AI financial assistant</div>
+        <div class="article-meta">2026-04-20 · David Li / Jeffrey Ngai / Goyo Lozano Palacio / Charles Yuan · 案例研究</div>
+        <div class="article-desc">Credit Genie 使用 LangSmith Insights Agent 提升 AI 金融助理準確性與可靠性的實際成效報告。</div>
+      </li>
+      <li>
+        <div class="article-title">Agentic Engineering: How Swarms of AI Agents Are Redefining Software Engineering</div>
+        <div class="article-meta">2026-04-17 · Renuka Kumar, Prashanth Ramagopal · 思想領導</div>
+        <div class="article-desc">多代理群組（Agent Swarms）如何改變軟體工程實踐，涵蓋代理協作架構與系統設計新方向。</div>
+      </li>
+      <li>
+        <div class="article-title">Running Subagents in the Background</div>
+        <div class="article-meta">2026-04-16 · Hunter Lovell, Colin Francis · Deep Agents</div>
+        <div class="article-desc">在 Deep Agents 框架中實現後台子代理並行運行的技術方法與最佳實踐。</div>
+      </li>
+      <li>
+        <div class="article-title">Reusable Evaluators and Evaluator Templates in LangSmith</div>
+        <div class="article-meta">2026-04-16 · Catherine Qiao, Jacob Talbot · LangSmith</div>
+        <div class="article-desc">LangSmith 新功能：可重用評估器範本，提升 Agent 評估效率與一致性。企業級 Agent 評估標準化的重要工具。</div>
+      </li>
+      <li>
+        <div class="article-title">A Developer's First 10 Minutes: Secure LangChain Agents with Cisco AI Defense</div>
+        <div class="article-meta">2026-04-16 · Siddhant Dash · 安全整合</div>
+        <div class="article-desc">透過 Cisco AI Defense 快速實現 LangChain 代理安全防護的 10 分鐘教學。</div>
+      </li>
+      <li>
+        <div class="article-title">How We Made Our Docs Test Themselves</div>
+        <div class="article-meta">2026-04-15 · Naomi Pentrel · Deep Agents</div>
+        <div class="article-desc">使用 Deep Agents 實現文件自動化測試的工程方法，解決文件與程式碼版本不同步問題。</div>
+      </li>
+      <li>
+        <div class="article-title">Your harness, your memory</div>
+        <div class="article-meta">2026-04-11 · Harrison Chase · Agent 架構</div>
+        <div class="article-desc">LangChain 創辦人 Harrison Chase 撰文探討代理系統中如何自訂記憶管理策略，與 CrewAI「Harness 已死」形成有趣對話。</div>
+      </li>
+      <li>
+        <div class="article-title">Deep Agents Deploy: an open alternative to Claude Managed Agents</div>
+        <div class="article-meta">2026-04-09 · Sydney Runkle · 框架</div>
+        <div class="article-desc">Beta 版——模型無關的開源代理框架，作為 Claude Managed Agents 的開放替代方案。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Anthropic -->
+  <div class="source-section">
+    <div class="source-section-title">
+      <span style="background: #d97706; color: #fff; width: 1.5rem; height: 1.5rem; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">AN</span>
+      Anthropic News
+      <span class="badge badge-new">+2 今日新增</span>
+    </div>
+    <ul class="article-list">
+      <li>
+        <div class="article-title">Claude for Creative Work <span class="badge badge-new">NEW</span></div>
+        <div class="article-meta">2026-04-28 · 公告</div>
+        <div class="article-desc">Claude 在創意工作場景的全新定位強化，聚焦設計、創作、原型等應用，搭配稍早推出的 Claude Design 工具形成完整創意 AI 解決方案。</div>
+      </li>
+      <li>
+        <div class="article-title">Anthropic names Theo Hourmouzis GM of Australia &amp; New Zealand and officially opens Sydney office <span class="badge badge-new">NEW</span></div>
+        <div class="article-meta">2026-04-27 · 公告</div>
+        <div class="article-desc">任命 Theo Hourmouzis 擔任澳洲與紐西蘭總經理，正式開設雪梨辦公室。繼日本（NEC 合作）後，Anthropic 持續加深亞太實體佈局。</div>
+      </li>
+      <li>
+        <div class="article-title">An update on our election safeguards</div>
+        <div class="article-meta">2026-04-24 · 公告</div>
+        <div class="article-desc">更新 Claude 在選舉相關內容的安全防護機制，含偵測與過濾策略。</div>
+      </li>
+      <li>
+        <div class="article-title">Anthropic and NEC collaborate to build Japan's largest AI engineering workforce</div>
+        <div class="article-meta">2026-04-24 · 公告</div>
+        <div class="article-desc">與日本 NEC 合作，打造日本最大規模 AI 工程師培育計畫，加速 Claude 在日本企業的部署。</div>
+      </li>
+      <li>
+        <div class="article-title">Anthropic and Amazon expand collaboration for up to 5 gigawatts of new compute</div>
+        <div class="article-meta">2026-04-20 · 公告</div>
+        <div class="article-desc">與 Amazon 擴大合作，增加最多 5 吉瓦的算力基礎設施，為 Claude Agent 的大規模部署奠定算力基礎。</div>
+      </li>
+      <li>
+        <div class="article-title">Introducing Claude Design by Anthropic Labs</div>
+        <div class="article-meta">2026-04-17 · 產品</div>
+        <div class="article-desc">全新設計協作工具，讓使用者與 Claude 共同創作視覺作品——設計稿、原型、簡報、單頁資料等。</div>
+      </li>
+      <li>
+        <div class="article-title">Introducing Claude Opus 4.7</div>
+        <div class="article-meta">2026-04-16 · 產品</div>
+        <div class="article-desc">最新 Opus 模型，在編碼（Coding）、代理（Agent）、視覺（Vision）和多步驟任務（Multi-step）四大場景性能全面增強。</div>
+      </li>
+      <li>
+        <div class="article-title">Project Glasswing</div>
+        <div class="article-meta">2026-04-07 · 公告</div>
+        <div class="article-desc">Anthropic 主導的軟體供應鏈安全聯合計畫，聯合 AWS、Apple、Broadcom、Cisco、CrowdStrike、Google、JPMorganChase、Linux Foundation、Microsoft、NVIDIA、Palo Alto Networks 等 12 家機構共同參與。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- LlamaIndex -->
+  <div class="source-section">
+    <div class="source-section-title">
+      <span style="background: #10b981; color: #fff; width: 1.5rem; height: 1.5rem; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">LI</span>
+      LlamaIndex Blog
+      <span class="badge badge-new">+2 今日新增</span>
+    </div>
+    <ul class="article-list">
+      <li>
+        <div class="article-title">Build Automated Loan Income Verification with LlamaParse + Claude Agent SDK <span class="badge badge-new">NEW</span></div>
+        <div class="article-meta">2026-04-27 · 技術教學</div>
+        <div class="article-desc">房貸（Mortgage）收入驗證自動化工作流教學：使用 LlamaParse Extract 從薪資單、稅表、銀行對帳單等多份文件提取結構化資料，透過 Claude Agent SDK 進行跨文件驗證。這是 LlamaParse 與 Anthropic 生態深度整合的重要範例。</div>
+      </li>
+      <li>
+        <div class="article-title">OCR for KYC: Why Standard Text Extraction Falls Short <span class="badge badge-new">NEW</span></div>
+        <div class="article-meta">日期待確認 · 技術深潛</div>
+        <div class="article-desc">探討標準文字提取（OCR）在 KYC（Know Your Customer，了解你的客戶）金融合規場景中的不足，說明為什麼需要 AI 增強的文件解析解決方案。</div>
+      </li>
+      <li>
+        <div class="article-title">LlamaIndex and Kaggle launch a new Document OCR leaderboard for AI agents</div>
+        <div class="article-meta">2026-04-22 · 產品公告</div>
+        <div class="article-desc">與 Kaggle 合作推出 ParseBench OCR 排行榜，在真實企業文件上評估解析器，五大維度（表格/圖表/格式/忠實度/視覺接地）全面評測。開放社群提交。</div>
+      </li>
+      <li>
+        <div class="article-title">LiteParse 如何將 PDF 轉換為文本（網格投影演算法深度解析）</div>
+        <div class="article-meta">2026-04-22 · 技術深潛</div>
+        <div class="article-desc">深入探討網格投影演算法（Grid Projection Algorithm）的運作原理，解釋如何從 PDF 座標中提取對齊文字並保留文件空間結構。LiteParse 已獲 4,300+ GitHub 星標。</div>
+      </li>
+      <li>
+        <div class="article-title">Why Single-Pass Extraction Fails and What Deep Extraction Actually Solves</div>
+        <div class="article-meta">2026-04-20 · 技術分析</div>
+        <div class="article-desc">單次提取（Single-Pass Extraction）缺乏驗證機制，無法標記遺漏內容；深度提取架構（Deep Extraction）提供問責迴圈，確保生產環境資料完整性。</div>
+      </li>
+      <li>
+        <div class="article-title">AI Document Classification: A Practical Guide to Automated Sorting and Tagging</div>
+        <div class="article-meta">2026-04-19 · 實作指南</div>
+        <div class="article-desc">AI 分類系統使用 NLP 技術自動識別文件性質，解決文件分類排序成為處理瓶頸的問題。</div>
+      </li>
+      <li>
+        <div class="article-title">OCR Accuracy Explained: What Impacts Performance and How to Improve It</div>
+        <div class="article-meta">2026-04-19 · 技術說明</div>
+        <div class="article-desc">OCR 準確度受文件品質、版面複雜度與驗證機制影響，系統效能來自多層次最佳化。</div>
+      </li>
+      <li>
+        <div class="article-title">Parsing the Unreadable: How LlamaParse Handles Legal Discovery Documents</div>
+        <div class="article-meta">2026-04-18 · 垂直場景</div>
+        <div class="article-desc">法律文件解析挑戰——LlamaParse 透過客製提示（Custom Prompts）與影像呈現解決低解析度掃描件問題。</div>
+      </li>
+      <li>
+        <div class="article-title">Introducing ParseBench</div>
+        <div class="article-meta">2026-04-13 · 產品發佈</div>
+        <div class="article-desc">首個 AI 代理文件解析基準，~2,000 個人工驗證企業文件頁面，167,000+ 項測試規則，五大維度評測。LlamaParse Agentic 達 84.9% 整體分數。</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- CrewAI -->
+  <div class="source-section">
+    <div class="source-section-title">
+      <span style="background: #8b5cf6; color: #fff; width: 1.5rem; height: 1.5rem; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">CA</span>
+      CrewAI Blog
+      <span class="badge badge-same">無新增</span>
+    </div>
+    <ul class="article-list">
+      <li>
+        <div class="article-title">Agent Harnesses are Dead, Long Live Agent Harnesses <span class="badge badge-important">最新</span></div>
+        <div class="article-meta">2026-04-14 · João Moura · Enterprise Insights</div>
+        <div class="article-desc">CrewAI 創辦人 João Moura 的大膽宣言：舊式 harness 框架已被取代，新一代代理系統應具備自主編排與動態調適能力。觀點持續在業界引發討論，LangChain 創辦人也以「Your harness, your memory」隱性回應。</div>
+      </li>
+      <li>
+        <div class="article-title">Orchestrating Self-Evolving Agents with CrewAI and NVIDIA NemoClaw</div>
+        <div class="article-meta">2026-03-17 · João Moura · CrewAI Enterprise</div>
+        <div class="article-desc">結合 NVIDIA NemoClaw 實現自我演化代理編排，速度提升 100x。展示 CrewAI 在 GPU 加速推論方向的進展。</div>
+      </li>
+      <li>
+        <div class="article-title">How We Built Cognitive Memory for Agentic Systems</div>
+        <div class="article-meta">2026-03-05 · João Moura · CrewAI Enterprise</div>
+        <div class="article-desc">為代理系統實作認知記憶（Cognitive Memory）機制，解決長期上下文管理與跨任務記憶持久化問題。</div>
+      </li>
+      <li>
+        <div class="article-title">The State of Agentic AI in 2026</div>
+        <div class="article-meta">2026-02-11 · 精選文章</div>
+        <div class="article-desc">2026 年代理式 AI 現狀全面綜述，從 CrewAI 20 億次工作流執行量視角探討技術成熟度與實際落地挑戰。</div>
+      </li>
+      <li>
+        <div class="article-title">Your First AI Agent Should Do One Thing Badly</div>
+        <div class="article-meta">2026-01-29 · João Moura</div>
+        <div class="article-desc">首個 AI Agent 開發哲學：聚焦單一任務，接受初期表現不佳，避免過早複雜化。「做一件事做不好」比「什麼都做一點」更能積累可靠性。</div>
+      </li>
+      <li>
+        <div class="article-title">Lessons From 2 Billion Agentic Workflows</div>
+        <div class="article-meta">2026-01-24 · João Moura</div>
+        <div class="article-desc">從 CrewAI 平台上 20 億次代理工作流執行量中提取的設計原則：錯誤率分布、任務拆解策略、人機協作接觸點設計等實戰洞察。</div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Section 5: 深度分析 -->
+<section id="deep-analysis">
+  <h2>🔬 深度分析</h2>
+
+  <div class="analysis-block">
+    <h3>一、跨框架的「生產環境化」趨勢匯流</h3>
+    <p>本週四個來源有一個共同主軸：Agent 正從實驗室走向生產環境，但各家應對策略不同。LangChain 以「執行時基礎設施」（Runtime Infrastructure）為核心，強調非同步子代理、可觀測性、評估器等工程基礎；LlamaIndex 以「垂直場景深化」為路徑，逐一攻克金融（房貸驗證、KYC）、法律（Discovery 文件）等高門檻場景；CrewAI 以「20 億次執行量」的資料優勢建立最佳實踐；Anthropic 則從底層算力（5 gigawatt）到全球擴張（雪梨辦公室）全面鋪墊生態基礎設施。</p>
+    <div class="insight"><strong>洞察：</strong>「生產環境化」不只是技術問題，更是組織、地理、法規的系統工程。選型 Agent 框架時，需評估框架供應商的生態深度，而非只看 API 設計優雅度。</div>
+  </div>
+
+  <div class="analysis-block">
+    <h3>二、LlamaParse × Claude Agent SDK 整合的戰略意義</h3>
+    <p>今日 LlamaIndex 發佈的「Loan Income Verification with LlamaParse + Claude Agent SDK」不只是一篇技術教學——這是兩家技術棧的首次深度場景整合示範。LlamaParse 負責文件結構化提取，Claude Agent SDK 負責跨文件推理驗證，形成「提取 → 推理 → 驗證」的完整 Agent 管道。金融合規（房貸、KYC）是高監管、高精度要求的場景，雙方選擇此場景作為示範，暗示著企業級 AI Agent 市場的主戰場將是「有監管需求的垂直行業」。</p>
+    <div class="insight"><strong>洞察：</strong>跨框架整合正在成為新的競爭維度。LlamaIndex（文件 AI）+ Anthropic（推理 AI）的組合，與 LangChain（工作流）+ LangSmith（評估）的自家生態形成差異化路線。開發者應提早規劃哪條路線更符合自己的場景需求。</div>
+  </div>
+
+  <div class="analysis-block">
+    <h3>三、「Agent Harnesses are Dead」爭議的技術本質</h3>
+    <p>CrewAI 的 João Moura 與 LangChain 的 Harrison Chase，分別以「Harness 已死」和「Your harness, your memory」表達截然不同的立場。深層分歧在於：Moura 認為靜態 harness 無法適應動態任務需求，應走向「自適應編排」；Chase 則認為記憶管理與 harness 設計密不可分，完全廢棄 harness 反而會讓 Agent 失去上下文延續能力。這個爭議折射出一個更根本的問題：2026 年的 Agent 系統，究竟應該是「自主決策最大化」還是「人類可控性最大化」？兩種路線在不同場景各有其適用性。</p>
+    <div class="insight"><strong>洞察：</strong>高風險場景（金融、醫療、法律）需要強 harness 確保可解釋性與可回溯性；低風險創意場景則可以接受更高自主度。選型時不應追求框架的意識形態，而應對齊場景風險等級。</div>
+  </div>
+
+  <div class="analysis-block">
+    <h3>四、Anthropic 的「創意 AI」轉向與 Agent 開發者的機會</h3>
+    <p>Anthropic 在短短兩週內推出 Claude Design（4/17）與 Claude for Creative Work（4/28），顯示創意場景是其重點佈局方向。對 Agent 開發者而言，這意味著：Claude 的優勢不只限於邏輯推理和程式碼生成，在多模態創意任務（圖像生成指導、設計原型、簡報製作）上也有強勁能力。結合 Claude Opus 4.7 的視覺（Vision）增強，建構「創意工作流 Agent」將是近期可落地的高價值機會。</p>
+    <div class="insight"><strong>洞察：</strong>創意工作者（設計師、內容創作者、行銷人員）是下一波 Agent 採用浪潮的主力，但他們的需求與工程師截然不同：強調視覺輸出質量、迭代速度、創意對話感。這個市場目前框架支援相對薄弱，是藍海。</div>
+  </div>
+</section>
+
+<!-- Section 6: 建議行動 -->
+<section id="recommendations">
+  <h2>💡 建議行動</h2>
+  <ul class="rec-list">
+    <li>
+      <div class="rec-title">試驗 LlamaParse + Claude Agent SDK 的文件驗證管道</div>
+      <div class="rec-desc">今日 LlamaIndex 發佈的房貸驗證工作流提供了完整的實作範例。建議開發者以此為範本，套用到自己的文件處理場景（合約審查、發票核對、報表驗證等）。核心模式：LlamaParse Extract 多格式提取 → Claude 跨文件邏輯驗證 → 結構化輸出。</div>
+    </li>
+    <li>
+      <div class="rec-title">關注 Interrupt 2026（5/13-14）並提早準備問題清單</div>
+      <div class="rec-desc">LangChain 的 Interrupt 2026 將是本季 Agent 技術最重要的大會，預計會有深度 Deep Agents、LangSmith 評估、以及跨框架整合等議題。建議提前整理自己在生產環境 Agent 部署中的痛點，大會期間可以直接向框架作者提問。</div>
+    </li>
+    <li>
+      <div class="rec-title">評估 CrewAI vs LangChain 在 Harness 設計哲學上的差異</div>
+      <div class="rec-desc">如果正在規劃新的 Agent 系統，建議同時閱讀 CrewAI 的「Agent Harnesses are Dead」（2026-04-14）和 LangChain 的「Your harness, your memory」（2026-04-11）。兩文代表兩種不同的架構哲學，選擇哪條路線將決定系統的可維護性與可擴展性。</div>
+    </li>
+    <li>
+      <div class="rec-title">把 Claude for Creative Work 納入非技術使用者的 Agent 規劃</div>
+      <div class="rec-desc">Anthropic 的 Claude Design 與 Claude for Creative Work 打開了設計師、行銷人員、內容創作者使用 Claude Agent 的大門。如果你的產品服務非技術背景的用戶，值得評估將這些創意功能整合進你的 Agent 工作流。</div>
+    </li>
+    <li>
+      <div class="rec-title">追蹤 ParseBench × Kaggle 排行榜，選擇最適合場景的文件解析工具</div>
+      <div class="rec-desc">LlamaIndex 與 Kaggle 合作的 ParseBench 排行榜（五維度：表格/圖表/格式/忠實度/視覺接地）提供了客觀的比較基準。建議根據自己文件場景的特性（例如：表格密集型用表格維度分數排序），選擇得分最高的解析工具，而不只是選知名度最高的。</div>
+    </li>
+  </ul>
+</section>
+
+<!-- Section 7: 名詞解釋 -->
+<section id="glossary">
+  <h2>📖 名詞解釋</h2>
+  <div class="glossary-grid">
+    <div class="glossary-item">
+      <div class="glossary-term">Agent Harness（代理框架/韁繩）</div>
+      <div class="glossary-def">包裹 AI Agent 的基礎設施層，負責管理工具呼叫、記憶、上下文傳遞等，讓 Agent 的行為可控、可測試、可觀測。CrewAI 認為舊式 Harness 限制太多，LangChain 認為其仍不可或缺。</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Deep Agents（深度代理）</div>
+      <div class="glossary-def">LangChain 提出的概念，指能夠執行多步驟、長時程、需要複雜推理的 Agent 系統，相對於只能單輪對話的淺層 Agent。核心特徵：非同步子代理、可中斷恢復、持久記憶。</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">LlamaParse（文件解析器）</div>
+      <div class="glossary-def">LlamaIndex 開發的 AI 文件解析工具，能從 PDF、Word、圖片等多種格式中提取結構化資料（表格、圖表、文字），針對企業複雜文件有特殊優化。v2 版成本降低 50%。</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">ParseBench（解析基準測試）</div>
+      <div class="glossary-def">首個為 AI Agent 設計的文件解析基準，包含 ~2,000 頁人工驗證企業文件，評估五個維度：表格（Table）、圖表（Chart）、格式（Format）、忠實度（Fidelity）、視覺接地（Visual Grounding）。</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">LiteParse（輕量本地解析器）</div>
+      <div class="glossary-def">LlamaParse 核心處理引擎的開源版本，可在本地執行，零 Python 依賴，適合隱私敏感場景或離線環境。採用網格投影演算法保留 PDF 文件的空間結構。已獲 4,300+ GitHub 星標。</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Claude Agent SDK（代理開發套件）</div>
+      <div class="glossary-def">Anthropic 官方提供的 Agent 開發框架，讓開發者以 Claude 為核心建立多步驟代理應用。支援工具呼叫、多輪對話、任務委派等能力，已與 LlamaParse 等第三方工具整合。</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">KYC（了解你的客戶）</div>
+      <div class="glossary-def">Know Your Customer 的縮寫，金融機構（銀行、投資平台）的法規要求：在服務客戶前必須核實客戶身份、評估風險。涉及大量身份文件的自動化處理，是文件 AI 的重要應用場景。</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">LangSmith（LLM 觀測平台）</div>
+      <div class="glossary-def">LangChain 旗下的 LLM 應用可觀測性平台，提供追蹤（Tracing）、評估（Evaluation）、測試（Testing）等功能。Insights Agent 是其新功能，自動從執行日誌中發現改善建議。</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Deep Extraction（深度提取）</div>
+      <div class="glossary-def">LlamaIndex 提出的文件提取架構，相對於「單次提取」，深度提取透過多輪驗證迴圈確認提取完整性，能標記遺漏或不確定的內容，適用於精度要求高的生產環境。</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Agent Swarms（代理群組）</div>
+      <div class="glossary-def">多個 AI Agent 協作執行任務的架構模式，每個 Agent 負責特定子任務，透過協調機制（Orchestrator）整合結果。LangChain 的「Agentic Engineering」文章探討了 Swarms 如何改變軟體工程實踐。</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">MCP（模型上下文協定）</div>
+      <div class="glossary-def">Model Context Protocol，由 Anthropic 提出並已捐贈給 Agentic AI Foundation 的開放標準，定義 AI 模型與外部工具、資料來源之間的通訊介面，類似 AI 世界的 HTTP 協定。</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Interrupt 2026（大會）</div>
+      <div class="glossary-def">LangChain 主辦的年度 AI Agent 技術峰會，2026 年定於 5 月 13-14 日在舊金山舉行，聚焦大規模 Agent 部署、生產環境工程實踐，是業界最重要的 Agent 技術會議之一。</div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 8: 學習資源 -->
+<section id="learning">
+  <h2>📚 學習資源</h2>
+  <div class="learning-grid">
+    <div class="learning-item">
+      <div class="l-label">本週必讀 · LangChain</div>
+      <div class="l-title">The runtime behind production deep agents</div>
+      <div class="l-desc">24 分鐘深度閱讀，涵蓋非同步子代理、記憶管理、可觀測性三大主題。如果只能讀本週一篇技術文章，選這篇。</div>
+    </div>
+    <div class="learning-item">
+      <div class="l-label">實作教學 · LlamaIndex</div>
+      <div class="l-title">Build Automated Loan Income Verification</div>
+      <div class="l-desc">LlamaParse + Claude Agent SDK 完整工作流教學，有程式碼範例。即使不做金融場景，模式可直接套用到其他文件驗證任務。</div>
+    </div>
+    <div class="learning-item">
+      <div class="l-label">思想碰撞 · CrewAI vs LangChain</div>
+      <div class="l-title">Agent Harnesses are Dead（CrewAI）vs Your harness, your memory（LangChain）</div>
+      <div class="l-desc">兩篇文章形成有趣的思想對話，一起讀可以理解 Agent 架構哲學的分歧。有助於選型時做出更有根據的判斷。</div>
+    </div>
+    <div class="learning-item">
+      <div class="l-label">基準測試 · LlamaIndex</div>
+      <div class="l-title">ParseBench × Kaggle OCR 排行榜</div>
+      <div class="l-desc">如果你的應用涉及文件解析，參考 ParseBench 排行榜（parsebench.ai）選擇最適合場景的工具，比單純看品牌知名度更科學。</div>
+    </div>
+    <div class="learning-item">
+      <div class="l-label">產品體驗 · Anthropic</div>
+      <div class="l-title">Claude Design by Anthropic Labs</div>
+      <div class="l-desc">如果你服務設計師或創意工作者，值得親自體驗 Claude Design 的互動模式，了解創意 AI Agent 的使用者體驗設計方向。</div>
+    </div>
+    <div class="learning-item">
+      <div class="l-label">大會預告 · LangChain</div>
+      <div class="l-title">Interrupt 2026（5/13-14，舊金山）</div>
+      <div class="l-desc">目前已公開 MC 預覽，議程尚未全數揭露。建議持續關注 langchain.com/blog 獲取最新大會資訊。線上觀看應會提供錄影。</div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 9: 總結 -->
+<section id="summary">
+  <h2>📝 總結</h2>
+  <div class="summary-box">
+    <div class="summary-title">今日重點一句話</div>
+    <p>2026-04-29 的 AI Agent 生態系正經歷三條並行演進：Anthropic 從<strong style="color: #60a5fa;">算力到創意</strong>全面強化 Claude 生態基盤、LlamaIndex 以<strong style="color: #60a5fa;">垂直場景整合</strong>（金融、法律、KYC）建立護城河、LangChain 以<strong style="color: #60a5fa;">Interrupt 2026 大會</strong>和技術深耕鞏固工程師社群；CrewAI 雖無新文章，但「Harness 已死」的觀念衝擊仍在業界持續發酵，推動框架設計哲學的再思考。今日最值得關注的是 <strong style="color: #a5f3fc;">LlamaParse + Claude Agent SDK 的深度整合</strong>，它標誌著「文件 AI」與「推理 AI」兩大技術棧的首次明確握手，為企業級 Agent 應用開創了更完整的解決方案藍圖。</p>
+    <div class="summary-next">
+      <strong>明日觀察重點：</strong>Interrupt 2026 的議程是否會進一步揭露；CrewAI 是否會針對 LangChain 的回應再發表新觀點；Anthropic 澳紐辦公室開幕後是否帶動亞太地區 Claude API 採用加速。
+    </div>
+  </div>
+</section>
+
+</div><!-- /main-content -->
+</div><!-- /container -->
+
+<footer>
+  AI Agent 工作流日報 — 2026-04-29 · 監控來源 4 個 · 今日新增 5 條目 · 累計爬取 24 次
+</footer>
+
+</body>
+</html>
