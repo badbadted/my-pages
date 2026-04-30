@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Agent 工作流日報 — 2026-05-01</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --s1: #f8fafc;
+      --s2: #e2e8f0;
+      --t1: #1e293b;
+      --t2: #64748b;
+      --accent: #3b82f6;
+      --accent-light: #eff6ff;
+      --accent2: #8b5cf6;
+      --accent2-light: #f5f3ff;
+      --green: #10b981;
+      --green-light: #ecfdf5;
+      --orange: #f59e0b;
+      --orange-light: #fffbeb;
+      --red: #ef4444;
+      --red-light: #fef2f2;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+      --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.05);
+      --radius: 10px;
+      --sidebar-w: 240px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+      background: var(--bg);
+      color: var(--t1);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Layout */
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: var(--s1);
+      border-right: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 24px 0;
+    }
+    .sidebar-logo {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .sidebar-logo .report-date {
+      font-size: 11px;
+      color: var(--t2);
+      margin-top: 4px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .sidebar-logo h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--t1);
+      line-height: 1.4;
+    }
+    .toc-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--t2);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 0 20px 8px;
+    }
+    .toc a {
+      display: block;
+      padding: 7px 20px;
+      font-size: 13px;
+      color: var(--t2);
+      font-weight: 500;
+      transition: all .15s;
+      border-left: 3px solid transparent;
+    }
+    .toc a:hover {
+      color: var(--t1);
+      background: var(--s2);
+      border-left-color: var(--accent);
+      text-decoration: none;
+    }
+    .toc a.active {
+      color: var(--accent);
+      background: var(--accent-light);
+      border-left-color: var(--accent);
+    }
+    .toc .toc-num {
+      display: inline-block;
+      width: 18px;
+      font-size: 11px;
+      color: var(--t2);
+      opacity: .7;
+    }
+
+    .main { flex: 1; min-width: 0; padding: 40px 48px 80px; max-width: 960px; }
+
+    /* Header */
+    .report-header {
+      margin-bottom: 40px;
+      padding-bottom: 28px;
+      border-bottom: 2px solid var(--s2);
+    }
+    .report-header .tag {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .report-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--t1);
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+    .report-header .meta {
+      font-size: 13px;
+      color: var(--t2);
+    }
+    .report-header .meta span { margin-right: 16px; }
+
+    /* Section */
+    .section {
+      margin-bottom: 52px;
+      scroll-margin-top: 24px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .section-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--t1);
+    }
+    .section h2 .sub { font-size: 13px; color: var(--t2); font-weight: 500; margin-left: 8px; }
+
+    /* Cards */
+    .card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+    .card h3 { font-size: 16px; font-weight: 700; color: var(--t1); margin-bottom: 8px; }
+    .card p { font-size: 14px; color: var(--t2); line-height: 1.7; }
+    .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 700px) { .card-grid { grid-template-columns: 1fr; } }
+
+    /* Source cards */
+    .source-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border-top: 3px solid var(--accent);
+    }
+    .source-card.green { border-top-color: var(--green); }
+    .source-card.purple { border-top-color: var(--accent2); }
+    .source-card.orange { border-top-color: var(--orange); }
+
+    .source-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .source-name { font-size: 16px; font-weight: 700; color: var(--t1); }
+    .source-url { font-size: 12px; color: var(--t2); }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .badge.new { background: var(--green-light); color: var(--green); }
+    .badge.updated { background: var(--accent-light); color: var(--accent); }
+    .badge.unchanged { background: var(--s2); color: var(--t2); }
+    .badge.hot { background: var(--red-light); color: var(--red); }
+    .badge.enterprise { background: var(--accent2-light); color: var(--accent2); }
+    .badge.trend { background: var(--orange-light); color: var(--orange); }
+
+    /* Article list */
+    .article-list { list-style: none; }
+    .article-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--s2);
+      font-size: 14px;
+    }
+    .article-list li:last-child { border-bottom: none; }
+    .article-date {
+      font-size: 12px;
+      color: var(--t2);
+      white-space: nowrap;
+      min-width: 72px;
+      padding-top: 2px;
+    }
+    .article-title { color: var(--t1); font-weight: 500; }
+    .article-desc { font-size: 13px; color: var(--t2); margin-top: 3px; }
+
+    /* Trend items */
+    .trend-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--s2);
+    }
+    .trend-item:last-child { border-bottom: none; }
+    .trend-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .trend-content h4 { font-size: 15px; font-weight: 700; color: var(--t1); margin-bottom: 4px; }
+    .trend-content p { font-size: 13px; color: var(--t2); }
+
+    /* Stat row */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 700px) { .stat-row { grid-template-columns: repeat(2, 1fr); } }
+    .stat-card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      text-align: center;
+    }
+    .stat-card .num { font-size: 26px; font-weight: 800; color: var(--accent); margin-bottom: 2px; }
+    .stat-card .label { font-size: 12px; color: var(--t2); font-weight: 500; }
+
+    /* Recommendation items */
+    .rec-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--s2);
+    }
+    .rec-item:last-child { border-bottom: none; }
+    .rec-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .rec-content h4 { font-size: 15px; font-weight: 600; color: var(--t1); margin-bottom: 4px; }
+    .rec-content p { font-size: 13px; color: var(--t2); }
+
+    /* Glossary */
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 700px) { .glossary-grid { grid-template-columns: 1fr; } }
+    .glossary-item {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .glossary-item dt { font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 4px; }
+    .glossary-item dd { font-size: 13px; color: var(--t2); }
+
+    /* Learning links */
+    .learning-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--s2);
+      align-items: flex-start;
+    }
+    .learning-item:last-child { border-bottom: none; }
+    .learning-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--accent2-light);
+      color: var(--accent2);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .learning-content h4 { font-size: 14px; font-weight: 600; color: var(--t1); margin-bottom: 3px; }
+    .learning-content p { font-size: 13px; color: var(--t2); }
+
+    /* Summary / closing */
+    .closing-box {
+      background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent2-light) 100%);
+      border: 1px solid var(--s2);
+      border-radius: var(--radius);
+      padding: 28px 30px;
+    }
+    .closing-box h3 { font-size: 18px; font-weight: 700; color: var(--t1); margin-bottom: 12px; }
+    .closing-box p { font-size: 14px; color: var(--t2); margin-bottom: 10px; }
+    .watch-list { list-style: none; margin-top: 12px; }
+    .watch-list li {
+      font-size: 14px;
+      color: var(--t2);
+      padding: 5px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+    .watch-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Footer */
+    .report-footer {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--t2);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Callout */
+    .callout {
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 14px;
+      color: var(--t1);
+    }
+    .callout.orange {
+      background: var(--orange-light);
+      border-left-color: var(--orange);
+    }
+    .callout.green {
+      background: var(--green-light);
+      border-left-color: var(--green);
+    }
+
+    /* Divider */
+    .divider { height: 1px; background: var(--s2); margin: 20px 0; }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- Sidebar TOC -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <h2>AI Agent 工作流日報</h2>
+      <div class="report-date">2026-05-01</div>
+    </div>
+    <div class="toc-label">目錄</div>
+    <div class="toc">
+      <a href="#s1"><span class="toc-num">01</span> 總覽</a>
+      <a href="#s2"><span class="toc-num">02</span> 趨勢分析</a>
+      <a href="#s3"><span class="toc-num">03</span> 最新更新</a>
+      <a href="#s4"><span class="toc-num">04</span> 來源詳情</a>
+      <a href="#s5"><span class="toc-num">05</span> 深度分析</a>
+      <a href="#s6"><span class="toc-num">06</span> 建議行動</a>
+      <a href="#s7"><span class="toc-num">07</span> 專有名詞</a>
+      <a href="#s8"><span class="toc-num">08</span> 延伸學習</a>
+      <a href="#s9"><span class="toc-num">09</span> 結語</a>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="main">
+
+    <!-- Header -->
+    <div class="report-header">
+      <div class="tag">Tech Group — Daily Report</div>
+      <h1>AI Agent 工作流日報</h1>
+      <div class="meta">
+        <span>📅 2026-05-01（星期五）</span>
+        <span>📰 4 個來源</span>
+        <span>🔍 tech 群組</span>
+      </div>
+    </div>
+
+    <!-- S1: 總覽 -->
+    <section class="section" id="s1">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2>總覽 <span class="sub">Overview</span></h2>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="num">4</div>
+          <div class="label">監控來源</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">0</div>
+          <div class="label">今日新文章</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">4</div>
+          <div class="label">無異動來源</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">25+</div>
+          <div class="label">本週累積文章</div>
+        </div>
+      </div>
+
+      <div class="callout orange">
+        <strong>今日狀態：</strong> 四個監控來源（LangChain Blog、Anthropic News、LlamaIndex Blog、CrewAI Blog）今日均無新增發布內容。這是五一勞動節假日效應——主要 AI 公司的內容發布節奏普遍放緩。本報告聚焦過去一週的積累動態，進行橫向趨勢整合與深度分析。
+      </div>
+
+      <div class="card">
+        <h3>本週 AI Agent 生態重點摘要</h3>
+        <p>
+          過去七天，AI Agent 工具鏈的發展方向高度聚焦三條主線：<strong>（1）多模型調校與相容性</strong>——LangChain 的 Deep Agents 正面解決「同一 Agent 邏輯要跑在不同 LLM 上」的現實挑戰；<strong>（2）文件理解與 OCR 的代理化</strong>——LlamaIndex 以 MCP 協定重構 LlamaParse，讓 Claude、Cursor、Copilot 可直接呼叫文件解析能力；<strong>（3）企業合規與安全</strong>——LangChain 推出 EU AI Act 合規指南，Anthropic 更新選舉安全防護，代理系統的治理層越來越受重視。CrewAI 則維持「Agent Harnesses 已死」的觀點輸出主軸，暫無新內容推送。
+        </p>
+      </div>
+    </section>
+
+    <!-- S2: 趨勢分析 -->
+    <section class="section" id="s2">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2>趨勢分析 <span class="sub">Trends</span></h2>
+      </div>
+
+      <div class="card">
+        <div class="trend-item">
+          <div class="trend-icon">🔧</div>
+          <div class="trend-content">
+            <h4>趨勢一：Agent 執行層的生產化成熟</h4>
+            <p>LangChain「The runtime behind production deep agents」（24 分鐘長文）與「Tuning Deep Agents for Different Models」雙管齊下，標誌著業界正從「Agent 概念驗證」全面轉向「Agent 生產部署工程」。核心問題不再是「Agent 能不能跑」，而是「不同 LLM 版本下 Agent 行為是否可預測、可觀測、可調校」。</p>
+          </div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-icon">📄</div>
+          <div class="trend-content">
+            <h4>趨勢二：文件處理成為 Agent 工作流的核心基礎設施</h4>
+            <p>LlamaIndex 連番推出 LlamaParse MCP、ParseBench × Kaggle 排行榜、深度提取架構，將「非結構化文件轉結構化資料」從輔助功能升格為 Agent 工作流的一等公民。金融（房貸驗證）、法律（Discovery 文件）、製藥（情報平台）三大垂直場景已有具體落地案例。</p>
+          </div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-icon">⚖️</div>
+          <div class="trend-content">
+            <h4>趨勢三：AI 合規成為企業 Agent 部署的必備前置條件</h4>
+            <p>LangChain 的 EU AI Act 合規指南直接面向企業採購決策者——合規能力正從加分項變成入場資格。Anthropic 的選舉安全防護更新、NSA 採用 Claude Mythos 等信號顯示，AI 治理層的市場需求快速兌現，未來 12 個月內合規工具將是各平台的重要差異化點。</p>
+          </div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-icon">🔗</div>
+          <div class="trend-content">
+            <h4>趨勢四：MCP 協定成為 Agent 工具整合的標準匯流點</h4>
+            <p>LlamaIndex 將 LlamaParse 重構為 MCP Server（支援 Claude、Cursor、Copilot），Anthropic 將 MCP 協定捐贈給 Agentic AI Foundation，顯示 MCP 正從 Anthropic 的單一提案演化為全行業的 Agent 工具互操作標準。不支援 MCP 的工具開始面臨生態邊緣化壓力。</p>
+          </div>
+        </div>
+        <div class="trend-item">
+          <div class="trend-icon">🏢</div>
+          <div class="trend-content">
+            <h4>趨勢五：製藥、金融、法律三大垂直行業 Agent 落地加速</h4>
+            <p>Madrigal（製藥情報）、Credit Genie（AI 金融助理）、房貸收入驗證、法律 Discovery 文件——這週出現的案例集中在高合規、高文件密度的垂直行業。這些行業的共同特徵：文件量大、準確率要求高、人工審查成本高，恰好是 AI Agent 最有 ROI 空間的場景。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S3: 最新更新 -->
+    <section class="section" id="s3">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2>最新更新 <span class="sub">Updates</span></h2>
+      </div>
+
+      <div class="callout green">
+        今日（2026-05-01）四個來源均無新增發布。以下為過去七天（2026-04-24 至 2026-04-30）的最新文章彙整，依發布日期由新到舊排列。
+      </div>
+
+      <div class="card">
+        <ul class="article-list">
+          <li>
+            <div class="article-date">04-29</div>
+            <div>
+              <div class="article-title">
+                <span class="badge updated">LangChain</span>
+                Tuning Deep Agents to Work Well with Different Models
+              </div>
+              <div class="article-desc">深度代理跨 LLM 調校指南，涵蓋模型相容性最佳實踐（Vivek Trivedy, Mason Daugherty，5 分鐘）</div>
+            </div>
+          </li>
+          <li>
+            <div class="article-date">04-29</div>
+            <div>
+              <div class="article-title">
+                <span class="badge updated">LangChain</span>
+                Madrigal 製藥多代理研究情報平台案例
+              </div>
+              <div class="article-desc">製藥業 LangChain + LangSmith 企業落地——靈活可擴展的多代理研究平台（11 分鐘）</div>
+            </div>
+          </li>
+          <li>
+            <div class="article-date">04-29</div>
+            <div>
+              <div class="article-title">
+                <span class="badge new">LlamaIndex</span>
+                LlamaParse MCP: Agentic OCR tools for your AI agents
+              </div>
+              <div class="article-desc">MCP 架構的代理式 OCR 工具——Parse、Classify、Split，支援 Claude/Cursor/Copilot，一分鐘內完成設定</div>
+            </div>
+          </li>
+          <li>
+            <div class="article-date">04-28</div>
+            <div>
+              <div class="article-title">
+                <span class="badge unchanged">Anthropic</span>
+                Claude for Creative Work
+              </div>
+              <div class="article-desc">Claude 創意工作定位強化公告，聚焦設計、寫作、視覺創作場景</div>
+            </div>
+          </li>
+          <li>
+            <div class="article-date">04-28</div>
+            <div>
+              <div class="article-title">
+                <span class="badge unchanged">LangChain</span>
+                Interrupt Preview: Meet the MC
+              </div>
+              <div class="article-desc">Interrupt 2026 大會（5/13-14 舊金山）MC 主持人介紹，大會預覽公告</div>
+            </div>
+          </li>
+          <li>
+            <div class="article-date">04-27</div>
+            <div>
+              <div class="article-title">
+                <span class="badge unchanged">LangChain</span>
+                How LangSmith and LangChain OSS Help You Meet EU AI Act Requirements
+              </div>
+              <div class="article-desc">LangSmith + LangChain 開源的歐盟 AI 法規合規方案指南（7 分鐘）</div>
+            </div>
+          </li>
+          <li>
+            <div class="article-date">04-27</div>
+            <div>
+              <div class="article-title">
+                <span class="badge unchanged">LangChain</span>
+                April 2026 LangChain Newsletter
+              </div>
+              <div class="article-desc">LangChain 4 月官方月報，本月動態重點整理</div>
+            </div>
+          </li>
+          <li>
+            <div class="article-date">04-27</div>
+            <div>
+              <div class="article-title">
+                <span class="badge unchanged">LlamaIndex</span>
+                Build Automated Loan Income Verification with LlamaParse + Claude Agent SDK
+              </div>
+              <div class="article-desc">房貸收入驗證自動化工作流，LlamaParse + Claude SDK 跨文件結構化提取與交叉驗證</div>
+            </div>
+          </li>
+          <li>
+            <div class="article-date">04-27</div>
+            <div>
+              <div class="article-title">
+                <span class="badge unchanged">Anthropic</span>
+                Anthropic 任命澳紐總經理，開設雪梨辦公室
+              </div>
+              <div class="article-desc">Theo Hourmouzis 出任澳洲與紐西蘭總經理，進軍大洋洲市場</div>
+            </div>
+          </li>
+          <li>
+            <div class="article-date">04-24</div>
+            <div>
+              <div class="article-title">
+                <span class="badge unchanged">Anthropic</span>
+                Election safeguards update
+              </div>
+              <div class="article-desc">選舉安全防護機制更新，強化選舉相關議題的 AI 使用治理</div>
+            </div>
+          </li>
+          <li>
+            <div class="article-date">04-24</div>
+            <div>
+              <div class="article-title">
+                <span class="badge unchanged">Anthropic</span>
+                NEC 合作：日本 AI 人才培育計畫
+              </div>
+              <div class="article-desc">Anthropic 與 NEC 合作推動日本 AI 工程師人才培育</div>
+            </div>
+          </li>
+          <li>
+            <div class="article-date">04-22</div>
+            <div>
+              <div class="article-title">
+                <span class="badge unchanged">LlamaIndex</span>
+                LlamaIndex × Kaggle Document OCR Leaderboard
+              </div>
+              <div class="article-desc">與 Kaggle 合作推出 ParseBench 文件解析排行榜，五大維度評測真實企業文件處理能力</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- S4: 來源詳情 -->
+    <section class="section" id="s4">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2>來源詳情 <span class="sub">Source Details</span></h2>
+      </div>
+
+      <!-- LangChain -->
+      <div class="source-card">
+        <div class="source-header">
+          <div>
+            <div class="source-name">LangChain Blog</div>
+            <div class="source-url">https://www.langchain.com/blog/</div>
+          </div>
+          <span class="badge unchanged">今日無更新</span>
+        </div>
+        <p style="font-size:14px; color:var(--t2); margin-bottom:14px;">
+          本週主軸：Deep Agents 多模型調校、生產環境執行時基礎設施、製藥業企業案例、EU AI Act 合規。LangChain 持續強化「可觀測性 + 可評估性」的差異化定位。
+        </p>
+        <div class="divider"></div>
+        <div style="font-size:13px; color:var(--t2);">
+          <strong>本週重要文章（共 7 篇，2026-04-20 至 2026-04-29）</strong>
+          <ul class="article-list" style="margin-top:8px;">
+            <li>
+              <div class="article-date">04-29</div>
+              <div>
+                <div class="article-title">Tuning Deep Agents to Work Well with Different Models</div>
+                <div class="article-desc">模型無關設計原則 + 各 LLM 行為差異的調校策略</div>
+              </div>
+            </li>
+            <li>
+              <div class="article-date">04-29</div>
+              <div>
+                <div class="article-title">Madrigal 製藥業多代理研究情報平台</div>
+                <div class="article-desc">11 分鐘深度案例，LangChain + LangSmith 在嚴格法規環境下的企業 Agent 落地</div>
+              </div>
+            </li>
+            <li>
+              <div class="article-date">04-27</div>
+              <div>
+                <div class="article-title">EU AI Act 合規指引</div>
+                <div class="article-desc">LangSmith 如何協助滿足透明度、可解釋性、風險分類等法規要求</div>
+              </div>
+            </li>
+            <li>
+              <div class="article-date">04-27</div>
+              <div>
+                <div class="article-title">April 2026 月報</div>
+                <div class="article-desc">Deep Agents v0.5 更新、Interrupt 大會、新合作夥伴公告</div>
+              </div>
+            </li>
+            <li>
+              <div class="article-date">04-20</div>
+              <div>
+                <div class="article-title">The runtime behind production deep agents</div>
+                <div class="article-desc">24 分鐘長文：生產 Agent 的執行時基礎設施全解析——排程、持久化、錯誤恢復、並行</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="divider"></div>
+        <p style="font-size:12px; color:var(--t2);">
+          <strong>注意：</strong> blog.langchain.com 已 301 永久重導向至 www.langchain.com/blog/ — 若有硬編碼舊 URL 的工具請更新。
+        </p>
+      </div>
+
+      <!-- Anthropic -->
+      <div class="source-card green">
+        <div class="source-header">
+          <div>
+            <div class="source-name">Anthropic News</div>
+            <div class="source-url">https://www.anthropic.com/news</div>
+          </div>
+          <span class="badge unchanged">今日無更新</span>
+        </div>
+        <p style="font-size:14px; color:var(--t2); margin-bottom:14px;">
+          本週核心事件：Claude for Creative Work 新定位、澳紐市場擴張、選舉安全防護、NEC 日本合作。財務面：Google $400 億追加投資確認，估值 $3,800 億，年化營收 $140 億（10x 年成長）。
+        </p>
+        <div class="divider"></div>
+        <div style="font-size:13px; color:var(--t2);">
+          <strong>重要財務與商業里程碑</strong>
+          <ul style="list-style:none; margin-top:8px;">
+            <li style="padding:5px 0; border-bottom:1px solid var(--s2);">💰 估值 $3,800 億美元（Series G），年化營收 $140 億</li>
+            <li style="padding:5px 0; border-bottom:1px solid var(--s2);">🤝 Google 追加投資 $400 億——AI 史上最大單筆投資</li>
+            <li style="padding:5px 0; border-bottom:1px solid var(--s2);">☁️ Amazon 追加 $50 億 + 5GW 算力協議</li>
+            <li style="padding:5px 0; border-bottom:1px solid var(--s2);">🔒 NSA 採用 Claude Mythos（情報機構資安專用模型）</li>
+            <li style="padding:5px 0; border-bottom:1px solid var(--s2);">📐 MCP 協定捐贈給 Agentic AI Foundation（行業標準化）</li>
+            <li style="padding:5px 0;">🍎 Claude Agent SDK 支援 Apple Xcode</li>
+          </ul>
+        </div>
+        <div class="divider"></div>
+        <div style="font-size:13px; color:var(--t2);">
+          <strong>本週重要公告（2026-04-24 至 2026-04-28）</strong>
+          <ul class="article-list" style="margin-top:8px;">
+            <li>
+              <div class="article-date">04-28</div>
+              <div>
+                <div class="article-title">Claude for Creative Work</div>
+                <div class="article-desc">Claude 創意工作定位強化——設計、寫作、視覺協作的新旗艦場景</div>
+              </div>
+            </li>
+            <li>
+              <div class="article-date">04-27</div>
+              <div>
+                <div class="article-title">澳紐擴張：雪梨辦公室 + ANZ 總經理</div>
+                <div class="article-desc">大洋洲市場進入，Theo Hourmouzis 出任 GM</div>
+              </div>
+            </li>
+            <li>
+              <div class="article-date">04-24</div>
+              <div>
+                <div class="article-title">選舉安全防護更新 + NEC 日本合作</div>
+                <div class="article-desc">雙向治理擴展：選舉 AI 安全 + 日本 AI 工程師培育</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- LlamaIndex -->
+      <div class="source-card purple">
+        <div class="source-header">
+          <div>
+            <div class="source-name">LlamaIndex Blog</div>
+            <div class="source-url">https://www.llamaindex.ai/blog</div>
+          </div>
+          <span class="badge unchanged">今日無更新</span>
+        </div>
+        <p style="font-size:14px; color:var(--t2); margin-bottom:14px;">
+          本週聚焦：LlamaParse MCP 重構上線（最新），Agent 文件處理工具鏈持續完善。LlamaIndex 已全面轉向「文件理解即 Agent 基礎設施」的定位，產品線從單一解析器擴展為 MCP 工具套件。
+        </p>
+        <div class="divider"></div>
+        <div style="font-size:13px; color:var(--t2);">
+          <strong>產品線全景</strong>
+          <ul style="list-style:none; margin-top:8px;">
+            <li style="padding:5px 0; border-bottom:1px solid var(--s2);">🔧 <strong>LlamaParse MCP</strong>：Parse / Classify / Split 三工具，支援 Claude/Cursor/Copilot</li>
+            <li style="padding:5px 0; border-bottom:1px solid var(--s2);">📊 <strong>ParseBench</strong>：首個 Agent 文件解析基準（~2,000 頁人工驗證），LlamaParse Agentic 達 84.9%</li>
+            <li style="padding:5px 0; border-bottom:1px solid var(--s2);">📂 <strong>LiteParse</strong>：開源本地解析器，零 Python 依賴，4,300+ GitHub 星標</li>
+            <li style="padding:5px 0; border-bottom:1px solid var(--s2);">💼 <strong>LlamaParse v2</strong>：4 層配置，成本降低 50%</li>
+            <li style="padding:5px 0;">🏆 <strong>Kaggle 排行榜合作</strong>：ParseBench 公開評測，社群驅動文件解析競賽</li>
+          </ul>
+        </div>
+        <div class="divider"></div>
+        <div style="font-size:13px; color:var(--t2);">
+          <strong>最新文章：LlamaParse MCP（2026-04-29）</strong>
+          <div style="background:var(--s1); border-radius:8px; padding:12px 14px; margin-top:8px; border:1px solid var(--border);">
+            <p>將 LlamaParse 重構為 MCP Server，提供三個 Agent 可直接呼叫的工具：</p>
+            <ul style="list-style:none; margin-top:8px;">
+              <li style="padding:3px 0;">• <strong>parse_document</strong>：解析 PDF/圖片為結構化 Markdown，保留表格與圖表</li>
+              <li style="padding:3px 0;">• <strong>classify_document</strong>：自動識別文件類型（發票/合約/報告等）</li>
+              <li style="padding:3px 0;">• <strong>split_document</strong>：將多文件合併檔自動分割為獨立文件</li>
+            </ul>
+            <p style="margin-top:8px; color:var(--t2);">設定僅需 1 分鐘，透過 MCP 協定可直接整合到任何支援 MCP 的 AI 開發環境。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CrewAI -->
+      <div class="source-card orange">
+        <div class="source-header">
+          <div>
+            <div class="source-name">CrewAI Blog</div>
+            <div class="source-url">https://www.crewai.com/blog</div>
+          </div>
+          <span class="badge unchanged">今日無更新</span>
+        </div>
+        <p style="font-size:14px; color:var(--t2); margin-bottom:14px;">
+          最新文章為 2026-04-14「Agent Harnesses are Dead, Long Live Agent Harnesses」，CrewAI 近期內容發布頻率偏低，但平台商業化（AMP 三產品線）和技術整合（NVIDIA NemoClaw）仍持續推進。
+        </p>
+        <div class="divider"></div>
+        <div style="font-size:13px; color:var(--t2);">
+          <strong>AMP 平台架構（三產品線）</strong>
+          <ul style="list-style:none; margin-top:8px;">
+            <li style="padding:5px 0; border-bottom:1px solid var(--s2);">☁️ <strong>CrewAI AMP Cloud</strong>：視覺化 Agent 編輯與管理，SaaS 模式</li>
+            <li style="padding:5px 0; border-bottom:1px solid var(--s2);">🏭 <strong>CrewAI AMP Factory</strong>：企業級內部部署，PwC 已全球部署</li>
+            <li style="padding:5px 0;">🔓 <strong>CrewAI OSS 1.0</strong>：開源編排框架正式版，社群基礎</li>
+          </ul>
+        </div>
+        <div class="divider"></div>
+        <div style="font-size:13px; color:var(--t2);">
+          <strong>João Moura 最新觀點精華</strong>
+          <div style="background:var(--s1); border-radius:8px; padding:12px 14px; margin-top:8px; border:1px solid var(--border);">
+            <p><strong>「Agent Harnesses are Dead」</strong>（2026-04-14）的核心論點：傳統 harness 框架（硬編碼工作流 + 靜態提示）已無法應對現代 Agent 的複雜性。新一代 Agent 系統需要「認知基礎設施」——自適應記憶、動態工具選擇、自我演化能力——而非固定管道。NVIDIA NemoClaw 整合帶來 100x 速度提升正是此方向的佐證。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S5: 深度分析 -->
+    <section class="section" id="s5">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2>深度分析 <span class="sub">Deep Analysis</span></h2>
+      </div>
+
+      <div class="card">
+        <h3>分析一：LangChain Deep Agents 的多模型調校策略</h3>
+        <p>
+          「Tuning Deep Agents to Work Well with Different Models」揭示了一個關鍵工程現實：<strong>同一套 Agent 邏輯，在 Claude 4 / GPT-5 / Gemini 2 上的行為差異遠比想像中大。</strong>不同 LLM 在指令跟隨精度、工具呼叫格式偏好、多步推理一致性上各有特性，「模型無關的 Agent」實際上是個工程神話。
+        </p>
+        <p style="margin-top:10px;">
+          LangChain 的解法方向：(1) 以 LangSmith 追蹤各 LLM 的 Agent 行為差異，建立模型特定的 baseline；(2) 針對每個模型的弱點設計 prompt 調校層；(3) 在 CI 流程中加入「多模型回歸測試」確保跨模型行為一致。這對任何計畫支援「使用者自帶 LLM」的 Agent 平台都是必讀架構參考。
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>分析二：LlamaParse MCP — 文件理解的「即插即用」轉型</h3>
+        <p>
+          LlamaParse MCP 的戰略意義在於把文件解析能力從「需要整合的 API」轉變為「Agent 環境中自然可用的工具」。當 Claude Code 或 Cursor 的 AI 助理可以直接呼叫 <code>parse_document</code> 工具時，文件理解從「需要開發者預先設計的管道」變成「Agent 按需調用的能力」。
+        </p>
+        <p style="margin-top:10px;">
+          更深層的意義：這是 LlamaIndex 對 MCP 生態的主動卡位。LlamaParse 在文件解析領域的精度優勢（ParseBench 84.9%）透過 MCP 標準化介面輸出，形成「高精度 + 低整合成本」的雙重壁壘。隨著 MCP 成為事實標準，不進入 MCP 生態的文件工具將逐漸失去被 AI 助理主動呼叫的機會。
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>分析三：Anthropic 的資本護城河與算力策略</h3>
+        <p>
+          Google $400 億投資 + Amazon $50 億投資 + 5GW 算力協議，讓 Anthropic 的算力獲取路徑與其他 AI 公司截然不同。大多數 AI 公司面臨算力限制，Anthropic 面臨的是「如何有效利用幾乎無限的算力」。
+        </p>
+        <p style="margin-top:10px;">
+          這對開發者生態的影響：(1) Claude 的訓練和推理成本壓力相對較低，API 定價策略有更大空間；(2) Claude Opus 4.7 之後的模型代際迭代速度可能加快；(3) 特殊場景模型（如 Claude Mythos 給 NSA 的資安專用版本）代表 Anthropic 正在走「基礎模型 + 垂直定製」的雙軌路線，而非只追求通用最強。
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>分析四：EU AI Act 合規——開發者的隱形技術債</h3>
+        <p>
+          LangChain 的 EU AI Act 合規指南觸及一個許多開發者尚未充分意識到的問題：<strong>2026 年起，在歐盟用戶市場部署的 AI Agent 系統必須滿足風險分類、透明度披露、人工監督等要求，不合規可能面臨最高 $3,000 萬歐元或全球年營收 6% 的罰款。</strong>
+        </p>
+        <p style="margin-top:10px;">
+          實務上，這意味著 Agent 系統需要：完整的決策追蹤日誌（LangSmith 的 trace 功能正好滿足）、明確的 AI 使用披露機制、高風險場景的人工監督閘門、可解釋的 Agent 推理過程。台灣開發者若服務有歐盟用戶，現在就應開始評估合規缺口。
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>分析五：CrewAI「Agent Harnesses 已死」論題的行業含義</h3>
+        <p>
+          João Moura 的觀點在業界引起討論：傳統的「harness 框架」（預定義工作流 + 靜態角色分配）正被「動態認知基礎設施」（自適應記憶 + 自我演化）取代。這個觀點有其道理——LangChain 的 Deep Agents、Anthropic 的 Claude Agent SDK 都在強調動態性。
+        </p>
+        <p style="margin-top:10px;">
+          但也需注意：「harness 已死」更像是行銷論述而非技術現實。在高合規場景（製藥、金融、法律），可預測的預定義工作流仍是必需品。CrewAI 自己的 AMP Factory（PwC 部署案例）也是以結構化的工作流為核心。「動態 vs 結構化」是場景選擇題，而非技術代際演替。
+        </p>
+      </div>
+    </section>
+
+    <!-- S6: 建議行動 -->
+    <section class="section" id="s6">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <h2>建議行動 <span class="sub">Recommendations</span></h2>
+      </div>
+
+      <div class="card">
+        <div class="rec-item">
+          <div class="rec-num">1</div>
+          <div class="rec-content">
+            <h4>立即評估：現有 Agent 是否需要多模型調校</h4>
+            <p>如果你的 Agent 目前只在單一 LLM 上測試，閱讀 LangChain「Tuning Deep Agents」文章後，考慮加入 LangSmith 追蹤，建立跨模型行為基線。尤其是計畫支援「使用者自選 LLM」的應用，多模型測試套件現在就該建立。</p>
+          </div>
+        </div>
+        <div class="rec-item">
+          <div class="rec-num">2</div>
+          <div class="rec-content">
+            <h4>探索：將 LlamaParse MCP 整合進現有文件處理工作流</h4>
+            <p>如果你的 Agent 需要處理 PDF、發票、合約等非結構化文件，LlamaParse MCP 的「一分鐘設定」值得立即測試。尤其是使用 Claude Code 或 Cursor 的開發者，可直接在 MCP 配置中添加 LlamaParse Server，無需額外開發。</p>
+          </div>
+        </div>
+        <div class="rec-item">
+          <div class="rec-num">3</div>
+          <div class="rec-content">
+            <h4>長期規劃：啟動 EU AI Act 合規評估</h4>
+            <p>如果產品有歐盟用戶或計畫進入歐盟市場，現在開始閱讀 LangChain 的合規指南，並評估現有 Agent 系統的決策追蹤能力、人工監督機制、風險分類狀態。合規的技術債越早還越便宜。</p>
+          </div>
+        </div>
+        <div class="rec-item">
+          <div class="rec-num">4</div>
+          <div class="rec-content">
+            <h4>跟進：5/13-14 LangChain Interrupt 2026 大會</h4>
+            <p>舊金山 Interrupt 大會是今年 AI Agent 生態最重要的線下活動之一。即使無法出席，建議訂閱 LangChain Blog 以獲取大會重點摘要。Deep Agents v0.5 的下一步方向、LangSmith 新功能預告預計在大會上揭露。</p>
+          </div>
+        </div>
+        <div class="rec-item">
+          <div class="rec-num">5</div>
+          <div class="rec-content">
+            <h4>評估：MCP 協定的工具整合優先級</h4>
+            <p>隨著 Anthropic 將 MCP 捐贈給 Agentic AI Foundation，MCP 的行業標準地位進一步確立。建議盤點現有工具鏈中哪些工具已有 MCP Server（LlamaParse、各類 API 工具），哪些可自製 MCP Server，逐步將 Agent 工具調用標準化到 MCP 協定。</p>
+          </div>
+        </div>
+        <div class="rec-item">
+          <div class="rec-num">6</div>
+          <div class="rec-content">
+            <h4>關注：垂直行業 Agent 的落地模板</h4>
+            <p>Madrigal（製藥）、Credit Genie（金融）、房貸收入驗證（金融合規）三個案例都提供了高合規行業的 Agent 實作模板。如果你正在評估 Agent 在類似場景的可行性，這三個案例值得深讀——它們解決的不只是技術問題，更是「如何讓業務方接受 Agent 決策」的信任問題。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S7: 專有名詞解釋 -->
+    <section class="section" id="s7">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <h2>專有名詞解釋 <span class="sub">Glossary</span></h2>
+      </div>
+
+      <dl class="glossary-grid">
+        <div class="glossary-item">
+          <dt>Deep Agents</dt>
+          <dd>LangChain 對複雜多步驟 AI Agent 的稱呼，特指能在生產環境中長期運行、管理多個子任務的代理系統，區別於單次問答的簡單 Agent。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>MCP（Model Context Protocol）</dt>
+          <dd>Anthropic 提出並開源的 AI 工具互操作協定，定義了 AI 助理呼叫外部工具的標準介面。已捐贈給 Agentic AI Foundation，逐步成為行業標準。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>LangSmith</dt>
+          <dd>LangChain 推出的 Agent 可觀測性與評估平台，提供 trace（追蹤）、evaluation（評估）、dataset 管理等功能，協助開發者監控和改善 Agent 行為。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>LlamaParse</dt>
+          <dd>LlamaIndex 的文件解析服務，專門處理 PDF、圖片、複雜版面等非結構化文件，並將其轉換為 LLM 可理解的結構化格式，支援 Agent 呼叫。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>ParseBench</dt>
+          <dd>LlamaIndex 推出的 AI Agent 文件解析基準測試集，包含約 2,000 個人工驗證的企業文件頁面，評估維度涵蓋表格、圖表、內容完整性等五大面向。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>EU AI Act</dt>
+          <dd>歐盟人工智慧法規，2024 年通過、2026 年起分階段強制施行。將 AI 系統按風險分類，高風險 AI 需滿足透明度、可解釋性、人工監督等要求，違規最高罰款為全球年營收 6%。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>Agent Harness</dt>
+          <dd>傳統 AI Agent 框架術語，指預先定義 Agent 工作流的「框架結構」，包括靜態角色分配、固定任務管道、硬編碼提示等。CrewAI 認為此模式已被更動態的架構取代。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>AMP（Agent Management Platform）</dt>
+          <dd>CrewAI 的企業級代理管理平台，提供 Cloud（SaaS）、Factory（內部部署）、OSS（開源）三個產品層，定位為企業 AI Agent 的全生命週期管理工具。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>Claude Opus 4.7</dt>
+          <dd>Anthropic 最新旗艦模型（2026-04-16 發布），在編碼、代理任務、視覺理解、多步驟推理四大場景全面提升性能，是 Claude Agent SDK 的主力基礎模型。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>KYC（Know Your Customer）</dt>
+          <dd>「了解你的客戶」，金融監管要求機構必須驗證客戶身份的合規流程。LlamaIndex 的 OCR for KYC 文章探討如何用 AI 自動化這一高文件密度的合規流程。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>NemoClaw</dt>
+          <dd>NVIDIA 推出的高效能 AI 加速技術，CrewAI 整合後宣稱自我演化代理的執行速度提升 100 倍，主要透過並行化和推理加速實現。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>LiteParse</dt>
+          <dd>LlamaIndex 開源的輕量級本地文件解析器，零 Python 依賴、完全本地執行，採用「網格投影演算法」從 PDF 座標提取結構化文字，已有 4,300+ GitHub 星標。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>Interrupt 2026</dt>
+          <dd>LangChain 主辦的年度 AI Agent 開發者大會，2026 年於 5/13-14 在舊金山舉行，聚焦 Agent 架構、生產部署、評估工具等主題。</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>Project Glasswing</dt>
+          <dd>Anthropic 主導的軟體供應鏈安全聯合計畫，聯合 12 家機構，目標是防止 AI 系統在軟體開發生命週期中引入安全漏洞。</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- S8: 延伸學習 -->
+    <section class="section" id="s8">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <h2>延伸學習 <span class="sub">Learning Resources</span></h2>
+      </div>
+
+      <div class="card">
+        <div class="learning-item">
+          <div class="learning-icon">📖</div>
+          <div class="learning-content">
+            <h4>必讀：The runtime behind production deep agents（LangChain）</h4>
+            <p>24 分鐘長文，深度拆解生產 Agent 的執行時基礎設施——包含持久化狀態管理、錯誤恢復機制、並行子代理調度、記憶體壓力下的 context 管理。是目前公開資料中對 Agent 生產工程覆蓋最全面的文章之一。</p>
+          </div>
+        </div>
+        <div class="learning-item">
+          <div class="learning-icon">🔧</div>
+          <div class="learning-content">
+            <h4>動手實作：LlamaParse MCP Server 設定</h4>
+            <p>按照 LlamaIndex 的 MCP 文章（2026-04-29），在 Claude Code 或 Cursor 中添加 LlamaParse MCP Server 配置。理解 Parse / Classify / Split 三個工具的適用場景，並嘗試在實際文件處理任務中呼叫。最佳學習路徑：房貸收入驗證案例文章（2026-04-27）提供完整程式碼範例。</p>
+          </div>
+        </div>
+        <div class="learning-item">
+          <div class="learning-icon">⚖️</div>
+          <div class="learning-content">
+            <h4>合規自學：EU AI Act 條文摘要</h4>
+            <p>歐盟官方 AI Act 全文：eur-lex.europa.eu。建議先從 LangChain 的合規指南入門（2026-04-27），再對照官方文本中的「高風險 AI 系統」定義（Annex III）和「一般目的 AI 模型」相關條款，評估自己的 Agent 系統屬於哪個風險類別。</p>
+          </div>
+        </div>
+        <div class="learning-item">
+          <div class="learning-icon">📊</div>
+          <div class="learning-content">
+            <h4>基準評測：ParseBench × Kaggle OCR Leaderboard</h4>
+            <p>如果正在選擇文件解析工具，參考 ParseBench 排行榜（kaggle.com，由 LlamaIndex × Kaggle 聯合維護）。五個評測維度：文字提取準確性、表格結構保留、圖表理解、版面複雜度處理、內容完整性。LlamaParse Agentic 達 84.9% 為目前最高分，但評估時仍需考慮成本和速度。</p>
+          </div>
+        </div>
+        <div class="learning-item">
+          <div class="learning-icon">🧠</div>
+          <div class="learning-content">
+            <h4>深入研究：CrewAI 認知記憶架構</h4>
+            <p>「How we built Cognitive Memory for Agentic Systems」（2026-03-05）是 João Moura 系列文章中技術含量最高的一篇，探討短期記憶（工作記憶）、長期記憶（向量儲存）、情節記憶（對話歷史）三層架構如何在 Agent 系統中協同運作。對建構有狀態 Agent 的開發者尤其有參考價值。</p>
+          </div>
+        </div>
+        <div class="learning-item">
+          <div class="learning-icon">🏭</div>
+          <div class="learning-content">
+            <h4>垂直行業案例庫：製藥 + 金融 + 法律</h4>
+            <p>本週三個重要案例文章可組成「高合規行業 Agent 落地」學習套組：(1) Madrigal 製藥案例（LangChain，2026-04-29）；(2) Credit Genie 金融案例（LangChain，2026-04-20）；(3) LlamaParse 法律 Discovery 文件（LlamaIndex，2026-04-18）。橫向對比三個案例的系統架構、合規處理方式、人工監督設計。</p>
+          </div>
+        </div>
+        <div class="learning-item">
+          <div class="learning-icon">🔗</div>
+          <div class="learning-content">
+            <h4>MCP 生態探索：Agentic AI Foundation</h4>
+            <p>Anthropic 已將 MCP 協定捐贈給 Agentic AI Foundation，建議關注 Foundation 的官方頁面以追蹤 MCP 規範的後續演進。理解 MCP 的工具定義格式（JSON Schema）、資源存取模型、提示範本機制三個核心概念，為未來自製 MCP Server 做好準備。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S9: 結語 -->
+    <section class="section" id="s9">
+      <div class="section-header">
+        <div class="section-num">9</div>
+        <h2>結語 <span class="sub">Summary</span></h2>
+      </div>
+
+      <div class="closing-box">
+        <h3>2026-05-01 觀察結語</h3>
+        <p>
+          今日（五一勞動節）四個監控來源均無新增發布，符合假日發布節奏預期。但過去一週積累的內容已足夠豐富：LangChain 完成了「Deep Agents 生產工程」知識體系的關鍵拼圖，LlamaIndex 以 MCP 協定完成了文件理解能力的標準化輸出，Anthropic 繼續鞏固資本護城河與算力領先地位，CrewAI 則以思想領導力填補博客空窗期。
+        </p>
+        <p>
+          AI Agent 工具鏈正在從「各自為政的實驗框架」整合為「有互操作標準的生產生態」。MCP 協定的標準化、ParseBench 的評測基準化、EU AI Act 的合規強制化——這三個方向都指向同一個結論：<strong>2026 年下半年起，未能達到生產級可靠性與合規要求的 Agent 工具，將從企業採購清單上消失。</strong>
+        </p>
+        <p><strong>明後天值得關注的信號：</strong></p>
+        <ul class="watch-list">
+          <li>LangChain 假期後的首篇新文章（預計聚焦 Interrupt 大會預熱或 Deep Agents 新功能）</li>
+          <li>CrewAI 是否發布新文章（上次更新已超過兩週，可能有積累中的大型公告）</li>
+          <li>Anthropic 是否跟進 Claude for Creative Work 的詳細文件或 API 更新</li>
+          <li>LlamaIndex ParseBench Kaggle 排行榜的競爭者跟進動態（是否有其他解析工具提交評測）</li>
+          <li>Interrupt 2026 大會（5/13-14）的早鳥資訊與議程釋出</li>
+        </ul>
+      </div>
+
+      <!-- Footer -->
+      <div class="report-footer">
+        <span>AI Agent 工作流日報 — 2026-05-01</span>
+        <span>來源：LangChain Blog / Anthropic News / LlamaIndex Blog / CrewAI Blog</span>
+        <span>生成時間：2026-05-01 by Claude Sonnet 4.6</span>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Active TOC highlight on scroll
+  const sections = document.querySelectorAll('.section');
+  const links = document.querySelectorAll('.toc a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
