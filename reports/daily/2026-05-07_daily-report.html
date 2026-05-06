@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日報 — 2026-05-07</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --accent: #3b82f6;
+    --accent2: #8b5cf6;
+    --accent3: #10b981;
+    --red: #ef4444;
+    --orange: #f59e0b;
+    --tag-tech-bg: #dbeafe;
+    --tag-tech: #1d4ed8;
+    --tag-app-bg: #d1fae5;
+    --tag-app: #065f46;
+    --tag-news-bg: #fce7f3;
+    --tag-news: #9d174d;
+    --new-bg: #fef3c7;
+    --new: #92400e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC', sans-serif;
+    background: var(--bg);
+    color: var(--t1);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .header {
+    background: var(--s1);
+    border-bottom: 1px solid var(--s2);
+    padding: 28px 32px 20px;
+  }
+  .header-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; color: var(--t1); }
+  .header .date { color: var(--t2); font-size: 13px; }
+  .header .subtitle { color: var(--t2); font-size: 13px; margin-top: 4px; }
+  .toc {
+    display: flex;
+    gap: 6px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .toc a {
+    font-size: 12px;
+    color: var(--t2);
+    text-decoration: none;
+    background: var(--s2);
+    padding: 3px 10px;
+    border-radius: 999px;
+    transition: background 0.15s;
+  }
+  .toc a:hover { background: #cbd5e1; color: var(--t1); }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px 48px; }
+  .section {
+    margin-top: 36px;
+    scroll-margin-top: 16px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--s2);
+  }
+  .section-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-title { font-size: 18px; font-weight: 700; }
+  .section-sub { font-size: 13px; color: var(--t2); margin-left: auto; }
+
+  /* Section 1 — Stats */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .stat-card {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .stat-num { font-size: 32px; font-weight: 800; color: var(--accent); line-height: 1; }
+  .stat-label { font-size: 12px; color: var(--t2); margin-top: 4px; }
+  .stat-card.green .stat-num { color: var(--accent3); }
+  .stat-card.purple .stat-num { color: var(--accent2); }
+  .stat-card.red .stat-num { color: var(--red); }
+
+  /* Section 2 — Top Stories */
+  .story-list { display: flex; flex-direction: column; gap: 10px; }
+  .story-item {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 10px;
+    align-items: start;
+  }
+  .story-rank {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--s2);
+    line-height: 1.4;
+    text-align: center;
+  }
+  .story-rank.top3 { color: var(--accent); }
+  .story-title { font-size: 14px; font-weight: 600; color: var(--t1); margin-bottom: 3px; }
+  .story-summary { font-size: 13px; color: var(--t2); line-height: 1.5; }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    align-self: start;
+  }
+  .tag.tech { background: var(--tag-tech-bg); color: var(--tag-tech); }
+  .tag.app { background: var(--tag-app-bg); color: var(--tag-app); }
+  .tag.news { background: var(--tag-news-bg); color: var(--tag-news); }
+  .tag.new { background: var(--new-bg); color: var(--new); }
+
+  /* Section 3 — Source Digest */
+  .digest-group { margin-bottom: 20px; }
+  .digest-group-header {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--t2);
+    margin-bottom: 8px;
+    padding-left: 4px;
+  }
+  .digest-grid { display: flex; flex-direction: column; gap: 7px; }
+  .digest-item {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .digest-source {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t1);
+    min-width: 130px;
+    flex-shrink: 0;
+  }
+  .digest-text { font-size: 13px; color: var(--t2); line-height: 1.5; }
+  .badge-new {
+    font-size: 10px;
+    font-weight: 700;
+    background: #fef3c7;
+    color: #92400e;
+    padding: 1px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    align-self: center;
+  }
+  .badge-blocked {
+    font-size: 10px;
+    font-weight: 700;
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 1px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  /* Section 4 — Analysis */
+  .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .analysis-grid { grid-template-columns: 1fr; } }
+  .analysis-card {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .analysis-card.full { grid-column: 1 / -1; }
+  .analysis-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .analysis-card-title.green { color: var(--accent3); }
+  .analysis-card-title.purple { color: var(--accent2); }
+  .analysis-body { font-size: 13px; color: var(--t2); line-height: 1.65; }
+  .analysis-body p + p { margin-top: 8px; }
+  .action-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .action-list li {
+    font-size: 13px;
+    color: var(--t2);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .action-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent3);
+    font-weight: 700;
+  }
+  .action-list li strong { color: var(--t1); }
+
+  /* Section 5 — Glossary */
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+  }
+  .glossary-item {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .glossary-name { font-size: 13px; font-weight: 700; color: var(--t1); margin-bottom: 2px; }
+  .glossary-cat {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 999px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .glossary-cat.model { background: #dbeafe; color: #1d4ed8; }
+  .glossary-cat.company { background: #fce7f3; color: #9d174d; }
+  .glossary-cat.product { background: #d1fae5; color: #065f46; }
+  .glossary-cat.concept { background: #ede9fe; color: #5b21b6; }
+  .glossary-cat.infra { background: #fef3c7; color: #92400e; }
+  .glossary-def { font-size: 12px; color: var(--t2); line-height: 1.55; margin-top: 4px; }
+
+  .footer {
+    background: var(--s1);
+    border-top: 1px solid var(--s2);
+    padding: 16px 32px;
+    font-size: 12px;
+    color: var(--t2);
+    margin-top: 48px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <h1>AI 日報</h1>
+    <span class="date">2026-05-07 · 星期四</span>
+  </div>
+  <div class="subtitle">14 個來源（tech×4 · app×6 · news×4）· 綜合爬取報告</div>
+  <nav class="toc">
+    <a href="#overview">概覽</a>
+    <a href="#topstories">精選要聞</a>
+    <a href="#digest">來源摘要</a>
+    <a href="#analysis">分析行動</a>
+    <a href="#glossary">專有名詞</a>
+  </nav>
+</div>
+
+<div class="container">
+
+  <!-- Section 1: Overview -->
+  <section class="section" id="overview">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">概覽</div>
+      <div class="section-sub">Overview</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num">14</div>
+        <div class="stat-label">本次爬取來源數</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-num">12</div>
+        <div class="stat-label">發現新項目</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-num">4</div>
+        <div class="stat-label">新文章（tech/app）</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-num">4</div>
+        <div class="stat-label">來源封鎖/付費牆</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">8</div>
+        <div class="stat-label">TechCrunch 今日新聞</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-num">3</div>
+        <div class="stat-label">重大法律/政策動態</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Top Stories -->
+  <section class="section" id="topstories">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">精選要聞</div>
+      <div class="section-sub">Top Stories · 跨來源重要度排序</div>
+    </div>
+    <div class="story-list">
+
+      <div class="story-item">
+        <div class="story-rank top3">1</div>
+        <div>
+          <div class="story-title">GPT-5.5 Instant 正式發布，成為 ChatGPT 新預設模型</div>
+          <div class="story-summary">OpenAI 推出速度與智能平衡優化的 GPT-5.5 Instant，取代舊版成為所有 ChatGPT 使用者的標準模型，標誌 OpenAI 進入「持續快速迭代」新節奏。</div>
+        </div>
+        <span class="tag news">TechCrunch</span>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank top3">2</div>
+        <div>
+          <div class="story-title">Anthropic 宣布更高 Claude 使用上限 + SpaceX 算力合作協議</div>
+          <div class="story-summary">Anthropic 宣布提高 Claude 各方案使用限制，同時與 SpaceX 達成新算力合作協議，進一步擴充算力基礎設施，顯示商業化加速佈局。</div>
+        </div>
+        <span class="tag tech">Anthropic</span>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank top3">3</div>
+        <div>
+          <div class="story-title">DeepSeek 估值可能達 $450 億——首輪融資正式啟動</div>
+          <div class="story-summary">中國 AI 公司 DeepSeek 正在進行首輪外部融資，估值接近 $450 億美元，若成立將成為全球估值最高的 AI 新創之一，顯示中美 AI 賽局持續緊繃。</div>
+        </div>
+        <span class="tag news">TechCrunch</span>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">4</div>
+        <div>
+          <div class="story-title">賓夕法尼亞州正式對 Character.AI 提告——聊天機器人假冒醫生</div>
+          <div class="story-summary">賓州提起訴訟，指 Character.AI 的聊天機器人冒充醫療人員，成為 AI 平台法律責任戰的最新案例，「AI 應明確揭露非人類身份」的立法要求可能加速。</div>
+        </div>
+        <span class="tag news">TechCrunch</span>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">5</div>
+        <div>
+          <div class="story-title">Apple 支付 $2.5 億美元和解 Siri AI 延遲訴訟</div>
+          <div class="story-summary">蘋果同意支付 $2.5 億美元，結束因承諾的 Siri AI 功能遲遲未能兌現而引發的集體訴訟，AI 行銷承諾的法律風險再度被聚焦。</div>
+        </div>
+        <span class="tag news">TechCrunch</span>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">6</div>
+        <div>
+          <div class="story-title">AI 在急診室診斷準確率超越人類醫師——哈佛研究</div>
+          <div class="story-summary">哈佛最新研究顯示 AI 急診診斷系統準確率高於人類醫師，Claude Design 同步推出登陸頁面設計教學，AI 臨床與創意雙線商業化同步加速。</div>
+        </div>
+        <span class="tag app">The Rundown</span>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">7</div>
+        <div>
+          <div class="story-title">SpaceX 評估在德州投資 $1,190 億打造「Terafab」晶片廠</div>
+          <div class="story-summary">SpaceX 考慮在德克薩斯州建設史上最大規模半導體製造廠 Terafab，強化 AI 算力自給能力，顯示科技巨頭積極垂直整合 AI 硬體供應鏈。</div>
+        </div>
+        <span class="tag news">TechCrunch</span>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">8</div>
+        <div>
+          <div class="story-title">CrewAI 推出 Discovery 引擎——自動偵測企業可自動化流程</div>
+          <div class="story-summary">CrewAI 全新 Discovery 引擎可掃描企業工作流，自動識別最具自動化價值的環節並建議導入方案，大幅降低中小企業 AI 落地門檻。</div>
+        </div>
+        <span class="tag tech">CrewAI</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 3: Source Digest -->
+  <section class="section" id="digest">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">來源摘要</div>
+      <div class="section-sub">Source Digest · 每來源一句話</div>
+    </div>
+
+    <div class="digest-group">
+      <div class="digest-group-header">🔵 Tech — AI 技術框架與工具（4 個）</div>
+      <div class="digest-grid">
+        <div class="digest-item">
+          <span class="tag tech">tech</span>
+          <div>
+            <div class="digest-source">langchain-blog</div>
+            <div class="digest-text">Harrison Chase（5/5）指出代理可觀測性需結合結構化反饋才能驅動持續學習，無論再多監控指標都無法替代真實反饋迴路。</div>
+          </div>
+        </div>
+        <div class="digest-item">
+          <span class="tag tech">tech</span>
+          <div>
+            <div class="digest-source">anthropic-news</div>
+            <div class="digest-text">宣布 Claude 使用上限提高，並與 SpaceX 達成算力合作協議（5/6）；金融服務專屬代理能力同步上線（5/5）。</div>
+          </div>
+          <span class="badge-new">NEW</span>
+        </div>
+        <div class="digest-item">
+          <span class="tag tech">tech</span>
+          <div>
+            <div class="digest-source">llamaindex-blog</div>
+            <div class="digest-text">無新文章；最新內容（4/29）為 LlamaParse MCP 代理式 OCR 三大工具（Parse/Classify/Split），支援 Claude/Cursor/Copilot 整合。</div>
+          </div>
+        </div>
+        <div class="digest-item">
+          <span class="tag tech">tech</span>
+          <div>
+            <div class="digest-source">crewai-blog</div>
+            <div class="digest-text">推出 Discovery 引擎（5/5），自動分析企業流程並識別最值得自動化的環節，降低 AI 導入決策成本。</div>
+          </div>
+          <span class="badge-new">NEW</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="digest-group">
+      <div class="digest-group-header">🟢 App — AI 應用工具與產品（6 個）</div>
+      <div class="digest-grid">
+        <div class="digest-item">
+          <span class="tag app">app</span>
+          <div>
+            <div class="digest-source">theresanaiforthat</div>
+            <div class="digest-text">403 封鎖無法取得新資料；平台累計 47,941+ AI 工具、80M+ 用戶，建議改用 RSS feed。</div>
+          </div>
+          <span class="badge-blocked">封鎖</span>
+        </div>
+        <div class="digest-item">
+          <span class="tag app">app</span>
+          <div>
+            <div class="digest-source">bensbites</div>
+            <div class="digest-text">付費牆封鎖，無公開新文章可擷取；訂閱者 162,000+，週二/四發行，月費 $25。</div>
+          </div>
+          <span class="badge-blocked">付費牆</span>
+        </div>
+        <div class="digest-item">
+          <span class="tag app">app</span>
+          <div>
+            <div class="digest-source">therundown-ai</div>
+            <div class="digest-text">今日兩大故事：AI 資料中心向海洋擴展（離岸冷卻新方案），以及 AI 急診診斷準確率超越人類醫師（哈佛研究）。</div>
+          </div>
+          <span class="badge-new">NEW</span>
+        </div>
+        <div class="digest-item">
+          <span class="tag app">app</span>
+          <div>
+            <div class="digest-source">producthunt-ai</div>
+            <div class="digest-text">Claude Code 新進 AI 熱門榜前 15（405 則評論），Claude 總評論升至 765，Cursor 維持 2024 年度最佳產品榜首。</div>
+          </div>
+        </div>
+        <div class="digest-item">
+          <span class="tag app">app</span>
+          <div>
+            <div class="digest-source">superhuman-ai</div>
+            <div class="digest-text">今日頭條：突破性模型計算量降低 1,000 倍；昨日：零員工 AI 新創模式（Cofounder 2），訂閱者 150 萬+。</div>
+          </div>
+          <span class="badge-new">NEW</span>
+        </div>
+        <div class="digest-item">
+          <span class="tag app">app</span>
+          <div>
+            <div class="digest-source">mattshumer</div>
+            <div class="digest-text">連續 30 日無更新；Substack 頁面僅顯示訂閱框，代表作「Something Big Is Happening」累計 7,500 萬次閱讀。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="digest-group">
+      <div class="digest-group-header">🔴 News — AI 產業新聞媒體（4 個）</div>
+      <div class="digest-grid">
+        <div class="digest-item">
+          <span class="tag news">news</span>
+          <div>
+            <div class="digest-source">theverge-ai</div>
+            <div class="digest-text">封鎖（用 5/4 資料）：Microsoft-OpenAI AGI 協議正式終止、Gen Z AI 反感浪潮（18% 樂觀），以及 Anthropic 成五角大廈軍事 AI 協議唯一拒簽方。</div>
+          </div>
+          <span class="badge-blocked">封鎖</span>
+        </div>
+        <div class="digest-item">
+          <span class="tag news">news</span>
+          <div>
+            <div class="digest-source">mit-tech-review-ai</div>
+            <div class="digest-text">封鎖（用 5/4 資料）：各州 AI 立法競賽加速（Connecticut 全面 AI 法案、Maryland 禁算法定價），Google Vertex AI 更名為 Gemini Enterprise Agent Platform。</div>
+          </div>
+          <span class="badge-blocked">封鎖</span>
+        </div>
+        <div class="digest-item">
+          <span class="tag news">news</span>
+          <div>
+            <div class="digest-source">techcrunch-ai</div>
+            <div class="digest-text">今日密集更新：GPT-5.5 Instant 發布、賓州告 Character.AI、Apple $2.5 億和解、DeepSeek $450 億估值、SpaceX Terafab 晶片廠、Greg Brockman 作證 Musk 離開 OpenAI。</div>
+          </div>
+          <span class="badge-new">NEW</span>
+        </div>
+        <div class="digest-item">
+          <span class="tag news">news</span>
+          <div>
+            <div class="digest-source">arstechnica-ai</div>
+            <div class="digest-text">封鎖（用 5/4 資料）：Ars Technica 自身 AI 幻覺醜聞導致嚴格新政策（所有文字須人類撰寫），Microsoft $1,900 億資本支出創歷史新高。</div>
+          </div>
+          <span class="badge-blocked">封鎖</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Section 4: Analysis & Actions -->
+  <section class="section" id="analysis">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">產業分析 + 行動建議</div>
+      <div class="section-sub">Analysis & Actions</div>
+    </div>
+    <div class="analysis-grid">
+
+      <div class="analysis-card full">
+        <div class="analysis-card-title">📊 趨勢一：模型即基礎設施——OpenAI 進入快速迭代軌道</div>
+        <div class="analysis-body">
+          <p>GPT-5.5 Instant 成為 ChatGPT 預設模型，這不只是一次版本更新，而是 OpenAI 「持續快速推出優化版」策略的訊號。相較於 Anthropic 在算力合作（SpaceX）與功能上限上謹慎佈局，OpenAI 選擇以「速度優先、智能平衡」搶佔消費者心智。DeepSeek 的 $450 億估值則顯示，中美兩邊的競爭已從學術論文延伸到資本市場，全球 AI 格局加速形成雙極化態勢。</p>
+          <p>同時，「突破性模型計算量降低 1,000 倍」的報導若屬實，意味著運算效率的競爭正在成為新戰場——不再是誰燒更多錢，而是誰能用更少資源達到相近效能。</p>
+        </div>
+      </div>
+
+      <div class="analysis-card">
+        <div class="analysis-card-title green">⚖️ 趨勢二：AI 平台法律責任浪潮正在成形</div>
+        <div class="analysis-body">
+          <p>賓州告 Character.AI（冒充醫生）、Apple Siri $2.5 億和解、Musk vs. OpenAI 審判中 Greg Brockman 作證——三個案例同日出現，標誌 AI 法律責任框架正在從訴訟個案向系統性規範演化。尤其「AI 機器人冒充醫療人員」的指控，直接挑戰了「AI 應明確揭露非人類身份」的行業共識是否需要立法強制。</p>
+        </div>
+      </div>
+
+      <div class="analysis-card">
+        <div class="analysis-card-title purple">🏗️ 趨勢三：算力垂直整合——科技巨頭自建晶片供應鏈</div>
+        <div class="analysis-body">
+          <p>SpaceX Terafab（$1,190 億）、Anthropic-SpaceX 算力合作、Microsoft $1,900 億資本支出——AI 算力競賽已進入「自建一切」階段。不依賴台積電、三星等外部晶片廠的垂直整合路線正被各大巨頭同步推進，地緣政治風險下的供應鏈安全正推動 AI 硬體投資向「本地化」傾斜。</p>
+        </div>
+      </div>
+
+      <div class="analysis-card full">
+        <div class="analysis-card-title green">→ 3 項行動建議</div>
+        <div class="analysis-body">
+          <ul class="action-list">
+            <li><strong>評估 GPT-5.5 Instant 替換適用性：</strong>若現有流程有低延遲需求（即時客服、快速摘要），可評估 GPT-5.5 Instant 是否在速度上優於當前使用的 Claude Sonnet；Anthropic 的 Claude 使用上限提高則利好現有高頻率用戶。</li>
+            <li><strong>AI 產品法律合規先行：</strong>任何面向用戶的 AI 應用（尤其醫療、法律、金融場景）須明確揭露「非人類身份」，避免步上 Character.AI 的法律後塵；Siri 和解案提醒不應過度承諾 AI 功能的上線時程。</li>
+            <li><strong>試用 CrewAI Discovery 引擎：</strong>如正在評估企業工作流自動化，CrewAI Discovery 的自動偵測機制可作為快速啟動點；搭配 LangChain 的「反饋驅動代理可觀測性」框架，可建立更健全的代理學習迴路。</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 5: Glossary -->
+  <section class="section" id="glossary">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">專有名詞解釋</div>
+      <div class="section-sub">Glossary · 今日新出現術語</div>
+    </div>
+    <div class="glossary-grid">
+
+      <div class="glossary-item">
+        <div class="glossary-name">GPT-5.5 Instant <span class="glossary-cat model">模型</span></div>
+        <div class="glossary-def">OpenAI 最新推出的速度優化版語言模型，取代舊版成為 ChatGPT 所有用戶的預設模型，設計目標是在速度與智能之間取得更佳平衡。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-name">Terafab <span class="glossary-cat infra">基礎設施</span></div>
+        <div class="glossary-def">SpaceX 評估在德克薩斯州建造的超大規模半導體製造廠計畫代號，預算高達 $1,190 億美元，目的是自產 AI 所需晶片以降低對外部供應商的依賴。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-name">Discovery Engine <span class="glossary-cat product">產品功能</span></div>
+        <div class="glossary-def">CrewAI 推出的新引擎，能自動掃描企業現有工作流程，識別哪些環節最適合用 AI 代理自動化，降低企業 AI 導入的前期分析成本。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-name">CopilotKit <span class="glossary-cat product">開發工具</span></div>
+        <div class="glossary-def">幫助開發者將 AI 代理直接內嵌進應用程式的框架工具，剛完成 $2,700 萬融資，讓非 AI 原生的應用也能快速加入代理能力。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-name">Gemini Enterprise Agent Platform <span class="glossary-cat product">平台</span></div>
+        <div class="glossary-def">Google 將 Vertex AI 開發者平台更名後的新品牌，強調代理 AI 優先定位，整合進 Gemini 生態系統，在 Google Cloud Next 大會正式宣布。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-name">ParseBench <span class="glossary-cat concept">評測基準</span></div>
+        <div class="glossary-def">LlamaIndex 與 Kaggle 合作推出的首個 AI 代理文件解析基準，涵蓋 167,000+ 測試規則，用五大維度評測不同 AI 解析器在真實企業文件上的表現。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-name">Project Glasswing <span class="glossary-cat concept">安全計畫</span></div>
+        <div class="glossary-def">Anthropic 發起的大規模網路安全倡議，將 Claude Mythos 模型限定提供給網路防禦聯盟（含 Apple、AWS、Google 等），強調防禦而非進攻的 AI 安全策略。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-name">Agent Observability <span class="glossary-cat concept">技術概念</span></div>
+        <div class="glossary-def">代理可觀測性——監控 AI 代理在生產環境中的行為與決策過程。LangChain 最新觀點強調：光有監控指標不夠，必須加入結構化「反饋機制」才能讓代理持續改進。</div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<div class="footer">
+  <div>AI 日報 · 2026-05-07 · 14 個來源（tech×4 · app×6 · news×4）</div>
+  <div>爬取統計：成功 10 / 封鎖 3 / 付費牆 1 · 下次爬取：2026-05-08</div>
+</div>
+
+</body>
+</html>
