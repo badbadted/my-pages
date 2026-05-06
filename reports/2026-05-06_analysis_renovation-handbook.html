@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>裝潢觀摩手冊 — YouTube 頻道精華整理</title>
+<style>
+:root {
+  --color-primary-50:  #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-stone-50:  #fafaf9;
+  --color-stone-100: #f5f5f4;
+  --color-stone-200: #e7e5e4;
+  --color-stone-300: #d6d3d1;
+  --color-stone-400: #a8a29e;
+  --color-stone-500: #78716c;
+  --color-stone-600: #57534e;
+  --color-stone-700: #44403c;
+  --color-stone-800: #292524;
+  --color-cream:    #faf8f5;
+  --color-warm-50:  #f5f0eb;
+  --color-warm-100: #ede6de;
+  --color-warm-200: #ddd4c9;
+  --color-warm-300: #c4b9ac;
+  --color-success:    #16A34A;
+  --color-success-bg: #F0FDF4;
+  --color-warning:    #EAB308;
+  --color-warning-bg: #FEFCE8;
+  --color-info:       #0ea5e9;
+  --color-info-bg:    #EFF6FF;
+  --color-danger:     #ef4444;
+  --color-danger-bg:  #fef2f2;
+  --shadow-sm:  0 1px 2px rgba(120,113,108,0.08);
+  --shadow-md:  0 2px 8px rgba(120,113,108,0.12);
+  --shadow-lg:  0 4px 16px rgba(120,113,108,0.16);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-full: 9999px;
+  --transition-fast: 150ms ease-out;
+  --transition-normal: 200ms ease-out;
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-stone-700);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-warm-300); border-radius: var(--radius-full); }
+
+/* ── TOP BAR ── */
+.top-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,248,245,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-warm-100);
+  padding: 10px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.top-bar-left { display: flex; align-items: center; gap: 12px; }
+.toc-toggle {
+  display: none; background: #fff; border: 1px solid var(--color-warm-200); border-radius: var(--radius-md);
+  padding: 5px 10px; font-size: 12px; color: var(--color-stone-600); cursor: pointer;
+}
+.top-bar-title { font-size: 14px; font-weight: 600; color: var(--color-stone-800); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px; }
+.progress-wrap { display: flex; align-items: center; gap: 8px; }
+.progress-bar-bg { width: 100px; height: 4px; background: var(--color-warm-200); border-radius: var(--radius-full); overflow: hidden; }
+.progress-bar-fill { height: 100%; background: var(--color-primary-400); border-radius: var(--radius-full); width: 0%; transition: width 0.2s; }
+.progress-text { font-size: 11px; color: var(--color-stone-400); white-space: nowrap; }
+
+/* ── LAYOUT ── */
+.layout {
+  display: grid; grid-template-columns: 220px 1fr; max-width: 1200px; margin: 0 auto; gap: 0;
+  min-height: calc(100vh - 50px);
+}
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; }
+  .toc-sidebar { display: none; }
+  .toc-sidebar.open { display: block; position: fixed; top: 50px; left: 0; bottom: 0; width: 260px; z-index: 99; background: #fff; box-shadow: var(--shadow-lg); overflow-y: auto; }
+  .toc-toggle { display: inline-flex !important; }
+}
+.toc-sidebar {
+  position: sticky; top: 50px; height: calc(100vh - 50px); overflow-y: auto;
+  padding: 20px 16px; border-right: 1px solid var(--color-warm-100); background: #fff;
+}
+.toc-label { font-size: 10px; font-weight: 600; color: var(--color-stone-400); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+.toc-list { list-style: none; }
+.toc-item { margin-bottom: 2px; }
+.toc-link {
+  display: block; padding: 6px 10px; border-radius: var(--radius-sm);
+  font-size: 12px; color: var(--color-stone-500); text-decoration: none;
+  transition: all var(--transition-fast); line-height: 1.4;
+}
+.toc-link:hover { background: var(--color-warm-50); color: var(--color-stone-700); }
+.toc-link.active { background: var(--color-primary-50); color: var(--color-primary-700); font-weight: 500; }
+.toc-number { display: inline-block; width: 22px; color: var(--color-stone-300); font-size: 11px; }
+
+.main-content { padding: 32px; max-width: 860px; }
+@media (max-width: 768px) { .main-content { padding: 20px 16px; } }
+
+/* ── SLIDE ── */
+.slide {
+  background: #fff; border: 1px solid var(--color-warm-100); border-radius: var(--radius-lg);
+  padding: 32px; margin-bottom: 20px; box-shadow: var(--shadow-sm);
+  position: relative; scroll-margin-top: 66px;
+  opacity: 0; transform: translateY(20px); transition: box-shadow var(--transition-fast);
+}
+.slide.visible { animation: slide-in 0.5s var(--ease-out) forwards; }
+.slide:hover { box-shadow: var(--shadow-md); }
+
+.slide-cover { text-align: center; padding: 60px 32px; border-top: 4px solid var(--color-primary-400); }
+.slide-cover .cover-title { font-size: 30px; font-weight: 700; color: var(--color-stone-800); margin-bottom: 12px; line-height: 1.3; }
+.slide-cover .cover-subtitle { font-size: 15px; color: var(--color-stone-500); margin-bottom: 20px; }
+.slide-cover .cover-meta { font-size: 12px; color: var(--color-stone-400); margin-bottom: 8px; }
+.cover-sources { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+
+.slide-title { font-size: 18px; font-weight: 700; color: var(--color-stone-800); margin-bottom: 16px; line-height: 1.4; }
+.slide-desc { font-size: 14px; color: var(--color-stone-500); margin-bottom: 20px; line-height: 1.7; }
+.slide p { font-size: 14px; line-height: 1.8; margin-bottom: 12px; color: var(--color-stone-600); }
+.slide ul, .slide ol { padding-left: 20px; margin-bottom: 12px; }
+.slide li { font-size: 14px; line-height: 1.8; color: var(--color-stone-600); margin-bottom: 4px; }
+
+.slide table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 13px; }
+.slide th { background: var(--color-stone-50); border: 1px solid var(--color-warm-100); padding: 8px 12px; text-align: left; font-weight: 600; color: var(--color-stone-700); font-size: 12px; }
+.slide td { border: 1px solid var(--color-warm-100); padding: 8px 12px; color: var(--color-stone-600); vertical-align: top; }
+.slide tr:hover td { background: var(--color-stone-50); }
+
+.slide blockquote {
+  border-left: 3px solid var(--color-primary-400); padding: 12px 20px; margin: 16px 0;
+  background: var(--color-primary-50); border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: 14px; color: var(--color-stone-600); font-style: italic; line-height: 1.7;
+}
+
+/* ── CUSTOM CHAPTER / SOURCE BADGES ── */
+.chapter-badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  background: var(--color-stone-800); color: #fff;
+  padding: 3px 10px; border-radius: var(--radius-full); margin-bottom: 12px;
+  letter-spacing: 0.08em;
+}
+
+.mine-tag {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 2px 10px; border-radius: var(--radius-full); margin: 2px 4px 2px 0;
+}
+.mine-tag.shan { background: #eff6ff; color: #3b82f6; border: 1px solid #bfdbfe; }
+.mine-tag.muzi { background: #fdf4ff; color: #a855f7; border: 1px solid #e9d5ff; }
+.mine-tag.fiveninone { background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
+
+/* ── IDEA CARDS ── */
+.idea-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
+.idea-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+@media (max-width: 600px) { .idea-grid-2 { grid-template-columns: 1fr; } }
+.idea-card {
+  background: var(--color-stone-50); border: 1px solid var(--color-warm-100); border-radius: var(--radius-md);
+  padding: 16px; transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.idea-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.idea-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.idea-name { font-weight: 600; color: var(--color-stone-800); font-size: 14px; }
+.idea-body { font-size: 13px; color: var(--color-stone-500); line-height: 1.7; }
+.idea-body strong { color: var(--color-stone-700); }
+
+/* ── RATING / TAGS ── */
+.rating {
+  display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 10px;
+  border-radius: var(--radius-full); white-space: nowrap;
+}
+.rating-high { background: var(--color-success-bg); color: var(--color-success); border: 1px solid #bbf7d0; }
+.rating-mid  { background: var(--color-warning-bg); color: #a16207; border: 1px solid #fef08a; }
+.rating-low  { background: var(--color-danger-bg); color: var(--color-danger); border: 1px solid #fecaca; }
+
+.tag {
+  display: inline-block; background: var(--color-stone-50); border: 1px solid var(--color-warm-200);
+  color: var(--color-stone-500); font-size: 11px; padding: 2px 8px; border-radius: var(--radius-full); margin: 2px 4px 2px 0;
+}
+.tag-clean    { background: #eff6ff; color: #3b82f6; border-color: #bfdbfe; }
+.tag-durable  { background: #fff7ed; color: #ea580c; border-color: #fed7aa; }
+.tag-budget   { background: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
+.tag-aesthetic{ background: #fdf4ff; color: #a855f7; border-color: #e9d5ff; }
+.tag-diy      { background: #fdf4ff; color: #a855f7; border-color: #e9d5ff; }
+.tag-storage  { background: var(--color-info-bg); color: var(--color-info); border-color: #bfdbfe; }
+.tag-comfort  { background: #fff7ed; color: #ea580c; border-color: #fed7aa; }
+.tag-hack     { background: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
+
+/* ── STATS ROW ── */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.stat-card {
+  background: var(--color-stone-50); border: 1px solid var(--color-warm-100); border-radius: var(--radius-md);
+  padding: 16px; text-align: center;
+}
+.stat-card .stat-value { font-size: 22px; font-weight: 700; color: var(--color-primary-700); margin-bottom: 4px; }
+.stat-card .stat-label { font-size: 11px; color: var(--color-stone-400); text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.4; }
+
+/* ── COMPARE GRID ── */
+.compare-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 12px 0; }
+.compare-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+@media (max-width: 640px) { .compare-grid-3, .compare-grid { grid-template-columns: 1fr; } }
+.compare-card { padding: 14px; border-radius: var(--radius-md); font-size: 13px; line-height: 1.6; }
+.compare-card .compare-label { font-weight: 700; font-size: 12px; margin-bottom: 8px; }
+.compare-before { background: var(--color-danger-bg); border: 1px solid #fecaca; }
+.compare-before .compare-label { color: var(--color-danger); }
+.compare-after  { background: var(--color-success-bg); border: 1px solid #bbf7d0; }
+.compare-after .compare-label  { color: var(--color-success); }
+.compare-neutral { background: var(--color-stone-50); border: 1px solid var(--color-warm-100); }
+.compare-neutral .compare-label { color: var(--color-stone-600); }
+
+/* ── WARNING / TIP BOXES ── */
+.warning-box {
+  border-left: 4px solid #ef4444; padding: 12px 16px; margin: 12px 0;
+  background: #fff5f5; border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: 13px; color: var(--color-stone-600); line-height: 1.7;
+}
+.warning-box strong { color: #ef4444; }
+.tip-box {
+  border-left: 4px solid #16a34a; padding: 12px 16px; margin: 12px 0;
+  background: #f0fdf4; border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: 13px; color: var(--color-stone-600); line-height: 1.7;
+}
+.tip-box strong { color: #16a34a; }
+
+/* ── VERDICT BOX ── */
+.verdict-box {
+  background: var(--color-primary-50); border: 1px solid var(--color-primary-200);
+  border-radius: var(--radius-md); padding: 20px; margin-top: 16px;
+}
+.verdict-title { font-size: 14px; font-weight: 700; color: var(--color-primary-700); margin-bottom: 8px; }
+.verdict-body  { font-size: 13px; color: var(--color-stone-600); line-height: 1.7; }
+
+/* ── HACK FLOW ── */
+.hack-flow {
+  display: flex; align-items: center; gap: 8px; margin: 12px 0;
+  padding: 12px 16px; background: var(--color-stone-50); border-radius: var(--radius-md);
+  font-size: 13px; color: var(--color-stone-600); flex-wrap: wrap;
+}
+.hack-flow .step {
+  background: #fff; border: 1px solid var(--color-warm-200); border-radius: var(--radius-sm);
+  padding: 4px 10px; font-weight: 500; color: var(--color-stone-700);
+}
+.hack-flow .arrow { color: var(--color-primary-400); font-weight: 700; }
+
+/* ── COST BADGE ── */
+.cost-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--color-primary-50); border: 1px solid var(--color-primary-200);
+  color: var(--color-primary-700); font-size: 11px; font-weight: 600;
+  padding: 2px 10px; border-radius: var(--radius-full); margin: 2px 4px 2px 0;
+}
+
+/* ── ZONE HEADER ── */
+.zone-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+  padding-bottom: 12px; border-bottom: 2px solid var(--color-primary-200);
+}
+.zone-icon  { font-size: 24px; }
+.zone-title { font-size: 18px; font-weight: 700; color: var(--color-stone-800); }
+.zone-count { font-size: 12px; color: var(--color-stone-400); }
+
+/* ── CHECKLIST ── */
+.checklist { list-style: none; padding: 0; margin: 12px 0; }
+.checklist-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px; border-radius: var(--radius-md); margin-bottom: 6px;
+  font-size: 13px; line-height: 1.6;
+}
+.checklist-item.ok   { background: var(--color-success-bg); color: var(--color-stone-700); border: 1px solid #bbf7d0; }
+.checklist-item.fail { background: var(--color-danger-bg);  color: var(--color-stone-700); border: 1px solid #fecaca; }
+.check-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+/* ── SECTION DIVIDER ── */
+.section-divider {
+  display: flex; align-items: center; gap: 12px; margin: 8px 0 20px;
+  font-size: 12px; font-weight: 600; color: var(--color-stone-400); text-transform: uppercase; letter-spacing: 0.06em;
+}
+.section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--color-warm-200); }
+
+/* ── PRIORITY BADGE ── */
+.priority {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: var(--radius-full); white-space: nowrap;
+}
+.priority-must   { background: #fef2f2; color: #ef4444; border: 1px solid #fecaca; }
+.priority-bonus  { background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
+.priority-avoid  { background: var(--color-stone-50); color: var(--color-stone-400); border: 1px solid var(--color-stone-200); }
+
+/* ── TABLE PRIORITY HIGHLIGHT ── */
+tr.row-must td:first-child { border-left: 3px solid #ef4444; }
+tr.row-avoid td:first-child { border-left: 3px solid #a8a29e; }
+tr.row-bonus td:first-child { border-left: 3px solid #ea580c; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+  <div class="top-bar-left">
+    <button class="toc-toggle" id="tocToggle">☰ 目錄</button>
+    <span class="top-bar-title">裝潢觀摩手冊 — YouTube 頻道精華整理</span>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <span class="progress-text" id="progressText">0%</span>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- TOC SIDEBAR -->
+  <nav class="toc-sidebar" id="tocSidebar">
+    <div class="toc-label">目錄</div>
+    <ul class="toc-list" id="tocList"></ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- COVER -->
+    <section class="slide slide-cover" id="s-cover">
+      <div class="chapter-badge">裝潢觀摩手冊</div>
+      <div class="cover-title">裝潢觀摩手冊<br>YouTube 頻道精華整理</div>
+      <div class="cover-subtitle">姍姍夫妻聊設計 × 木梓藍 × 591筠林設計</div>
+      <div class="cover-meta">整理日期：2026-05-06 &nbsp;|&nbsp; 共 13 章</div>
+      <div class="cover-sources">
+        <span class="mine-tag shan">姍姍夫妻聊設計</span>
+        <span class="mine-tag muzi">木梓藍</span>
+        <span class="mine-tag fiveninone">591筠林設計</span>
+      </div>
+      <div style="margin-top:24px; font-size:13px; color:var(--color-stone-400); line-height:1.8;">
+        本手冊彙整 3 個 YouTube 頻道精華，涵蓋裝潢心法、預算規劃、空間設計避坑、收納策略、家具選購、DIY 巧思，以及入住後悔清單，最後附完整 Checklist 總表。
+      </div>
+    </section>
+
+    <!-- CH1 -->
+    <section class="slide" id="s-ch1">
+      <div class="chapter-badge">CH1</div>
+      <div class="slide-title">裝潢前心法 <span class="mine-tag shan">姍姍夫妻</span></div>
+      <div class="slide-desc">動工前沒想清楚的事，裝潢後一定後悔。5 大核心需求要先盤點。</div>
+
+      <div class="zone-header">
+        <span class="zone-icon">🎯</span>
+        <span class="zone-title">5 大需求釐清</span>
+      </div>
+
+      <div class="idea-grid">
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">生活習慣盤點</span>
+            <span class="rating rating-high">必做</span>
+          </div>
+          <div class="idea-body">幾點起床？幾點睡覺？是否在家工作？常下廚或外食？有沒有在家健身的習慣？這些決定空間動線與區域比重。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">家庭成員現況與未來規劃</span>
+            <span class="rating rating-high">必做</span>
+          </div>
+          <div class="idea-body">現在幾個人住？3-5 年內是否有生育計畫？是否有長輩同住需求？<strong>設計要為未來 5 年服務，不只現在。</strong></div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">收納量評估</span>
+            <span class="rating rating-high">必做</span>
+          </div>
+          <div class="idea-body">把家裡現有物品全部清點一次——衣服多少件？廚具有多少？行李箱幾個？再設計收納空間，否則一定不夠用。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">預算與優先順序</span>
+            <span class="rating rating-high">必做</span>
+          </div>
+          <div class="idea-body">明確列出總預算上限，再決定「最不能省」的 3 件事。有限預算要聰明分配，避免在次要項目花掉大半。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">風格偏好具體化</span>
+            <span class="rating rating-mid">重要</span>
+          </div>
+          <div class="idea-body">不要只說「現代簡約」，要收集 30 張喜歡的空間照片，找出<strong>共同元素</strong>（顏色、材質、光線感）再給設計師，比空口說更有效。</div>
+        </div>
+      </div>
+
+      <div class="zone-header" style="margin-top:24px;">
+        <span class="zone-icon">💑</span>
+        <span class="zone-title">夫妻溝通重點</span>
+      </div>
+
+      <div class="warning-box">
+        <strong>吵架第一名不是錢，是「生活習慣衝突」</strong><br>
+        誰負責做家事？收納習慣如何分配（整齊派 vs 方便就好派）？廚房使用頻率誰更高？書桌要不要獨立空間？這些問題比風格爭論更傷感情，裝潢前務必對齊。
+      </div>
+
+      <div class="tip-box">
+        <strong>設計師的角色：第三方中立調解</strong><br>
+        夫妻意見不同時，設計師能把「感覺」轉化為「使用場景」，讓雙方用具體條件討論，而非純主觀喜好對抗。找設計師之前先把彼此的使用場景條列清楚，溝通效率更高。
+      </div>
+    </section>
+
+    <!-- CH2 -->
+    <section class="slide" id="s-ch2">
+      <div class="chapter-badge">CH2</div>
+      <div class="slide-title">預算規劃 <span class="mine-tag shan">姍姍夫妻</span></div>
+      <div class="slide-desc">150 萬預算要怎麼分配？哪些先別做？「留白哲學」才是最高境界。</div>
+
+      <div class="zone-header">
+        <span class="zone-icon">💰</span>
+        <span class="zone-title">150 萬預算參考分配</span>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value">50-60萬</div>
+          <div class="stat-label">硬裝<br>（泥作、水電、地板）</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">40-50萬</div>
+          <div class="stat-label">系統櫃<br>（各區收納）</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">20-30萬</div>
+          <div class="stat-label">家具軟裝<br>（沙發、床、窗簾）</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">20萬</div>
+          <div class="stat-label">家電<br>（冰箱、洗衣機、電視）</div>
+        </div>
+      </div>
+
+      <div class="zone-header" style="margin-top:24px;">
+        <span class="zone-icon">🚫</span>
+        <span class="zone-title">4 項先別做</span>
+      </div>
+
+      <div class="compare-grid">
+        <div class="compare-card compare-before">
+          <div class="compare-label">❌ 花大錢做的</div>
+          <ul>
+            <li>造型天花板（費用高、10年後過氣）</li>
+            <li>華而不實電視牆（佔錢不加分）</li>
+            <li>做好做滿系統櫃（住進來才知道真正需求）</li>
+            <li>盲目跟風網紅設計（3年後後悔率極高）</li>
+          </ul>
+        </div>
+        <div class="compare-card compare-after">
+          <div class="compare-label">✅ 省錢正解</div>
+          <ul>
+            <li>平釘天花板（走管線、藏梁）+ 保留高度感</li>
+            <li>電視牆留牆面＋預埋線路，後期彈性調整</li>
+            <li>先做「必要」收納，2 年後補做「想要」的</li>
+            <li>基本款底色＋可更換的軟裝配件</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="verdict-box">
+        <div class="verdict-title">留白哲學：最好的設計是留白</div>
+        <div class="verdict-body">
+          裝潢是一個持續進化的過程，不是一次到位。入住前期保留彈性，先觀察自己的使用習慣，再補齊真正需要的部分。
+          <strong>過度裝潢往往比裝潢不足更難修正</strong>——拆除的費用遠高於新增。
+        </div>
+      </div>
+    </section>
+
+    <!-- CH3 -->
+    <section class="slide" id="s-ch3">
+      <div class="chapter-badge">CH3</div>
+      <div class="slide-title">裝潢避坑地雷 <span class="mine-tag shan">姍姍夫妻</span></div>
+      <div class="slide-desc">網紅設計不一定適合自住，以下地雷必看。</div>
+
+      <div class="zone-header">
+        <span class="zone-icon">💣</span>
+        <span class="zone-title">6 種網紅翻車設計</span>
+      </div>
+
+      <div class="idea-grid">
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">木格柵</span>
+            <span class="rating rating-low">避開</span>
+            <span class="tag tag-clean">清潔</span>
+          </div>
+          <div class="idea-body">照片很美，住起來惡夢。每根格柵縫都是積灰死角，清潔工具難以伸入，<strong>半年後灰塵累積肉眼可見</strong>。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">膚感膜（霧面皮革貼膜）</span>
+            <span class="rating rating-low">避開</span>
+            <span class="tag tag-clean">清潔</span>
+          </div>
+          <div class="idea-body">觸感好、質感高，但手指觸碰後<strong>指紋清晰度是亮面的 3 倍</strong>。廚房用品碰到膜面更是災難。正解：亮面好擦或消光噴漆。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">開放式展示櫃</span>
+            <span class="rating rating-low">慎用</span>
+            <span class="tag tag-clean">清潔</span>
+          </div>
+          <div class="idea-body">展示物品需要定期整理才好看，否則淪為雜物架。若沒有整齊擺放習慣，改用<strong>有門收納</strong>更實際。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">無踢腳板設計</span>
+            <span class="rating rating-low">避開</span>
+            <span class="tag tag-durable">耐用</span>
+          </div>
+          <div class="idea-body">底部無保護的牆面或系統櫃，掃地機器人、掃把、鞋底反覆碰撞，<strong>油漆半年後必定刮傷</strong>。踢腳板是防護層，不是多餘。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">拱門</span>
+            <span class="rating rating-low">慎用</span>
+            <span class="tag tag-aesthetic">美感</span>
+          </div>
+          <div class="idea-body">拱門門洞比方形門洞<strong>吃掉 10-15cm 寬度</strong>，兩側做弧度需削牆。小坪數空間不划算，視覺效果也容易顯低。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">懸浮設計（浮動床頭、懸浮廚具）</span>
+            <span class="rating rating-low">慎用</span>
+            <span class="tag tag-durable">耐用</span>
+          </div>
+          <div class="idea-body">懸浮設計視覺輕盈，但<strong>五金承重量有限</strong>，長期使用後接縫處容易下垂。重量超過設計值就會變形。</div>
+        </div>
+      </div>
+
+      <div class="section-divider">廚房地雷</div>
+
+      <div class="compare-grid">
+        <div class="compare-card compare-before">
+          <div class="compare-label">❌ 地雷</div>
+          <strong>黑色石英石水槽</strong>
+          <p style="margin-top:6px; font-size:13px;">台灣水質硬，水垢在黑色表面極為明顯，每次使用後都要擦，<strong>維護成本極高</strong>。</p>
+          <br>
+          <strong>雙水槽（各25cm）</strong>
+          <p style="margin-top:6px; font-size:13px;">雙槽平均後每格都很小，放不進烤盤或大鍋，洗碗效率反而更低。</p>
+        </div>
+        <div class="compare-card compare-after">
+          <div class="compare-label">✅ 正解</div>
+          <strong>白色或砂岩色矽鋼石</strong>
+          <p style="margin-top:6px; font-size:13px;">淺色系水垢不明顯，日常維護輕鬆。砂岩色最耐用，刮痕不明顯。</p>
+          <br>
+          <strong>大單槽（60cm+）+ 台下盆</strong>
+          <p style="margin-top:6px; font-size:13px;">整池可容納大型鍋具、烤盤，洗效率高，視覺也更整潔。</p>
+        </div>
+      </div>
+
+      <div class="section-divider">4 種過氣裝潢</div>
+
+      <div class="idea-grid-2">
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">複雜天花板造型</span><span class="rating rating-low">過氣</span></div>
+          <div class="idea-body">層板、間接燈帶疊加，視覺複雜，現在流行乾淨線條。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">浮誇電視牆</span><span class="rating rating-low">過氣</span></div>
+          <div class="idea-body">石材、木皮、LED 全上，造價高且與電視本身比例失調。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">固定吧檯</span><span class="rating rating-low">過氣</span></div>
+          <div class="idea-body">實際使用率低，多數家庭用來堆雜物，不如改活動中島。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">全屋做滿櫃</span><span class="rating rating-low">過氣</span></div>
+          <div class="idea-body">視覺壓迫，空間感喪失，日後生活習慣改變也難以調整。</div>
+        </div>
+      </div>
+
+      <div class="section-divider">燈光地雷</div>
+
+      <div class="compare-grid">
+        <div class="compare-card compare-before">
+          <div class="compare-label">❌ 地雷</div>
+          <ul style="font-size:13px;">
+            <li><strong>全屋死白光（6000K）</strong>——有如辦公室，長時間待著眼睛疲勞</li>
+            <li><strong>RGB 氣氛燈</strong>——新鮮感三天後就再也不打開</li>
+            <li>只有單一主燈，缺乏層次</li>
+          </ul>
+        </div>
+        <div class="compare-card compare-after">
+          <div class="compare-label">✅ 正解</div>
+          <ul style="font-size:13px;">
+            <li><strong>3000K～4000K 暖白光</strong>——閱讀區可到 4000K，臥室/客廳 3000K</li>
+            <li>主燈 + 輔助燈 + 氣氛燈三層設計</li>
+            <li>調光器（Dimmer）比換燈泡更靈活</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-divider">4 大隱藏式崩潰</div>
+
+      <div class="idea-grid-2">
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">隱藏門</span><span class="rating rating-low">地雷</span></div>
+          <div class="idea-body"><span class="tag tag-clean">清潔</span> 無把手隱藏門的開啟點就是手印集中區，深色/霧面材質更明顯。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">拍拍手五金</span><span class="rating rating-low">地雷</span></div>
+          <div class="idea-body"><span class="tag tag-durable">耐用</span> 按壓式開關五金壽命短，3-5 年後鬆動失靈，維修更換麻煩。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">隱藏垃圾桶</span><span class="rating rating-low">地雷</span></div>
+          <div class="idea-body"><span class="tag tag-clean">清潔</span> 封閉式垃圾桶悶臭嚴重，拉出式導軌也容易積汙垢。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">地插（地板插座）</span><span class="rating rating-low">地雷</span></div>
+          <div class="idea-body"><span class="tag tag-clean">清潔</span> 地板縫隙卡灰嚴重，清潔困難，使用率通常也不高。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CH4 -->
+    <section class="slide" id="s-ch4">
+      <div class="chapter-badge">CH4</div>
+      <div class="slide-title">空間規劃 — 玄關 <span class="mine-tag shan">姍姍夫妻</span></div>
+      <div class="slide-desc">玄關是進門第一印象，也是生活動線的起點，這 5 個設計讓玄關從雜亂變整潔。</div>
+
+      <div class="idea-grid">
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">一日衣櫃（次淨衣區）</span>
+            <span class="rating rating-high">爆紅推薦</span>
+          </div>
+          <div class="idea-body">外出回家的外套、包包、還沒洗的衣服需要一個「中繼站」。在玄關設計淺型掛衣區（深 30cm），解決衣物亂丟問題，<strong>維持客廳整潔的關鍵設計</strong>。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">下沉式落塵區</span>
+            <span class="rating rating-high">爆紅推薦</span>
+          </div>
+          <div class="idea-body">入門區地板下沉 1-2cm，形成心理與物理的「內外分界」，鋪設特殊防塵地毯，<strong>有效阻擋 70% 室外灰塵進入客廳</strong>。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">穿鞋椅 + 連身鏡</span>
+            <span class="rating rating-high">高實用</span>
+          </div>
+          <div class="idea-body">坐著穿鞋比蹲著穿舒服 100 倍。連身全身鏡讓出門前可以看整體搭配，不需要跑到浴室或臥室。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">洞洞板收納牆</span>
+            <span class="rating rating-mid">加分推薦</span>
+          </div>
+          <div class="idea-body">鑰匙、口罩、耳機、充電線的最佳收納位置。洞洞板可自由調整配件配置，<strong>彈性最高的牆面收納</strong>，且視覺上比亂丟清爽。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">感應燈 + 懸浮鞋櫃</span>
+            <span class="rating rating-high">爆紅推薦</span>
+          </div>
+          <div class="idea-body">鞋櫃底部懸空 20cm，裝感應燈條，視覺輕盈又實用。深夜回家不需開燈找開關，自動亮起。<strong>清潔時可以輕鬆掃到底部。</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CH5 -->
+    <section class="slide" id="s-ch5">
+      <div class="chapter-badge">CH5</div>
+      <div class="slide-title">空間規劃 — 客廳 <span class="mine-tag shan">姍姍夫妻</span> <span class="mine-tag fiveninone">591</span></div>
+      <div class="slide-desc">客廳是全家使用率最高的空間，電視牆規劃和配色是關鍵。</div>
+
+      <div class="zone-header">
+        <span class="zone-icon">📺</span>
+        <span class="zone-title">電視牆 4 大必做</span>
+      </div>
+
+      <div class="idea-grid-2">
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">藏八露二法則</span><span class="rating rating-high">必做</span></div>
+          <div class="idea-body">80% 的設備、線路、遙控器都收起來，只露出電視本體和 2 件裝飾品。視覺乾淨度直接提升。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">預埋 HDMI / 電源管線</span><span class="rating rating-high">必做</span></div>
+          <div class="idea-body">裝潢時一定要埋管，日後換電視、加機上盒都不需要再走明線，投資 3000 元省未來 10 年的困擾。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">整合家電收納</span><span class="rating rating-high">必做</span></div>
+          <div class="idea-body">機上盒、遊戲機、路由器統一收進電視牆下方的有門收納區，注意散熱孔設計（留空隙或打孔）。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">底部懸空 + 燈條</span><span class="rating rating-high">必做</span></div>
+          <div class="idea-body">電視牆下方懸空，搭配 LED 燈條，視覺輕盈感強，清潔也方便。地板掃地機器人可以直接開進去。</div>
+        </div>
+      </div>
+
+      <div class="zone-header" style="margin-top:24px;">
+        <span class="zone-icon">🎨</span>
+        <span class="zone-title">591 配色黃金比例</span>
+        <span class="mine-tag fiveninone">591筠林設計</span>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value">60%</div>
+          <div class="stat-label">深色（主調）<br>牆面、大件家具</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">30%</div>
+          <div class="stat-label">中色（輔助）<br>窗簾、地毯、沙發</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">10%</div>
+          <div class="stat-label">亮色（點綴）<br>抱枕、裝飾品、植物</div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>配色實操心法：</strong> 深色不代表暗沉——米白、淺灰、暖木色都可以是「主調深色」。亮色佔比若超過 20% 就會視覺雜亂。點綴色選一個主色再帶出一個對比色，不要超過 3 種顏色。
+      </div>
+    </section>
+
+    <!-- CH6 -->
+    <section class="slide" id="s-ch6">
+      <div class="chapter-badge">CH6</div>
+      <div class="slide-title">空間規劃 — 廚房 <span class="mine-tag shan">姍姍夫妻</span></div>
+      <div class="slide-desc">廚房格局是裝潢爭議最多的區域。開放、封閉、半開放三種格局各有利弊。</div>
+
+      <div class="zone-header">
+        <span class="zone-icon">🍳</span>
+        <span class="zone-title">三種廚房格局對決</span>
+      </div>
+
+      <div class="compare-grid-3">
+        <div class="compare-card compare-before" style="background:#fff7ed; border-color:#fed7aa;">
+          <div class="compare-label" style="color:#ea580c;">🔴 開放式廚房</div>
+          <p style="font-size:13px; margin-bottom:8px;"><strong>優點：</strong>空間感強、與客廳互動好、視覺通透</p>
+          <p style="font-size:13px;"><strong>缺點：</strong>油煙擴散全屋、炒菜時味道無法隔離、廚房雜亂直接影響客廳觀感</p>
+        </div>
+        <div class="compare-card compare-before">
+          <div class="compare-label">⚠️ 封閉式廚房</div>
+          <p style="font-size:13px; margin-bottom:8px;"><strong>優點：</strong>隔絕油煙最有效、廚房雜亂不影響外觀</p>
+          <p style="font-size:13px;"><strong>缺點：</strong>空間封閉壓迫、與外面家人無法互動、採光差</p>
+        </div>
+        <div class="compare-card compare-after">
+          <div class="compare-label">✅ 半開放式（玻璃拉門）</div>
+          <p style="font-size:13px; margin-bottom:8px;"><strong>優點：</strong>不炒菜時拉開通透，炒菜時關起來隔油煙</p>
+          <p style="font-size:13px;"><strong>結論：<strong>兩者優點兼得，這是目前最平衡的方案</strong></p>
+        </div>
+      </div>
+
+      <div class="zone-header" style="margin-top:24px;">
+        <span class="zone-icon">🚿</span>
+        <span class="zone-title">油煙對策</span>
+      </div>
+
+      <div class="idea-grid-2">
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">近吸式抽油煙機</span><span class="rating rating-high">推薦</span></div>
+          <div class="idea-body">比傳統頂吸式更靠近爐具，吸力效率提升 40%，且體積小不佔視覺空間。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">排風管路最短化</span><span class="rating rating-high">必做</span></div>
+          <div class="idea-body">管路每多轉一個 90 度彎，吸力損失 15%。規劃時讓管路盡量直線排出，減少轉彎。</div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>水槽終極選擇：大單槽（60cm+）+ 台下盆安裝</strong><br>
+        台下盆邊緣無縫，不卡污垢，清潔最容易。單槽空間夠用，可以洗大鍋、烤盤。材質選矽鋼石（砂岩色），比石英石耐用、比不鏽鋼質感好。
+      </div>
+    </section>
+
+    <!-- CH7 -->
+    <section class="slide" id="s-ch7">
+      <div class="chapter-badge">CH7</div>
+      <div class="slide-title">空間規劃 — 浴室 <span class="mine-tag shan">姍姍夫妻</span></div>
+      <div class="slide-desc">浴室面積小但細節超多，4 大錯誤幾乎每個人都踩過。</div>
+
+      <div class="idea-grid">
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">磁磚選錯</span>
+            <span class="rating rating-low">常見地雷</span>
+            <span class="tag tag-clean">清潔</span>
+          </div>
+          <div class="idea-body">
+            <strong>地雷：</strong>選太深色（水漬明顯）、選亮面（超滑危險）、選白色（黴菌明顯）<br>
+            <strong>正解：</strong>米白或灰色系 + 止滑係數 R9 以上 + 霧面或砂岩紋路。縫隙選深色填縫劑不怕髒。
+          </div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">浴室櫃體沒懸空</span>
+            <span class="rating rating-low">常見地雷</span>
+            <span class="tag tag-clean">清潔</span>
+          </div>
+          <div class="idea-body">
+            <strong>地雷：</strong>落地式浴室收納櫃，底部永遠積水積灰，發霉嚴重<br>
+            <strong>正解：</strong>懸浮式浴室收納（距地板 20cm 以上），底部方便清潔
+          </div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">洩水坡度不足</span>
+            <span class="rating rating-low">嚴重地雷</span>
+            <span class="tag tag-durable">耐用</span>
+          </div>
+          <div class="idea-body">
+            <strong>地雷：</strong>磁磚貼完後地板幾乎水平，積水無法排出，發霉、異味的根源<br>
+            <strong>正解：</strong>監工時帶水平儀確認往排水孔方向有 1-2% 坡度，施工完成再驗水確認
+          </div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">插座和暖風機位置錯</span>
+            <span class="rating rating-low">常見地雷</span>
+            <span class="tag tag-durable">耐用</span>
+          </div>
+          <div class="idea-body">
+            <strong>地雷：</strong>插座裝在鏡子側邊（高度不對）、暖風機裝在最熱會站的位置<br>
+            <strong>正解：</strong>插座高度與洗手台同高（120cm），防水插座至少 2 個；暖風機裝在靠門處往裡吹，避免直接吹頭頂
+          </div>
+        </div>
+      </div>
+
+      <div class="warning-box">
+        <strong>監工重點：</strong>防水工程完成後要做 24 小時蓄水測試（在排水孔塞住蓄水至 5cm），下樓確認無滲漏再貼磁磚。這個步驟很多業主跳過，事後補做防水費用是原來的 5-10 倍。
+      </div>
+    </section>
+
+    <!-- CH8 -->
+    <section class="slide" id="s-ch8">
+      <div class="chapter-badge">CH8</div>
+      <div class="slide-title">空間規劃 — 臥室 <span class="mine-tag shan">姍姍夫妻</span></div>
+      <div class="slide-desc">臥室是休息充電的空間，燈光和收納規劃直接影響睡眠品質。</div>
+
+      <div class="idea-grid-2">
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">避免直射崁燈</span><span class="rating rating-high">必做</span></div>
+          <div class="idea-body">床頭上方若有直射崁燈，躺下後燈光直接進眼睛。改用<strong>間接照明</strong>或側邊壁燈。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">床頭雙切開關</span><span class="rating rating-high">必做</span></div>
+          <div class="idea-body">進門處與床頭兩個位置都能開關燈。躺下後不需要爬起來關燈，是最低成本的高體感設計。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">衣櫃規劃重點</span><span class="rating rating-mid">重要</span></div>
+          <div class="idea-body">短吊區（60cm）+ 長吊區（130cm）+ 抽屜搭配，比全部都是掛衣桿好用。詳細規劃見收納章節。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">窗簾遮光</span><span class="rating rating-mid">重要</span></div>
+          <div class="idea-body">臥室窗簾選遮光係數 95% 以上，搭配薄紗雙層設計。有嬰幼兒的家庭尤其重要。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CH9 -->
+    <section class="slide" id="s-ch9">
+      <div class="chapter-badge">CH9</div>
+      <div class="slide-title">收納策略 <span class="mine-tag shan">姍姍夫妻</span></div>
+      <div class="slide-desc">收納亂的根本原因不是沒有足夠的櫃子，而是沒有針對「大型雜物」的專屬空間。</div>
+
+      <div class="zone-header">
+        <span class="zone-icon">📦</span>
+        <span class="zone-title">收納亂源真相</span>
+      </div>
+
+      <div class="warning-box">
+        <strong>大型雜物是收納殺手：</strong>除濕機、行李箱、吸塵器、電風扇、備用棉被——這些東西寬度 40-60cm，完全塞不進標準 35cm 系統櫃。若沒有一個夠大的收納空間，它們就會永遠放在客廳地板。
+      </div>
+
+      <div class="compare-grid">
+        <div class="compare-card compare-neutral">
+          <div class="compare-label">更衣間</div>
+          <ul style="font-size:13px;">
+            <li>收納<strong>乾淨衣物</strong>為主</li>
+            <li>需要良好通風、燈光</li>
+            <li>衣架、抽屜、鏡子為主要設備</li>
+            <li>1.5 坪以上才夠用</li>
+          </ul>
+        </div>
+        <div class="compare-card compare-after">
+          <div class="compare-label">✅ 儲藏間（小宅救星）</div>
+          <ul style="font-size:13px;">
+            <li>收納<strong>大型雜物</strong>（行李箱、電風扇、備用棉被）</li>
+            <li>只需 0.5～1 坪</li>
+            <li>角鋼架最划算（一組約 NT$2,000）</li>
+            <li><strong>省下的系統櫃預算遠超建造成本</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="zone-header" style="margin-top:24px;">
+        <span class="zone-icon">🗂️</span>
+        <span class="zone-title">就近收納原則</span>
+      </div>
+
+      <div class="tip-box">
+        <strong>東西在哪用，就收在哪。</strong><br>
+        剪刀要放在廚房（切食材）+ 書桌（開包裝）+ 客廳（各一把），而不是只放在一個「剪刀專屬收納抽屜」讓全家人找。就近收納讓取用和歸位都自然，維持整潔不需要意志力。
+      </div>
+
+      <div class="idea-grid">
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">玄關收納</span></div>
+          <div class="idea-body">鑰匙、口罩、外出包、外套——一日衣物中繼站。下班回家動線：掛包 → 掛外套 → 脫鞋 → 進室內。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">廚房收納</span></div>
+          <div class="idea-body">常用鍋具放抽屜下層而非吊掛（不積油煙）；調味料收進上方吊櫃（不佔台面）；台面保持淨空，清潔最快。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">浴室收納</span></div>
+          <div class="idea-body">沐浴用品按人分區，避免全部混在一起。毛巾收進封閉式收納（不積灰塵）；備品放儲藏間。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CH10 -->
+    <section class="slide" id="s-ch10">
+      <div class="chapter-badge">CH10</div>
+      <div class="slide-title">小宅家具選購 <span class="mine-tag shan">姍姍夫妻</span> <span class="mine-tag fiveninone">591</span></div>
+      <div class="slide-desc">小坪數家具選錯就是空間殺手，以下選購邏輯直接避坑。</div>
+
+      <div class="zone-header">
+        <span class="zone-icon">🛋️</span>
+        <span class="zone-title">沙發選購</span>
+      </div>
+
+      <div class="compare-grid">
+        <div class="compare-card compare-before">
+          <div class="compare-label">❌ 小宅禁忌</div>
+          <ul style="font-size:13px;">
+            <li>L 型大沙發（固定擺法、吃空間）</li>
+            <li>矮腳或落地款（視覺沉重、難清潔）</li>
+            <li>高背寬扶手（視覺遮擋、顯擠）</li>
+          </ul>
+        </div>
+        <div class="compare-card compare-after">
+          <div class="compare-label">✅ 小宅正解</div>
+          <ul style="font-size:13px;">
+            <li>一字型沙發 + 活動腳凳（靈活組合）</li>
+            <li>高腳款（底部懸空 20cm+，視覺輕盈）</li>
+            <li>低背窄扶手（開闊感、不擋視線）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="zone-header" style="margin-top:24px;">
+        <span class="zone-icon">🪑</span>
+        <span class="zone-title">餐桌選購</span>
+      </div>
+
+      <div class="compare-grid">
+        <div class="compare-card compare-before">
+          <div class="compare-label">❌ 小宅禁忌</div>
+          <ul style="font-size:13px;">
+            <li>方桌（四角佔空間，繞行動線不順）</li>
+            <li>厚重木桌（視覺重、難移動）</li>
+          </ul>
+        </div>
+        <div class="compare-card compare-after">
+          <div class="compare-label">✅ 小宅正解</div>
+          <ul style="font-size:13px;">
+            <li>圓桌（無死角、多人入座更靈活）</li>
+            <li>可延伸款（平時縮小、有客人時展開）</li>
+            <li>岩板 / 細鐵件腳（輕盈感強）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="zone-header" style="margin-top:24px;">
+        <span class="zone-icon">🗄️</span>
+        <span class="zone-title">591 小宅設計原則</span>
+        <span class="mine-tag fiveninone">591筠林設計</span>
+      </div>
+
+      <div class="idea-grid-2">
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">櫃體深度 40cm 就夠</span><span class="rating rating-high">重要</span></div>
+          <div class="idea-body">一般建議系統櫃 60cm，但多數衣物折疊後只需 35-40cm。小宅選 40cm 深度，每個櫃可節省 20cm 空間，累積下來非常可觀。</div>
+        </div>
+        <div class="idea-card">
+          <div class="idea-header"><span class="idea-name">複合家具取代隔間</span><span class="rating rating-high">重要</span></div>
+          <div class="idea-body">書牆兼隔間、床頭板兼收納壁、餐桌兼工作桌。<strong>一件傢具承擔多個功能</strong>，比實體隔間更靈活，空間感也更好。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CH11 -->
+    <section class="slide" id="s-ch11">
+      <div class="chapter-badge">CH11</div>
+      <div class="slide-title">DIY 跨界改造巧思 <span class="mine-tag muzi">木梓藍</span></div>
+      <div class="slide-desc">木梓藍的核心哲學：低成本、高可逆、跨界材料。每項改造都可以自己動手，不需要設計師。</div>
+
+      <div class="idea-grid">
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">PC 板磁吸隱形門</span>
+            <span class="rating rating-high">強力推薦</span>
+            <span class="tag tag-diy">DIY</span>
+          </div>
+          <div class="hack-flow">
+            <span class="step">買 PC 透明板</span>
+            <span class="arrow">→</span>
+            <span class="step">四角裝磁鐵</span>
+            <span class="arrow">→</span>
+            <span class="step">門框對應位置打磁鐵</span>
+            <span class="arrow">→</span>
+            <span class="step">完成隱形感</span>
+          </div>
+          <div class="idea-body">
+            <span class="cost-badge">NT$300-600</span>
+            普通門改造成半透明磁吸門，在開與關之間保留視覺通透感，又能隔音、防塵。貓狗阻隔也適用。<br>
+            <strong>可逆性：移除不留痕跡。</strong>
+          </div>
+        </div>
+
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">冷櫃拉簾防塵</span>
+            <span class="rating rating-high">高實用</span>
+            <span class="tag tag-clean">清潔</span>
+          </div>
+          <div class="hack-flow">
+            <span class="step">選麻布/棉布拉簾</span>
+            <span class="arrow">→</span>
+            <span class="step">伸縮桿安裝</span>
+            <span class="arrow">→</span>
+            <span class="step">懸掛在冷藏區前</span>
+          </div>
+          <div class="idea-body">
+            <span class="cost-badge">NT$200-500</span>
+            冰箱旁的開放式冷藏展示區容易積灰，布簾一遮，清潔週期從每週拉長到每月。<strong>布料選防黴材質。</strong>
+          </div>
+        </div>
+
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">手機支架免持吹風機</span>
+            <span class="rating rating-mid">生活巧思</span>
+            <span class="tag tag-comfort">舒適</span>
+          </div>
+          <div class="hack-flow">
+            <span class="step">螺絲手機支架</span>
+            <span class="arrow">→</span>
+            <span class="step">鎖在浴室置物架</span>
+            <span class="arrow">→</span>
+            <span class="step">夾住吹風機手柄</span>
+          </div>
+          <div class="idea-body">
+            <span class="cost-badge">NT$150-300</span>
+            吹頭髮時雙手空出來可以分區梳理，效率提升。對長頭髮族群尤其有感。<strong>支架需耐熱材質。</strong>
+          </div>
+        </div>
+
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">米桶單手寵物飼料站</span>
+            <span class="rating rating-high">寵物必備</span>
+            <span class="tag tag-hack">巧思</span>
+          </div>
+          <div class="hack-flow">
+            <span class="step">附量杯米桶</span>
+            <span class="arrow">→</span>
+            <span class="step">換裝貓狗飼料</span>
+            <span class="arrow">→</span>
+            <span class="step">單手傾倒定量</span>
+          </div>
+          <div class="idea-body">
+            <span class="cost-badge">NT$200-400</span>
+            米桶附量杯可以定量取飼料，密封好防潮防蟲，比原裝袋好用 10 倍。選透明款可以掌握存量。
+          </div>
+        </div>
+
+        <div class="idea-card">
+          <div class="idea-header">
+            <span class="idea-name">電腦風扇浴室排濕</span>
+            <span class="rating rating-mid">解決痛點</span>
+            <span class="tag tag-comfort">舒適</span>
+          </div>
+          <div class="hack-flow">
+            <span class="step">12V 電腦風扇</span>
+            <span class="arrow">→</span>
+            <span class="step">USB 電源適配器</span>
+            <span class="arrow">→</span>
+            <span class="step">固定在浴室通風口</span>
+          </div>
+          <div class="idea-body">
+            <span class="cost-badge">NT$100-300</span>
+            原廠浴室暖風機噪音大，電腦風扇靜音且耗電低。洗澡後開 30 分鐘，浴室乾燥效率提升明顯。
+          </div>
+        </div>
+      </div>
+
+      <div class="verdict-box">
+        <div class="verdict-title">木梓藍 DIY 三原則</div>
+        <div class="verdict-body">
+          1. <strong>跨界取材：</strong>工業零件（磁鐵、風扇、支架）解決生活問題，成本是設計師方案的 1/10<br>
+          2. <strong>高可逆性：</strong>所有改造都可以復原，租屋族也適用<br>
+          3. <strong>驗證效果再推廣：</strong>先自己試用 1-2 個月確認好用，才分享
+        </div>
+      </div>
+    </section>
+
+    <!-- CH12 -->
+    <section class="slide" id="s-ch12">
+      <div class="chapter-badge">CH12</div>
+      <div class="slide-title">入住後後悔清單 <span class="mine-tag shan">姍姍夫妻</span></div>
+      <div class="slide-desc">姍姍記錄了入住後最常後悔的 5 大裝潢細節，是後人最寶貴的經驗。</div>
+
+      <ul class="checklist">
+        <li class="checklist-item fail">
+          <span class="check-icon">✗</span>
+          <div>
+            <strong>插座動線沒想清楚</strong><br>
+            <span style="font-size:12px; color:var(--color-stone-400);">沙發後方、床頭、書桌兩側插座不夠，或位置設計讓插頭擋住走道。裝潢前把每個家電的使用位置畫出來，算好插座數量（每區至少 2 個以上）。</span>
+          </div>
+        </li>
+        <li class="checklist-item fail">
+          <span class="check-icon">✗</span>
+          <div>
+            <strong>崁燈位置讓人坐起來就刺眼</strong><br>
+            <span style="font-size:12px; color:var(--color-stone-400);">沙發正上方、床頭正上方裝了直射崁燈，躺著/坐著都被光線直射。規劃時要模擬每個常用坐姿的視線仰角。</span>
+          </div>
+        </li>
+        <li class="checklist-item fail">
+          <span class="check-icon">✗</span>
+          <div>
+            <strong>開放式收納美觀但不實用</strong><br>
+            <span style="font-size:12px; color:var(--color-stone-400);">沒有維持整潔的習慣，開放展示架很快就變成雜物架，比封閉式收納更難看。誠實評估自己的整齊程度，再決定是否要開放式設計。</span>
+          </div>
+        </li>
+        <li class="checklist-item fail">
+          <span class="check-icon">✗</span>
+          <div>
+            <strong>家具尺寸與空間比例不符</strong><br>
+            <span style="font-size:12px; color:var(--color-stone-400);">看展示間覺得好看的沙發，買回來後和自家的比例完全不對。一定要用紙板或膠帶在地板量出家具的實際佔地，再決定購買。</span>
+          </div>
+        </li>
+        <li class="checklist-item fail">
+          <span class="check-icon">✗</span>
+          <div>
+            <strong>追求網美風但實際不好用</strong><br>
+            <span style="font-size:12px; color:var(--color-stone-400);">拍照漂亮的擺設，日常生活動線根本不通。「好拍」和「好住」往往需要平衡——可以美觀，但不能犧牲使用便利性。</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="section-divider">做對的事</div>
+
+      <ul class="checklist">
+        <li class="checklist-item ok">
+          <span class="check-icon">✓</span>
+          <div>
+            <strong>提前規劃弱電布線（網路、電視、監視）</strong><br>
+            <span style="font-size:12px; color:var(--color-stone-400);">每個房間的網路埠、電視訊號線、監視器管路在裝潢時一起配好，日後無線覆蓋不佳時有線備援，不需要走明線。</span>
+          </div>
+        </li>
+        <li class="checklist-item ok">
+          <span class="check-icon">✓</span>
+          <div>
+            <strong>挑選高品質五金（鉸鍊、滑軌）</strong><br>
+            <span style="font-size:12px; color:var(--color-stone-400);">系統櫃本身便宜，五金是使用壽命的關鍵。Blum 品牌鉸鍊比雜牌貴 2 倍，但壽命是 3 倍以上，值得升級。</span>
+          </div>
+        </li>
+        <li class="checklist-item ok">
+          <span class="check-icon">✓</span>
+          <div>
+            <strong>全屋鋪設暖色系主調，再用軟裝點綴</strong><br>
+            <span style="font-size:12px; color:var(--color-stone-400);">硬裝保守（米白、淺灰、原木色），軟裝（窗簾、抱枕、地毯）大膽配色。軟裝可以隨季節、心情更換，硬裝不行。</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- CH13 -->
+    <section class="slide" id="s-ch13">
+      <div class="chapter-badge">CH13</div>
+      <div class="slide-title">裝潢 Checklist 總表</div>
+      <div class="slide-desc">按空間彙整所有章節重點，用於裝潢規劃時逐項確認。</div>
+
+      <div class="section-divider">玄關</div>
+      <table>
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>建議</th>
+            <th>來源</th>
+            <th>優先級</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-must">
+            <td>一日衣櫃（次淨衣區）</td>
+            <td>玄關設計 30cm 深掛衣區，解決外套包包亂放問題</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-must">
+            <td>懸浮鞋櫃 + 感應燈</td>
+            <td>底部懸空 20cm，裝 LED 燈條，易清潔視覺輕盈</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-bonus">
+            <td>下沉落塵區</td>
+            <td>入門區下沉 1-2cm，鋪防塵地毯隔絕外部灰塵</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-bonus">加分</span></td>
+          </tr>
+          <tr class="row-bonus">
+            <td>穿鞋椅 + 連身鏡</td>
+            <td>坐著穿鞋，出門前全身確認</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-bonus">加分</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-divider">客廳</div>
+      <table>
+        <thead>
+          <tr><th>項目</th><th>建議</th><th>來源</th><th>優先級</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row-must">
+            <td>電視牆預埋線路</td>
+            <td>HDMI、電源、網路管路全部施工時埋好</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-must">
+            <td>6:3:1 配色比例</td>
+            <td>主調60%（中性色）+ 輔助30% + 點綴10%</td>
+            <td><span class="mine-tag fiveninone">591</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-must">
+            <td>照明分層（3000-4000K）</td>
+            <td>主燈＋輔燈＋氣氛燈，避免單一白光 6000K</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-avoid">
+            <td>造型天花板</td>
+            <td>先做平釘走管線，保留高度感，節省 10-20 萬</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-avoid">避開</span></td>
+          </tr>
+          <tr class="row-avoid">
+            <td>全屋做滿系統櫃</td>
+            <td>入住前先觀察收納需求，再分批補做</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-avoid">避開</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-divider">廚房</div>
+      <table>
+        <thead>
+          <tr><th>項目</th><th>建議</th><th>來源</th><th>優先級</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row-must">
+            <td>玻璃拉門半開放式</td>
+            <td>炒菜時關門隔油煙，平時拉開保持通透</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-must">
+            <td>大單槽 + 台下盆</td>
+            <td>60cm+ 單槽，台下盆安裝便於清潔</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-must">
+            <td>近吸式油煙機</td>
+            <td>靠近爐具吸力更強，外觀更輕巧</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-avoid">
+            <td>黑色石英石水槽</td>
+            <td>水垢明顯，台灣水質硬，改選砂岩色矽鋼石</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-avoid">避開</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-divider">浴室</div>
+      <table>
+        <thead>
+          <tr><th>項目</th><th>建議</th><th>來源</th><th>優先級</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row-must">
+            <td>防水 24h 蓄水測試</td>
+            <td>防水完成後蓄水確認，不測必後悔</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-must">
+            <td>洩水坡度確認</td>
+            <td>施工時用水平儀驗 1-2% 坡度朝排水孔</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-must">
+            <td>浴室櫃懸浮安裝</td>
+            <td>距地板 20cm+ 避免底部發霉積水</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-avoid">
+            <td>亮面白色磁磚</td>
+            <td>改用止滑係數 R9 的霧面灰/米白磁磚</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-avoid">避開</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-divider">收納 / 全屋</div>
+      <table>
+        <thead>
+          <tr><th>項目</th><th>建議</th><th>來源</th><th>優先級</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row-must">
+            <td>儲藏間（大型雜物）</td>
+            <td>0.5-1 坪收納行李箱、電風扇、除濕機</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-must">
+            <td>就近收納原則</td>
+            <td>東西在哪用就收在哪，取用歸位才能持久</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-must">必做</span></td>
+          </tr>
+          <tr class="row-bonus">
+            <td>角鋼架儲藏間</td>
+            <td>一組約 NT$2,000，比系統櫃省 10 倍</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-bonus">加分</span></td>
+          </tr>
+          <tr class="row-avoid">
+            <td>木格柵裝飾</td>
+            <td>積灰嚴重，清潔成本高，避免在主動線區使用</td>
+            <td><span class="mine-tag shan">姍姍</span></td>
+            <td><span class="priority priority-avoid">避開</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-divider">DIY 巧思（木梓藍）</div>
+      <table>
+        <thead>
+          <tr><th>項目</th><th>建議</th><th>來源</th><th>優先級</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row-bonus">
+            <td>PC 板磁吸隱形門</td>
+            <td>NT$300-600，透明感強，全可逆</td>
+            <td><span class="mine-tag muzi">木梓藍</span></td>
+            <td><span class="priority priority-bonus">加分</span></td>
+          </tr>
+          <tr class="row-bonus">
+            <td>冷櫃拉簾防塵</td>
+            <td>NT$200-500，清潔週期拉長</td>
+            <td><span class="mine-tag muzi">木梓藍</span></td>
+            <td><span class="priority priority-bonus">加分</span></td>
+          </tr>
+          <tr class="row-bonus">
+            <td>電腦風扇浴室排濕</td>
+            <td>NT$100-300，靜音省電</td>
+            <td><span class="mine-tag muzi">木梓藍</span></td>
+            <td><span class="priority priority-bonus">加分</span></td>
+          </tr>
+          <tr class="row-bonus">
+            <td>米桶寵物飼料站</td>
+            <td>NT$200-400，定量密封防潮</td>
+            <td><span class="mine-tag muzi">木梓藍</span></td>
+            <td><span class="priority priority-bonus">加分</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// ── BUILD TOC ──
+function buildTOC() {
+  const slides = document.querySelectorAll('.slide[id]');
+  const tocList = document.getElementById('tocList');
+  const titles = {
+    'cover':  '封面',
+    'ch1':    'CH1 裝潢前心法',
+    'ch2':    'CH2 預算規劃',
+    'ch3':    'CH3 裝潢避坑地雷',
+    'ch4':    'CH4 玄關',
+    'ch5':    'CH5 客廳',
+    'ch6':    'CH6 廚房',
+    'ch7':    'CH7 浴室',
+    'ch8':    'CH8 臥室',
+    'ch9':    'CH9 收納策略',
+    'ch10':   'CH10 小宅家具',
+    'ch11':   'CH11 DIY 巧思',
+    'ch12':   'CH12 後悔清單',
+    'ch13':   'CH13 Checklist',
+  };
+  let idx = 0;
+  slides.forEach(slide => {
+    const id = slide.id.replace('s-', '');
+    const label = titles[id] || id;
+    const li = document.createElement('li');
+    li.className = 'toc-item';
+    li.dataset.id = slide.id;
+    li.innerHTML = `<a href="#${slide.id}" class="toc-link"><span class="toc-number">${(idx+1).toString().padStart(2,'0')}</span>${label}</a>`;
+    tocList.appendChild(li);
+    idx++;
+  });
+}
+
+// ── SCROLL SPY ──
+function setupScrollSpy() {
+  const slides = document.querySelectorAll('.slide[id]');
+  const links = document.querySelectorAll('.toc-link');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const target = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+        if (target) target.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+  slides.forEach(s => obs.observe(s));
+}
+
+// ── SCROLL REVEAL ──
+function setupScrollReveal() {
+  const slides = document.querySelectorAll('.slide');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  slides.forEach(s => obs.observe(s));
+}
+
+// ── PROGRESS ──
+function setupProgress() {
+  const fill = document.getElementById('progressFill');
+  const text = document.getElementById('progressText');
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop || document.body.scrollTop;
+    const total = doc.scrollHeight - doc.clientHeight;
+    const pct = total > 0 ? Math.round((scrolled / total) * 100) : 0;
+    fill.style.width = pct + '%';
+    text.textContent = pct + '%';
+  });
+}
+
+// ── MOBILE TOC ──
+function setupMobileTOC() {
+  const toggle = document.getElementById('tocToggle');
+  const sidebar = document.getElementById('tocSidebar');
+  toggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+  });
+  sidebar.querySelectorAll('.toc-link').forEach(link => {
+    link.addEventListener('click', () => sidebar.classList.remove('open'));
+  });
+  document.addEventListener('click', (e) => {
+    if (!sidebar.contains(e.target) && e.target !== toggle) {
+      sidebar.classList.remove('open');
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  buildTOC();
+  setupScrollSpy();
+  setupScrollReveal();
+  setupProgress();
+  setupMobileTOC();
+});
+</script>
+</body>
+</html>
