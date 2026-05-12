@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日報 2026-05-13</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --accent: #3b82f6;
+    --accent-light: #eff6ff;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --orange: #f59e0b;
+    --orange-light: #fffbeb;
+    --red: #ef4444;
+    --red-light: #fef2f2;
+    --purple: #8b5cf6;
+    --purple-light: #f5f3ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+    background: var(--bg);
+    color: var(--t1);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px; }
+
+  /* Header */
+  .report-header {
+    border-bottom: 2px solid var(--s2);
+    padding-bottom: 20px;
+    margin-bottom: 32px;
+  }
+  .report-header h1 { font-size: 22px; font-weight: 700; color: var(--t1); }
+  .report-header .meta { font-size: 13px; color: var(--t2); margin-top: 4px; }
+
+  /* Section */
+  .section { margin-bottom: 40px; }
+  .section-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--t1);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--s2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .num {
+    background: var(--t1);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  /* Stats Cards */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .stat-card {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-card .val { font-size: 28px; font-weight: 800; color: var(--t1); }
+  .stat-card .label { font-size: 12px; color: var(--t2); margin-top: 4px; }
+  .stat-card.highlight { background: var(--accent-light); border-color: #bfdbfe; }
+  .stat-card.highlight .val { color: var(--accent); }
+
+  /* Alert banner */
+  .alert-banner {
+    background: var(--orange-light);
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #92400e;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .alert-banner .icon { flex-shrink: 0; font-size: 16px; }
+
+  /* Story cards */
+  .story-list { display: flex; flex-direction: column; gap: 10px; }
+  .story-card {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .story-card .rank {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--s2);
+    min-width: 28px;
+    text-align: center;
+    padding-top: 1px;
+  }
+  .story-card.top1 .rank { color: #f59e0b; }
+  .story-card.top2 .rank { color: #94a3b8; }
+  .story-card.top3 .rank { color: #b45309; }
+  .story-card .content { flex: 1; }
+  .story-card .headline { font-size: 14px; font-weight: 600; color: var(--t1); margin-bottom: 4px; }
+  .story-card .summary { font-size: 13px; color: var(--t2); line-height: 1.5; }
+  .story-card .tags { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* Tag system */
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .tag-tech { background: var(--accent-light); color: #1d4ed8; }
+  .tag-app { background: var(--purple-light); color: #6d28d9; }
+  .tag-news { background: var(--red-light); color: #b91c1c; }
+  .tag-new { background: var(--green-light); color: #059669; }
+  .tag-hot { background: #fff7ed; color: #c2410c; }
+  .tag-warn { background: var(--orange-light); color: #b45309; }
+  .tag-source { background: var(--s2); color: var(--t2); }
+
+  /* Source Digest */
+  .digest-group { margin-bottom: 20px; }
+  .digest-group-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--t2);
+    margin-bottom: 10px;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .digest-group-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--s2);
+  }
+  .digest-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    border: 1px solid transparent;
+    background: var(--s1);
+  }
+  .digest-item.has-new { background: var(--green-light); border-color: #bbf7d0; }
+  .digest-item.blocked { background: #f9fafb; opacity: 0.75; }
+  .digest-item .source-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t1);
+    min-width: 130px;
+    white-space: nowrap;
+  }
+  .digest-item .digest-text { font-size: 13px; color: var(--t2); flex: 1; }
+  .digest-item.has-new .digest-text { color: #065f46; }
+  .new-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .block-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  /* Analysis */
+  .trend-block { margin-bottom: 20px; }
+  .trend-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--t1);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .trend-title .badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+  .trend-text { font-size: 14px; color: var(--t2); line-height: 1.65; }
+
+  .action-list { margin-top: 16px; }
+  .action-item {
+    background: var(--s1);
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: var(--t1);
+  }
+  .action-item strong { color: var(--accent); }
+
+  /* Glossary */
+  .gloss-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .gloss-item {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .gloss-item .term { font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 4px; }
+  .gloss-item .category { font-size: 11px; color: var(--t2); margin-bottom: 6px; }
+  .gloss-item .def { font-size: 13px; color: var(--t2); line-height: 1.55; }
+
+  /* Blocked notice */
+  .blocked-note {
+    background: #f8fafc;
+    border: 1px dashed var(--s2);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--t2);
+    margin-top: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .gloss-grid { grid-template-columns: 1fr; }
+    .digest-item .source-name { min-width: 100px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="report-header">
+    <h1>AI 情報日報</h1>
+    <div class="meta">2026-05-13（星期三）&nbsp;·&nbsp;涵蓋 tech / app / news 三大類 14 個來源&nbsp;·&nbsp;自動爬取彙整</div>
+  </div>
+
+  <!-- Section 1: Overview -->
+  <div class="section">
+    <div class="section-title"><span class="num">1</span>概覽</div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="val">14</div>
+        <div class="label">來源已爬取</div>
+      </div>
+      <div class="stat-card highlight">
+        <div class="val">14</div>
+        <div class="label">新增項目</div>
+      </div>
+      <div class="stat-card">
+        <div class="val">9</div>
+        <div class="label">TechCrunch 新文</div>
+      </div>
+      <div class="stat-card">
+        <div class="val">3</div>
+        <div class="label">封鎖/付費牆來源</div>
+      </div>
+    </div>
+
+    <div class="alert-banner">
+      <span class="icon">⚡</span>
+      <span>
+        <strong>今日重點事件：</strong>
+        Google Android Show AI 全面發布（代理 AI + Vibe-coded Widgets + Gemini Dictation）、馬斯克 OpenAI 法庭揭露子女繼承計畫、Anthropic 警告二級市場股份交易並進軍法律服務市場、<strong>LangChain Interrupt 2026 大會今日開幕</strong>（舊金山）。
+      </span>
+    </div>
+  </div>
+
+  <!-- Section 2: Top Stories -->
+  <div class="section">
+    <div class="section-title"><span class="num">2</span>Top Stories 精選</div>
+
+    <div class="story-list">
+
+      <div class="story-card top1">
+        <div class="rank">1</div>
+        <div class="content">
+          <div class="headline">Google Android Show：代理 AI + Vibe-coded Widgets + Gemini Gboard Dictation 同日全面發布</div>
+          <div class="summary">Google 在 Android Show 一口氣推出三項重大 AI 功能：Android 代理 AI（可跨 App 執行多步任務）、「Create My Widget」讓用戶用自然語言無程式碼生成桌面小工具、Gboard 加入 Gemini 驅動語音聽寫。這是 Google 在行動端最大規模的 AI 整合宣示，AI 即將成為 Android 基礎設施而非附加功能。</div>
+          <div class="tags">
+            <span class="tag tag-news">TechCrunch</span>
+            <span class="tag tag-new">🆕 今日</span>
+            <span class="tag tag-hot">頭條</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card top2">
+        <div class="rank">2</div>
+        <div class="content">
+          <div class="headline">馬斯克曾考慮將 OpenAI 控制權傳給子女 — Altman 法庭作證揭露</div>
+          <div class="summary">Sam Altman 在法庭作證指出，馬斯克早期曾構想以 OpenAI 作為家族傳承工具，將控制權傳給子女。此揭露深刻呈現 OpenAI 早期創辦人之間的控制權爭奪，也為馬斯克後來創辦 xAI 的動機提供新視角。</div>
+          <div class="tags">
+            <span class="tag tag-news">TechCrunch</span>
+            <span class="tag tag-new">🆕 今日</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card top3">
+        <div class="rank">3</div>
+        <div class="content">
+          <div class="headline">Mira Murati 的 TML（Thinking Machine Labs）顛覆人機協作模式</div>
+          <div class="summary">The Rundown 今日頭條聚焦 OpenAI 前 CTO Mira Murati 創辦的 Thinking Machine Labs，稱其產品對人機協作方式帶來根本性衝擊。繼 TML 融資消息後，外界對其產品方向的期待持續升溫，被視為下一代 AI 工作平台最具潛力的新玩家。</div>
+          <div class="tags">
+            <span class="tag tag-app">The Rundown</span>
+            <span class="tag tag-new">🆕 今日</span>
+            <span class="tag tag-hot">熱門</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="rank">4</div>
+        <div class="content">
+          <div class="headline">Anthropic 雙管齊下：警告二級市場股份交易 + 進軍 AI 法律服務</div>
+          <div class="summary">Anthropic 今日兩件大事：一是正式警告投資人避免透過二級市場平台交易其股份（IPO 前股權管控訊號，估值 $500 億新融資洽談中）；二是 TechCrunch 報導 Anthropic 積極進軍 AI 法律服務市場，與多家法律科技公司展開合作。</div>
+          <div class="tags">
+            <span class="tag tag-news">TechCrunch</span>
+            <span class="tag tag-new">🆕 今日</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="rank">5</div>
+        <div class="content">
+          <div class="headline">Google + SpaceX 洽談軌道數據中心 — 太空基礎設施競賽升溫</div>
+          <div class="summary">繼昨日 Cowboy Space 籌資 $2.75 億後，今日 TechCrunch 又報導 Google 與 SpaceX 正洽談將資料中心送入地球軌道。兩件消息連發，顯示太空冷卻數據中心從科幻概念正快速走向商業現實，AI 算力基礎設施爭奪已延伸至太空。</div>
+          <div class="tags">
+            <span class="tag tag-news">TechCrunch</span>
+            <span class="tag tag-new">🆕 今日</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="rank">6</div>
+        <div class="content">
+          <div class="headline">LlamaIndex 推出 LiteParser Server：企業可自架文件解析後端</div>
+          <div class="summary">LlamaIndex 發布 LiteParser Server，一個可自架的文件解析 HTTP 後端，支援 PDF、Word、Excel 等格式並保留空間佈局結構。企業可在本地或私有雲部署，無需依賴 LlamaParse 雲端服務——對資料隱私需求高的金融、法律、醫療產業尤具吸引力。</div>
+          <div class="tags">
+            <span class="tag tag-tech">LlamaIndex</span>
+            <span class="tag tag-new">🆕 昨日</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="rank">7</div>
+        <div class="content">
+          <div class="headline">LangChain Interrupt 2026 大會今日開幕（舊金山）</div>
+          <div class="summary">LangChain 年度 AI 代理開發峰會 Interrupt 2026 今日（5/13）在舊金山正式開幕，為期兩天。這是代理 AI 領域最重要的技術峰會，預計將有大量新框架功能、企業案例與架構方案發布。LangChain 部落格目前無新文，但峰會消息將在接下來 24–48 小時密集釋出。</div>
+          <div class="tags">
+            <span class="tag tag-tech">LangChain</span>
+            <span class="tag tag-hot">今日開幕</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="rank">8</div>
+        <div class="content">
+          <div class="headline">「第一個會打斷你的 AI」— Proactive AI 進入主流討論</div>
+          <div class="summary">Superhuman AI 今日頭條討論「主動打斷用戶」的 AI 新形態——AI 不再被動等待指令，而是在適當時機主動介入提醒或建議。這標誌著 AI 互動典範從「on-demand 工具」向「proactive agent 夥伴」的轉移，對 UI/UX 設計與用戶注意力管理帶來全新挑戰。</div>
+          <div class="tags">
+            <span class="tag tag-app">Superhuman</span>
+            <span class="tag tag-new">🆕 今日</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 3: Source Digest -->
+  <div class="section">
+    <div class="section-title"><span class="num">3</span>來源摘要</div>
+
+    <!-- Tech Group -->
+    <div class="digest-group">
+      <div class="digest-group-title"><span class="tag tag-tech">TECH 技術框架</span></div>
+      <div class="digest-item">
+        <div class="block-dot"></div>
+        <div class="source-name">langchain-blog</div>
+        <div class="digest-text">無新文章；部落格 URL 已永久跳轉 www.langchain.com/blog/。Interrupt 2026 峰會今日開幕（5/13-14，舊金山），預計接下來 48 小時將有大量代理 AI 新功能釋出。</div>
+      </div>
+      <div class="digest-item">
+        <div class="block-dot"></div>
+        <div class="source-name">anthropic-news</div>
+        <div class="digest-text">無新官方文章；但外部動態豐富——TechCrunch 報導 Anthropic 警告二級市場股份、進軍法律服務，SpaceX 算力合作持續發酵。官網最新仍為 5/6「更高使用上限 + SpaceX 算力」。</div>
+      </div>
+      <div class="digest-item has-new">
+        <div class="new-dot"></div>
+        <div class="source-name">llamaindex-blog</div>
+        <div class="digest-text">🆕 發布 LiteParser Server（可自架文件解析後端，支援多格式、保留空間佈局），擴大私有化部署選項，對高隱私需求企業意義重大。</div>
+      </div>
+      <div class="digest-item">
+        <div class="block-dot"></div>
+        <div class="source-name">crewai-blog</div>
+        <div class="digest-text">無新文章；本週最新仍為 5/5「Discovery 引擎」（自動識別企業可自動化環節），持續深耕企業工作流自動化。</div>
+      </div>
+    </div>
+
+    <!-- App Group -->
+    <div class="digest-group">
+      <div class="digest-group-title"><span class="tag tag-app">APP 應用產品</span></div>
+      <div class="digest-item blocked">
+        <div class="block-dot"></div>
+        <div class="source-name">theresanaiforthat</div>
+        <div class="digest-text">403 機器人防護持續封鎖，資料沿用 5/6；平台工具數量超 47,941 款，AI 工具市場持續膨脹。</div>
+      </div>
+      <div class="digest-item blocked">
+        <div class="block-dot"></div>
+        <div class="source-name">bensbites</div>
+        <div class="digest-text">付費牆封鎖，僅確認 163,000+ 訂閱者；專注 AI 投資/創業視角，週二和週四發行。</div>
+      </div>
+      <div class="digest-item has-new">
+        <div class="new-dot"></div>
+        <div class="source-name">therundown-ai</div>
+        <div class="digest-text">🆕 Mira Murati 的 Thinking Machine Labs（TML）被列為今日頭條「顛覆人機協作模式」，OpenAI 前 CTO 新創引爆業界關注。</div>
+      </div>
+      <div class="digest-item has-new">
+        <div class="new-dot"></div>
+        <div class="source-name">producthunt-ai</div>
+        <div class="digest-text">🆕 Claude Code（422 評論）首次登榜；Supabase 最大漲幅（+4）；AI Agents 和 Vibe Coding 持續蟬聯熱門分類前兩位。</div>
+      </div>
+      <div class="digest-item has-new">
+        <div class="new-dot"></div>
+        <div class="source-name">superhuman-ai</div>
+        <div class="digest-text">🆕「The first AI that interrupts you」——Proactive AI 主動打斷用戶的新互動典範進入主流討論，附 ChatGPT/Claude 數據視覺化教學。</div>
+      </div>
+      <div class="digest-item blocked">
+        <div class="block-dot"></div>
+        <div class="source-name">mattshumer</div>
+        <div class="digest-text">連續第 33 日無新文章；Substack 公開頁面無內容，建議改為每週一次爬取或替換為其他 AI 洞察來源。</div>
+      </div>
+    </div>
+
+    <!-- News Group -->
+    <div class="digest-group">
+      <div class="digest-group-title"><span class="tag tag-news">NEWS 媒體新聞</span></div>
+      <div class="digest-item blocked">
+        <div class="block-dot"></div>
+        <div class="source-name">theverge-ai</div>
+        <div class="digest-text">存取持續封鎖，沿用 5/4 資料（Microsoft-OpenAI AGI 協議終止、Gen Z 對 AI 反感調查、Anthropic 拒簽五角大廈軍事 AI 協議）。</div>
+      </div>
+      <div class="digest-item blocked">
+        <div class="block-dot"></div>
+        <div class="source-name">mit-tech-review-ai</div>
+        <div class="digest-text">付費牆封鎖，沿用 5/4 資料（各州 AI 立法競賽、Google Vertex AI 更名為 Gemini Enterprise、企業 AI 資料就緒度危機 9%）。</div>
+      </div>
+      <div class="digest-item has-new">
+        <div class="new-dot"></div>
+        <div class="source-name">techcrunch-ai</div>
+        <div class="digest-text">🆕 今日最多新文（9 篇）：Android Show AI 全面發布、馬斯克 OpenAI 法庭揭露、Anthropic 二級市場警告 + 法律服務進軍、Google+SpaceX 軌道數據中心、Threads 測試 Meta AI 整合。</div>
+      </div>
+      <div class="digest-item blocked">
+        <div class="block-dot"></div>
+        <div class="source-name">arstechnica-ai</div>
+        <div class="digest-text">存取持續封鎖，沿用 5/4 資料（Ars Technica 本身 AI 政策、Mythos 網路安全分析、Microsoft $1,900 億資本支出、代理 AI 安全標準缺口）。</div>
+      </div>
+    </div>
+
+    <div class="blocked-note">
+      ⚠️ 持續封鎖說明：theverge-ai / arstechnica-ai 被伺服器封鎖，mit-tech-review-ai / bensbites / theresanaiforthat 為付費牆。建議改用各自的 RSS feed 監控。
+    </div>
+  </div>
+
+  <!-- Section 4: Analysis -->
+  <div class="section">
+    <div class="section-title"><span class="num">4</span>產業分析 &amp; 行動建議</div>
+
+    <div class="trend-block">
+      <div class="trend-title"><span class="badge">趨勢 1</span>Google 行動 AI：從附加功能升格為基礎設施</div>
+      <div class="trend-text">
+        今日 Google Android Show 是本週最大的產業事件。代理 AI 直接整合進 Android OS、無程式碼 Widget 生成、Gboard Gemini 語音聽寫——三項功能同日發布，意味著 Google 不再把 AI 當作應用層的體驗加值，而是要把它鋪進每一個 Android 用戶的日常觸點。對競爭對手而言，這也意味著「行動端 AI 助理」市場的入場門票正在急速提高，語音輸入新創（如 Wispr Flow）面臨直接威脅。
+      </div>
+    </div>
+
+    <div class="trend-block">
+      <div class="trend-title"><span class="badge">趨勢 2</span>Anthropic 的多元商業化加速：從研究實驗室到行業巨頭</div>
+      <div class="trend-text">
+        今日 Anthropic 有三條新聞線索同時進行：二級市場警告（IPO 前股權管控，$500 億融資洽談中）、進軍 AI 法律服務市場、以及持續發酵的 SpaceX 算力合作。這三條線索拼在一起，勾勒出 Anthropic 正從「AI 安全研究機構」向「多行業 AI 服務平台」快速轉型的圖景。對開發者來說，Anthropic 的商業模式擴張可能帶來更豐富的行業特化 API，但也增加了政策不確定性。
+      </div>
+    </div>
+
+    <div class="trend-block">
+      <div class="trend-title"><span class="badge">趨勢 3</span>算力戰場延伸至太空：從海洋到軌道</div>
+      <div class="trend-text">
+        不到 24 小時內，兩條太空數據中心新聞接連出現：昨日 Cowboy Space $2.75 億融資（解決發射載具瓶頸）、今日 Google + SpaceX 洽談軌道部署。幾週前還有「AI 數據中心走向海洋」的報導。這個趨勢說明：地球上的冷卻能源與土地資源已成為 AI 算力擴張的硬性瓶頸，AI 產業正在向邊疆地帶尋找新解法。太空基礎設施雖仍在早期，但已從概念性討論進入融資與商業洽談階段。
+      </div>
+    </div>
+
+    <div class="action-list">
+      <div class="action-item">
+        <strong>行動 1</strong>　密切追蹤 Interrupt 2026 大會內容（今明兩天）——LangChain 年度峰會將釋出大量 Agent 框架新功能與企業案例，是掌握代理 AI 框架演進方向的最佳時機。建議明日爬取 langchain-blog 或直接追蹤 #interrupt2026 話題。
+      </div>
+      <div class="action-item">
+        <strong>行動 2</strong>　研究 Mira Murati 的 TML 產品方向——OpenAI 前 CTO 的新創被主流 AI 媒體稱為「顛覆人機協作」，若其產品走向 AI 協作平台或 Agent IDE，對現有工作流工具是重要的競爭情報。可搜尋 Thinking Machine Labs 官網或近期技術訪談深入了解。
+      </div>
+      <div class="action-item">
+        <strong>行動 3</strong>　評估 LiteParser Server 對私有化文件處理的應用潛力——若工作中涉及 PDF/Word 文件的 AI 解析（法律、財務、醫療等場景），LlamaIndex 的自架文件解析後端可能是較 SaaS 服務更符合資料安全要求的替代方案，值得測試評估。
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Glossary -->
+  <div class="section">
+    <div class="section-title"><span class="num">5</span>今日新詞彙</div>
+
+    <div class="gloss-grid">
+
+      <div class="gloss-item">
+        <div class="term">TML / Thinking Machine Labs</div>
+        <div class="category"><span class="tag tag-source">公司</span></div>
+        <div class="def">OpenAI 前技術長 Mira Murati（任期 2018–2023）離職後創辦的 AI 新創公司，專注於打造下一代人機協作工作平台，被視為最具影響力的 OpenAI 前成員創業計畫之一。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="term">LiteParser Server</div>
+        <div class="category"><span class="tag tag-source">工具</span></div>
+        <div class="def">LlamaIndex 推出的可自架文件解析 HTTP 後端服務，支援 PDF、Word、Excel 等格式，並保留文件的空間佈局結構。企業可部署於本地或私有雲，無需將敏感文件傳送至外部雲端。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="term">Vibe-coded Widgets</div>
+        <div class="category"><span class="tag tag-source">功能</span></div>
+        <div class="def">Google Android 新功能「Create My Widget」所採用的概念，用戶用自然語言描述（例如「幫我做一個顯示天氣和行事曆的小工具」）即可自動生成桌面 Widget，無需任何程式設計知識。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="term">Gemini Dictation（Gboard）</div>
+        <div class="category"><span class="tag tag-source">功能</span></div>
+        <div class="def">Google 在 Android 鍵盤應用 Gboard 整合的 Gemini 驅動智慧語音聽寫功能，具備上下文感知轉錄能力，可自動修正語法並適應不同語境，對語音輸入 AI 新創構成直接競爭。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="term">Interrupt 2026</div>
+        <div class="category"><span class="tag tag-source">活動</span></div>
+        <div class="def">LangChain 主辦的年度 AI 代理開發者峰會，2026 年於 5 月 13–14 日在美國舊金山舉辦，是 Agent 框架、LangGraph、LangSmith 等技術的重要發布舞台，也是代理 AI 領域最重要的年度技術集會。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="term">Proactive AI</div>
+        <div class="category"><span class="tag tag-source">概念</span></div>
+        <div class="def">「主動型 AI」的新互動典範——AI 不再被動等待用戶指令，而是根據上下文主動在適當時機介入提醒、建議或執行動作。相對於傳統「on-demand 工具」模式，Proactive AI 更接近「AI 夥伴」的定位，對使用者注意力與 UI 設計帶來全新挑戰。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="border-top: 1px solid var(--s2); padding-top: 16px; font-size: 12px; color: var(--t2); text-align: center;">
+    AI 情報日報 · 2026-05-13 · 自動爬取彙整 · 14 個來源 (tech×4 / app×6 / news×4)
+  </div>
+
+</div>
+</body>
+</html>
