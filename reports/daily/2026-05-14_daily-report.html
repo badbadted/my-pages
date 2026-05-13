@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日報 2026-05-14</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --s1: #f8fafc;
+  --s2: #e2e8f0;
+  --t1: #1e293b;
+  --t2: #64748b;
+  --t3: #94a3b8;
+  --accent: #3b82f6;
+  --accent-light: #eff6ff;
+  --green: #059669;
+  --green-light: #ecfdf5;
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --purple: #7c3aed;
+  --purple-light: #f5f3ff;
+  --amber: #d97706;
+  --amber-light: #fffbeb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--t1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Layout */
+.page-wrap { max-width: 900px; margin: 0 auto; padding: 32px 24px 64px; }
+
+/* Header */
+.report-header {
+  border-bottom: 2px solid var(--s2);
+  padding-bottom: 20px;
+  margin-bottom: 36px;
+}
+.report-header .date-badge {
+  display: inline-block;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+.report-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--t1);
+  margin-bottom: 6px;
+}
+.report-header .subtitle {
+  color: var(--t2);
+  font-size: 14px;
+}
+
+/* Section */
+.section { margin-bottom: 48px; }
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--t1);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--s2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title .section-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--accent);
+  color: white;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Stats cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.stat-card {
+  background: var(--s1);
+  border: 1px solid var(--s2);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.stat-card .stat-num {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--t1);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-card .stat-num.accent { color: var(--accent); }
+.stat-card .stat-num.green { color: var(--green); }
+.stat-card .stat-num.red { color: var(--red); }
+.stat-card .stat-num.amber { color: var(--amber); }
+.stat-card .stat-label {
+  font-size: 12px;
+  color: var(--t2);
+  font-weight: 500;
+}
+
+/* Top story cards */
+.story-list { display: flex; flex-direction: column; gap: 12px; }
+.story-card {
+  background: var(--s1);
+  border: 1px solid var(--s2);
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.story-rank {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--t3);
+  min-width: 24px;
+  padding-top: 1px;
+}
+.story-body { flex: 1; }
+.story-headline {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--t1);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.story-summary {
+  font-size: 13px;
+  color: var(--t2);
+  line-height: 1.5;
+}
+.story-meta {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+}
+.tag.tech { background: var(--purple-light); color: var(--purple); }
+.tag.app { background: var(--green-light); color: var(--green); }
+.tag.news { background: var(--red-light); color: var(--red); }
+.tag.new { background: var(--accent-light); color: var(--accent); }
+.tag.funding { background: var(--amber-light); color: var(--amber); }
+
+/* Source digest */
+.digest-group { margin-bottom: 20px; }
+.digest-group-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--t3);
+  margin-bottom: 8px;
+}
+.digest-list { display: flex; flex-direction: column; gap: 6px; }
+.digest-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--s1);
+  border: 1px solid var(--s2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+}
+.digest-row .source-name {
+  font-weight: 600;
+  color: var(--t1);
+  min-width: 140px;
+  flex-shrink: 0;
+}
+.digest-row .source-update {
+  color: var(--t2);
+  flex: 1;
+}
+.digest-row .source-update .new-marker {
+  color: var(--accent);
+  font-weight: 600;
+}
+.digest-row .source-update .blocked-marker {
+  color: var(--t3);
+}
+
+/* Analysis */
+.analysis-content {
+  background: var(--s1);
+  border: 1px solid var(--s2);
+  border-radius: 10px;
+  padding: 20px 24px;
+}
+.analysis-content p {
+  font-size: 14.5px;
+  color: var(--t1);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+.analysis-content p:last-child { margin-bottom: 0; }
+.analysis-content strong { color: var(--t1); }
+.actions-list {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--s2);
+}
+.actions-list h4 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--t2);
+  margin-bottom: 10px;
+}
+.action-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--t1);
+}
+.action-item .action-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  color: white;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Glossary */
+.glossary-list { display: flex; flex-direction: column; gap: 8px; }
+.glossary-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--s1);
+  border: 1px solid var(--s2);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+.glossary-term {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--t1);
+  min-width: 160px;
+  flex-shrink: 0;
+}
+.glossary-def {
+  font-size: 13.5px;
+  color: var(--t2);
+  flex: 1;
+}
+
+/* Footer */
+.report-footer {
+  margin-top: 48px;
+  padding-top: 16px;
+  border-top: 1px solid var(--s2);
+  font-size: 12px;
+  color: var(--t3);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- Header -->
+  <div class="report-header">
+    <div class="date-badge">2026-05-14 · AI 每日情報</div>
+    <h1>AI 日報 — 2026 年 5 月 14 日</h1>
+    <p class="subtitle">涵蓋 tech × 4 ／ app × 6 ／ news × 4，共 14 個來源 · 自動爬取 + 差異比對</p>
+  </div>
+
+  <!-- Section 1: Overview -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-num">1</span>
+      總覽 Overview
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num accent">14</div>
+        <div class="stat-label">來源已爬取</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num green">16</div>
+        <div class="stat-label">新增項目</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num amber">5</div>
+        <div class="stat-label">主要變化來源</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num red">4</div>
+        <div class="stat-label">封鎖／付費牆</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Top Stories -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-num">2</span>
+      今日重點 Top Stories
+    </div>
+    <div class="story-list">
+
+      <div class="story-card">
+        <div class="story-rank">1</div>
+        <div class="story-body">
+          <div class="story-headline">LangChain Interrupt 2026：單日爆發 7 項產品發布，LangSmith 升級為代理 OS</div>
+          <div class="story-summary">LangChain 在年度峰會 Interrupt 2026（5/13–14，舊金山）同日發布 LangSmith Engine、SmithDB、Context Hub、Sandboxes GA、Managed Deep Agents、Deep Agents v0.6、LLM Gateway，代理開發平台從觀測工具全面升級為完整的代理作業系統。</div>
+          <div class="story-meta">
+            <span class="tag tech">tech</span>
+            <span class="tag new">NEW ×7</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">2</div>
+        <div class="story-body">
+          <div class="story-headline">Anthropic 企業客戶數超越 OpenAI，同步推出 Claude for Small Business</div>
+          <div class="story-summary">Ramp 企業支付平台數據顯示 Anthropic 企業客戶數已正式超越 OpenAI，同日 Anthropic 推出 Claude for Small Business 版本，主動降低中小企業採用門檻——企業市場版圖重組訊號明確。</div>
+          <div class="story-meta">
+            <span class="tag tech">tech</span>
+            <span class="tag news">news</span>
+            <span class="tag new">NEW</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">3</div>
+        <div class="story-body">
+          <div class="story-headline">Android 正式進入 Gemini 智能時代：代理 AI、Vibe-coded 小工具、Gboard Dictation 同步上線</div>
+          <div class="story-summary">Google Android Show 宣告行動端 AI 全面整合：用戶可用自然語言「Vibe Code」生成個人化桌面小工具、Gboard 導入 Gemini 語音聽寫，行動裝置從工具進化為代理執行平台。</div>
+          <div class="story-meta">
+            <span class="tag app">app</span>
+            <span class="tag news">news</span>
+            <span class="tag new">NEW</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">4</div>
+        <div class="story-body">
+          <div class="story-headline">Googlebook 登場：Google 推出 Gemini 驅動的筆記型電腦</div>
+          <div class="story-summary">Google 正式發布搭載 Gemini AI 的筆記型電腦「Googlebook」，AI 從雲端服務進入本機硬體生態，Google 的 AI 設備佈局從手機延伸至個人電腦。</div>
+          <div class="story-meta">
+            <span class="tag app">app</span>
+            <span class="tag new">NEW</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">5</div>
+        <div class="story-body">
+          <div class="story-headline">AutoScientist：AI 開始參與自身的訓練改進迴路</div>
+          <div class="story-summary">Adaption 推出 AutoScientist，這套工具讓 AI 模型能自動設計並執行訓練實驗，縮短人工調參週期。這是「AI 輔助 AI 改進」從理念走向實際產品的重要里程碑。</div>
+          <div class="story-meta">
+            <span class="tag news">news</span>
+            <span class="tag new">NEW</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">6</div>
+        <div class="story-body">
+          <div class="story-headline">Origin Lab 籌資 $800 萬：遊戲資料授權給世界模型訓練</div>
+          <div class="story-summary">Origin Lab 完成 $800 萬融資，專門協助遊戲公司將遊戲資產與互動資料授權給 AI 訓練用途，瞄準「世界模型」所需的大規模模擬環境資料——遊戲→AI 訓練資料的新型數據經濟正式成形。</div>
+          <div class="story-meta">
+            <span class="tag news">news</span>
+            <span class="tag funding">融資 $8M</span>
+            <span class="tag new">NEW</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">7</div>
+        <div class="story-body">
+          <div class="story-headline">「Who trusts Sam Altman?」—— OpenAI 領導信任危機深度剖析</div>
+          <div class="story-summary">TechCrunch 深度報導分析 Altman 在商業夥伴、投資人、員工三方的信任基礎，結合馬斯克法庭作證揭露的「子女繼承控制權」計畫，OpenAI 治理結構的脆弱性再受檢視。</div>
+          <div class="story-meta">
+            <span class="tag news">news</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 3: Source Digest -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-num">3</span>
+      來源摘要 Source Digest
+    </div>
+
+    <div class="digest-group">
+      <div class="digest-group-label"><span class="tag tech" style="font-size:10px;">tech</span>&nbsp; 技術框架（4 來源）</div>
+      <div class="digest-list">
+        <div class="digest-row">
+          <span class="source-name">langchain-blog</span>
+          <span class="source-update"><span class="new-marker">🆕 7 篇新文</span> — Interrupt 2026 大會首日：LangSmith Engine、SmithDB、Context Hub、Sandboxes GA、Managed Deep Agents、Deep Agents v0.6、LLM Gateway 同日發布</span>
+        </div>
+        <div class="digest-row">
+          <span class="source-name">anthropic-news</span>
+          <span class="source-update"><span class="new-marker">🆕 1 篇新文</span> — Claude for Small Business 正式推出（2026-05-13），中小企業市場策略明確</span>
+        </div>
+        <div class="digest-row">
+          <span class="source-name">llamaindex-blog</span>
+          <span class="source-update">無新增 — 最新仍為 LiteParser Server（2026-05-12），可自架文件解析後端</span>
+        </div>
+        <div class="digest-row">
+          <span class="source-name">crewai-blog</span>
+          <span class="source-update">無新增 — 最新仍為 Discovery 引擎（2026-05-05），自動識別企業可自動化環節</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="digest-group">
+      <div class="digest-group-label"><span class="tag app" style="font-size:10px;">app</span>&nbsp; 應用工具（6 來源）</div>
+      <div class="digest-list">
+        <div class="digest-row">
+          <span class="source-name">therundown-ai</span>
+          <span class="source-update"><span class="new-marker">🆕 1 篇新文</span> — Android 進入 Gemini 智能時代（今日最新），代理 AI + Vibe 小工具 + Gboard Dictation</span>
+        </div>
+        <div class="digest-row">
+          <span class="source-name">superhuman-ai</span>
+          <span class="source-update"><span class="new-marker">🆕 1 篇新文</span> — Googlebook Gemini 筆電登場（今日），AI 硬體生態整合加速</span>
+        </div>
+        <div class="digest-row">
+          <span class="source-name">producthunt-ai</span>
+          <span class="source-update"><span class="new-marker">評論微增</span> — Claude +4（781）最大漲幅，可能受小企業版發布帶動；Cursor +2（843）</span>
+        </div>
+        <div class="digest-row">
+          <span class="source-name">theresanaiforthat</span>
+          <span class="source-update"><span class="blocked-marker">403 封鎖</span> — 機器人防護持續，沿用 05-06 資料，工具總數 47,941+</span>
+        </div>
+        <div class="digest-row">
+          <span class="source-name">bensbites</span>
+          <span class="source-update"><span class="blocked-marker">付費牆封鎖</span> — 無公開內容，訂閱者 163,000+ 持平</span>
+        </div>
+        <div class="digest-row">
+          <span class="source-name">mattshumer</span>
+          <span class="source-update"><span class="blocked-marker">第 34 日無更新</span> — Substack 仍無公開文章，建議降低爬取頻率至每週</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="digest-group">
+      <div class="digest-group-label"><span class="tag news" style="font-size:10px;">news</span>&nbsp; 科技媒體（4 來源）</div>
+      <div class="digest-list">
+        <div class="digest-row">
+          <span class="source-name">techcrunch-ai</span>
+          <span class="source-update"><span class="new-marker">🆕 6 篇新文</span> — Anthropic 企業客戶超 OpenAI、Sam Altman 信任危機、AutoScientist 自訓練 AI、Origin Lab $8M、Poppy proactive 助理</span>
+        </div>
+        <div class="digest-row">
+          <span class="source-name">theverge-ai</span>
+          <span class="source-update"><span class="blocked-marker">連線封鎖</span> — 沿用 05-04 舊資料：Microsoft–OpenAI AGI 協議終止、Gen Z 反感 AI</span>
+        </div>
+        <div class="digest-row">
+          <span class="source-name">mit-tech-review-ai</span>
+          <span class="source-update"><span class="blocked-marker">付費牆</span> — 沿用 05-04 資料：Connecticut AI 立法、Google Gemini Enterprise Agent Platform</span>
+        </div>
+        <div class="digest-row">
+          <span class="source-name">arstechnica-ai</span>
+          <span class="source-update"><span class="blocked-marker">連線封鎖</span> — 沿用 05-04 舊資料：Ars Technica 新 AI 政策、Microsoft $1,900 億資本支出</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Analysis -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-num">4</span>
+      趨勢分析 &amp; 行動建議
+    </div>
+    <div class="analysis-content">
+      <p><strong>代理開發平台走向「代理 OS」：</strong>LangChain 在 Interrupt 2026 的單日七連發，是代理框架成熟化的明確訊號。LangSmith 從可觀測性工具升級為包含資料層（SmithDB）、上下文管理（Context Hub）、安全沙箱（Sandboxes）、LLM 治理閘道（LLM Gateway）的完整平台，形態已接近「代理作業系統」。這對競爭對手（CrewAI、LlamaIndex）構成壓力——它們各自的優勢正在被 LangSmith 的廣度所稀釋，需要找出更清晰的差異化定位。</p>
+      <p><strong>Anthropic 企業版圖快速擴張：</strong>Claude for Small Business 的推出加上 Ramp 數據顯示企業客戶數超越 OpenAI，顯示 Anthropic 的 B2B 策略奏效。這場企業市場競爭的關鍵變數在於：Anthropic 在「可信賴性」和「安全性」上的品牌定位，正轉化為採購優勢——尤其對於法律、金融、醫療等高合規行業。Product Hunt 上 Claude 評論數單日 +4 的最大漲幅，也可能是小企業版消息引發的關注反應。</p>
+      <p><strong>Google 的全平台 AI 包圍戰：</strong>Android Gemini 智能時代、Googlebook 筆電、Gboard Dictation 在同一天密集曝光，標誌著 Google 的 AI 戰略從「模型競爭」轉向「生態控制」——從硬體到作業系統、從鍵盤到助理，試圖讓 Gemini 無縫嵌入使用者的每個數位接觸點。AutoScientist（AI 自訓練）和 Origin Lab（遊戲→世界模型資料）的浮現，則預示著下一波 AI 能力躍升將來自訓練方法論的革新，而非單純的算力堆疊。</p>
+      <div class="actions-list">
+        <h4>行動建議</h4>
+        <div class="action-item">
+          <span class="action-num">1</span>
+          <span>評估 <strong>LangSmith Engine + Context Hub</strong> 是否適合整合現有代理開發工作流——Sandboxes GA 代表沙箱測試環境已可生產環境部署，值得優先試用。</span>
+        </div>
+        <div class="action-item">
+          <span class="action-num">2</span>
+          <span>追蹤 <strong>Claude for Small Business</strong> 的定價與功能細節，評估現有 Claude 使用場景是否有升級空間或成本優化機會。</span>
+        </div>
+        <div class="action-item">
+          <span class="action-num">3</span>
+          <span>關注 <strong>Android Vibe-coded Widgets + Googlebook</strong>，若開發行動 AI 應用，Google 的新行動代理平台可能帶來分發管道與 API 整合機會。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Glossary -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-num">5</span>
+      今日新詞 Glossary
+    </div>
+    <div class="glossary-list">
+      <div class="glossary-item">
+        <span class="glossary-term">LangSmith Engine<span class="tag tech" style="margin-left:6px;font-size:10px;">tech</span></span>
+        <span class="glossary-def">LangChain 為代理工作流設計的執行引擎，負責調度代理運行時的任務分配、工具調用與狀態管理。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">SmithDB<span class="tag tech" style="margin-left:6px;font-size:10px;">tech</span></span>
+        <span class="glossary-def">LangChain 為代理可觀測性打造的專用資料層，統一儲存追蹤紀錄、評估結果與人類反饋，讓代理行為可查詢、可分析。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">LangSmith Context Hub<span class="tag tech" style="margin-left:6px;font-size:10px;">tech</span></span>
+        <span class="glossary-def">代理上下文管理中心，集中存放 prompt 範本、工具定義與 few-shot 範例，讓多個代理共享一致的知識基礎。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">LangSmith LLM Gateway<span class="tag tech" style="margin-left:6px;font-size:10px;">tech</span></span>
+        <span class="glossary-def">整合至代理生命週期的 LLM 治理閘道，支援多模型路由、成本追蹤與合規管控，讓企業在代理執行時保有對 LLM 呼叫的完整可見度。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">Managed Deep Agents<span class="tag tech" style="margin-left:6px;font-size:10px;">tech</span></span>
+        <span class="glossary-def">LangChain 的代管式深度代理服務，企業無需自行維運代理基礎設施，直接透過 API 部署能執行多步驟長時間任務的代理系統。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">AutoScientist<span class="tag news" style="margin-left:6px;font-size:10px;">news</span></span>
+        <span class="glossary-def">Adaption 推出的 AI 自訓練工具，讓模型能自動設計訓練實驗、調整超參數並評估結果，縮短人工調參週期——AI 輔助改進自身的新類型產品。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">Googlebook<span class="tag app" style="margin-left:6px;font-size:10px;">app</span></span>
+        <span class="glossary-def">Google 發布的 Gemini 驅動筆記型電腦，將 AI 助理能力深度整合至本機硬體，是 Google 從行動端延伸到個人電腦的 AI 硬體佈局。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">Proactive AI<span class="tag app" style="margin-left:6px;font-size:10px;">app</span></span>
+        <span class="glossary-def">主動型 AI 助理的新形態——不等待使用者下指令，而是持續監控使用者環境、在適當時機主動介入提醒或建議，代表性產品：Poppy。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">World Model<span class="tag news" style="margin-left:6px;font-size:10px;">news</span></span>
+        <span class="glossary-def">能夠理解並模擬現實世界（物理法則、社會規則、時間序列）的 AI 模型，訓練所需的大量模擬資料推動了 Origin Lab 等遊戲資料授權新創的誕生。</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">Vibe-coded Widgets<span class="tag app" style="margin-left:6px;font-size:10px;">app</span></span>
+        <span class="glossary-def">Google Android 的「Create My Widget」功能，讓使用者用自然語言描述需求、AI 自動生成個人化桌面小工具——無程式碼 AI 互動進入主流行動裝置。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="report-footer">
+    AI 日報 2026-05-14 · 自動生成 by Claude Sonnet 4.6 · 資料來源：14 個 AI/Tech 公開來源
+  </div>
+
+</div>
+</body>
+</html>
