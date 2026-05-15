@@ -258,7 +258,7 @@
     <span class="meta-badge">📡 20 個來源</span>
     <span class="meta-badge">✅ 16 個成功・⚠️ 4 個受限</span>
     <span class="meta-badge">🆕 4 個來源有新更新</span>
-    <span class="meta-badge urgent">⚡ llama.cpp AMD RDNA3 MMA FA b9158 + iRobot 破產重生 8 款新 Roomba</span>
+    <span class="meta-badge urgent">⚡ llama.cpp b9159（2026-05-15 最新）+ AMD RDNA3 MMA FA b9158 + iRobot 破產重生 8 款新 Roomba</span>
   </div>
 </div>
 
@@ -284,8 +284,8 @@
     <div class="top3">
       <div class="top3-card urgent-card">
         <div class="top3-rank green">#1</div>
-        <div class="top3-title">🆕 llama.cpp b9158<br>AMD RDNA3 MMA FA 加速落地</div>
-        <div class="top3-desc">b9158（2026-05-14）正式加入 AMD RDNA3 的 Matrix Multiply-Accumulate Flash Attention 路徑，並針對 RDNA3/4/CDNA1 精調核心參數。從 b9113 到 b9158 僅 3 天就有 45 個 builds——AMD RX 7000 系列顯卡的本地 LLM 推論效能追上 NVIDIA 的速度正在加快。SYCL 多 GPU 記憶體修正和 Qwen3.5 tokenizer 穩定性也在同批修入。</div>
+        <div class="top3-title">🆕 llama.cpp b9159（2026-05-15）<br>AMD RDNA3 MMA FA b9158 加速落地</div>
+        <div class="top3-desc">b9159（2026-05-15 今日）加入 ggml-hexagon reshape 快速路徑；b9158（2026-05-14）正式支援 AMD RDNA3 的 Matrix Multiply-Accumulate Flash Attention，針對 RDNA3/4/CDNA1 精調核心參數。AMD RX 7000 系列顯卡本地 LLM 推論效能加速追上 NVIDIA。SYCL 多 GPU 記憶體修正、Qwen3.5 tokenizer 穩定性同步收入。</div>
       </div>
       <div class="top3-card">
         <div class="top3-rank">#2</div>
@@ -664,16 +664,17 @@
     <!-- llama.cpp UPDATED -->
     <div class="card new">
       <div class="card-header">
-        <div class="card-title">🆕 llama.cpp b9158 — AMD RDNA3 MMA FA + 多 GPU SYCL 修正 + Qwen3.5 Tokenizer</div>
+        <div class="card-title">🆕 llama.cpp b9159 — Hexagon Reshape + AMD RDNA3 MMA FA + 多 GPU SYCL 修正 + Qwen3.5 Tokenizer</div>
         <div class="card-meta">
-          <span class="badge badge-new">🆕 2026-05-15 更新（b9158）</span>
+          <span class="badge badge-new">🆕 2026-05-15 最新（b9159）</span>
           <span class="badge badge-resolved">CVE-2026-21869 已修補</span>
           <span class="badge badge-update">每日快速迭代</span>
         </div>
       </div>
-      <div class="card-date">🆕 最新：b9158（2026-05-14）｜ 前次更新：b9113（2026-05-11）｜ 來源：llamacpp GitHub Releases</div>
+      <div class="card-date">🆕 最新：b9159（2026-05-15 今日）｜ 前次：b9158（2026-05-14）｜ 來源：llamacpp GitHub Releases</div>
       <ul class="points">
-        <li><strong>🆕 b9158（2026-05-14）— AMD RDNA3 MMA FA：</strong>正式支援 AMD RDNA3 架構的 Matrix Multiply-Accumulate Flash Attention 路徑；RDNA3/4/CDNA1 核心參數精調；AMD RX 7000 系列顯卡本地 LLM 推論效能大幅提升，追上 NVIDIA 的速度加快</li>
+        <li><strong>🆕 b9159（2026-05-15 今日）— Hexagon Reshape 快速路徑：</strong>ggml-hexagon contiguous fast-path in reshape copy；針對高通 Hexagon DSP 後端優化；RTX / RDNA 用戶不受直接影響，但確認整體構建品質仍在持續推進</li>
+        <li><strong>b9158（2026-05-14）— AMD RDNA3 MMA FA：</strong>正式支援 AMD RDNA3 架構的 Matrix Multiply-Accumulate Flash Attention 路徑；RDNA3/4/CDNA1 核心參數精調；AMD RX 7000 系列顯卡本地 LLM 推論效能大幅提升，追上 NVIDIA 的速度加快</li>
         <li><strong>🆕 b9156（2026-05-14）— WebGPU 改進：</strong>WebGPU NVIDIA self-hosted CI 啟用；精度問題修正；Float16 限制放寬</li>
         <li><strong>🆕 b9148（2026-05-14）— Qwen3.5 Tokenizer：</strong>非回溯 Tokenizer 處理器，防止長輸入造成 stack overflow；迴歸測試覆蓋強化</li>
         <li><strong>🆕 b9145（2026-05-14）— SYCL 多 GPU 記憶體：</strong>修正 Level Zero 多 GPU 設定下耗盡系統 RAM 的問題，無效能回退</li>
@@ -683,7 +684,7 @@
         <li><strong>CVE-2026-21869（已修補）：</strong>CVSS 8.8 heap-buffer-overflow，b8908+ 已修正；b9158 確認已包含</li>
       </ul>
       <div class="impact-box"><strong>影響層面：</strong>AMD RDNA3 MMA FA 讓 AMD GPU 用戶在 llama.cpp 終於有可以媲美 NVIDIA 的加速路徑；3 天 45 個 builds 的迭代速度說明邊緣 AI 軍備競賽仍在加速</div>
-      <div class="action-box"><strong>行動建議：</strong>(1) 升級至 b9158；(2) AMD RX 7000 系列用戶測試 RDNA3 MMA FA 效能差異；(3) VRAM 不足者使用 <code>-q q4_k_m</code>；(4) SYCL 多 GPU 環境必升（記憶體洩漏修正）</div>
+      <div class="action-box"><strong>行動建議：</strong>(1) 升級至 b9159（最新穩定每日構建）；(2) AMD RX 7000 系列用戶測試 RDNA3 MMA FA 效能差異（b9158 核心功能）；(3) VRAM 不足者使用 <code>-q q4_k_m</code>；(4) SYCL 多 GPU 環境必升（記憶體洩漏修正）</div>
     </div>
 
     <!-- Jetson -->
@@ -839,19 +840,20 @@
 
     <div class="card highlight">
       <div class="card-header">
-        <div class="card-title">③ 🆕 llama.cpp AMD RDNA3 MMA FA — AMD GPU 邊緣推論加速里程碑</div>
+        <div class="card-title">③ 🆕 llama.cpp b9159（今日）+ AMD RDNA3 MMA FA b9158 — 邊緣推論加速里程碑</div>
         <div class="card-meta">
-          <span class="badge badge-new">🆕 b9158 2026-05-14</span>
+          <span class="badge badge-new">🆕 b9159 2026-05-15 今日</span>
           <span class="badge badge-update">效能里程碑</span>
         </div>
       </div>
       <ul class="points">
-        <li><strong>AMD RDNA3 MMA Flash Attention：</strong>正式在 llama.cpp 落地，RX 7000 系列獲得硬體加速推論路徑</li>
+        <li><strong>🆕 b9159（今日）— Hexagon Reshape：</strong>高通 DSP 後端 reshape 快速路徑；整體構建持續每日推進（RTX 用戶直接升至 b9159 即可）</li>
+        <li><strong>AMD RDNA3 MMA Flash Attention（b9158）：</strong>正式在 llama.cpp 落地，RX 7000 系列獲得硬體加速推論路徑</li>
         <li><strong>組合效能：</strong>RDNA3 MMA FA（b9158）+ Vulkan 非對稱注意力（b9106）+ 平行推測解碼（b9109）三層優化同時生效</li>
         <li>Qwen3.5 tokenizer 修正（b9148）：使用 Qwen3.5 模型的用戶必升</li>
         <li>SYCL 多 GPU 記憶體修正（b9145）：Intel GPU / 多 GPU 設定用戶必升</li>
       </ul>
-      <div class="action-box"><strong>行動：</strong>AMD GPU 用戶升級至 b9158 測試 RDNA3 MMA FA 效能；搭配草稿模型（llama-3.2-1b）測試推測解碼效果</div>
+      <div class="action-box"><strong>行動：</strong>升級至 b9159（最新）；AMD GPU 用戶重點測試 RDNA3 MMA FA 效能（b9158 新增）；搭配草稿模型（llama-3.2-1b）測試推測解碼效果</div>
     </div>
 
     <div class="card highlight">
@@ -902,22 +904,20 @@
         <div class="stat-label">持續受限</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num" style="color: var(--accent);">4</div>
-        <div class="stat-label">有新更新</div>
+        <div class="stat-num" style="color: var(--accent);">1</div>
+        <div class="stat-label">本次有新更新</div>
       </div>
     </div>
 
     <div class="card">
       <div class="card-header">
-        <div class="card-title">本次有新更新的來源（2026-05-15）</div>
-        <div class="card-meta"><span class="badge badge-new">🆕 4 個</span></div>
+        <div class="card-title">本次有新更新的來源（2026-05-15 第二次爬取）</div>
+        <div class="card-meta"><span class="badge badge-new">🆕 1 個</span></div>
       </div>
       <ul class="points">
-        <li><strong>llamacpp-releases：</strong>b9158 — AMD RDNA3 MMA FA + 多 GPU SYCL 記憶體修正 + Qwen3.5 tokenizer（2026-05-14）</li>
-        <li><strong>wled-releases：</strong>Nightly 20260514 — DDP 協定標頭放寬 + 所有協定安全性檢查（2026-05-14）</li>
-        <li><strong>raspberry-pi-news：</strong>官方文件語意搜尋（2026-05-13）、RP2350 開發板展示（2026-05-11）</li>
-        <li><strong>9to5mac-homekit：</strong>iRobot 破產後中資接手推出 8 款新 Roomba（2026-05-12）</li>
+        <li><strong>llamacpp-releases：</strong>b9159 — ggml-hexagon reshape contiguous fast-path（2026-05-15 今日）；Hexagon DSP 後端維護，整體版本追蹤更新至 b9159</li>
       </ul>
+      <div class="card-date" style="margin-top:10px;">▲ 同日前次爬取（第一次）新增：b9158 RDNA3 MMA FA / WLED nightly 20260514 / RPi 語意搜尋 / iRobot 破產重生</div>
     </div>
 
     <div class="card">
@@ -950,6 +950,7 @@
         <li><strong>google-home-developers：</strong>Home APIs Vitals + Gemini Knowledge Base，無新公告</li>
         <li><strong>nvidia-jetson-blog：</strong>Memory Efficiency 文章（2026-04-20）仍為最新</li>
         <li><strong>ollama-blog：</strong>MLX Apple Silicon 預覽（2026-03-30）仍為最新</li>
+        <li><strong>llamacpp-releases：</strong>b9159（2026-05-15 今日）已更新為最新版本追蹤</li>
       </ul>
     </div>
   </div>
