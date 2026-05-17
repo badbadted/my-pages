@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 每日情報 — 2026-05-18</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --s3: #cbd5e1;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --t3: #94a3b8;
+    --accent: #3b82f6;
+    --accent-light: #eff6ff;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --orange: #f59e0b;
+    --orange-light: #fffbeb;
+    --red: #ef4444;
+    --red-light: #fef2f2;
+    --purple: #8b5cf6;
+    --purple-light: #f5f3ff;
+    --teal: #14b8a6;
+    --teal-light: #f0fdfa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--t1);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* Header */
+  .report-header {
+    background: var(--t1);
+    color: #fff;
+    padding: 28px 40px 24px;
+  }
+  .report-header .meta { font-size: 13px; color: #94a3b8; margin-bottom: 6px; }
+  .report-header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; }
+  .report-header .sub { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+
+  /* Layout */
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* Section title */
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--t3);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--s2);
+  }
+  .section { margin-bottom: 48px; }
+
+  /* Stat cards */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 0;
+  }
+  .stat-card {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .stat-card .num {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-card .label {
+    font-size: 12px;
+    color: var(--t2);
+    font-weight: 500;
+  }
+  .stat-card .sub-stat {
+    font-size: 11px;
+    color: var(--t3);
+    margin-top: 4px;
+  }
+  .num-blue { color: var(--accent); }
+  .num-green { color: var(--green); }
+  .num-orange { color: var(--orange); }
+  .num-red { color: var(--red); }
+
+  /* Alert banner */
+  .alert-banner {
+    background: var(--orange-light);
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: #92400e;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Top stories */
+  .story-list { display: flex; flex-direction: column; gap: 12px; }
+  .story-card {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+    gap: 14px;
+  }
+  .story-rank {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--s3);
+    min-width: 24px;
+    text-align: center;
+    padding-top: 2px;
+  }
+  .story-content {}
+  .story-headline {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t1);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .story-summary { font-size: 13px; color: var(--t2); line-height: 1.5; }
+  .story-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .tag-news { background: var(--accent-light); color: #1d4ed8; }
+  .tag-tech { background: var(--purple-light); color: #6d28d9; }
+  .tag-app { background: var(--green-light); color: #065f46; }
+  .tag-org { background: var(--orange-light); color: #92400e; }
+  .tag-policy { background: var(--red-light); color: #991b1b; }
+  .tag-robot { background: var(--teal-light); color: #0f766e; }
+  .story-date { font-size: 11px; color: var(--t3); white-space: nowrap; }
+
+  /* Badge */
+  .new-badge {
+    font-size: 10px;
+    font-weight: 700;
+    background: #dcfce7;
+    color: #15803d;
+    border-radius: 3px;
+    padding: 1px 5px;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  /* Source digest */
+  .digest-group { margin-bottom: 24px; }
+  .digest-group-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--t3);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .digest-group-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--s2);
+  }
+  .digest-list { display: flex; flex-direction: column; gap: 6px; }
+  .digest-item {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: start;
+    gap: 12px;
+    font-size: 13px;
+  }
+  .digest-source-name {
+    font-weight: 600;
+    color: var(--t1);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .digest-text { color: var(--t2); line-height: 1.5; }
+  .digest-blocked { color: var(--t3); font-style: italic; }
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-block;
+  }
+  .dot-green { background: var(--green); }
+  .dot-orange { background: var(--orange); }
+  .dot-red { background: #94a3b8; }
+
+  /* Analysis */
+  .analysis-block {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  .analysis-para {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 18px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--t1);
+  }
+  .analysis-para strong { color: var(--t1); }
+
+  .actions-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--t3);
+    margin-bottom: 12px;
+  }
+  .action-list { display: flex; flex-direction: column; gap: 8px; }
+  .action-item {
+    background: var(--green-light);
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--t1);
+    display: flex;
+    gap: 10px;
+  }
+  .action-num {
+    font-weight: 800;
+    color: var(--green);
+    font-size: 14px;
+    flex-shrink: 0;
+    width: 20px;
+  }
+
+  /* Glossary */
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .gloss-item {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .gloss-name {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--t1);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .gloss-def { font-size: 12px; color: var(--t2); line-height: 1.5; }
+  .tag-cat { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 3px; }
+  .cat-product { background: #dbeafe; color: #1e40af; }
+  .cat-company { background: #fce7f3; color: #9d174d; }
+  .cat-event { background: #fef9c3; color: #854d0e; }
+  .cat-policy { background: #fee2e2; color: #991b1b; }
+  .cat-tool { background: #dcfce7; color: #166534; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .story-card { grid-template-columns: auto 1fr; }
+    .story-meta { flex-direction: row; }
+    .digest-item { grid-template-columns: 1fr; }
+    .glossary-grid { grid-template-columns: 1fr; }
+    .report-header { padding: 20px; }
+    .container { padding: 20px 16px 48px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="meta">AI 情報日報 · 2026-05-18 週一</div>
+  <h1>AI 每日情報</h1>
+  <div class="sub">覆蓋 14 個來源 · tech 4 · app 6 · news 4</div>
+</div>
+
+<div class="container">
+
+  <!-- Section 1: Overview -->
+  <div class="section">
+    <div class="section-title">Section 1 · 總覽</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="num num-blue">14</div>
+        <div class="label">來源爬取數</div>
+        <div class="sub-stat">tech 4 · app 6 · news 4</div>
+      </div>
+      <div class="stat-card">
+        <div class="num num-green">13</div>
+        <div class="label">新增項目</div>
+        <div class="sub-stat">TechCrunch 9 · Superhuman 3 · Rundown 1</div>
+      </div>
+      <div class="stat-card">
+        <div class="num num-orange">4</div>
+        <div class="label">重大變化偵測</div>
+        <div class="sub-stat">Greg Brockman · ArXiv · ChatGPT Finance · Codex Mobile</div>
+      </div>
+      <div class="stat-card">
+        <div class="num num-red">4</div>
+        <div class="label">無法存取</div>
+        <div class="sub-stat">The Verge · Ars Technica · MIT TR · TAIAFT</div>
+      </div>
+    </div>
+    <div class="alert-banner">
+      ⚠ The Verge 與 Ars Technica 持續封鎖（2週+），建議改用 RSS Feed 替代。MIT Tech Review 付費牆持續，theresanaiforthat 403 封鎖第 12 天。
+    </div>
+  </div>
+
+  <!-- Section 2: Top Stories -->
+  <div class="section">
+    <div class="section-title">Section 2 · 頭條要聞（重要性排序）</div>
+    <div class="story-list">
+
+      <div class="story-card">
+        <div class="story-rank">1</div>
+        <div class="story-content">
+          <div class="story-headline"><span class="new-badge">NEW</span>ArXiv 宣布：AI 代寫論文者禁投一年</div>
+          <div class="story-summary">學術預印本平台 ArXiv 宣布新政策——若論文完全由 AI 撰寫，作者將被禁止投稿整整一年。這是全球最大學術資料庫首度對 AI 使用劃定紅線，預示 AI 正當性問題正從道德討論轉為制度懲罰。</div>
+        </div>
+        <div class="story-meta">
+          <span class="tag tag-policy">政策</span>
+          <span class="story-date">TechCrunch · 05-17</span>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">2</div>
+        <div class="story-content">
+          <div class="story-headline"><span class="new-badge">NEW</span>Greg Brockman 復出接管 OpenAI 產品策略</div>
+          <div class="story-summary">OpenAI 聯合創辦人 Greg Brockman 正式復出，接管公司產品策略——在 Musk vs Altman 庭審落幕、SpaceXAI 人員出走、OpenAI 醞釀對蘋果採取法律行動的密集背景下，OpenAI 創辦人派系重新掌舵意味深長。</div>
+        </div>
+        <div class="story-meta">
+          <span class="tag tag-org">組織</span>
+          <span class="story-date">TechCrunch · 05-17</span>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">3</div>
+        <div class="story-content">
+          <div class="story-headline"><span class="new-badge">NEW</span>ChatGPT 接入銀行帳戶，正式進軍個人金融</div>
+          <div class="story-summary">OpenAI 推出 ChatGPT 個人財務功能，允許用戶連結銀行帳戶進行 AI 財務分析。AI 進入高敏感的個人金融場域，將引發監管機構關注，並帶來全新的資安與隱私挑戰。</div>
+        </div>
+        <div class="story-meta">
+          <span class="tag tag-news">新聞</span>
+          <span class="story-date">TechCrunch · 05-16</span>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">4</div>
+        <div class="story-content">
+          <div class="story-headline"><span class="new-badge">NEW</span>OpenAI Codex 行動版即將推出</div>
+          <div class="story-summary">OpenAI 宣布 Codex AI 程式碼助手即將支援行動裝置，The Rundown AI 今日以「OpenAI takes Codex mobile」為頭條。AI 開發工具從桌面延伸至行動端，行動開發者的工作流程即將改寫。</div>
+        </div>
+        <div class="story-meta">
+          <span class="tag tag-tech">技術</span>
+          <span class="story-date">Rundown · 05-18</span>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">5</div>
+        <div class="story-content">
+          <div class="story-headline">PwC 大規模部署 Claude，企業 AI 最大案例落地</div>
+          <div class="story-summary">PwC 全球擴大與 Anthropic 合作，將 Claude 部署於技術建構、交易執行與企業轉型，是目前規模最大的 Claude 企業部署。Ramp 數據同步顯示 Anthropic 企業客戶數已超越 OpenAI。</div>
+        </div>
+        <div class="story-meta">
+          <span class="tag tag-tech">技術</span>
+          <span class="story-date">Anthropic · 05-14</span>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">6</div>
+        <div class="story-content">
+          <div class="story-headline"><span class="new-badge">NEW</span>Musk vs Altman 庭審落幕，SpaceXAI 人才持續出走</div>
+          <div class="story-summary">Elon Musk 與 Sam Altman 的科技世紀大案庭審正式結束，但 SpaceXAI 合併後的人員外流問題持續惡化。同期 OpenAI 還據報醞釀對蘋果採取法律行動，整個 OpenAI 陣營法律風險集中釋放。</div>
+        </div>
+        <div class="story-meta">
+          <span class="tag tag-news">新聞</span>
+          <span class="story-date">TechCrunch · 05-16</span>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">7</div>
+        <div class="story-content">
+          <div class="story-headline"><span class="new-badge">NEW</span>宇樹機甲裝爆紅，機器人 AI 前沿突破主流視野</div>
+          <div class="story-summary">宇樹科技（Unitree）發布新型機甲裝在社群瘋傳，Superhuman AI 以 Robotics Special 專題報導。AI 賦能的機器人正以爆紅內容形式進入大眾認知，硬體 AI 融合的敘事加速翻轉。</div>
+        </div>
+        <div class="story-meta">
+          <span class="tag tag-robot">機器人</span>
+          <span class="story-date">Superhuman · 05-16</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 3: Source Digest -->
+  <div class="section">
+    <div class="section-title">Section 3 · 來源摘要（依分類）</div>
+
+    <!-- Tech Group -->
+    <div class="digest-group">
+      <div class="digest-group-title">
+        <span class="tag tag-tech" style="font-size:11px;">tech</span> 技術框架
+      </div>
+      <div class="digest-list">
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-orange"></span>
+            langchain-blog
+          </div>
+          <div class="digest-text">無新文章；Interrupt 2026 大會（5/13-14）9篇公告仍為最新，LangSmith 升級為完整代理作業系統、LangChain Labs 正式成立。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-green"></span>
+            anthropic-news
+          </div>
+          <div class="digest-text">補錄 <strong>PwC 部署 Claude</strong>（2026-05-14，上次遺漏）——目前最大企業 Claude 部署案例；蓋茲基金會 $2 億合作 + 小企業版雙重加持，企業客戶數超越 OpenAI（Ramp 數據）。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-orange"></span>
+            llamaindex-blog
+          </div>
+          <div class="digest-text">無新文章；LiteParser Server（可自架文件解析後端，2026-05-12）仍為最新，官網部落格行銷內容持續重整中。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-orange"></span>
+            crewai-blog
+          </div>
+          <div class="digest-text">無新文章；Discovery 引擎（自動偵測企業可自動化環節，2026-05-05）仍為最新；PwC 選用 CrewAI 打造 Global Agent OS 仍是最大亮點。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Group -->
+    <div class="digest-group">
+      <div class="digest-group-title">
+        <span class="tag tag-app" style="font-size:11px;">app</span> 應用產品
+      </div>
+      <div class="digest-list">
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-red"></span>
+            theresanaiforthat
+          </div>
+          <div class="digest-text digest-blocked">403 封鎖持續第 12 天，資料沿用 2026-05-06 舊記錄（47,941+ 工具，80M 用戶）。建議改用 RSS feed。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-orange"></span>
+            bensbites
+          </div>
+          <div class="digest-text">付費牆封鎖，無公開文章；訂閱者從 163,000 增至 <strong>164,000+</strong>（+1,000），電子報熱度持續。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-green"></span>
+            therundown-ai
+          </div>
+          <div class="digest-text">🆕 今日頭條：<strong>「OpenAI takes Codex mobile」</strong>——Codex AI 程式助手行動版即將推出，本日最新動態。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-green"></span>
+            producthunt-ai
+          </div>
+          <div class="digest-text">多項更新：<strong>Vercel +16</strong>（870→886，本週最大漲幅）、Claude Code 新登榜（5.0 / 441評論）、Supabase +7、Claude +5；AI Agents / Vibe Coding 持續蟬聯熱門分類前兩名。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-green"></span>
+            superhuman-ai
+          </div>
+          <div class="digest-text">🆕 3篇新文章：<strong>Tavus</strong> AI 人像（05-15）、<strong>Unitree 機甲裝爆紅</strong>（05-16）、平價 AI 助聽器（05-17）——健康科技 × 機器人 AI 同步升溫。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-red"></span>
+            mattshumer
+          </div>
+          <div class="digest-text digest-blocked">連續第 38 日無新文章，Substack 頁面無公開內容。建議降低爬取頻率至每週一次。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- News Group -->
+    <div class="digest-group">
+      <div class="digest-group-title">
+        <span class="tag tag-news" style="font-size:11px;">news</span> 新聞媒體
+      </div>
+      <div class="digest-list">
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-red"></span>
+            theverge-ai
+          </div>
+          <div class="digest-text digest-blocked">整個 theverge.com 域名持續封鎖（逾 2 週），RSS 同樣無法存取。資料凍結於 2026-05-04。建議尋找替代來源。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-red"></span>
+            mit-tech-review-ai
+          </div>
+          <div class="digest-text digest-blocked">付費牆封鎖持續，頁面無文章列表。資料凍結於 2026-05-04。各州 AI 立法動態（Connecticut / Maryland）為最後公開記錄。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-green"></span>
+            techcrunch-ai
+          </div>
+          <div class="digest-text">🆕 <strong>最活躍來源</strong>，3天 9 篇新文章：Greg Brockman 接管產品策略（05-17）、ArXiv 禁 AI 代寫（05-17）、AI 淘金熱貧富分化（05-17）、Musk-Altman 庭審落幕（05-16）、ChatGPT 接入銀行（05-16）、Runway 挑戰 Google（05-16）、AI 技能軍備競賽延伸至汽車產業（05-18）等。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source-name">
+            <span class="status-dot dot-red"></span>
+            arstechnica-ai
+          </div>
+          <div class="digest-text digest-blocked">整個 arstechnica.com 及 feeds.arstechnica.com 持續封鎖（逾 2 週）。資料凍結於 2026-05-04。建議尋找替代 AI 技術深度分析來源。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Analysis & Actions -->
+  <div class="section">
+    <div class="section-title">Section 4 · 趨勢分析 + 行動建議</div>
+
+    <div class="analysis-block">
+      <div class="analysis-para">
+        <strong>AI 正式進入高監管場域。</strong>本週最顯著的結構性趨勢是 AI 從「效率工具」滑入「高敏感場域」——OpenAI 推出 ChatGPT 個人金融功能（接入銀行帳戶）、Anthropic 深化 PwC 企業部署、Claude for Small Business 上線。這三個動作分別觸碰金融、企業治理、中小企業服務三個受高度監管的領域。可以預期，2026 下半年 AI 合規成本、責任框架、資料主權將成為各大平台的核心競爭議題，而非純技術能力。
+      </div>
+      <div class="analysis-para">
+        <strong>OpenAI 組織動盪，但技術擴張不停。</strong>Greg Brockman 復出接管產品、Musk-Altman 庭審落幕、SpaceXAI 人員外流、醞釀對蘋果法律行動——OpenAI 的法律與組織摩擦已達近一年最密集程度。然而同期 Codex 行動版即將推出、ChatGPT 個人金融上線，顯示 OpenAI 在管理亂流中仍能保持產品攻勢。Cerebras IPO 首日暴漲 108% 則為整個 AI 晶片賽道注入資本市場信心，AI 基建投資週期尚未結束。
+      </div>
+      <div class="analysis-para">
+        <strong>AI 正當性問題從倫理辯論轉為制度懲罰。</strong>ArXiv 的一年禁投新政是關鍵節點：學術界不再只是「討論」AI 使用邊界，而是制定有牙齒的規則。Ars Technica 的人類撰寫新政（2026-05-04）、奧斯卡禁止 AI 生成作品——三大機構同步行動，明確傳遞信號：使用 AI 的責任與邊界界定正在被制度化，而速度比多數人預期更快。
+      </div>
+    </div>
+
+    <div class="actions-title">行動建議</div>
+    <div class="action-list">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div>立即測試 <strong>Claude for Small Business</strong>：Anthropic 小企業版上線加上 PwC 部署背書，現在是深度評估 Claude 工作流整合的最佳時機——尤其是合約審閱、文件分析、客戶溝通等場景，直接與目前使用的工具做並排比較。</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div>追蹤 <strong>OpenAI Codex 行動版</strong> 動態：一旦正式推出，立即測試在行動裝置上的 AI 程式助手工作流——快速驗證 idea、小型修復、Prompt 調校等移動場景都將受益。</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div>為個人或團隊 <strong>制定 AI 使用政策</strong>：ArXiv 的禁投新政是預警。無論是學術、商業報告或內容創作，現在就明確「人類貢獻 vs AI 貢獻」的比例標準，並書面記錄 AI 工具的使用範疇，先發制人地符合未來可能的制度要求。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Glossary -->
+  <div class="section">
+    <div class="section-title">Section 5 · 今日新詞彙</div>
+    <div class="glossary-grid">
+
+      <div class="gloss-item">
+        <div class="gloss-name">
+          Codex Mobile
+          <span class="tag tag-cat cat-product">產品</span>
+        </div>
+        <div class="gloss-def">OpenAI 推出的 AI 程式碼生成工具（Codex）的行動裝置版本，讓開發者在手機上即可使用 AI 協助撰寫、修改程式碼。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-name">
+          SpaceXAI
+          <span class="tag tag-cat cat-company">公司</span>
+        </div>
+        <div class="gloss-def">Elon Musk 將 SpaceX 與 xAI（Grok 開發商）整合後形成的 AI 部門，合併後持續面臨核心工程人才出走問題。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-name">
+          Claude Code
+          <span class="tag tag-cat cat-product">產品</span>
+        </div>
+        <div class="gloss-def">Anthropic 推出的深度 AI 程式助手工具，專為軟體開發者設計，本週在 Product Hunt AI 排行榜新登榜（5.0 / 441 評論）。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-name">
+          ArXiv 禁投政策
+          <span class="tag tag-cat cat-policy">政策</span>
+        </div>
+        <div class="gloss-def">ArXiv 學術預印本平台宣布的新規：若提交論文被判定完全由 AI 撰寫（非人類完成），作者將被禁止投稿整整一年。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-name">
+          Tavus
+          <span class="tag tag-cat cat-tool">工具</span>
+        </div>
+        <div class="gloss-def">可將任何靜態圖片轉為 AI 生成人像說話影片的工具，大幅降低個人化 AI 影片製作門檻，本週在 Superhuman AI 重點推薦。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-name">
+          Cerebras IPO
+          <span class="tag tag-cat cat-event">事件</span>
+        </div>
+        <div class="gloss-def">AI 晶片公司 Cerebras 在 2026 年完成的首個大型科技 IPO，上市首日股價暴漲 108%，募資 55 億美元，被視為 AI 晶片賽道資本市場重燃的信號。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-name">
+          Runway
+          <span class="tag tag-cat cat-company">公司</span>
+        </div>
+        <div class="gloss-def">原本專注於協助電影人的 AI 影片生成工具，現已將戰略目標上移至挑戰 Google 成為 AI 平台競爭者，本週獲 TechCrunch 深度專訪。</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-name">
+          Unitree 機甲裝
+          <span class="tag tag-cat cat-product">產品</span>
+        </div>
+        <div class="gloss-def">中國機器人公司宇樹科技（Unitree）發布的新型外骨骼機甲裝，因外觀與能力引發社群病毒式傳播，代表 AI 賦能硬體進入大眾認知的新里程碑。</div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+</body>
+</html>
