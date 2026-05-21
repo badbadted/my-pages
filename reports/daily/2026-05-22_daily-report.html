@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 每日情報日報 — 2026-05-22</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --s3: #cbd5e1;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --t3: #94a3b8;
+    --accent: #3b82f6;
+    --accent-light: #eff6ff;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --orange: #ea580c;
+    --orange-light: #fff7ed;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --purple: #7c3aed;
+    --purple-light: #f5f3ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC', sans-serif;
+    background: var(--bg);
+    color: var(--t1);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  /* Header */
+  .header {
+    background: var(--t1);
+    color: #fff;
+    padding: 28px 32px 24px;
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-meta { font-size: 12px; color: #94a3b8; margin-bottom: 6px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
+  .header-sub { font-size: 13px; color: #94a3b8; margin-top: 6px; }
+
+  /* Layout */
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px; }
+  .section { margin-bottom: 40px; }
+  .section-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--t3);
+    border-bottom: 1px solid var(--s2);
+    padding-bottom: 8px; margin-bottom: 18px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title span { font-size: 15px; }
+  h2.block-title {
+    font-size: 17px; font-weight: 700; color: var(--t1);
+    margin-bottom: 16px;
+  }
+
+  /* Stats cards */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 4px; }
+  .stat-card {
+    background: var(--s1); border: 1px solid var(--s2);
+    border-radius: 10px; padding: 16px 18px;
+  }
+  .stat-card .num { font-size: 28px; font-weight: 800; color: var(--t1); line-height: 1; }
+  .stat-card .label { font-size: 12px; color: var(--t2); margin-top: 5px; }
+  .stat-card.highlight { background: var(--accent-light); border-color: #bfdbfe; }
+  .stat-card.highlight .num { color: var(--accent); }
+  .stat-card.warn { background: var(--orange-light); border-color: #fed7aa; }
+  .stat-card.warn .num { color: var(--orange); }
+  .stat-card.ok { background: var(--green-light); border-color: #bbf7d0; }
+  .stat-card.ok .num { color: var(--green); }
+
+  /* Top stories */
+  .story-list { display: flex; flex-direction: column; gap: 10px; }
+  .story-item {
+    background: var(--s1); border: 1px solid var(--s2);
+    border-radius: 10px; padding: 14px 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .story-rank {
+    font-size: 11px; font-weight: 800; color: var(--t3);
+    min-width: 22px; padding-top: 2px;
+  }
+  .story-body { flex: 1; }
+  .story-title { font-size: 15px; font-weight: 600; color: var(--t1); margin-bottom: 4px; }
+  .story-summary { font-size: 13px; color: var(--t2); line-height: 1.5; }
+  .story-tags { margin-top: 7px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    font-size: 11px; font-weight: 600; padding: 2px 8px;
+    border-radius: 4px; letter-spacing: 0.02em;
+  }
+  .tag.tech { background: var(--accent-light); color: var(--accent); }
+  .tag.app { background: var(--green-light); color: var(--green); }
+  .tag.news { background: var(--orange-light); color: var(--orange); }
+  .tag.policy { background: var(--red-light); color: var(--red); }
+  .tag.funding { background: var(--purple-light); color: var(--purple); }
+  .tag.new { background: #ecfdf5; color: #059669; }
+
+  /* Source digest */
+  .digest-group { margin-bottom: 20px; }
+  .digest-group-title {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--t2);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .digest-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  }
+  .dot-tech { background: var(--accent); }
+  .dot-app { background: var(--green); }
+  .dot-news { background: var(--orange); }
+  .digest-list { display: flex; flex-direction: column; gap: 8px; }
+  .digest-item {
+    background: var(--s1); border: 1px solid var(--s2);
+    border-radius: 8px; padding: 10px 14px;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .digest-source {
+    font-size: 11px; font-weight: 700; color: var(--t2);
+    min-width: 120px; padding-top: 1px;
+  }
+  .digest-text { font-size: 13px; color: var(--t1); flex: 1; line-height: 1.5; }
+  .digest-item.has-new { border-left: 3px solid var(--green); }
+  .digest-item.blocked { border-left: 3px solid var(--s3); opacity: 0.75; }
+
+  /* Analysis */
+  .analysis-box {
+    background: var(--s1); border: 1px solid var(--s2);
+    border-radius: 10px; padding: 20px 22px;
+    margin-bottom: 14px;
+  }
+  .analysis-box h3 { font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 8px; }
+  .analysis-box p { font-size: 13px; color: var(--t2); line-height: 1.7; }
+  .actions-list { display: flex; flex-direction: column; gap: 10px; }
+  .action-item {
+    background: var(--accent-light); border: 1px solid #bfdbfe;
+    border-radius: 8px; padding: 12px 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .action-num {
+    font-size: 11px; font-weight: 800; color: var(--accent);
+    background: #dbeafe; border-radius: 50%; width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .action-text { font-size: 13px; color: var(--t1); line-height: 1.6; }
+  .action-text strong { color: var(--accent); }
+
+  /* Glossary */
+  .glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+  .glossary-item {
+    background: var(--s1); border: 1px solid var(--s2);
+    border-radius: 8px; padding: 12px 14px;
+  }
+  .glossary-name { font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 4px; }
+  .glossary-def { font-size: 12px; color: var(--t2); line-height: 1.5; }
+  .glossary-cat {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase; margin-bottom: 5px;
+  }
+  .cat-tech { color: var(--accent); }
+  .cat-company { color: var(--purple); }
+  .cat-product { color: var(--green); }
+  .cat-policy { color: var(--red); }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid var(--s2);
+    padding: 18px 32px;
+    font-size: 12px; color: var(--t3);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  /* New badge */
+  .new-badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    background: var(--green); color: #fff;
+    border-radius: 3px; padding: 1px 5px;
+    margin-right: 4px; vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-meta">AI 每日情報日報 · 14 個來源 · tech / app / news</div>
+  <h1>2026年5月22日 · AI 情報摘要</h1>
+  <div class="header-sub">覆蓋範圍：LangChain / Anthropic / LlamaIndex / CrewAI / The Rundown / Product Hunt / Superhuman / TechCrunch 等</div>
+</div>
+
+<div class="container">
+
+  <!-- ═══ Section 1: 概況總覽 ═══ -->
+  <div class="section">
+    <div class="section-title"><span>📊</span> 概況總覽</div>
+    <div class="stats-grid">
+      <div class="stat-card highlight">
+        <div class="num">14</div>
+        <div class="label">來源已爬取</div>
+      </div>
+      <div class="stat-card ok">
+        <div class="num">12</div>
+        <div class="label">新內容項目</div>
+      </div>
+      <div class="stat-card highlight">
+        <div class="num">4</div>
+        <div class="label">來源有新更新</div>
+      </div>
+      <div class="stat-card warn">
+        <div class="num">5</div>
+        <div class="label">來源封鎖 / 付費牆</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">8</div>
+        <div class="label">TechCrunch 新聞</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">$700M</div>
+        <div class="label">最大融資（Hark）</div>
+      </div>
+    </div>
+    <p style="font-size:12px; color:var(--t3); margin-top:10px;">
+      封鎖來源：theresanaiforthat（403）、bensbites（付費牆）、theverge（封鎖）、mit-tech-review（付費牆）、arstechnica（封鎖）
+    </p>
+  </div>
+
+  <!-- ═══ Section 2: 焦點新聞 ═══ -->
+  <div class="section">
+    <div class="section-title"><span>🔥</span> 焦點新聞（Top Stories）</div>
+    <div class="story-list">
+
+      <div class="story-item">
+        <div class="story-rank">#1</div>
+        <div class="story-body">
+          <div class="story-title">Trump 延後 AI 安全行政命令：「不想妨礙美國領跑」</div>
+          <div class="story-summary">美國總統 Trump 宣佈延後原定的 AI 安全行政命令，理由是不願阻礙業界的創新動力。此舉標誌著美國聯邦 AI 監管政策出現重大轉向——從積極管制走向觀望放任，可能打開企業部署更多 AI 系統的政策空間。</div>
+          <div class="story-tags">
+            <span class="tag news">新聞</span>
+            <span class="tag policy">政策</span>
+            <span class="tag new">今日新增</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">#2</div>
+        <div class="story-body">
+          <div class="story-title">OpenAI 突破數學界 80 年難題</div>
+          <div class="story-summary">The Rundown AI 報導 OpenAI 宣告突破一個在數學界存在逾 80 年的核心信念/難題，具體細節待更多媒體跟進，但此消息被視為 AI 在純數學推理領域的重大里程碑，對科學研究 AI 化具有深遠象徵意義。</div>
+          <div class="story-tags">
+            <span class="tag app">應用</span>
+            <span class="tag tech">技術</span>
+            <span class="tag new">今日新增</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">#3</div>
+        <div class="story-body">
+          <div class="story-title">Hark 以 $7 億美元完成 A 輪融資，開發神祕「通用 AI 介面」</div>
+          <div class="story-summary">鮮為人知的新創 Hark 宣布完成高達 7 億美元的 Series A 融資，目標是打造一套「通用 AI 介面」，具體技術路線未公開。巨額早期融資代表頂級 VC 對 AI 互動範式的下一階段賭注——超越當前聊天介面的全新互動模式。</div>
+          <div class="story-tags">
+            <span class="tag news">新聞</span>
+            <span class="tag funding">融資</span>
+            <span class="tag new">今日新增</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">#4</div>
+        <div class="story-body">
+          <div class="story-title">Spotify 單日三發 AI 功能：有聲書創作、播客 Q&A、NotebookLM 競品</div>
+          <div class="story-summary">Spotify 在同一天宣布三項 AI 重大功能：（1）整合 ElevenLabs AI 語音技術的有聲書創作工具；（2）播客 AI 自動問答與節目摘要生成；（3）挑戰 Google NotebookLM 的個人播客創作桌面應用。這是音訊平台 AI 化最大規模的單日發布攻勢。</div>
+          <div class="story-tags">
+            <span class="tag news">新聞</span>
+            <span class="tag new">今日新增</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">#5</div>
+        <div class="story-body">
+          <div class="story-title">LangChain：從 Token Streams 到 Agent Streams — 代理架構範式轉移</div>
+          <div class="story-summary">LangChain 發表重要架構論述，宣告代理 AI 系統的設計哲學正式從「以 token 為單位的資料流」轉向「以 agent 任務為單位的任務流」。這個改變影響 LangGraph 的執行模型設計，是代理基礎架構思維的重要演進里程碑。</div>
+          <div class="story-tags">
+            <span class="tag tech">技術</span>
+            <span class="tag new">今日新增</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">#6</div>
+        <div class="story-body">
+          <div class="story-title">Google 向消費者推銷 AI 代理生態——但消費者買單嗎？</div>
+          <div class="story-summary">TechCrunch 分析 Google I/O 後 Google 大力推廣 AI 代理生態（Gemini Spark、Deep Research、各項 Workspace 整合）的消費者採納困境：技術上已具備，但普通用戶的使用意願與信任度仍是最大挑戰。</div>
+          <div class="story-tags">
+            <span class="tag news">新聞</span>
+            <span class="tag new">今日新增</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">#7</div>
+        <div class="story-body">
+          <div class="story-title">Tempo 推出「AI 成長主管」——AI 首次擔任企業高管職位</div>
+          <div class="story-summary">Tempo 推出新產品，讓 AI 實際擔任企業的「成長主管（Head of Growth）」角色，負責規劃並執行成長策略。這代表 AI 從「工具」進化為具有職位頭銜的功能性角色，重新定義企業組織的人機邊界。</div>
+          <div class="story-tags">
+            <span class="tag app">應用</span>
+            <span class="tag new">今日新增</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">#8</div>
+        <div class="story-body">
+          <div class="story-title">The Path：Tony Robbins + Calm 前高管打造「更安全的 AI 心理治療」</div>
+          <div class="story-summary">激勵大師 Tony Robbins 與 Calm App 前高管共同創立 The Path，主打「安全、有邊界的 AI 心理治療」，試圖在 AI 療法普及的同時建立負責任的標準。AI 心理健康市場正迎來具備高知名度的新入場者。</div>
+          <div class="story-tags">
+            <span class="tag news">新聞</span>
+            <span class="tag funding">新創</span>
+            <span class="tag new">今日新增</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ Section 3: 來源速覽 ═══ -->
+  <div class="section">
+    <div class="section-title"><span>📋</span> 來源速覽（Source Digest）</div>
+
+    <!-- Tech -->
+    <div class="digest-group">
+      <div class="digest-group-title">
+        <span class="digest-dot dot-tech"></span> 技術（Tech）
+      </div>
+      <div class="digest-list">
+        <div class="digest-item has-new">
+          <div class="digest-source">langchain-blog</div>
+          <div class="digest-text"><span class="new-badge">新</span> 兩篇新文章（5/21）：「From Token Streams to Agent Streams」宣告代理架構範式轉移；「How Auth Proxy Secures LangSmith Agent Sandboxes」解析沙箱安全設計。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source">anthropic-news</div>
+          <div class="digest-text">無新更新。最新仍為 5/19「Widening the conversation on frontier AI」及 KPMG 全球 27.6 萬員工 Claude 整合案。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source">llamaindex-blog</div>
+          <div class="digest-text">無新更新。最新仍為 5/19 金融盡調 Agent 教學（LiteParse）。</div>
+        </div>
+        <div class="digest-item">
+          <div class="digest-source">crewai-blog</div>
+          <div class="digest-text">無新更新。最新仍為 5/5「Introducing Discovery」自動識別可自動化工作流程的引擎。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App -->
+    <div class="digest-group">
+      <div class="digest-group-title">
+        <span class="digest-dot dot-app"></span> 應用（App）
+      </div>
+      <div class="digest-list">
+        <div class="digest-item blocked">
+          <div class="digest-source">theresanaiforthat</div>
+          <div class="digest-text">⚠️ 403 封鎖，無法存取（持續），資料沿用 5/06。AI 工具目錄共 47,941+ 款。</div>
+        </div>
+        <div class="digest-item blocked">
+          <div class="digest-source">bensbites</div>
+          <div class="digest-text">⚠️ 付費牆封鎖，無公開新內容，訂閱者 164,000+ 持平。</div>
+        </div>
+        <div class="digest-item has-new">
+          <div class="digest-source">therundown-ai</div>
+          <div class="digest-text"><span class="new-badge">新</span>「OpenAI cracks an 80-year math belief」——OpenAI 突破數學界存在 80 年的難題，附「15 分鐘稽核 Claude 工作脈絡」教學。</div>
+        </div>
+        <div class="digest-item has-new">
+          <div class="digest-source">producthunt-ai</div>
+          <div class="digest-text"><span class="new-badge">更新</span> Claude 評論數 801→804（+3），Claude Code 449→452（+3），Vercel 886→887（+1）。Claude 系產品持續高速成長。</div>
+        </div>
+        <div class="digest-item has-new">
+          <div class="digest-source">superhuman-ai</div>
+          <div class="digest-text"><span class="new-badge">新</span>「Tempo launches an AI head of growth」（5/21）——AI 擔任企業成長主管的新產品形態登場。</div>
+        </div>
+        <div class="digest-item blocked">
+          <div class="digest-source">mattshumer</div>
+          <div class="digest-text">⚠️ 無公開文章（連續第 40 日確認）。建議降低爬取頻率至每週。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- News -->
+    <div class="digest-group">
+      <div class="digest-group-title">
+        <span class="digest-dot dot-news"></span> 新聞（News）
+      </div>
+      <div class="digest-list">
+        <div class="digest-item blocked">
+          <div class="digest-source">theverge-ai</div>
+          <div class="digest-text">⚠️ 域名封鎖（連續 3 週），資料沿用 5/04。建議改用 RSS feed。</div>
+        </div>
+        <div class="digest-item blocked">
+          <div class="digest-source">mit-tech-review-ai</div>
+          <div class="digest-text">⚠️ 付費牆（連續 3 週），資料沿用 5/04。建議改用 MIT TR RSS。</div>
+        </div>
+        <div class="digest-item has-new">
+          <div class="digest-source">techcrunch-ai</div>
+          <div class="digest-text"><span class="new-badge">新 ×8</span> Trump AI EO 延後、Spotify AI 三連發、Hark $700M 融資、The Path AI 心理治療、Google 代理生態消費者採納疑慮。</div>
+        </div>
+        <div class="digest-item blocked">
+          <div class="digest-source">arstechnica-ai</div>
+          <div class="digest-text">⚠️ 域名封鎖（連續 3 週），資料沿用 5/04。建議改用 RSS feed。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Section 4: 分析洞察 + 行動建議 ═══ -->
+  <div class="section">
+    <div class="section-title"><span>🧠</span> 分析洞察 + 行動建議</div>
+
+    <div class="analysis-box">
+      <h3>趨勢一：美國 AI 監管轉向——鬆綁窗口可能到來</h3>
+      <p>Trump 延後 AI 安全行政命令，加上五月以來多起政策轉向訊號（五角大廈軍事 AI 協議、各州立法碎片化），美國聯邦 AI 治理框架正處於「真空期」。對企業而言，這代表短期內部署 AI 系統的監管阻力降低；但長期來看，缺乏統一標準也意味著市場規則的不確定性上升，尤其是跨境數據與模型安全要求。</p>
+    </div>
+
+    <div class="analysis-box">
+      <h3>趨勢二：音訊 + AI 融合加速，Spotify 全面押注內容 AI</h3>
+      <p>Spotify 單日三發 AI 功能（有聲書、播客 Q&A、NotebookLM 競品），標誌著音訊平台 AI 化進入深水區——不只是個人化推薦，而是「AI 幫你創作內容」。這個方向對智能家庭與語音互動場景具有直接啟發：AI 生成的有聲內容 + 自然語言播放控制，是下一個整合點。ElevenLabs 被 Spotify 選為合作夥伴，其 AI 語音技術的產業地位進一步確立。</p>
+    </div>
+
+    <div class="analysis-box">
+      <h3>趨勢三：代理架構進入「任務流」時代，LangChain 的信號意義</h3>
+      <p>LangChain 「From Token Streams to Agent Streams」的架構論述，不只是技術文章，而是整個代理 AI 生態系的路線宣告。從 token-level 的低層控制轉向 agent-level 的高層任務協調，意味著開發者的心智模型需要全面升級：不再追蹤每個 token 的生成，而是定義任務邊界與代理職責。這個轉變正在影響 LangGraph、LangSmith 沙箱設計，以及整個代理工具鏈的設計哲學。</p>
+    </div>
+
+    <div style="margin-top:20px;">
+      <h2 class="block-title" style="font-size:15px; color:var(--t2); font-weight:700; margin-bottom:12px;">▸ 今日行動建議</h2>
+      <div class="actions-list">
+        <div class="action-item">
+          <div class="action-num">1</div>
+          <div class="action-text"><strong>追蹤 Trump AI EO 後續動向</strong>——若監管鬆綁確定，可加快 AI 整合進生產系統的時程規劃，特別是需要政府資料或有合規考量的應用場景。本週建議訂閱 The Verge / Ars Technica RSS，這兩個來源目前因封鎖遺漏了政策深度報導。</div>
+        </div>
+        <div class="action-item">
+          <div class="action-num">2</div>
+          <div class="action-text"><strong>研究 Hark $700M「通用 AI 介面」的技術路線</strong>——此融資規模在 A 輪屬極為罕見，背後必有獨特技術壁壘。建議搜尋 Hark 創辦人背景與早期文章，了解其對「下一代 AI 互動模式」的技術主張，可能影響未來 AI 助手與 UI 設計方向。</div>
+        </div>
+        <div class="action-item">
+          <div class="action-num">3</div>
+          <div class="action-text"><strong>閱讀 LangChain「Agent Streams」原文</strong>——這篇架構論述（langchain.com/blog，5/21）對於設計多代理系統的工作流具有直接指導價值。特別關注 LangGraph 的新執行模型如何定義 agent 邊界，以及 Auth Proxy 的沙箱安全機制如何解決代理網路存取問題——這兩個設計模式可直接應用於智能管家架構升級。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Section 5: 術語快查 ═══ -->
+  <div class="section">
+    <div class="section-title"><span>📖</span> 術語快查（Glossary）</div>
+    <div class="glossary-grid">
+
+      <div class="glossary-item">
+        <div class="glossary-cat cat-tech">技術術語</div>
+        <div class="glossary-name">Agent Streams</div>
+        <div class="glossary-def">LangChain 推出的新代理執行架構，以「代理任務」為基本單位的資料流模型，取代過去以 token 為單位的 Token Streams，讓開發者用更高層次的任務視角設計 AI 工作流。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-cat cat-tech">技術術語</div>
+        <div class="glossary-name">Token Streams</div>
+        <div class="glossary-def">LangChain 舊版代理執行架構，以逐個 token 為單位進行資料處理與串流，是早期 LLM 應用的低層控制模型，現正被 Agent Streams 取代。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-cat cat-tech">技術術語</div>
+        <div class="glossary-name">Auth Proxy</div>
+        <div class="glossary-def">LangSmith Agent Sandboxes 中的安全機制，代理沙箱透過 Auth Proxy 進行網路存取，確保代理在受控環境中使用外部 API 時的身份驗證與權限隔離。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-cat cat-company">公司</div>
+        <div class="glossary-name">Hark</div>
+        <div class="glossary-def">神秘 AI 新創，2026-05-21 宣布完成 7 億美元 Series A 融資，目標是開發「通用 AI 介面」（universal AI interface），具體技術未公開，被視為下一代人機互動模式的重量級押注。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-cat cat-company">公司</div>
+        <div class="glossary-name">The Path</div>
+        <div class="glossary-def">由激勵大師 Tony Robbins 與 Calm App 前高管共同創立的 AI 心理健康新創，主打安全、有邊界的 AI 輔助心理治療，試圖在 AI 療法普及化過程中建立負責任的行業標準。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-cat cat-product">產品</div>
+        <div class="glossary-name">Tempo AI Head of Growth</div>
+        <div class="glossary-def">Tempo 推出的新型 AI 產品，讓 AI 擔任企業「成長主管（Head of Growth）」的職位功能，負責分析與執行成長策略，是 AI 從工具升格為具有職位頭銜角色的首批案例之一。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-cat cat-policy">政策</div>
+        <div class="glossary-name">AI 安全行政命令（AI EO）</div>
+        <div class="glossary-def">美國聯邦政府原計劃發布的人工智能安全監管行政命令，涵蓋 AI 系統部署前的安全評估與通報要求。Trump 政府於 2026-05-21 宣布延後實施，理由是不想妨礙美國 AI 產業領跑地位。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-cat cat-product">產品</div>
+        <div class="glossary-name">ElevenLabs × Spotify</div>
+        <div class="glossary-def">ElevenLabs 為 AI 語音合成技術公司，Spotify 整合其技術推出 AI 有聲書創作工具，讓作者無需專業錄音設備即可將文字轉化為高品質有聲書，是 AI 語音在消費級平台的重要落地案例。</div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  <span>AI 每日情報日報 · 2026-05-22 · 14 個來源</span>
+  <span>tech×4 · app×6 · news×4</span>
+</div>
+
+</body>
+</html>
