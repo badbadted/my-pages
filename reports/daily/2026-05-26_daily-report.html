@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 每日情報簡報 — 2026-05-26</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --accent: #3b82f6;
+    --green: #10b981;
+    --orange: #f59e0b;
+    --red: #ef4444;
+    --purple: #8b5cf6;
+    --pink: #ec4899;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC', sans-serif;
+    background: var(--bg);
+    color: var(--t1);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  header {
+    background: var(--s1);
+    border-bottom: 2px solid var(--s2);
+    padding: 28px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .header-icon {
+    font-size: 36px;
+    line-height: 1;
+  }
+  header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--t1);
+  }
+  header .meta {
+    color: var(--t2);
+    font-size: 13px;
+    margin-top: 3px;
+  }
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 36px 28px;
+  }
+  section { margin-bottom: 52px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--s2);
+    padding-bottom: 10px;
+    margin-bottom: 22px;
+  }
+  .section-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    background: var(--t2);
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .section-title-zh {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--t1);
+  }
+  .section-title-en {
+    font-size: 12px;
+    color: var(--t2);
+    font-weight: 400;
+  }
+
+  /* ── Section 1: Stats ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .stat-card {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 10px;
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .stat-value {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--t1);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t1);
+    margin-top: 8px;
+  }
+  .stat-sub {
+    font-size: 12px;
+    color: var(--t2);
+    margin-top: 4px;
+  }
+  .stat-card.highlight-green { border-top: 3px solid var(--green); }
+  .stat-card.highlight-blue  { border-top: 3px solid var(--accent); }
+  .stat-card.highlight-red   { border-top: 3px solid var(--red); }
+
+  /* ── Section 2: Stories ── */
+  .story-list { display: flex; flex-direction: column; gap: 12px; }
+  .story-item {
+    background: var(--s1);
+    border: 1px solid var(--s2);
+    border-radius: 10px;
+    padding: 18px 22px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    transition: border-color 0.15s;
+  }
+  .story-item:hover { border-color: #94a3b8; }
+  .story-rank {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--s2);
+    min-width: 32px;
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+  .story-content { flex: 1; }
+  .story-headline {
+    font-weight: 700;
+    color: var(--t1);
+    font-size: 15px;
+    margin-bottom: 5px;
+    line-height: 1.4;
+  }
+  .story-summary {
+    font-size: 13px;
+    color: var(--t2);
+    line-height: 1.6;
+  }
+  .story-tags { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: white;
+  }
+  .tag-tech    { background: var(--accent); }
+  .tag-app     { background: var(--green); }
+  .tag-news    { background: var(--orange); }
+  .tag-hot     { background: var(--red); }
+  .tag-new     { background: var(--purple); }
+
+  /* ── Section 3: Digest ── */
+  .group-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--t2);
+    margin: 24px 0 10px;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .group-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--s2);
+  }
+  .digest-list { display: flex; flex-direction: column; gap: 5px; }
+  .digest-item {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--s1);
+    border-radius: 7px;
+    font-size: 13px;
+    border: 1px solid transparent;
+  }
+  .digest-item.has-new { border-color: #d1fae5; background: #f0fdf4; }
+  .digest-item.is-blocked { background: #fff7f7; border-color: #fee2e2; }
+  .digest-source {
+    font-weight: 600;
+    min-width: 170px;
+    color: var(--t1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .status-dot { font-size: 10px; }
+  .dot-new { color: var(--green); }
+  .dot-blocked { color: var(--red); }
+  .dot-unchanged { color: #cbd5e1; }
+  .digest-note { color: var(--t2); flex: 1; line-height: 1.5; }
+
+  /* ── Section 4: Analysis ── */
+  .analysis-block { margin-bottom: 28px; }
+  .analysis-block p {
+    font-size: 14px;
+    color: var(--t1);
+    line-height: 1.9;
+    margin-bottom: 14px;
+  }
+  .actions-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--t2);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 12px;
+  }
+  .actions-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .action-item {
+    background: var(--s1);
+    border-left: 3px solid var(--accent);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: var(--t1);
+    line-height: 1.7;
+  }
+  .action-item strong { color: var(--t1); }
+
+  /* ── Section 5: Glossary ── */
+  .glossary-list { display: flex; flex-direction: column; gap: 8px; }
+  .glossary-item {
+    background: var(--s1);
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    border: 1px solid var(--s2);
+  }
+  .term-name {
+    font-weight: 700;
+    font-size: 14px;
+    min-width: 200px;
+    color: var(--t1);
+    line-height: 1.4;
+  }
+  .term-tag {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: var(--s2);
+    color: var(--t2);
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 1px;
+  }
+  .term-def {
+    font-size: 13px;
+    color: var(--t2);
+    flex: 1;
+    line-height: 1.6;
+  }
+
+  footer {
+    background: var(--s1);
+    border-top: 1px solid var(--s2);
+    padding: 18px 40px;
+    text-align: center;
+    color: var(--t2);
+    font-size: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    header { padding: 20px; }
+    .term-name { min-width: 140px; }
+    .digest-source { min-width: 130px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-icon">🤖</div>
+  <div>
+    <h1>AI 每日情報簡報</h1>
+    <div class="meta">2026 年 5 月 26 日（星期二）&nbsp;·&nbsp; 14 個來源全面爬取 &nbsp;·&nbsp; tech 4 · app 6 · news 4</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- §1 概觀 -->
+  <section>
+    <div class="section-header">
+      <span class="section-num">§1</span>
+      <span class="section-title-zh">概觀</span>
+      <span class="section-title-en">Overview</span>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card highlight-blue">
+        <div class="stat-value">14</div>
+        <div class="stat-label">來源爬取完成</div>
+        <div class="stat-sub">tech 4 · app 6 · news 4</div>
+      </div>
+      <div class="stat-card highlight-green">
+        <div class="stat-value">5</div>
+        <div class="stat-label">發現新內容</div>
+        <div class="stat-sub">約 15 則新資訊</div>
+      </div>
+      <div class="stat-card highlight-red">
+        <div class="stat-value">3</div>
+        <div class="stat-label">來源持續封鎖</div>
+        <div class="stat-sub">theverge · ars · mit-tr（3+ 週）</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §2 頭條故事 -->
+  <section>
+    <div class="section-header">
+      <span class="section-num">§2</span>
+      <span class="section-title-zh">頭條故事</span>
+      <span class="section-title-en">Top Stories — 按重要性排序</span>
+    </div>
+    <div class="story-list">
+
+      <div class="story-item">
+        <div class="story-rank">01</div>
+        <div class="story-content">
+          <div class="story-headline">教宗 Leo XIV 發布 AI 通諭《Magnifica humanitas》，Anthropic Chris Olah 公開回應</div>
+          <div class="story-summary">梵蒂岡正式將 AI 納入天主教倫理框架，這是世界最古老機構之一首次正式定位 AI 的道德地位。Anthropic 共同創辦人 Chris Olah 就通諭公開發表見解；TechCrunch 分析指通諭核心在「人類尊嚴不可讓渡」而非 AI 技術本身。此事件標誌 AI 議題正式從技術領域升格為全球文明議題。</div>
+          <div class="story-tags">
+            <span class="tag tag-tech">anthropic-news</span>
+            <span class="tag tag-news">techcrunch-ai</span>
+            <span class="tag tag-hot">跨界大事</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">02</div>
+        <div class="story-content">
+          <div class="story-headline">ClickUp 大規模裁員：AI 取代白領工作正在主流企業中發生</div>
+          <div class="story-summary">知名生產力工具 ClickUp 宣布大規模裁員，分析師指出這是 AI 工具取代人工的直接結果——生產力軟體本身正在成為裁員工具。繼 Duolingo、Dropbox 等案例後，AI 替代浪潮已全面進入主流 SaaS 賽道，不再只是製造業或低技術工作的威脅。</div>
+          <div class="story-tags">
+            <span class="tag tag-news">techcrunch-ai</span>
+            <span class="tag tag-hot">產業衝擊</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">03</div>
+        <div class="story-content">
+          <div class="story-headline">Google 數學推理超越 OpenAI：9 比 1 大比分</div>
+          <div class="story-summary">The Rundown AI 報導 Google 在最新數學推理競賽中以 9:1 大比分超越 OpenAI，繼 Google I/O 2026 Gemini 全天候代理化之後，Google 技術攻勢持續加溫。這表示 OpenAI 近期的「數學突破」聲量或已被 Google 顯著超越，模型能力競賽進入新局面。</div>
+          <div class="story-tags">
+            <span class="tag tag-app">therundown-ai</span>
+            <span class="tag tag-new">模型競賽</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">04</div>
+        <div class="story-content">
+          <div class="story-headline">AI 技術被用來復活已故飛行員聲音：音聲肖像權爭議浮現</div>
+          <div class="story-summary">TechCrunch 報導 AI 語音合成技術被用於重建已故飛行員的聲音作為訓練用途，引發音聲肖像權法律灰色地帶的廣泛討論。目前多數國家對聲音的人格權保護幾乎是空白，此案例預示聲音版權將成為下一個重大法律戰場。</div>
+          <div class="story-tags">
+            <span class="tag tag-news">techcrunch-ai</span>
+            <span class="tag tag-new">倫理法律</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">05</div>
+        <div class="story-content">
+          <div class="story-headline">Google AI 眼鏡親測：「幾乎可以進入主流了」</div>
+          <div class="story-summary">TechCrunch 記者親身測試 Google 最新 AI 眼鏡，評價為「幾乎到位」，顯示 AR+AI 穿戴裝置的商品化時間點可能比外界預期更早到來。配合 Amazon Bee 穿戴裝置的同期評測（功能 vs 隱私顧慮），AI 穿戴裝置正集體逼近消費市場門檻。</div>
+          <div class="story-tags">
+            <span class="tag tag-news">techcrunch-ai</span>
+            <span class="tag tag-new">硬體趨勢</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">06</div>
+        <div class="story-content">
+          <div class="story-headline">獨立開發者靠 AI 打造 $2.5 億美元新創，顛覆團隊規模認知</div>
+          <div class="story-summary">Superhuman AI 報導一名獨立創業者（solopreneur）利用 AI 工具建立估值 2.5 億美元的企業，成為 AI 賦能個人創業的最新標誌性案例。這是傳統需要數十人團隊才能達到的規模，預示 AI 正從「提效工具」升格為「規模倍增器」，重寫創業方程式。</div>
+          <div class="story-tags">
+            <span class="tag tag-app">superhuman-ai</span>
+            <span class="tag tag-new">商業模式</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">07</div>
+        <div class="story-content">
+          <div class="story-headline">VC 浮誇 ARR 調查：AI 新創估值泡沫的數字遊戲</div>
+          <div class="story-summary">TechCrunch 深度調查發現創投與創辦人慣用不一致的 ARR（年度循環營收）定義誇大 AI 新創估值——如將一次性合約計入、未扣除退款或試用期。在 Anthropic $500 億融資洽談、Cerebras IPO +108% 的熱潮下，這份調查提供了重要的批判性數據視角。</div>
+          <div class="story-tags">
+            <span class="tag tag-news">techcrunch-ai</span>
+            <span class="tag tag-hot">投資警示</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">08</div>
+        <div class="story-content">
+          <div class="story-headline">LlamaIndex 推出 KYC/金融合規文件 AI 自動化系列</div>
+          <div class="story-summary">LlamaIndex 以 LiteParse 為核心，推出五篇金融合規文件 AI 自動化實作系列，涵蓋 KYC 身份驗證、房貸文件、收入驗證 API 等，主打「深度提取（Deep Extraction）」多輪驗證機制，定位企業合規 AI 基礎設施。</div>
+          <div class="story-tags">
+            <span class="tag tag-tech">llamaindex-blog</span>
+            <span class="tag tag-new">企業 AI</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- §3 來源摘要 -->
+  <section>
+    <div class="section-header">
+      <span class="section-num">§3</span>
+      <span class="section-title-zh">來源摘要</span>
+      <span class="section-title-en">Source Digest</span>
+    </div>
+
+    <div class="group-label">🔬 Tech — 技術框架</div>
+    <div class="digest-list">
+      <div class="digest-item">
+        <div class="digest-source"><span class="status-dot dot-unchanged">●</span> langchain-blog</div>
+        <div class="digest-note">無新文章——最新仍為 5/21「Agent Streams 架構範式轉移」與 LangSmith Auth Proxy 沙箱安全機制</div>
+      </div>
+      <div class="digest-item has-new">
+        <div class="digest-source"><span class="status-dot dot-new">●</span> anthropic-news</div>
+        <div class="digest-note">🆕 Chris Olah 就教宗 Leo XIV《Magnifica humanitas》AI 通諭公開回應（5/25）——跨界最大事件的 AI 業界視角</div>
+      </div>
+      <div class="digest-item has-new">
+        <div class="digest-source"><span class="status-dot dot-new">●</span> llamaindex-blog</div>
+        <div class="digest-note">🆕 KYC 身份驗證、房貸文件、收入驗證 AI 自動化新系列（5篇）——LiteParse 定位金融合規 AI 基礎設施</div>
+      </div>
+      <div class="digest-item">
+        <div class="digest-source"><span class="status-dot dot-unchanged">●</span> crewai-blog</div>
+        <div class="digest-note">無新文章——最新仍為 5/5「Discovery 引擎」，自動偵測企業可自動化環節</div>
+      </div>
+    </div>
+
+    <div class="group-label">📱 App — 應用與產品</div>
+    <div class="digest-list">
+      <div class="digest-item is-blocked">
+        <div class="digest-source"><span class="status-dot dot-blocked">●</span> theresanaiforthat</div>
+        <div class="digest-note">403 持續封鎖（連續多週），沿用 5/6 資料，47,941+ AI 工具目錄無法更新</div>
+      </div>
+      <div class="digest-item is-blocked">
+        <div class="digest-source"><span class="status-dot dot-blocked">●</span> bensbites</div>
+        <div class="digest-note">付費牆封鎖，訂閱者 165,000+，公開頁面無法取得最新日報內容</div>
+      </div>
+      <div class="digest-item has-new">
+        <div class="digest-source"><span class="status-dot dot-new">●</span> therundown-ai</div>
+        <div class="digest-note">🆕 Google 數學推理以 9:1 超越 OpenAI（今日）；Sundar Pichai「AI 翻蓋手機時刻」專訪持續熱門</div>
+      </div>
+      <div class="digest-item">
+        <div class="digest-source"><span class="status-dot dot-unchanged">●</span> producthunt-ai</div>
+        <div class="digest-note">小幅更新：Cursor 851（+1）、Supabase 788（+1）、OpenAI 755（+1）；Claude Code 持續維持高評分</div>
+      </div>
+      <div class="digest-item has-new">
+        <div class="digest-source"><span class="status-dot dot-new">●</span> superhuman-ai</div>
+        <div class="digest-note">🆕 獨立開發者靠 AI 打造 $2.5 億美元企業（5/25）；訂閱者 150 萬+</div>
+      </div>
+      <div class="digest-item">
+        <div class="digest-source"><span class="status-dot dot-unchanged">●</span> mattshumer</div>
+        <div class="digest-note">連續第 40+ 天無新文章，Substack 頁面僅顯示訂閱欄位（建議評估替換來源）</div>
+      </div>
+    </div>
+
+    <div class="group-label">📰 News — 產業新聞</div>
+    <div class="digest-list">
+      <div class="digest-item is-blocked">
+        <div class="digest-source"><span class="status-dot dot-blocked">●</span> theverge-ai</div>
+        <div class="digest-note">整個域名遭封鎖（連續 3+ 週），沿用 5/4 資料；建議改用 RSS 訂閱</div>
+      </div>
+      <div class="digest-item is-blocked">
+        <div class="digest-source"><span class="status-dot dot-blocked">●</span> mit-tech-review-ai</div>
+        <div class="digest-note">付費牆封鎖（連續 3+ 週），沿用 5/4 資料；建議改用 RSS 訂閱</div>
+      </div>
+      <div class="digest-item has-new">
+        <div class="digest-source"><span class="status-dot dot-new">●</span> techcrunch-ai</div>
+        <div class="digest-note">🆕 今日 6 篇：ClickUp 裁員、教宗通諭分析、Google AI 安全、AI 飛行員聲音、VC ARR 泡沫、Google AI 眼鏡實測</div>
+      </div>
+      <div class="digest-item is-blocked">
+        <div class="digest-source"><span class="status-dot dot-blocked">●</span> arstechnica-ai</div>
+        <div class="digest-note">整個域名遭封鎖（連續 3+ 週），沿用 5/4 資料；建議改用 RSS 訂閱</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §4 分析與行動建議 -->
+  <section>
+    <div class="section-header">
+      <span class="section-num">§4</span>
+      <span class="section-title-zh">分析</span>
+      <span class="section-title-en">Analysis + 行動建議 Actions</span>
+    </div>
+    <div class="analysis-block">
+      <p>教宗 Leo XIV 的 AI 通諭《Magnifica humanitas》是本週最具象徵意義的事件。當梵蒂岡——一個存在超過兩千年、擁有 13 億信徒的機構——正式就 AI 的道德地位表態，意味著 AI 議題已從矽谷技術圈的自我對話，升格為影響全球文明秩序的核心議題。TechCrunch 的分析指出，通諭的重心不在 AI 技術本身，而在「人類尊嚴不可讓渡」——這個框架與歐盟 AI 法案、美國州級 AI 立法的問責制方向高度一致，全球 AI 倫理共識的輪廓正在成形。</p>
+      <p>技術格局方面，Google 在數學推理以 9:1 超越 OpenAI，加上 AI 眼鏡「幾乎到位」的評測，顯示 Google I/O 之後 Google 的技術攻勢全面展開。同時，ClickUp 大規模裁員再次說明 AI 取代白領工作不再是抽象預測——生產力工具的核心客戶正在用 AI 取代生產力工具的使用者，這個弔詭值得深思。獨立開發者打造 $2.5 億新創，與 VC 浮誇 ARR 調查形成強烈對比：AI 確實大幅降低創業門檻，但投資市場仍有大量估值泡沫需要擠出。</p>
+      <p>AI 復活死亡飛行員聲音的案例，是音聲肖像權即將引爆的前兆。聲音合成技術在 2025 年已達到商用級品質，但多數國家的法律框架對「聲音人格權」幾乎是空白——連已故者的聲音是否受保護都無定論。企業若此時建立負責任的聲音使用政策，可在法規成形前搶佔道德制高點，也能避免成為第一批被起訴的案例。</p>
+    </div>
+    <div class="actions-label">三項行動建議</div>
+    <ul class="actions-list">
+      <li class="action-item">🔍 <strong>閱讀《Magnifica humanitas》通諭重點摘要</strong>——這份文件將塑造天主教機構（學校、醫院、NPO）未來數年的 AI 採購與使用政策，影響全球 13 億人口圈的 AI 落地節奏。對任何在全球市場推廣 AI 產品的人，這是了解非技術圈 AI 倫理共識走向的關鍵一手文件。</li>
+      <li class="action-item">💡 <strong>評估 KYC/金融合規文件 AI 的切入時機</strong>——LlamaIndex 系列顯示 LiteParse + Agent 架構已具備企業部署成熟度。若你的業務涉及身份驗證、貸款審查或任何文件合規流程，現在是評估自架文件 AI 的好時機——競爭窗口正在關閉，先行者優勢將在未來 12 個月內轉化為顯著護城河。</li>
+      <li class="action-item">⚖️ <strong>制定公司的「聲音使用政策」</strong>——AI 語音複製技術已完全成熟，但法律灰色地帶極大。現在建立明確政策（不使用未經本人或家屬授權的聲音樣本、不重建已故者聲音用於商業目的），能在法規正式出現前建立企業倫理防線，避免未來成為音聲肖像權第一批訴訟標靶。</li>
+    </ul>
+  </section>
+
+  <!-- §5 名詞解釋 -->
+  <section>
+    <div class="section-header">
+      <span class="section-num">§5</span>
+      <span class="section-title-zh">名詞解釋</span>
+      <span class="section-title-en">Glossary — 今日新詞</span>
+    </div>
+    <div class="glossary-list">
+
+      <div class="glossary-item">
+        <div class="term-name">Magnifica humanitas</div>
+        <span class="term-tag">教廷文件</span>
+        <div class="term-def">教宗 Leo XIV 於 2026 年 5 月發布的 AI 倫理通諭（Encyclical），拉丁文意為「偉大的人性」，主張人類尊嚴不可讓渡，是梵蒂岡首份正式 AI 倫理立場聲明。通諭是天主教最高層級正式文件，對全球 13 億天主教信徒具有道德約束力。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="term-name">OCR for KYC</div>
+        <span class="term-tag">合規技術</span>
+        <div class="term-def">在 Know Your Customer（認識您的客戶）反洗錢法規要求的身份驗證流程中，使用光學字元辨識（OCR）自動讀取護照、駕照、稅單等文件，取代人工審查。企業級應用需要高精度「深度提取」機制應對文件多樣性。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="term-name">ARR 浮誇（ARR Inflation）</div>
+        <span class="term-tag">創投術語</span>
+        <div class="term-def">AI 新創常被指控以不一致的 ARR（Annual Recurring Revenue，年度循環營收）定義誇大估值，例如將一次性合約計入、未扣除退款或試用期免費額度。TechCrunch 調查顯示此現象在 AI 賽道尤為普遍，是目前市場估值泡沫的核心機制之一。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="term-name">音聲肖像權（Voice Portrait Rights）</div>
+        <span class="term-tag">法律議題</span>
+        <div class="term-def">個人對自身聲音特徵（音色、語調、節奏）的人格權保護，類似肖像權但針對聲音。AI 語音合成技術成熟後，複製他人聲音（尤其是已故者）引發的法律灰色地帶正在擴大，目前多數國家法規尚未明確規範此領域。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="term-name">Solopreneur（獨立創業者）</div>
+        <span class="term-tag">商業趨勢</span>
+        <div class="term-def">不依靠傳統員工團隊、以 AI 工具作為核心生產力、獨立建立並運營企業的創業者。AI 大幅降低單人創業的規模門檻，2.5 億美元估值案例顯示這種模式已能達到傳統需要數十人團隊才能實現的商業規模。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="term-name">LiteParse</div>
+        <span class="term-tag">AI 工具</span>
+        <div class="term-def">LlamaIndex 推出的企業文件解析框架，支援自架（Self-Hostable）HTTP 後端部署，專注於金融合規文件（KYC、房貸、稅單）的高精度 AI 提取，當單次解析失敗時使用多輪「深度提取」驗證機制確保準確度，適合嚴格合規場景。</div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  生成時間：2026-05-26 &nbsp;·&nbsp; 14 個來源全面爬取 &nbsp;·&nbsp; AI 每日情報簡報 v1.0 &nbsp;·&nbsp; 由 Claude Sonnet 4.6 生成
+</footer>
+
+</body>
+</html>
