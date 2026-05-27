@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 每日情報 — 2026-05-28</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --accent: #3b82f6;
+    --accent-light: #eff6ff;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --purple: #7c3aed;
+    --purple-light: #f5f3ff;
+    --orange: #ea580c;
+    --orange-light: #fff7ed;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--t1);
+    line-height: 1.6;
+    font-size: 14px;
+  }
+  .header {
+    background: var(--t1);
+    color: #fff;
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  .header .meta { font-size: 13px; color: #94a3b8; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 40px; }
+  .section { margin-bottom: 48px; }
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--t1);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-num {
+    background: var(--t1);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Overview cards */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .stat-card {
+    background: var(--s1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .stat-card .num { font-size: 32px; font-weight: 800; color: var(--t1); line-height: 1; }
+  .stat-card .label { font-size: 12px; color: var(--t2); margin-top: 6px; }
+  .stat-card .detail { font-size: 11px; color: var(--t2); margin-top: 4px; }
+  .stat-card.highlight { border-color: var(--accent); background: var(--accent-light); }
+  .stat-card.highlight .num { color: var(--accent); }
+
+  /* Access status row */
+  .access-row {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;
+  }
+  .access-tag {
+    font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: 500;
+  }
+  .access-tag.ok { background: var(--green-light); color: var(--green); }
+  .access-tag.blocked { background: var(--red-light); color: var(--red); }
+  .access-tag.paywall { background: var(--orange-light); color: var(--orange); }
+
+  /* Stories */
+  .story-list { display: flex; flex-direction: column; gap: 12px; }
+  .story-card {
+    background: var(--s1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .story-rank {
+    font-size: 20px; font-weight: 800; color: var(--s2); line-height: 1;
+    flex-shrink: 0; width: 28px; text-align: right;
+  }
+  .story-rank.top3 { color: var(--accent); }
+  .story-content { flex: 1; min-width: 0; }
+  .story-headline { font-size: 14px; font-weight: 600; color: var(--t1); margin-bottom: 4px; }
+  .story-summary { font-size: 13px; color: var(--t2); line-height: 1.5; }
+  .source-tag {
+    display: inline-flex; align-items: center;
+    font-size: 10px; font-weight: 600; padding: 2px 8px;
+    border-radius: 20px; margin-top: 6px; letter-spacing: 0.3px;
+    flex-shrink: 0; align-self: flex-start;
+  }
+  .tag-tech { background: var(--accent-light); color: var(--accent); }
+  .tag-app { background: var(--purple-light); color: var(--purple); }
+  .tag-news { background: var(--orange-light); color: var(--orange); }
+
+  /* Digest */
+  .group-block { margin-bottom: 24px; }
+  .group-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+    margin-bottom: 10px; padding: 4px 10px; border-radius: 4px; display: inline-block;
+  }
+  .group-label.tech { background: var(--accent-light); color: var(--accent); }
+  .group-label.app { background: var(--purple-light); color: var(--purple); }
+  .group-label.news { background: var(--orange-light); color: var(--orange); }
+  .digest-list { list-style: none; }
+  .digest-list li {
+    padding: 10px 14px;
+    border-left: 3px solid var(--border);
+    margin-bottom: 8px;
+    background: var(--s1);
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: var(--t1);
+    line-height: 1.5;
+  }
+  .digest-list li.new { border-left-color: var(--green); }
+  .digest-list li.blocked-item { border-left-color: var(--s2); color: var(--t2); }
+  .source-name { font-weight: 600; color: var(--t1); }
+  .new-badge {
+    font-size: 10px; font-weight: 700; background: var(--green-light); color: var(--green);
+    padding: 1px 6px; border-radius: 10px; margin-left: 6px; vertical-align: middle;
+  }
+
+  /* Analysis */
+  .analysis-block { background: var(--s1); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .analysis-block h3 { font-size: 13px; font-weight: 700; color: var(--t1); margin-bottom: 8px; }
+  .analysis-block p { font-size: 13px; color: var(--t2); line-height: 1.7; }
+  .action-list { list-style: none; margin-top: 12px; }
+  .action-list li {
+    padding: 8px 12px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 13px; color: var(--t1);
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .action-list li::before { content: "→"; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+  /* Glossary */
+  .glossary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .glossary-card {
+    background: var(--s1); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;
+  }
+  .glossary-card .term { font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 2px; }
+  .glossary-card .cat {
+    font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 10px;
+    display: inline-block; margin-bottom: 6px;
+  }
+  .glossary-card .def { font-size: 12px; color: var(--t2); line-height: 1.5; }
+
+  footer {
+    background: var(--s1); border-top: 1px solid var(--border);
+    padding: 16px 40px; text-align: center; font-size: 12px; color: var(--t2);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>AI 每日情報</h1>
+    <div class="meta">2026 年 5 月 28 日（週四）</div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:13px;color:#94a3b8">涵蓋來源</div>
+    <div style="font-size:22px;font-weight:800">14</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Section 1: Overview -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-num">1</span>
+      總覽
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="num">14</div>
+        <div class="label">來源已爬取</div>
+        <div class="detail">tech×4 / app×6 / news×4</div>
+      </div>
+      <div class="stat-card highlight">
+        <div class="num">15+</div>
+        <div class="label">新增項目</div>
+        <div class="detail">較昨日新發現</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">6</div>
+        <div class="label">重大異動</div>
+        <div class="detail">融資 / 政策 / 新功能</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">4</div>
+        <div class="label">來源封鎖</div>
+        <div class="detail">Verge / MIT TR / Ars / TAAT</div>
+      </div>
+    </div>
+    <div class="access-row" style="margin-top:16px;">
+      <span style="font-size:11px;color:var(--t2);align-self:center;">來源狀態：</span>
+      <span class="access-tag ok">✓ LangChain</span>
+      <span class="access-tag ok">✓ Anthropic</span>
+      <span class="access-tag ok">✓ LlamaIndex</span>
+      <span class="access-tag ok">✓ CrewAI</span>
+      <span class="access-tag blocked">✗ TAAT (403)</span>
+      <span class="access-tag paywall">⊘ Ben's Bites (付費)</span>
+      <span class="access-tag ok">✓ TheRundown</span>
+      <span class="access-tag ok">✓ Product Hunt</span>
+      <span class="access-tag ok">✓ Superhuman</span>
+      <span class="access-tag blocked">✗ Matt Shumer (空)</span>
+      <span class="access-tag blocked">✗ The Verge (封鎖)</span>
+      <span class="access-tag paywall">⊘ MIT TR (付費)</span>
+      <span class="access-tag ok">✓ TechCrunch</span>
+      <span class="access-tag blocked">✗ Ars Technica (封鎖)</span>
+    </div>
+  </div>
+
+  <!-- Section 2: Top Stories -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-num">2</span>
+      重點新聞
+    </div>
+    <div class="story-list">
+
+      <div class="story-card">
+        <div class="story-rank top3">1</div>
+        <div class="story-content">
+          <div class="story-headline">Cognition AI 完成 10 億美元融資，估值達 250 億美元</div>
+          <div class="story-summary">開發「自主 AI 軟體工程師」Devin 的 Cognition AI 完成最新一輪融資，估值達 250 億美元——成為近期估值最高的純 AI 應用新創之一，顯示 AI 程式開發工具賽道熱度持續升溫。</div>
+        </div>
+        <span class="source-tag tag-news">TechCrunch</span>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank top3">2</div>
+        <div class="story-content">
+          <div class="story-headline">YouTube 宣布自動偵測並標記 AI 生成影片</div>
+          <div class="story-summary">YouTube 正式推出 AI 影片自動標記功能，主動辨識並為 AI 生成內容加上標籤。這是 2026 年繼 YouTube 短片 AI 限制後，平台端對 AI 內容最大力度的主動治理行動，預計影響全平台創作者生態。</div>
+        </div>
+        <span class="source-tag tag-news">TechCrunch</span>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank top3">3</div>
+        <div class="story-content">
+          <div class="story-headline">Robinhood 開放 AI 代理自動交易股票</div>
+          <div class="story-summary">Robinhood 新功能允許用戶授權 AI 代理執行股票交易，將 Agentic AI 帶入零售金融。這是繼 Co-Invest 整合 Claude/ChatGPT 後，同日出現的第二起 AI 代理滲透個人投資領域的重大事件。</div>
+        </div>
+        <span class="source-tag tag-news">TechCrunch</span>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">4</div>
+        <div class="story-content">
+          <div class="story-headline">Lyft 以 LangGraph + LangSmith 打造企業自助 AI 客服代理平台</div>
+          <div class="story-summary">LangChain 發布 Lyft 案例：Lyft 工程團隊如何建立讓業務單位自助配置客服 AI Agent 的內部平台，完整展示 LangGraph 編排 + LangSmith 監控的企業級 Agent 部署架構，為大型企業複製提供參考。</div>
+        </div>
+        <span class="source-tag tag-tech">LangChain</span>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">5</div>
+        <div class="story-content">
+          <div class="story-headline">DuckDuckGo 安裝量暴增 30%，用戶抗拒 Google AI 強制整合</div>
+          <div class="story-summary">大量用戶因抗拒 Google 搜尋強制內嵌 AI 摘要（AI Overviews）而轉投 DuckDuckGo，安裝量月增 30%。這是用戶端對「AI 搜尋疲勞」的首個大規模量化信號。</div>
+        </div>
+        <span class="source-tag tag-news">TechCrunch</span>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">6</div>
+        <div class="story-content">
+          <div class="story-headline">Anthropic 任命韓國代表董事，首爾辦公室即將開幕</div>
+          <div class="story-summary">Anthropic 宣布任命 KiYoung Choi 擔任韓國代表董事，首爾辦公室正式籌備。這是繼 KPMG、PwC 全球部署後，Anthropic 在亞洲市場的首個本土化落點，顯示其全球化戰略提速。</div>
+        </div>
+        <span class="source-tag tag-tech">Anthropic</span>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">7</div>
+        <div class="story-content">
+          <div class="story-headline">LiteParse v2.0 正式支援全平台部署（本地 / 雲端 / 邊緣）</div>
+          <div class="story-summary">LlamaIndex 旗下 LiteParse 文件解析引擎升級至 v2.0，實現「Runs Everywhere」——同一套 API 可在本地伺服器、雲端服務和邊緣裝置上部署執行，大幅降低企業文件 AI 化的部署門檻。</div>
+        </div>
+        <span class="source-tag tag-tech">LlamaIndex</span>
+      </div>
+
+      <div class="story-card">
+        <div class="story-rank">8</div>
+        <div class="story-content">
+          <div class="story-headline">DeepMind CEO Demis Hassabis 獨家談 AGI 時程與 AI 治病前景</div>
+          <div class="story-summary">TheRundown 獨家專訪 DeepMind 執行長 Hassabis，揭示其對 AGI 到來時程的最新預測，以及 AI 在藥物研發與疾病治療領域的突破性應用路徑——Alpha 家族模型的下一步。</div>
+        </div>
+        <span class="source-tag tag-app">TheRundown</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 3: Source Digest -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-num">3</span>
+      各來源摘要
+    </div>
+
+    <div class="group-block">
+      <div class="group-label tech">TECH 技術框架</div>
+      <ul class="digest-list">
+        <li class="new">
+          <span class="source-name">LangChain</span><span class="new-badge">NEW</span>
+          — Lyft 企業客服 Agent 平台案例文章發布（5/27），完整展示 LangGraph + LangSmith 在大型企業的生產部署架構。
+        </li>
+        <li class="new">
+          <span class="source-name">Anthropic</span><span class="new-badge">NEW</span>
+          — 宣布任命 KiYoung Choi 為韓國代表董事（5/26），首爾辦公室即將啟動，亞洲擴張再下一城。
+        </li>
+        <li class="new">
+          <span class="source-name">LlamaIndex</span><span class="new-badge">NEW</span>
+          — LiteParse v2.0 發布（5/27），文件解析引擎全平台支援（本地 / 雲端 / 邊緣）。
+        </li>
+        <li class="blocked-item">
+          <span class="source-name">CrewAI</span>
+          — 無新文章，最新內容仍為 5/5 的 Discovery 自動化引擎介紹。
+        </li>
+      </ul>
+    </div>
+
+    <div class="group-block">
+      <div class="group-label app">APP 應用工具</div>
+      <ul class="digest-list">
+        <li class="blocked-item">
+          <span class="source-name">There's An AI For That</span>
+          — 持續 403 封鎖，無法取得今日資料。
+        </li>
+        <li class="blocked-item">
+          <span class="source-name">Ben's Bites</span>
+          — 付費牆封鎖，訂閱者達 165,000+，無公開內容。
+        </li>
+        <li class="new">
+          <span class="source-name">TheRundown AI</span><span class="new-badge">NEW</span>
+          — Demis Hassabis 獨家專訪上線，AGI 時程與 AI 治病前景成本日頭條。
+        </li>
+        <li class="new">
+          <span class="source-name">Product Hunt AI</span><span class="new-badge">更新</span>
+          — Claude Code 本週評論數最快速成長，達 469 則（+7）；AI Agents 分類蟬聯熱門 #1。
+        </li>
+        <li class="new">
+          <span class="source-name">Superhuman AI</span><span class="new-badge">NEW</span>
+          — Co-Invest 登場（5/27）：整合 Claude/ChatGPT 的個人投資決策 AI 平台，附 Claude 互動圖表教學。
+        </li>
+        <li class="blocked-item">
+          <span class="source-name">Matt Shumer</span>
+          — 連續 40+ 天無新文章，Substack 頁面僅顯示訂閱欄位。
+        </li>
+      </ul>
+    </div>
+
+    <div class="group-block">
+      <div class="group-label news">NEWS 新聞媒體</div>
+      <ul class="digest-list">
+        <li class="blocked-item">
+          <span class="source-name">The Verge</span>
+          — 持續封鎖三週以上，沿用 5/4 資料（Microsoft-OpenAI AGI 協議終止等）。
+        </li>
+        <li class="blocked-item">
+          <span class="source-name">MIT Technology Review</span>
+          — 付費牆封鎖，沿用 5/4 資料（各州 AI 立法、Google Vertex 更名等）。
+        </li>
+        <li class="new">
+          <span class="source-name">TechCrunch</span><span class="new-badge">多篇 NEW</span>
+          — 今日最活躍：Cognition $10 億融資、YouTube AI 標記、Robinhood AI 代理交易、DuckDuckGo +30%。
+        </li>
+        <li class="blocked-item">
+          <span class="source-name">Ars Technica</span>
+          — 持續封鎖，沿用 5/4 資料（Ars AI 政策、五角大廈軍事 AI 協議等）。
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 4: Analysis & Actions -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-num">4</span>
+      趨勢分析 &amp; 行動建議
+    </div>
+
+    <div class="analysis-block">
+      <h3>📈 產業趨勢：AI 代理滲透金融日常，Agentic Finance 成形</h3>
+      <p>今日出現兩個同日的 AI 金融代理信號：Robinhood 開放 AI 代理自動執行股票交易、Co-Invest 整合 Claude/ChatGPT 做投資決策。這與上週 Superhuman 報導「一人 $250M 新創」、OpenAI Codex 行動化共同指向同一趨勢：AI 正從「輔助工具」升格為「自主代理」，而金融是第一個大規模落地的非技術領域。預計 2026 下半年將有更多 Fintech 整合 AI 代理，監管層面的應對也將加速到來。</p>
+    </div>
+
+    <div class="analysis-block">
+      <h3>🛡️ 平台治理加速：YouTube 標記、TikTok 協議、DuckDuckGo 反彈</h3>
+      <p>今日三件事同日發生——YouTube 自動標記 AI 影片、環球音樂 × TikTok 更新反 AI 音樂協議、DuckDuckGo 因用戶抗拒 Google AI 搜尋而暴增 30%——顯示 AI 內容治理正從「業界自律」轉向「平台強制」，而用戶的逆反情緒也開始化為可量化的行為數據。平台端若不在用戶體驗與 AI 整合間找到平衡，可能面臨更大規模的用戶遷移。</p>
+    </div>
+
+    <div class="analysis-block">
+      <h3>🌏 Anthropic 亞洲佈局 + 大型企業 Agent 落地案例密集出現</h3>
+      <p>Anthropic 韓國辦公室開幕、Lyft 企業客服代理平台案例、KPMG/PwC 全球部署——企業級 AI 的競爭焦點已從「哪個模型最強」轉向「誰能在全球主要市場有當地服務能力 + 可複製的企業落地架構」。LangChain 的 Lyft 案例文章本質上是一份企業 Agent 部署說明書，對有意導入 AI 代理的大型組織具有直接參考價值。</p>
+    </div>
+
+    <div class="analysis-block" style="background:#fff;border-color:var(--accent);">
+      <h3 style="color:var(--accent);">💡 行動建議</h3>
+      <ul class="action-list">
+        <li>研究 <strong>Lyft × LangChain 案例</strong>的架構設計（LangGraph 工作流 + LangSmith 監控），作為評估自身 Agent 平台可行性的參考框架。</li>
+        <li>追蹤 <strong>Robinhood AI 代理交易</strong>的用戶體驗與監管回應，評估 AI 代理在高風險決策場景（金融 / 醫療）的邊界與合規要求。</li>
+        <li>確認現有工作流中的 <strong>文件解析環節</strong>是否可導入 LiteParse v2.0（全平台支援），尤其是有本地部署需求的場景。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 5: Glossary -->
+  <div class="section">
+    <div class="section-title">
+      <span class="section-num">5</span>
+      今日新詞彙
+    </div>
+    <div class="glossary-grid">
+      <div class="glossary-card">
+        <div class="term">Cognition AI</div>
+        <div class="cat tag-news" style="font-size:10px;padding:2px 7px;border-radius:10px;">新創公司</div>
+        <div class="def">開發 Devin（號稱「第一個自主 AI 軟體工程師」）的 AI 新創，今日完成 $10 億融資，估值達 $250 億。Devin 能獨立完成完整程式開發任務，不只是程式碼補全助手。</div>
+      </div>
+      <div class="glossary-card">
+        <div class="term">LiteParse v2.0</div>
+        <div class="cat tag-tech" style="font-size:10px;padding:2px 7px;border-radius:10px;">開發工具</div>
+        <div class="def">LlamaIndex 旗下的輕量文件解析引擎，v2.0 版本實現「Runs Everywhere」，可在本地伺服器、雲端和邊緣裝置上用同一套 API 部署，專為 AI Agent 文件處理設計。</div>
+      </div>
+      <div class="glossary-card">
+        <div class="term">Co-Invest</div>
+        <div class="cat tag-app" style="font-size:10px;padding:2px 7px;border-radius:10px;">AI 應用</div>
+        <div class="def">整合 Claude 和 ChatGPT 的個人投資決策輔助平台，讓用戶以自然語言對話方式驅動投資分析與決策，是 Agentic Finance 趨勢的代表性應用之一。</div>
+      </div>
+      <div class="glossary-card">
+        <div class="term">OpenRouter</div>
+        <div class="cat tag-tech" style="font-size:10px;padding:2px 7px;border-radius:10px;">AI 基礎設施</div>
+        <div class="def">統一的 AI 模型 API 路由平台，讓開發者用單一接口存取 GPT、Claude、Gemini 等多家模型，並可依成本、速度、能力自動路由。昨日完成新一輪融資，估值達 $13 億。</div>
+      </div>
+      <div class="glossary-card">
+        <div class="term">Agentic Finance</div>
+        <div class="cat tag-app" style="font-size:10px;padding:2px 7px;border-radius:10px;">產業趨勢</div>
+        <div class="def">AI 代理（Agent）在金融領域的自主應用，從協助分析升級為「代為執行」——如 Robinhood 讓 AI 代理自動下單交易。與傳統演算法交易不同，Agentic Finance 以大語言模型推理驅動決策。</div>
+      </div>
+      <div class="glossary-card">
+        <div class="term">KiYoung Choi</div>
+        <div class="cat tag-tech" style="font-size:10px;padding:2px 7px;border-radius:10px;">人物</div>
+        <div class="def">Anthropic 新任命的韓國代表董事，負責領導首爾辦公室業務，是 Anthropic 在亞洲市場本土化落地的首個高層本地人事任命。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  AI 每日情報 · 2026-05-28 · 14 來源 · 自動生成 by Claude Code
+</footer>
+
+</body>
+</html>
