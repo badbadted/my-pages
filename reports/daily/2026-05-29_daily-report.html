@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 每日情報 — 2026-05-29</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --s1: #f8fafc;
+    --s2: #e2e8f0;
+    --s3: #cbd5e1;
+    --t1: #1e293b;
+    --t2: #64748b;
+    --t3: #94a3b8;
+    --accent: #3b82f6;
+    --accent-light: #eff6ff;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --red: #ef4444;
+    --red-light: #fef2f2;
+    --orange: #f59e0b;
+    --orange-light: #fffbeb;
+    --purple: #8b5cf6;
+    --purple-light: #f5f3ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--t1); font-size: 14px; line-height: 1.6; }
+
+  /* Layout */
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px; }
+
+  /* Header */
+  .report-header { border-bottom: 2px solid var(--s2); padding-bottom: 20px; margin-bottom: 32px; }
+  .report-date { font-size: 12px; color: var(--t3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .report-title { font-size: 26px; font-weight: 700; color: var(--t1); margin-bottom: 8px; }
+  .report-subtitle { font-size: 13px; color: var(--t2); }
+
+  /* Section */
+  .section { margin-bottom: 40px; }
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t3); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--s2); }
+
+  /* Stat Cards */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .stat-card { background: var(--s1); border: 1px solid var(--s2); border-radius: 10px; padding: 16px; }
+  .stat-value { font-size: 28px; font-weight: 700; color: var(--t1); line-height: 1.1; }
+  .stat-label { font-size: 12px; color: var(--t2); margin-top: 4px; }
+  .stat-card.highlight { background: var(--accent-light); border-color: #bfdbfe; }
+  .stat-card.highlight .stat-value { color: var(--accent); }
+
+  /* Blocked warning */
+  .blocked-notice { background: var(--orange-light); border: 1px solid #fde68a; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #92400e; margin-top: 12px; }
+  .blocked-notice strong { font-weight: 600; }
+
+  /* Top Stories */
+  .story-list { display: flex; flex-direction: column; gap: 10px; }
+  .story-item { background: var(--s1); border: 1px solid var(--s2); border-radius: 10px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+  .story-rank { font-size: 11px; font-weight: 700; color: var(--t3); min-width: 20px; padding-top: 1px; }
+  .story-body { flex: 1; }
+  .story-headline { font-size: 14px; font-weight: 600; color: var(--t1); margin-bottom: 4px; line-height: 1.4; }
+  .story-summary { font-size: 13px; color: var(--t2); line-height: 1.5; }
+  .story-tags { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.04em; }
+  .tag-news { background: #fef3c7; color: #92400e; }
+  .tag-tech { background: #dbeafe; color: #1e40af; }
+  .tag-app { background: #d1fae5; color: #065f46; }
+  .tag-hot { background: #fee2e2; color: #991b1b; }
+  .tag-new { background: #ede9fe; color: #5b21b6; }
+
+  /* Source Digest */
+  .digest-group { margin-bottom: 18px; }
+  .digest-group-label { font-size: 11px; font-weight: 700; color: var(--t2); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .group-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .dot-tech { background: var(--accent); }
+  .dot-app { background: var(--green); }
+  .dot-news { background: var(--purple); }
+  .digest-list { display: flex; flex-direction: column; gap: 6px; }
+  .digest-row { display: flex; gap: 10px; align-items: flex-start; padding: 8px 12px; background: var(--s1); border-radius: 8px; border: 1px solid var(--s2); }
+  .digest-source { font-size: 11px; font-weight: 600; color: var(--t2); min-width: 130px; padding-top: 1px; }
+  .digest-text { font-size: 13px; color: var(--t1); flex: 1; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .status-new { background: var(--green); }
+  .status-same { background: var(--s3); }
+  .status-blocked { background: var(--orange); }
+
+  /* Analysis */
+  .analysis-block { display: flex; flex-direction: column; gap: 14px; }
+  .analysis-para { background: var(--s1); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13px; color: var(--t1); line-height: 1.7; }
+  .analysis-para strong { color: var(--t1); }
+  .action-list { margin-top: 16px; }
+  .action-title { font-size: 12px; font-weight: 700; color: var(--t2); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .action-item { display: flex; gap: 10px; padding: 10px 14px; background: var(--green-light); border: 1px solid #a7f3d0; border-radius: 8px; margin-bottom: 6px; font-size: 13px; color: var(--t1); line-height: 1.5; }
+  .action-num { font-weight: 700; color: var(--green); min-width: 18px; }
+
+  /* Glossary */
+  .glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+  .glossary-item { background: var(--s1); border: 1px solid var(--s2); border-radius: 8px; padding: 12px 14px; }
+  .glossary-term { font-size: 13px; font-weight: 700; color: var(--t1); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+  .glossary-def { font-size: 12px; color: var(--t2); line-height: 1.5; }
+
+  /* Footer */
+  .report-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--s2); font-size: 11px; color: var(--t3); text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="report-header">
+    <div class="report-date">2026 年 05 月 29 日 · 星期五 · AI 每日情報</div>
+    <div class="report-title">AI 每日情報 Daily Digest</div>
+    <div class="report-subtitle">涵蓋 Tech × 4、App × 6、News × 4，共 14 個來源 · 今日重大事件：Anthropic $650 億 Series H 估值近兆 + Claude Opus 4.8 發布</div>
+  </div>
+
+  <!-- Section 1: Overview -->
+  <div class="section">
+    <div class="section-title">總覽 Overview</div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-value">14</div>
+        <div class="stat-label">來源已抓取</div>
+      </div>
+      <div class="stat-card highlight">
+        <div class="stat-value">17</div>
+        <div class="stat-label">新增項目（今日）</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">4</div>
+        <div class="stat-label">重大事件偵測</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">5</div>
+        <div class="stat-label">來源封鎖 / 付費牆</div>
+      </div>
+    </div>
+    <div class="blocked-notice" style="margin-top: 12px;">
+      <strong>⚠ 封鎖來源（5 個）：</strong>
+      theverge.com、arstechnica.com（域名封鎖）；mit-tech-review、bensbites、mattshumer（付費牆）；theresanaiforthat（403 機器人防護）。
+      建議改用 RSS 取代直接抓取，受影響分析以現有資料為準。
+    </div>
+  </div>
+
+  <!-- Section 2: Top Stories -->
+  <div class="section">
+    <div class="section-title">頭條新聞 Top Stories</div>
+    <div class="story-list">
+
+      <div class="story-item">
+        <div class="story-rank">01</div>
+        <div class="story-body">
+          <div class="story-headline">Anthropic 完成 $650 億 Series H，投後估值近兆美元（$9,650 億）</div>
+          <div class="story-summary">Anthropic 創下 AI 獨角獸估值新高，估值半年從 $380 億跳至 $9,650 億（漲幅 154%），距兆美元僅一步之遙，IPO 前哨戰正式展開。同日宣布 Claude Opus 4.8 發布，顯示商業與技術雙線並進。</div>
+          <div class="story-tags">
+            <span class="tag tag-hot">🔥 重大融資</span>
+            <span class="tag tag-tech">Anthropic</span>
+            <span class="tag tag-news">TechCrunch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">02</div>
+        <div class="story-body">
+          <div class="story-headline">Claude Opus 4.8 正式發布 — 加入動態工作流（Dynamic Workflow）工具</div>
+          <div class="story-summary">Anthropic 與融資消息同日推出 Opus 4.8，核心亮點為「動態工作流工具」——讓 AI 代理可即時規劃並調整多步驟執行流程，強化程式開發與代理任務表現。</div>
+          <div class="story-tags">
+            <span class="tag tag-hot">🆕 新模型</span>
+            <span class="tag tag-tech">Claude / Anthropic</span>
+            <span class="tag tag-news">TechCrunch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">03</div>
+        <div class="story-body">
+          <div class="story-headline">DeepMind 發布蛋白質世界模型 — 繼 AlphaFold 後最大生物 AI 突破</div>
+          <div class="story-summary">DeepMind 全新蛋白質世界模型（Protein World Model）可前所未有地全面模擬蛋白質結構與動態行為，被視為繼 AlphaFold 解出蛋白質結構後的下一個里程碑，對藥物研發、基因編輯及疾病治療具有深遠影響。</div>
+          <div class="story-tags">
+            <span class="tag tag-hot">🔬 科學突破</span>
+            <span class="tag tag-tech">DeepMind / Google</span>
+            <span class="tag tag-app">The Rundown</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">04</div>
+        <div class="story-body">
+          <div class="story-headline">Cognition AI（Devin 母公司）融資 $10 億，估值 $250 億</div>
+          <div class="story-summary">AI 程式開發新創 Cognition 完成 $10 億融資，估值達 $250 億，創下 AI 編程工具新高。其旗艦產品 Devin 是首個號稱可自主完成軟體工程任務的「AI 軟體工程師」。</div>
+          <div class="story-tags">
+            <span class="tag tag-hot">💰 重大融資</span>
+            <span class="tag tag-tech">Cognition / Devin</span>
+            <span class="tag tag-news">TechCrunch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">05</div>
+        <div class="story-body">
+          <div class="story-headline">AI Token 期貨交易正式上線 — 可像黃金一樣押注 AI</div>
+          <div class="story-summary">全球首個 AI token 期貨交易產品上市，投資者可像交易黃金、石油等大宗商品一樣押注 AI 算力消耗量，標誌著 AI 資源進入金融衍生品市場的新里程碑。</div>
+          <div class="story-tags">
+            <span class="tag tag-new">新金融產品</span>
+            <span class="tag tag-news">TechCrunch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">06</div>
+        <div class="story-body">
+          <div class="story-headline">DuckDuckGo 安裝量暴增 30% — 用戶抵制 Google AI 強制搜尋</div>
+          <div class="story-summary">隨著 Google Search 大力整合 AI Overview 等功能，大量用戶感到「被強迫接受 AI」而轉向 DuckDuckGo，後者安裝量單月激增 30%，顯示 AI 反噬效應已形成可測量的市場轉移。</div>
+          <div class="story-tags">
+            <span class="tag tag-new">用戶反噬</span>
+            <span class="tag tag-news">TechCrunch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">07</div>
+        <div class="story-body">
+          <div class="story-headline">ElevenLabs 推出跨風格音樂生成模型 — 單曲中途可切換流派</div>
+          <div class="story-summary">ElevenLabs 發布全新音樂生成模型，支援在同一首曲子中途切換音樂風格（如從爵士跳至電子樂），突破了過去 AI 音樂生成「一曲一風格」的限制。</div>
+          <div class="story-tags">
+            <span class="tag tag-new">🆕 新功能</span>
+            <span class="tag tag-app">ElevenLabs</span>
+            <span class="tag tag-news">TechCrunch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-item">
+        <div class="story-rank">08</div>
+        <div class="story-body">
+          <div class="story-headline">LlamaIndex 深化金融合規文件自動化 — KYC、按揭、收入驗證</div>
+          <div class="story-summary">LlamaIndex/LiteParse 今日密集發布五篇文章，聚焦金融服務垂直市場：KYC（認識你的客戶）合規文件、按揭流程自動化、收入驗證 API、以及深度提取架構說明，顯示文件 AI 正快速滲透金融監管場景。</div>
+          <div class="story-tags">
+            <span class="tag tag-tech">LlamaIndex</span>
+            <span class="tag tag-new">金融合規</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 3: Source Digest -->
+  <div class="section">
+    <div class="section-title">來源摘要 Source Digest</div>
+
+    <!-- Tech Group -->
+    <div class="digest-group">
+      <div class="digest-group-label">
+        <span class="group-dot dot-tech"></span>TECH 技術框架（4 個來源）
+      </div>
+      <div class="digest-list">
+        <div class="digest-row">
+          <div class="status-dot status-new"></div>
+          <div class="digest-source">langchain-blog</div>
+          <div class="digest-text">新增 May 2026 月報；注意：blog.langchain.com 已永久重定向至 www.langchain.com/blog/，建議更新監控 URL。</div>
+          <span class="tag tag-tech" style="align-self:flex-start;flex-shrink:0;">tech</span>
+        </div>
+        <div class="digest-row">
+          <div class="status-dot status-new"></div>
+          <div class="digest-source">anthropic-news</div>
+          <div class="digest-text">三連發：$650 億 Series H（估值 $9,650 億）+ Claude Opus 4.8 發布 + 米蘭辦公室開幕，今日最大來源。</div>
+          <span class="tag tag-hot" style="align-self:flex-start;flex-shrink:0;">🔥 熱</span>
+        </div>
+        <div class="digest-row">
+          <div class="status-dot status-new"></div>
+          <div class="digest-source">llamaindex-blog</div>
+          <div class="digest-text">五篇新文章密集發布，聚焦金融合規文件自動化（KYC / 按揭 / 收入驗證 / 深度提取架構）。</div>
+          <span class="tag tag-tech" style="align-self:flex-start;flex-shrink:0;">tech</span>
+        </div>
+        <div class="digest-row">
+          <div class="status-dot status-same"></div>
+          <div class="digest-source">crewai-blog</div>
+          <div class="digest-text">無新文章（最新仍為 5/05 Discovery 自動化識別引擎），本週靜默。</div>
+          <span class="tag tag-tech" style="align-self:flex-start;flex-shrink:0;">tech</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Group -->
+    <div class="digest-group">
+      <div class="digest-group-label">
+        <span class="group-dot dot-app"></span>APP 應用工具（6 個來源）
+      </div>
+      <div class="digest-list">
+        <div class="digest-row">
+          <div class="status-dot status-blocked"></div>
+          <div class="digest-source">theresanaiforthat</div>
+          <div class="digest-text">持續 403 封鎖（第 23+ 日），無新資料；平台總工具數 47,941+，建議改用 RSS。</div>
+          <span class="tag tag-app" style="align-self:flex-start;flex-shrink:0;">app</span>
+        </div>
+        <div class="digest-row">
+          <div class="status-dot status-blocked"></div>
+          <div class="digest-source">bensbites</div>
+          <div class="digest-text">付費牆封鎖持續，訂閱者 165,000+（週二 / 週四發行），公開首頁無內容。</div>
+          <span class="tag tag-app" style="align-self:flex-start;flex-shrink:0;">app</span>
+        </div>
+        <div class="digest-row">
+          <div class="status-dot status-new"></div>
+          <div class="digest-source">therundown-ai</div>
+          <div class="digest-text">新增 DeepMind 蛋白質世界模型重大報導，是本日最具科學影響力的科普新聞。</div>
+          <span class="tag tag-app" style="align-self:flex-start;flex-shrink:0;">app</span>
+        </div>
+        <div class="digest-row">
+          <div class="status-dot status-same"></div>
+          <div class="digest-source">producthunt-ai</div>
+          <div class="digest-text">Claude 評論數突破 812（+1），整體排行無異動；AI Agents 持續穩居熱門分類 #1。</div>
+          <span class="tag tag-app" style="align-self:flex-start;flex-shrink:0;">app</span>
+        </div>
+        <div class="digest-row">
+          <div class="status-dot status-new"></div>
+          <div class="digest-source">superhuman-ai</div>
+          <div class="digest-text">新增 Sam Altman 回應就業衝擊：AI 不會造成「就業末日」，附 Gemini 強化 LinkedIn 實用教學。</div>
+          <span class="tag tag-app" style="align-self:flex-start;flex-shrink:0;">app</span>
+        </div>
+        <div class="digest-row">
+          <div class="status-dot status-blocked"></div>
+          <div class="digest-source">mattshumer</div>
+          <div class="digest-text">連續第 41 日無公開內容（Substack 僅顯示訂閱欄位），建議考慮替換為其他 AI 洞察來源。</div>
+          <span class="tag tag-app" style="align-self:flex-start;flex-shrink:0;">app</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- News Group -->
+    <div class="digest-group">
+      <div class="digest-group-label">
+        <span class="group-dot dot-news"></span>NEWS 媒體新聞（4 個來源）
+      </div>
+      <div class="digest-list">
+        <div class="digest-row">
+          <div class="status-dot status-blocked"></div>
+          <div class="digest-source">theverge-ai</div>
+          <div class="digest-text">theverge.com 域名持續封鎖（第 25+ 日），沿用 5/04 資料，建議改用 Verge AI RSS。</div>
+          <span class="tag tag-news" style="align-self:flex-start;flex-shrink:0;">news</span>
+        </div>
+        <div class="digest-row">
+          <div class="status-dot status-blocked"></div>
+          <div class="digest-source">mit-tech-review-ai</div>
+          <div class="digest-text">付費牆封鎖持續，頁面僅顯示電子報訂閱表單，建議改用 MIT TR RSS 取摘要。</div>
+          <span class="tag tag-news" style="align-self:flex-start;flex-shrink:0;">news</span>
+        </div>
+        <div class="digest-row">
+          <div class="status-dot status-new"></div>
+          <div class="digest-source">techcrunch-ai</div>
+          <div class="digest-text">本日最密集來源：Anthropic $65B / Opus 4.8 / AI 期貨 / Cognition $1B / ElevenLabs / Visa+Replit，共 8 篇新文章。</div>
+          <span class="tag tag-hot" style="align-self:flex-start;flex-shrink:0;">🔥 熱</span>
+        </div>
+        <div class="digest-row">
+          <div class="status-dot status-blocked"></div>
+          <div class="digest-source">arstechnica-ai</div>
+          <div class="digest-text">arstechnica.com 域名封鎖持續（第 25+ 日），沿用 5/04 資料，建議改用 Ars RSS。</div>
+          <span class="tag tag-news" style="align-self:flex-start;flex-shrink:0;">news</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Analysis & Actions -->
+  <div class="section">
+    <div class="section-title">趨勢分析 + 行動建議 Analysis &amp; Actions</div>
+    <div class="analysis-block">
+
+      <div class="analysis-para">
+        <strong>Anthropic 進入「近兆估值」前哨，兩條腿同步加速：</strong>
+        Anthropic 從 $380 億（Series G，四個月前）跳至 $9,650 億估值，單一融資輪漲幅超 150%，且同日發布 Opus 4.8 而非僅公告融資，顯示其刻意傳遞「商業 + 技術雙線領先」的訊息。Claude Opus 4.8 的「動態工作流工具」是面向企業代理市場的戰略武器——Anthropic 正在從「研究型 AI 公司」加速轉型為「企業代理平台」，KPMG（27.6 萬員工）、PwC 等大型企業客戶是這個定位的市場驗證。
+      </div>
+
+      <div class="analysis-para">
+        <strong>AI 資產化：從工具到可交易的金融資產類別：</strong>
+        今日出現三個訊號指向同一方向——AI token 期貨上線、Robinhood 開放 AI 代理股票交易、Visa 投資 Replit 布局代理支付。AI 正從軟體工具轉化為「可定價、可交易、可流通」的金融資產。Cognition 以 $250 億估值取得 $10 億融資，而其核心產品 Devin 僅是「AI 軟體工程師」——這表示投資人正在為 AI 勞動力的未來替代能力定價，而非僅為當下收入。
+      </div>
+
+      <div class="analysis-para">
+        <strong>AI 反噬效應：從少數聲音演變為可測量的用戶流失：</strong>
+        DuckDuckGo 安裝量 +30% 不只是隱私敏感者的反應——這代表 Google 強推 AI Overview 造成的用戶體驗摩擦已大到足以驅動可測量的市場轉移。搭配 Gen Z 系統性反感（僅 18% 樂觀）、YouTube 被動標記 AI 影片（防禦性舉措），可以確認：「使用者不想被 AI 接管體驗」正在成為一個需要主動設計的產品課題，而非邊緣意見。
+      </div>
+
+    </div>
+
+    <div class="action-list">
+      <div class="action-title">✦ 今日 3 項行動建議</div>
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div>評估 <strong>Claude Opus 4.8 動態工作流工具</strong> 是否可套用現有的 Agent 架構：「動態調整多步驟執行流程」直接對應 LangGraph / CrewAI 的任務規劃層，可在本週測試替換現有 static workflow 的可行性。</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div>追蹤 <strong>AI token 期貨市場</strong> 作為算力成本的新指標：期貨定價將成為估算 AI 基礎設施成本趨勢的前瞻指標，可作為決策技術路線（自建 vs 租用算力）時的參考依據。</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div>盤點現有產品中「被用戶感知為強迫 AI」的入口，優化為<strong>可選 AI（Opt-in）體驗</strong>：DuckDuckGo +30% 的反噬效應是明確訊號——主動標示「AI 生成」並讓用戶可關閉，比強推整合的長期留存率更高。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Glossary -->
+  <div class="section">
+    <div class="section-title">詞彙表 Glossary（今日新詞）</div>
+    <div class="glossary-grid">
+
+      <div class="glossary-item">
+        <div class="glossary-term">
+          <span class="tag tag-hot" style="font-size:10px;">新模型</span>
+          Claude Opus 4.8
+        </div>
+        <div class="glossary-def">Anthropic 於 2026-05-28 發布的最新 Claude 模型，核心新增「動態工作流工具（dynamic workflow tool）」，強化 AI 代理在多步驟任務中的自主規劃與即時調整能力。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">
+          <span class="tag tag-hot" style="font-size:10px;">融資術語</span>
+          Series H
+        </div>
+        <div class="glossary-def">第 H 輪風險投資融資，通常為上市（IPO）前的晚期大額融資輪次，代表投資人對公司商業模式與成長潛力的高度信心。Anthropic 本輪融資規模 $650 億美元。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">
+          <span class="tag tag-new" style="font-size:10px;">金融新品</span>
+          AI Token 期貨
+        </div>
+        <div class="glossary-def">以 AI 算力消耗量（token 數）為標的的金融衍生商品，允許投資者像交易黃金、石油一樣押注 AI 資源的未來價格，今日正式在金融市場上線交易。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">
+          <span class="tag tag-tech" style="font-size:10px;">AI 新創</span>
+          Cognition / Devin
+        </div>
+        <div class="glossary-def">美國 AI 程式開發新創，其旗艦產品 Devin 號稱首個可自主完成軟體工程全流程的「AI 軟體工程師」，本輪融資 $10 億，估值達 $250 億美元，創 AI 編程工具新高。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">
+          <span class="tag tag-hot" style="font-size:10px;">科學突破</span>
+          蛋白質世界模型
+        </div>
+        <div class="glossary-def">DeepMind 最新發布的 AI 模型，可全面模擬蛋白質的結構、摺疊與動態交互行為，被視為繼 AlphaFold（解出蛋白質三維結構）之後的下一個生物 AI 里程碑，對藥物研發與疾病治療具革命性潛力。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">
+          <span class="tag tag-tech" style="font-size:10px;">AI 工具</span>
+          Dynamic Workflow Tool
+        </div>
+        <div class="glossary-def">Claude Opus 4.8 新增工具，讓 AI 代理可在執行任務期間動態規劃、修改與調整多步驟工作流程，解決傳統 static pipeline 對意外情況適應性差的問題。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">
+          <span class="tag tag-app" style="font-size:10px;">AI 音樂</span>
+          ElevenLabs 音樂生成模型
+        </div>
+        <div class="glossary-def">ElevenLabs 新發布的音樂 AI 模型，突破性功能是支援在單一作品中途切換音樂風格（如從古典樂跳至電子舞曲），超越過去 AI 音樂「一曲一風格」的限制。</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">
+          <span class="tag tag-tech" style="font-size:10px;">合規術語</span>
+          KYC（Know Your Customer）
+        </div>
+        <div class="glossary-def">「認識你的客戶」，金融監管要求金融機構在開戶或交易前驗證客戶真實身份的合規流程。LlamaIndex 今日發布多篇文章，展示以 AI 文件自動化替代繁瑣人工 KYC 審核的解決方案。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="report-footer">
+    本報告由 Claude Sonnet 4.6 自動生成 · 2026-05-29 · 資料來源：14 個 AI 技術 / 應用 / 新聞站點 ·
+    共抓取 45 次（tech 群組）、42 次（app / news 群組）
+  </div>
+
+</div>
+</body>
+</html>
