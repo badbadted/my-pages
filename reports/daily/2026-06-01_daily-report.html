@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 每日情報 — 2026-06-01</title>
+<style>
+:root{
+  --bg:#ffffff; --s1:#f8fafc; --s2:#e2e8f0; --t1:#1e293b; --t2:#64748b;
+  --tech:#2563eb; --app:#7c3aed; --news:#0891b2;
+  --accent:#1e293b; --line:#e2e8f0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t1);font-family:-apple-system,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:40px 24px 80px}
+header{border-bottom:2px solid var(--accent);padding-bottom:20px;margin-bottom:36px}
+.kicker{font-size:13px;letter-spacing:.08em;color:var(--t2);text-transform:uppercase;font-weight:600}
+h1{font-size:30px;margin:8px 0 6px;letter-spacing:-.01em}
+.sub{color:var(--t2);font-size:14px}
+h2{font-size:20px;margin:44px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+h2 .n{font-size:13px;color:#fff;background:var(--accent);width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{background:var(--s1);border:1px solid var(--line);border-radius:10px;padding:18px 16px;text-align:center}
+.stat .v{font-size:30px;font-weight:700;color:var(--accent);line-height:1}
+.stat .l{font-size:12.5px;color:var(--t2);margin-top:8px}
+.story{background:var(--s1);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:14px 16px;margin-bottom:12px}
+.story .h{font-weight:650;font-size:15.5px;margin-bottom:4px}
+.story .s{font-size:13.5px;color:var(--t2)}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;margin-left:8px;vertical-align:middle}
+.t-tech{background:#dbeafe;color:var(--tech)}
+.t-app{background:#ede9fe;color:var(--app)}
+.t-news{background:#cffafe;color:var(--news)}
+.digest-group{margin-bottom:22px}
+.digest-group .gh{font-size:13px;font-weight:700;letter-spacing:.04em;margin-bottom:10px;text-transform:uppercase}
+.gh.tech{color:var(--tech)} .gh.app{color:var(--app)} .gh.news{color:var(--news)}
+ul.d{list-style:none}
+ul.d li{padding:8px 0 8px 18px;position:relative;font-size:14px;border-bottom:1px dashed var(--line)}
+ul.d li:before{content:"";position:absolute;left:0;top:15px;width:6px;height:6px;border-radius:50%;background:var(--s2)}
+ul.d li b{font-weight:650}
+.src{font-size:11.5px;color:var(--t2)}
+.blocked{color:#b45309}
+.analysis p{margin-bottom:14px;font-size:14.5px}
+.actions{background:var(--s1);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-top:8px}
+.actions .ah{font-weight:700;margin-bottom:10px;font-size:14px}
+.actions ol{margin-left:18px;font-size:14px}
+.actions ol li{margin-bottom:8px}
+.gloss{display:grid;grid-template-columns:1fr;gap:0}
+.gloss .item{padding:12px 0;border-bottom:1px dashed var(--line)}
+.gloss .name{font-weight:650;font-size:14.5px}
+.gloss .cat{font-size:11px;font-weight:600;padding:1px 8px;border-radius:20px;background:var(--s2);color:var(--t2);margin-left:8px}
+.gloss .def{font-size:13.5px;color:var(--t2);margin-top:3px}
+footer{margin-top:50px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--t2);text-align:center}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">AI 每日情報 · Daily Intelligence</div>
+  <h1>AI 每日情報報告</h1>
+  <div class="sub">2026 年 6 月 1 日（週一）· 涵蓋 14 個來源 · tech / app / news 三大群組</div>
+</header>
+
+<!-- Section 1 -->
+<h2><span class="n">1</span>統計概覽</h2>
+<div class="stats">
+  <div class="stat"><div class="v">14</div><div class="l">來源抓取</div></div>
+  <div class="stat"><div class="v">9</div><div class="l">成功取得內容</div></div>
+  <div class="stat"><div class="v">12+</div><div class="l">今日新增項目</div></div>
+  <div class="stat"><div class="v">5</div><div class="l">來源遭封鎖</div></div>
+</div>
+<p style="font-size:13px;color:var(--t2);margin-top:14px">
+  封鎖來源：The Verge、Ars Technica（API 層級封鎖，連續逾月）、Ben's Bites（付費牆）、Matt Shumer（無公開文章，連續第 41 日）、theresanaiforthat（403 機器人防護）。news 群組主站封鎖嚴重，建議全面改用 RSS / Google News 監控管道。
+</p>
+
+<!-- Section 2 -->
+<h2><span class="n">2</span>今日重點 Top Stories</h2>
+
+<div class="story">
+  <div class="h">Anthropic 完成 $65B Series H，估值衝上 $965B 逼近兆元<span class="tag t-news">news</span></div>
+  <div class="s">AI 史上最高估值，IPO 前最後一輪；同步發布 Claude Opus 4.8 引入「dynamic workflow」動態工作流工具。<span class="src">來源：TechCrunch / Anthropic</span></div>
+</div>
+
+<div class="story">
+  <div class="h">OpenAI 攻克 80 年數學猜想，Google 數學能力反超 OpenAI<span class="tag t-app">app</span></div>
+  <div class="s">前沿模型在純數學推理上連續突破，Google 與 OpenAI 在數學基準互有領先，研究型 AI 競賽白熱化。<span class="src">來源：The Rundown</span></div>
+</div>
+
+<div class="story">
+  <div class="h">Groq 募資 $650M，AI 推論晶片賽道再添柴火<span class="tag t-news">news</span></div>
+  <div class="s">繼 Nvidia 對相關技術 $200 億投資後，專注低延遲推論的 Groq 拿下大額融資。<span class="src">來源：TechCrunch</span></div>
+</div>
+
+<div class="story">
+  <div class="h">Asana 收購 StackAI，生產力平台補上 no-code 代理建構能力<span class="tag t-news">news</span></div>
+  <div class="s">SaaS 大廠透過併購快速取得代理自動化拼圖，企業 Agent 軍備競賽延燒到工作管理層。<span class="src">來源：TechCrunch</span></div>
+</div>
+
+<div class="story">
+  <div class="h">Glean 營收突破 $300M，企業 AI 主打「降本」站穩腳跟<span class="tag t-news">news</span></div>
+  <div class="s">以企業知識搜尋與代理為核心的 Glean，把自己定位為節省成本的解方而非新增支出，成長強勁。<span class="src">來源：TechCrunch</span></div>
+</div>
+
+<div class="story">
+  <div class="h">LangChain 推 Skills + Interpreter 架構模式，代理工作流再進化<span class="tag t-tech">tech</span></div>
+  <div class="s">以「技能」與「直譯器」抽象組合代理能力，搭配 token stream → agent stream 的串流演進，奠定可組合代理基礎。<span class="src">來源：LangChain Blog（05-29）</span></div>
+</div>
+
+<div class="story">
+  <div class="h">XCENA 募資 $135M：押注「記憶」而非「算力」才是 AI 瓶頸<span class="tag t-news">news</span></div>
+  <div class="s">晶片新創逆向思考，主張 memory bandwidth 才是下一個瓶頸，與主流算力軍備路線分庭抗禮。<span class="src">來源：TechCrunch</span></div>
+</div>
+
+<div class="story">
+  <div class="h">GitHub Copilot 改 token 計費引爆開發者反彈<span class="tag t-news">news</span></div>
+  <div class="s">從固定月費轉向按 token 用量計費，開發者社群不滿成本不可預測，反映 AI 工具定價模式陣痛。<span class="src">來源：TechCrunch</span></div>
+</div>
+
+<!-- Section 3 -->
+<h2><span class="n">3</span>各來源速覽</h2>
+
+<div class="digest-group">
+  <div class="gh tech">● TECH — Agent 框架與基礎建設</div>
+  <ul class="d">
+    <li><b>LangChain</b>：發表 Skills/Interpreter 組合模式與 Auth Proxy 沙箱安全機制；Lyft 用 LangGraph+LangSmith 打造自助式客服代理平台。</li>
+    <li><b>Anthropic</b>：Opus 4.8 與 $65B 募資持續發酵；近期併購 Stainless、深化 KPMG / PwC 企業聯盟。<span class="src">（vs 05-30 無重大新增）</span></li>
+    <li><b>LlamaIndex</b>：LiteParse v2.0 全平台落地（新增 TypeScript/Rust/Node 支援）；連發 KYC/OCR/房貸文件自動化實戰文。</li>
+    <li><b>CrewAI</b>：主推 CrewAI Discovery（自動偵測企業可自動化環節）與 AMP 代理管理平台；PwC 採用打造 Global Agent OS。<span class="src">（頁面無日期）</span></li>
+  </ul>
+</div>
+
+<div class="digest-group">
+  <div class="gh app">● APP — AI 應用與工具</div>
+  <ul class="d">
+    <li><b>The Rundown</b>：Anthropic 全面超車 OpenAI；蛋白質世界模型問世；Hassabis 談 AGI 與疾病治療；Gemini 取得代理（agentic）能力。</li>
+    <li><b>Product Hunt</b>：AI 開發工具榜由 Cursor、Claude、Vercel、Supabase 領跑，Figma 仍居設計協作龍頭。<span class="src">（常駐榜，無重大新進）</span></li>
+    <li><b>Superhuman AI</b>：本期實戰教學——用 Claude 把自拍轉企業形象照、Gemini 優化 LinkedIn、Grok 做專業簡報、Co-Invest 用 AI 輔助投資。</li>
+    <li><b>theresanaiforthat</b>：<span class="blocked">主站 403 封鎖</span>，沿用前次——Gemini Spark 雲端常駐代理、Anthropic 自架沙箱 / MCP tunnels。</li>
+    <li><b>Ben's Bites</b>：<span class="blocked">付費牆封鎖</span>，無公開新內容，訂閱者維持 165,000+。</li>
+    <li><b>Matt Shumer</b>：<span class="blocked">無公開文章（連續第 41 日）</span>，建議降頻或替換來源。</li>
+  </ul>
+</div>
+
+<div class="digest-group">
+  <div class="gh news">● NEWS — 產業新聞與政策</div>
+  <ul class="d">
+    <li><b>TechCrunch</b>：Anthropic $65B / Opus 4.8、Groq $650M、Asana 併 StackAI、Glean $300M 營收、XCENA $135M、AI token 期貨上線、Copilot 計費爭議——今日新聞量最大。</li>
+    <li><b>MIT Tech Review</b>：聚焦「代理式 AI 時代的組織重設計」——85% 企業想三年內代理化，卻有 76% 坦承基礎設施撐不住；強調「算力爆炸」是時代主軸。<span class="src">（WebSearch 補抓）</span></li>
+    <li><b>The Verge</b>：<span class="blocked">主站封鎖逾月</span>，沿用——紐時工會抗議 AI 績效監控工具 DX、Verge Genomics 試驗失敗轉型裁員。</li>
+    <li><b>Ars Technica</b>：<span class="blocked">整站封鎖逾三週</span>，沿用——嚴格 AI 編採政策、Anthropic Glasswing 防禦 AI、微軟 $1,900 億資本支出。</li>
+  </ul>
+</div>
+
+<!-- Section 4 -->
+<h2><span class="n">4</span>深度分析 + 應用建議</h2>
+<div class="analysis">
+  <p><b>趨勢一：資本與營收同步驗證，企業 AI 進入「降本敘事」階段。</b>Anthropic $965B 估值、Groq $650M、XCENA $135M 顯示一級市場資金未退，但真正的訊號是 Glean 營收破 $300M、並把自己定位成「省錢工具」而非新支出。市場敘事正從「AI 很強」轉向「AI 能在財報上算得清」，這對任何要推 AI 專案的人都是利多——用 ROI / 降本語言提案，比用技術語言更容易過關。</p>
+  <p><b>趨勢二：代理（Agent）從框架競賽走向「組織與治理」競賽。</b>LangChain 的 Skills/Interpreter、CrewAI 的 AMP 管理平台、Asana 併購 no-code 代理建構商，三條線都指向同一件事：代理能力本身已不稀缺，稀缺的是「如何在企業內安全部署、管理、計費」。MIT 那組「85% 想做、76% 撐不住」的數字精準點出落差——瓶頸已從模型能力轉移到基礎設施與流程治理。</p>
+  <p><b>趨勢三：定價模式陣痛浮現。</b>GitHub Copilot 改 token 計費引發反彈、AI token 期貨上線，都顯示 AI 成本正在被「商品化」與「金融化」。對重度使用 Claude / Codex 的工作流而言，成本可預測性將成為選型關鍵變數。</p>
+  <div class="actions">
+    <div class="ah">3 個可立即行動的建議</div>
+    <ol>
+      <li><b>把 LangChain 的 Skills/Interpreter 模式對照自家 Skill 體系：</b>你的 `.claude/skills/` 架構與其「可組合能力」理念高度重疊，值得讀原文擷取沙箱安全（Auth Proxy）做法，補強外部程式碼隔離。</li>
+      <li><b>提案語言改走「降本」框架：</b>仿 Glean 定位，未來向客戶或自己提 AI 專案時，先量化「取代多少人工時 / 省多少成本」，再談技術，過關率更高。</li>
+      <li><b>盯緊 token 計費變化、鎖定成本可預測性：</b>Copilot 計費爭議是警訊，定期檢視 Claude / Codex 用量結構，對高頻自動化流程（如本爬蟲、daily 報告）評估固定成本上限，避免被動吃漲價。</li>
+    </ol>
+  </div>
+</div>
+
+<!-- Section 5 -->
+<h2><span class="n">5</span>名詞解釋</h2>
+<div class="gloss">
+  <div class="item"><span class="name">Dynamic Workflow（動態工作流）</span><span class="cat">模型能力</span><div class="def">Claude Opus 4.8 新增的工具，讓模型在執行中動態調整任務步驟與分支，而非依固定腳本，提升複雜長任務的自主規劃能力。</div></div>
+  <div class="item"><span class="name">Skills / Interpreter 模式</span><span class="cat">Agent 架構</span><div class="def">LangChain 提出的代理組合法：用「技能」封裝可重用能力、用「直譯器」賦予代理執行程式碼與推理的中介層，便於組裝複雜代理。</div></div>
+  <div class="item"><span class="name">CrewAI Discovery</span><span class="cat">企業產品</span><div class="def">CrewAI 新推出的引擎，自動掃描企業工作流並標出「適合交給代理自動化」的環節，降低導入時的盤點成本。</div></div>
+  <div class="item"><span class="name">LiteParse v2.0</span><span class="cat">文件處理</span><div class="def">LlamaIndex 的本地文件解析器，v2.0 跨平台落地並新增 TypeScript / Rust / Node 環境支援，主打不上雲的隱私解析。</div></div>
+  <div class="item"><span class="name">Glean</span><span class="cat">企業 AI</span><div class="def">企業內部知識搜尋與 AI 代理平台，串接公司各系統做語意檢索，本期營收突破 $300M，主打為企業節省成本。</div></div>
+  <div class="item"><span class="name">Groq</span><span class="cat">AI 硬體</span><div class="def">專注低延遲 AI 推論的晶片新創（LPU 架構），本輪募資 $650M，與 Nvidia GPU 路線形成差異化競爭。</div></div>
+  <div class="item"><span class="name">StackAI</span><span class="cat">AI 工具</span><div class="def">no-code 的 AI 代理建構平台，讓非工程人員拖拉組裝自動化代理，現被 Asana 收購整合進工作管理生態。</div></div>
+  <div class="item"><span class="name">XCENA</span><span class="cat">AI 硬體新創</span><div class="def">半導體新創，主張 AI 的真正瓶頸是記憶體頻寬而非運算力，募資 $135M 押注 memory-centric 架構。</div></div>
+  <div class="item"><span class="name">AI Token Futures</span><span class="cat">金融商品</span><div class="def">將 AI 運算 token 包裝成可交易的期貨合約，類比黃金、石油等大宗商品，讓算力成本可被對沖與投機。</div></div>
+  <div class="item"><span class="name">Agentic AI（代理式 AI）</span><span class="cat">概念</span><div class="def">能自主規劃、呼叫工具、跨多步驟完成目標的 AI 系統，相對於單次問答；MIT 報告指企業導入瓶頸已從模型轉向基礎設施。</div></div>
+</div>
+
+<footer>
+  AI 每日情報 · 自動爬蟲生成 · 2026-06-01 · 來源 14（成功 9 / 封鎖 5）
+</footer>
+</div>
+</body>
+</html>
