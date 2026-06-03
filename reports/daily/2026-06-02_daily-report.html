@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 每日情報 — 2026-06-02</title>
+<style>
+:root{
+  --bg:#ffffff; --s1:#f8fafc; --s2:#e2e8f0; --t1:#1e293b; --t2:#64748b;
+  --tech:#2563eb; --app:#7c3aed; --news:#0891b2;
+  --accent:#1e293b; --line:#e2e8f0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t1);font-family:-apple-system,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:40px 24px 80px}
+header{border-bottom:2px solid var(--accent);padding-bottom:20px;margin-bottom:36px}
+.kicker{font-size:13px;letter-spacing:.08em;color:var(--t2);text-transform:uppercase;font-weight:600}
+h1{font-size:30px;margin:8px 0 6px;letter-spacing:-.01em}
+.sub{color:var(--t2);font-size:14px}
+h2{font-size:20px;margin:44px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+h2 .n{font-size:13px;color:#fff;background:var(--accent);width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{background:var(--s1);border:1px solid var(--line);border-radius:10px;padding:18px 16px;text-align:center}
+.stat .v{font-size:30px;font-weight:700;color:var(--accent);line-height:1}
+.stat .l{font-size:12.5px;color:var(--t2);margin-top:8px}
+.story{background:var(--s1);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:14px 16px;margin-bottom:12px}
+.story .h{font-weight:650;font-size:15.5px;margin-bottom:4px}
+.story .s{font-size:13.5px;color:var(--t2)}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;margin-left:8px;vertical-align:middle}
+.t-tech{background:#dbeafe;color:var(--tech)}
+.t-app{background:#ede9fe;color:var(--app)}
+.t-news{background:#cffafe;color:var(--news)}
+.digest-group{margin-bottom:22px}
+.digest-group .gh{font-size:13px;font-weight:700;letter-spacing:.04em;margin-bottom:10px;text-transform:uppercase}
+.gh.tech{color:var(--tech)} .gh.app{color:var(--app)} .gh.news{color:var(--news)}
+ul.d{list-style:none}
+ul.d li{padding:8px 0 8px 18px;position:relative;font-size:14px;border-bottom:1px dashed var(--line)}
+ul.d li:before{content:"";position:absolute;left:0;top:15px;width:6px;height:6px;border-radius:50%;background:var(--s2)}
+ul.d li b{font-weight:650}
+.src{font-size:11.5px;color:var(--t2)}
+.blocked{color:#b45309}
+.analysis p{margin-bottom:14px;font-size:14.5px}
+.actions{background:var(--s1);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-top:8px}
+.actions .ah{font-weight:700;margin-bottom:10px;font-size:14px}
+.actions ol{margin-left:18px;font-size:14px}
+.actions ol li{margin-bottom:8px}
+.gloss{display:grid;grid-template-columns:1fr;gap:0}
+.gloss .item{padding:12px 0;border-bottom:1px dashed var(--line)}
+.gloss .name{font-weight:650;font-size:14.5px}
+.gloss .cat{font-size:11px;font-weight:600;padding:1px 8px;border-radius:20px;background:var(--s2);color:var(--t2);margin-left:8px}
+.gloss .def{font-size:13.5px;color:var(--t2);margin-top:3px}
+footer{margin-top:50px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--t2);text-align:center}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">AI 每日情報 · Daily Intelligence</div>
+  <h1>AI 每日情報報告</h1>
+  <div class="sub">2026 年 6 月 2 日（週二）· 涵蓋 14 個來源 · tech / app / news 三大群組</div>
+</header>
+
+<!-- Section 1 -->
+<h2><span class="n">1</span>統計概覽</h2>
+<div class="stats">
+  <div class="stat"><div class="v">14</div><div class="l">來源抓取</div></div>
+  <div class="stat"><div class="v">8</div><div class="l">成功取得內容</div></div>
+  <div class="stat"><div class="v">11+</div><div class="l">今日新增項目</div></div>
+  <div class="stat"><div class="v">5</div><div class="l">來源遭封鎖</div></div>
+</div>
+<p style="font-size:13px;color:var(--t2);margin-top:14px">
+  今日最大變化：<b>Anthropic 正式啟動 IPO</b>（機密遞交 S-1）＋<b>Microsoft Build 2026 今日開幕</b>。封鎖來源：The Verge、Ars Technica（API 層級封鎖，連續逾月）、theresanaiforthat（403 機器人防護）、Ben's Bites（付費牆）、Matt Shumer（無公開文章，連續第 42 日）。MIT Tech Review 主站無回內容，news 群組以 TechCrunch + WebSearch 補抓。建議 news 群組全面改用 RSS / Google News 管道。
+</p>
+
+<!-- Section 2 -->
+<h2><span class="n">2</span>今日重點 Top Stories</h2>
+
+<div class="story">
+  <div class="h">Anthropic 正式啟動 IPO：機密遞交 S-1 草案給 SEC<span class="tag t-news">news</span></div>
+  <div class="s">繼上週 $65B Series H（$965B 估值）後，Anthropic 確認向 SEC 機密遞交上市申請，成為 AI 史上規模最大的潛在 IPO。<span class="src">來源：Anthropic / TechCrunch</span></div>
+</div>
+
+<div class="story">
+  <div class="h">Microsoft Build 2026 今日開幕，主軸鎖定 AI 代理與本機 AI<span class="tag t-news">news</span></div>
+  <div class="s">6/2 主題演講聚焦 AI agents、GitHub Copilot 更新與 Windows 本機 AI，延續「代理進入作業系統層」的產業方向。<span class="src">來源：WebSearch（Notebookcheck）</span></div>
+</div>
+
+<div class="story">
+  <div class="h">Google 數學能力 9:1 反超 OpenAI，蛋白質世界模型問世<span class="tag t-app">app</span></div>
+  <div class="s">前沿模型在純數學推理連續突破，Google 在數學基準大幅領先；DeepMind 同步推出蛋白質世界模型，研究型 AI 競賽白熱化。<span class="src">來源：The Rundown</span></div>
+</div>
+
+<div class="story">
+  <div class="h">AI 氣象新創預測準度勝過政府機構<span class="tag t-news">news</span></div>
+  <div class="s">新興氣象預測公司以 AI 模型擊敗既有官方氣象機構的預報，AI 在科學落地應用再下一城。<span class="src">來源：TechCrunch</span></div>
+</div>
+
+<div class="story">
+  <div class="h">Rippling 6 個月內全產品 AI 原生化，LangChain Deep Agents 實戰案例<span class="tag t-tech">tech</span></div>
+  <div class="s">用 Deep Agents + LangSmith 在半年內把代理能力鋪進每一條產品線，成為企業快速 AI 化的標竿案例。<span class="src">來源：LangChain Blog（06-01）</span></div>
+</div>
+
+<div class="story">
+  <div class="h">AI 就業衝擊辯論升溫：經濟學家「零證據」 vs OpenAI 領導層<span class="tag t-app">app</span></div>
+  <div class="s">頂尖經濟學家稱「目前零證據顯示 AI 造成失業」，與 OpenAI 領導層先前的就業衝擊警語形成正面辯論張力。<span class="src">來源：Superhuman AI</span></div>
+</div>
+
+<div class="story">
+  <div class="h">Meta 傳開發 AI 隨身吊墜（pendant），明年啟動測試<span class="tag t-news">news</span></div>
+  <div class="s">Meta 以收購自 Limitless 的技術為基礎，開發 AI 穿戴吊墜裝置，押注「環境式 AI」新硬體型態。<span class="src">來源：TechCrunch（WebSearch）</span></div>
+</div>
+
+<div class="story">
+  <div class="h">DuckDuckGo 擴大「無 AI」搜尋入口<span class="tag t-news">news</span></div>
+  <div class="s">在無 AI 選項流量上升下，隱私導向搜尋引擎讓使用者更容易關閉 AI 結果，反映 AI 疲勞的逆向需求。<span class="src">來源：TechCrunch</span></div>
+</div>
+
+<!-- Section 3 -->
+<h2><span class="n">3</span>各來源速覽</h2>
+
+<div class="digest-group">
+  <div class="gh tech">● TECH — Agent 框架與基礎建設</div>
+  <ul class="d">
+    <li><b>LangChain</b>：🆕 新增 Rippling 案例——6 個月內用 Deep Agents + LangSmith 全產品 AI 原生化；Skills/Interpreter 組合模式與 Auth Proxy 沙箱安全續為焦點。</li>
+    <li><b>Anthropic</b>：🆕 機密遞交 S-1 草案給 SEC，IPO 正式啟動；延續 $65B Series H 與 Claude Opus 4.8（dynamic workflow）。</li>
+    <li><b>LlamaIndex</b>：🆕 Deep Extraction（深度萃取）概念上浮，主打可問責的多階段萃取；連發 KYC / 房貸 / 收入驗證等金融合規文件自動化文。</li>
+    <li><b>CrewAI</b>：🆕 年度趨勢文〈The state of agentic AI in 2026〉領頭；自我進化代理（NVIDIA NemoClaw 整合）與 100x 效能提升為新焦點。</li>
+  </ul>
+</div>
+
+<div class="digest-group">
+  <div class="gh app">● APP — AI 應用與工具</div>
+  <ul class="d">
+    <li><b>The Rundown</b>：🆕 新頭條「你的公寓就是 AI 下一個資料集」（住宅資料）；Google 數學 9:1 反超 OpenAI、蛋白質世界模型、Hassabis AGI 專訪續燒。</li>
+    <li><b>Product Hunt</b>：🆕 Claude Code 進入高分榜前段（5.0★／474）；Cursor、Claude、OpenAI 續霸 AI 編碼/代理工具榜。<span class="src">（高評分排行）</span></li>
+    <li><b>Superhuman AI</b>：🆕 頭條轉向 AI 就業衝擊辯論（經濟學家「零證據」）；實用教學偏 Gemini Omni AR 標註、Claude 自拍轉大頭照。</li>
+    <li><b>theresanaiforthat</b>：<span class="blocked">主站 403 封鎖</span>，無新內容。</li>
+    <li><b>Ben's Bites</b>：<span class="blocked">付費牆封鎖</span>，僅回傳訂閱頁（165,000+ 訂閱者）。</li>
+    <li><b>Matt Shumer</b>：<span class="blocked">無公開文章（連續第 42 日）</span>，建議降頻或替換來源。</li>
+  </ul>
+</div>
+
+<div class="digest-group">
+  <div class="gh news">● NEWS — 產業新聞與政策</div>
+  <ul class="d">
+    <li><b>TechCrunch</b>：🆕 Anthropic 正式遞件上市、AI 氣象新創勝過官方機構、DuckDuckGo 擴大無 AI 搜尋、Meta AI 吊墜；融資併購（Groq $650M、XCENA $135M、Asana 併 StackAI）續在榜。</li>
+    <li><b>MIT Tech Review</b>：<span class="blocked">主站無回內容</span>，以 WebSearch 補抓——產業主軸為自主代理崛起、推理模型（以速度換準確度）、多模態成標配。</li>
+    <li><b>The Verge</b>：<span class="blocked">主站封鎖逾月</span>，改由 WebSearch 補——Microsoft Build 2026 今日開幕、GPT-5.5 Instant 成 ChatGPT 預設、Gemini 3.5 Flash + Gemini Spark。</li>
+    <li><b>Ars Technica</b>：<span class="blocked">整站封鎖逾三週</span>，無直接內容。</li>
+  </ul>
+</div>
+
+<!-- Section 4 -->
+<h2><span class="n">4</span>深度分析 + 應用建議</h2>
+<div class="analysis">
+  <p><b>趨勢一：Anthropic IPO 把「AI 公司能不能上市」變成現實檢驗。</b>從上週 $965B 估值到今日機密遞交 S-1，Anthropic 把整個 AI 產業推到財報透明化的門檻前。一旦招股書公開，市場將首次看到一家前沿模型公司的真實毛利、訓練成本與營收結構——這份數字會重設所有人對「AI 商業模式可持續性」的預期。對重度依賴 Claude 的工作流（如本爬蟲、daily 報告、Codex 派工）而言，這也意味著定價與額度政策在上市前後可能調整，值得提前盤點成本結構。</p>
+  <p><b>趨勢二：代理正式「進入作業系統層」。</b>Microsoft Build 2026 今日把 AI agents、Copilot、Windows 本機 AI 擺在主舞台，呼應 LangChain Rippling 案例（半年全產品代理化）與 CrewAI 的自我進化代理路線。三條線指向同一件事：代理不再是外掛工具，而是被嵌進產品與系統底層。能力已不稀缺，稀缺的是「在企業內安全部署、管理、計費」的治理層——這正是 Anthropic、LangChain、CrewAI 競爭的真正戰場。</p>
+  <p><b>趨勢三：AI 疲勞與就業辯論浮現逆向需求。</b>DuckDuckGo 擴大「無 AI」搜尋入口、經濟學家對 AI 失業論喊「零證據」，兩件事都顯示市場開始對「AI 無所不在」產生反作用力。這提醒：在自家產品導入 AI 時，保留「可關閉 / 可降噪」的選項，反而是體驗加分項。</p>
+  <div class="actions">
+    <div class="ah">3 個可立即行動的建議</div>
+    <ol>
+      <li><b>趁 IPO 前盤點 Claude／Codex 成本結構：</b>Anthropic 上市後定價與額度政策可能變動，現在就盤點高頻自動化流程（爬蟲、daily、PR 分析）的 token 用量，評估固定上限與 fallback 模型，避免被動吃漲價。</li>
+      <li><b>追蹤 Microsoft Build 2026 的 Windows 本機 AI 公告：</b>本機 AI 與 Copilot 更新可能影響你在 Windows 上的 AIoT / 邊緣 AI 佈局（已有 ollama、llama.cpp 監控源），值得擷取與本地 LLM 路線相關的發表。</li>
+      <li><b>把 LangChain Rippling 案例當「半年全面 AI 化」範本：</b>該案例的 Deep Agents + LangSmith 導入節奏，可對照你的 `.claude/skills/` 體系，借鏡其「先治理後鋪量」的順序——先把沙箱安全與管理層立好，再橫向鋪到各任務。</li>
+    </ol>
+  </div>
+</div>
+
+<!-- Section 5 -->
+<h2><span class="n">5</span>名詞解釋</h2>
+<div class="gloss">
+  <div class="item"><span class="name">S-1（上市登記書）</span><span class="cat">金融法規</span><div class="def">公司向美國 SEC 提交的首次公開發行（IPO）登記文件，內含財務、風險與營運揭露；「機密遞交」指可先非公開審閱、待時機成熟再公開。</div></div>
+  <div class="item"><span class="name">Microsoft Build 2026</span><span class="cat">產業大會</span><div class="def">微軟年度開發者大會，6/2 開幕，本屆主軸為 AI 代理、GitHub Copilot 更新與 Windows 本機 AI（在裝置端執行的 AI）。</div></div>
+  <div class="item"><span class="name">Deep Agents</span><span class="cat">Agent 架構</span><div class="def">LangChain 提出的進階代理模式，強調長任務的規劃、子任務分解與工具串接；Rippling 用它在 6 個月內完成全產品 AI 化。</div></div>
+  <div class="item"><span class="name">Deep Extraction（深度萃取）</span><span class="cat">文件處理</span><div class="def">LlamaIndex 提出的多階段文件萃取法，相對於「單次萃取（single-pass）」加入可問責、可驗證的中間步驟，提升合規場景準確度。</div></div>
+  <div class="item"><span class="name">NVIDIA NemoClaw</span><span class="cat">AI 基礎建設</span><div class="def">NVIDIA 的代理相關技術，CrewAI 與其整合以編排「自我進化代理」（能依結果自動調整策略的代理系統）。</div></div>
+  <div class="item"><span class="name">World Model for Proteins（蛋白質世界模型）</span><span class="cat">研究突破</span><div class="def">以世界模型方法建構蛋白質結構與行為的 AI 系統，可模擬與預測蛋白質互動，為藥物與生物研究提供新工具。</div></div>
+  <div class="item"><span class="name">Gemini Spark</span><span class="cat">AI 產品</span><div class="def">Google 推出的常駐式 AI 代理，跨 Google 服務與第三方 App 連動，可在背景持續處理任務。</div></div>
+  <div class="item"><span class="name">GPT-5.5 Instant</span><span class="cat">模型</span><div class="def">OpenAI 新的 ChatGPT 預設模型，主打在法律、財務、醫療情境降低錯誤答案率，回應速度更快。</div></div>
+  <div class="item"><span class="name">AI Pendant（AI 吊墜）</span><span class="cat">AI 硬體</span><div class="def">隨身穿戴的 AI 裝置型態，常駐感測環境與對話，Meta 以收購自 Limitless 的技術開發，計畫明年測試。</div></div>
+</div>
+
+<footer>
+  AI 每日情報 · 自動爬蟲生成 · 2026-06-02 · 來源 14（成功 8 / 封鎖 5；news 群組以 WebSearch 補抓）
+</footer>
+</div>
+</body>
+</html>
