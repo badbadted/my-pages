@@ -239,12 +239,12 @@
   .ok-dot   { color: var(--green); font-weight: 700; }
   .warn-dot { color: var(--amber); font-weight: 700; }
   .caveat {
-    background: var(--amber-light);
-    border: 1px solid var(--amber-border);
+    background: var(--red-light);
+    border: 1px solid var(--red-border);
     border-radius: 8px;
     padding: 12px 16px;
     font-size: 13px;
-    color: #78350f;
+    color: #991b1b;
     margin-bottom: 18px;
   }
   .changelog-row { display: flex; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--s2); font-size: 13px; }
@@ -264,9 +264,9 @@
 
 <div class="header">
   <h1>智能系統週報 — 行動建議與生態動態</h1>
-  <div class="subtitle">行動優先・智能家庭・邊緣 AI ｜ 系統核心：Home Assistant 2026.3.1</div>
+  <div class="subtitle">行動優先・智能家庭・邊緣 AI ｜ 系統核心：Home Assistant 2026.3.1（落後兩版）</div>
   <div class="meta">
-    <span class="meta-pill">📅 產出：2026-05-30</span>
+    <span class="meta-pill">📅 產出：2026-06-03</span>
     <span class="meta-pill">📡 20 個 AIoT 來源</span>
     <span class="meta-pill ok">✅ 8 來源本次重抓</span>
     <span class="meta-pill warn">⚠️ 12 來源沿用前次</span>
@@ -277,26 +277,59 @@
 <div class="container">
 
   <div class="caveat">
-    <strong>重要修正：</strong>上一期（5/29）報告把 Home Assistant 最新版誤標為 <strong>2026.3</strong>、Zigbee2MQTT 標為 2.9.1、ESPHome 標為 2026.4.5 —— 經本次比對官方頁與 latest.md，實際最新為 <strong>HA 2026.5（5/6）</strong>、<strong>Z2M 2.10.1（5/7）</strong>、<strong>ESPHome 2026.5.0</strong>。你目前的 HA Container 仍在 <strong>2026.3.1</strong>，已落後兩個發行版。本期所有行動卡以官方頁當下實際版本為準。
+    <strong>本期重點：</strong>Zigbee2MQTT 釋出 <strong>2.11.0（6/1）</strong>，預設**停用外部擴充與外部轉換器**（external extensions / converters）—— 升級既有安裝後若依賴外部轉換器，裝置會直接失效，需手動在設定開啟。其餘核心版本與 5/30 報告相同（HA 2026.5、ESPHome 2026.5.0、Frigate 0.17.1）。你的 HA Container 仍在 <strong>2026.3.1</strong>，已落後 2026.4 / 2026.5 兩個發行版。
   </div>
 
   <!-- SECTION 1: ACTION CARDS -->
   <div class="section">
     <div class="section-title"><span>⚡</span> 本週建議行動（依行動價值排序）</div>
 
-    <!-- Card 1: HA 2026.5 -->
+    <!-- Card 1: Z2M 2.11.0 (NEW) -->
+    <div class="action-card amber">
+      <div class="card-inner">
+        <div class="card-top">
+          <div class="card-headline">Zigbee2MQTT 升級至 2.11.0 — 安全強化：升級前先確認外部轉換器設定</div>
+          <div class="effort-badge effort-30">⏱ 30 分鐘</div>
+        </div>
+        <div class="card-summary">2.11.0（6/1）把 <strong>external extensions 與 external converters 改為預設停用</strong>，避免載入未經驗證的外部 JS 程式碼——方向正確的資安強化。但<strong>若你目前靠外部轉換器支援某些非標準裝置（常見於部分 Tuya / 客製感測器），升級後它們會無聲失效</strong>，必須手動在設定中重新開啟。另含 Zigbee Direct cluster 支援、GreenPower 解析強化、HA discovery Jinja-safe 修正，及約 18 款新裝置。</div>
+        <div class="card-block"><div class="lbl">問題 / 機會</div><div class="txt">資安預設值收緊是好事，但「預設停用」對既有安裝是潛在破壞性變更——盲升可能讓部分裝置從 HA 消失。升級前先盤點是否有 external converter。</div></div>
+        <div class="card-block"><div class="lbl">建議做法</div><div class="txt">先檢查 Z2M 設定有無 <code>external_converters</code> / <code>external_extensions</code>，有就在升級後重新啟用白名單。</div></div>
+        <div class="card-meta-row">
+          <span class="badge badge-new">🆕 本期新增</span>
+          <span class="badge badge-update">2.11.0（6/1）</span>
+          <span class="badge badge-warn">⚠️ 外部轉換器預設停用，需手動開啟</span>
+          <span class="badge badge-info">官方 changelog 頁持續 404，以 GitHub Releases 為準</span>
+          <a class="release-link" href="https://github.com/Koenkk/zigbee2mqtt/releases" target="_blank">📋 GitHub Releases →</a>
+        </div>
+        <div class="steps">
+          <div class="steps-label">操作步驟</div>
+          <ol>
+            <li>升級前檢查 <code>configuration.yaml</code> 是否有 <code>external_converters:</code> 或 <code>external_extensions:</code> 區塊，記下清單</li>
+            <li>HA Add-on Store 升級，或 <code>docker pull koenkk/zigbee2mqtt:latest &amp;&amp; docker restart z2m</code></li>
+            <li>升級後若上述清單非空，於設定中重新開啟對應外部轉換器/擴充並重啟</li>
+            <li>觸發各裝置開/關，確認 HA 中所有 Zigbee 實體仍在線、無消失</li>
+          </ol>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="priority-label priority-window">🟡 建議先測試 · 下次維護視窗執行</span>
+        <span style="color:var(--t2)">相關服務：192.168.0.222 Zigbee2MQTT</span>
+      </div>
+    </div>
+
+    <!-- Card 2: HA 2026.5 -->
     <div class="action-card amber">
       <div class="card-inner">
         <div class="card-top">
           <div class="card-headline">升級 Home Assistant Core 至 2026.5 — 維護儀表板 + RF 射頻支援（你落後兩版）</div>
           <div class="effort-badge effort-2h">⏱ 1–2 小時</div>
         </div>
-        <div class="card-summary">本期第一優先。你的 HA Container 停在 <strong>2026.3.1</strong>，而官方已發行 <strong>2026.5（5/6）</strong>。最實用的是 <strong>維護儀表板（Maintenance Dashboard）</strong>：一畫面列出所有低電量裝置 —— 對你 178 個 FP2 實體 + Zigbee 電池裝置群的維運直接有感。另有 RF 射頻裝置支援（捲門/車庫門可入 HA）與 ESPHome 序列埠網路化。</div>
-        <div class="card-block"><div class="lbl">問題 / 機會</div><div class="txt">落後兩版意味著錯過維護儀表板、12 項新整合與多項自動化編輯器改善；版本差距越大，未來一次跳升的整合破壞風險越高。</div></div>
+        <div class="card-summary">你的 HA Container 停在 <strong>2026.3.1</strong>，官方最新仍是 <strong>2026.5（5/6）</strong>（6/3 本次重抓無更新發行版）。最實用的是 <strong>維護儀表板（Maintenance Dashboard）</strong>：一畫面列出所有低電量裝置 —— 對你 178 個 FP2 實體 + Zigbee 電池裝置群的維運直接有感。另有 RF 射頻裝置支援（捲門/車庫門/門鈴可入 HA）與 ESPHome 序列埠網路化。</div>
+        <div class="card-block"><div class="lbl">問題 / 機會</div><div class="txt">落後兩版意味著錯過維護儀表板、12 項新整合與自動化編輯器改善；版本差距越大，未來一次跳升的整合破壞風險越高。</div></div>
         <div class="card-block"><div class="lbl">建議做法</div><div class="txt">分兩跳升級 2026.3.1 → 2026.4（IR 一級公民）→ 2026.5，每跳後驗證整合。</div></div>
         <div class="card-meta-row">
-          <span class="badge badge-new">🆕 本期新增</span>
-          <span class="badge badge-update">2026.5（5/6 發行）</span>
+          <span class="badge badge-info">沿用上期（仍最新發行版）</span>
+          <span class="badge badge-update">2026.5（5/6）</span>
           <span class="badge badge-warn">⚠️ 跨兩版，先備份再升</span>
           <a class="release-link" href="https://www.home-assistant.io/blog/" target="_blank">📋 HA Blog →</a>
         </div>
@@ -306,7 +339,7 @@
             <li>備份：HA → Settings → System → Backups → 立即建立完整備份</li>
             <li>先升 2026.4：<code>docker pull homeassistant/home-assistant:2026.4 &amp;&amp; docker restart homeassistant</code>，驗證 FP2 / Z2M / ESPHome / WLED 整合無紅字</li>
             <li>再升 2026.5：改 tag 為 <code>:stable</code> 重啟，開啟維護儀表板確認低電量裝置清單正常</li>
-            <li>逐一檢查 4 個核心整合的實體狀態與既有自動化（迎賓 TTS / 自動關冷氣）仍運作</li>
+            <li>逐一檢查核心整合實體狀態與既有自動化（迎賓 TTS / 自動關冷氣）仍運作</li>
           </ol>
         </div>
       </div>
@@ -316,17 +349,17 @@
       </div>
     </div>
 
-    <!-- Card 2: ESPHome 2026.5.0 -->
+    <!-- Card 3: ESPHome 2026.5.0 -->
     <div class="action-card amber">
       <div class="card-inner">
         <div class="card-top">
           <div class="card-headline">ESPHome 升級至 2026.5.0 — 省電模式電流近半 + Device Builder 新介面</div>
           <div class="effort-badge effort-2h">⏱ 1–2 小時</div>
         </div>
-        <div class="card-summary">主迴圈與排程器架構重大改進，<strong>省電模式電流從 2.0 mA 降至 1.1 mA</strong>（電池供電 ESP 裝置續航直接受益）；修正 watchdog feed 率 1000× 回歸（CPU 開銷 46.5ms → 21.6ms）。另推全新 <strong>Device Builder</strong> Web 介面（視覺化元件 + 韌體排程佇列）取代舊 Dashboard，並新增 ESP32-C6 / H2 的 Zigbee 感測器曝露。</div>
+        <div class="card-summary">主迴圈與排程器架構重大改進，<strong>省電模式電流從 2.0 mA 降至 1.1 mA</strong>（電池供電 ESP 裝置續航直接受益）；修正 watchdog feed 率 1000× 回歸。另推全新 <strong>Device Builder</strong> Web 介面（視覺化元件 + 韌體排程佇列）取代舊 Dashboard，新增 ESP32-C6 / H2 Zigbee 曝露、音訊堆疊省 40% CPU。</div>
         <div class="card-block"><div class="lbl">問題 / 機會</div><div class="txt">你的 ESPHome 裝置群升級後待機功耗與 CPU 開銷明顯下降；C6/H2 Zigbee 支援讓未來 ESP32 直接走 Zigbee 不必額外橋接。</div></div>
         <div class="card-meta-row">
-          <span class="badge badge-new">🆕 本期新增</span>
+          <span class="badge badge-info">沿用上期（仍最新）</span>
           <span class="badge badge-update">2026.5.0</span>
           <span class="badge badge-warn">⚠️ modbus_controller server 模式 → 改 modbus_server</span>
           <a class="release-link" href="https://esphome.io/changelog/" target="_blank">📋 ESPHome Changelog →</a>
@@ -346,37 +379,7 @@
       </div>
     </div>
 
-    <!-- Card 3: Z2M 2.10.1 -->
-    <div class="action-card red">
-      <div class="card-inner">
-        <div class="card-top">
-          <div class="card-headline">Zigbee2MQTT 升級至 2.10.1 — Tuya 屬性熱修復 + HA 群組實體進 discovery</div>
-          <div class="effort-badge effort-30">⏱ 30 分鐘</div>
-        </div>
-        <div class="card-summary">2.10.1（5/7）是熱修復版，解決 <strong>多個 Tuya 裝置屬性無法更新 / 寫入</strong> 的問題（影響所有 Tuya Zigbee 用戶）；2.10.0 起 <strong>HA 群組實體會自動寫入 discovery 配置</strong>，並擴充 Aqara W600（電池 / 閥門告警 / 排程）、Shelly Gen4、Yale 門鎖。共 18 款新裝置。</div>
-        <div class="card-block"><div class="lbl">問題 / 機會</div><div class="txt">若你有 Tuya Zigbee 裝置，2.10.1 直接修掉狀態不同步；HA 群組 discovery 省去手動 YAML。</div></div>
-        <div class="card-meta-row">
-          <span class="badge badge-new">🆕 本期新增</span>
-          <span class="badge badge-update">2.10.1（5/7）</span>
-          <span class="badge badge-info">官方 changelog 頁持續 404，以 GitHub Releases 為準</span>
-          <a class="release-link" href="https://github.com/Koenkk/zigbee2mqtt/releases" target="_blank">📋 GitHub Releases →</a>
-        </div>
-        <div class="steps">
-          <div class="steps-label">操作步驟</div>
-          <ol>
-            <li>記下幾個 Tuya 裝置目前狀態值供升級後對比</li>
-            <li>HA Add-on Store 直接升級，或 <code>docker pull koenkk/zigbee2mqtt:latest &amp;&amp; docker restart z2m</code></li>
-            <li>觸發裝置開/關/亮度，確認 logs 無屬性寫入錯誤；HA 群組實體正常出現</li>
-          </ol>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="priority-label priority-window">🟢 低風險 · 下次維護視窗執行</span>
-        <span style="color:var(--t2)">相關服務：192.168.0.222 Zigbee2MQTT</span>
-      </div>
-    </div>
-
-    <!-- Card 4: Frigate 0.17.1 -->
+    <!-- Card 4: Frigate 0.17.1 (security) -->
     <div class="action-card red">
       <div class="card-inner">
         <div class="card-top">
@@ -386,7 +389,7 @@
         <div class="card-summary">0.17.1 為安全維護版：<strong>raw config 端點限定 admin 角色</strong>、修正 timeline / media 端點的跨攝影機鑑權漏洞、<code>exec/expr/echo</code> go2rtc 來源預設停用。你的 Frigate NVR 對外暴露時這兩項鑑權修復值得儘快套用。</div>
         <div class="card-block"><div class="lbl">問題 / 機會</div><div class="txt">跨攝影機鑑權漏洞可能讓低權限使用者越權存取其他攝影機畫面；屬可儘快處理的安全項。</div></div>
         <div class="card-meta-row">
-          <span class="badge badge-new">🆕 本期新增</span>
+          <span class="badge badge-info">沿用上期（仍最新）</span>
           <span class="badge badge-high">安全相關</span>
           <span class="badge badge-warn">⚠️ 若從 0.16 升，genai 設定需遷移至 objects → genai</span>
           <a class="release-link" href="https://github.com/blakeblackshear/frigate/releases" target="_blank">📋 GitHub Releases →</a>
@@ -413,10 +416,10 @@
           <div class="card-headline">評估 OpenJarvis 本地個人 AI 框架 — 降低 Luna 對 Gemini API 的依賴</div>
           <div class="effort-badge effort-2h">⏱ 半天評估</div>
         </div>
-        <div class="card-summary">Ollama 5/28 發布 <strong>OpenJarvis v1.0</strong>：開源框架，建構跑在自有硬體上的個人 AI 代理，內建 Ollama 支援、全程本地執行。契合你「本地意圖辨識、減少 Gemini API 依賴」的痛點 —— 可用 RTX 5070 Ti（192.168.0.229）跑簡單指令路由（開燈/關燈/查狀態），複雜推理才上雲。</div>
+        <div class="card-summary">Ollama <strong>OpenJarvis v1.0</strong>（5/28）：開源框架，建構跑在自有硬體上的個人 AI 代理，內建 Ollama 支援、全程本地執行。契合你「本地意圖辨識、減少 Gemini API 依賴」的痛點 —— 可用 RTX 5070 Ti（192.168.0.229）跑簡單指令路由（開燈/關燈/查狀態），複雜推理才上雲。</div>
         <div class="card-block"><div class="lbl">問題 / 機會</div><div class="txt">Luna 18 個 function call 全走 Gemini，簡單指令也付雲端費用；本地框架可吃掉高頻低複雜度的請求。</div></div>
         <div class="card-meta-row">
-          <span class="badge badge-new">🆕 本期新增</span>
+          <span class="badge badge-info">沿用上期</span>
           <span class="badge badge-update">OpenJarvis v1.0（5/28）</span>
           <a class="release-link" href="https://ollama.com/blog" target="_blank">📋 Ollama Blog →</a>
         </div>
@@ -435,26 +438,26 @@
       </div>
     </div>
 
-    <!-- Card 6: llama.cpp b9415 -->
+    <!-- Card 6: llama.cpp b9484 (updated) -->
     <div class="action-card amber">
       <div class="card-inner">
         <div class="card-top">
-          <div class="card-headline">llama.cpp 更新至 b9415 — DeepSeek V3.2 稀疏注意力 + CUDA 13.1（RTX 5070 Ti）</div>
+          <div class="card-headline">llama.cpp 更新至 b9484 — 新增 Granite Embedding / Mellum + CUDA 13.3（RTX 5070 Ti）</div>
           <div class="effort-badge effort-2h">⏱ 1–2 小時</div>
         </div>
-        <div class="card-summary">b9415（5/29）帶來 <strong>DeepSeek V3.2 稀疏注意力（lightning indexer）</strong> 改善長上下文記憶體與吞吐、DeepSeekOCR 2 多模態支援、flash attention 改用 f16 mask 降記憶體、server timeout 拉到 3600 秒。續用 CUDA 13.1 Windows 建置對應 Blackwell。是 Card 5 本地推論路線的底層引擎。</div>
-        <div class="card-block"><div class="lbl">問題 / 機會</div><div class="txt">長上下文記憶體優化讓 RTX 5070 Ti 能塞更大 context / 更大模型，作為本地意圖路由與摘要的基礎。</div></div>
+        <div class="card-summary">b9484（6/2）新增 <strong>IBM Granite Embedding Multilingual R2</strong>（97m / 311m，可做本地多語 embedding，適合 Luna 記憶檢索 RAG）、Mellum 與 StepFun 3.5 MTP 架構支援。Windows 建置改提供 <strong>CUDA 13.3</strong> 雙 DLL 包（對應 Blackwell）。是 Card 5 本地推論路線的底層引擎。</div>
+        <div class="card-block"><div class="lbl">問題 / 機會</div><div class="txt">Granite Embedding 多語模型讓 RTX 5070 Ti 能在本地跑語意向量化，可替 Luna 的記憶/知識檢索省下雲端 embedding 呼叫。</div></div>
         <div class="card-meta-row">
-          <span class="badge badge-update">b9415（5/29）</span>
-          <span class="badge badge-info">CUDA 13.1 Windows 建置</span>
+          <span class="badge badge-update">b9484（6/2）</span>
+          <span class="badge badge-info">CUDA 13.3 Windows 建置</span>
           <a class="release-link" href="https://github.com/ggerganov/llama.cpp/releases" target="_blank">📋 Releases →</a>
         </div>
         <div class="steps">
           <div class="steps-label">操作步驟</div>
           <ol>
-            <li>在 192.168.0.229 下載 b9415 的 CUDA 13.1 Windows 建置包</li>
-            <li>啟動：<code>llama-server -m Qwen3-14B-Q4_K_M.gguf -ngl 99 --port 8080</code></li>
-            <li><code>llama-bench</code> 對比前版吞吐，確認無回歸後接入 Luna 本地路由</li>
+            <li>在 192.168.0.229 下載 b9484 的 CUDA 13.3 Windows 建置包</li>
+            <li>啟動：<code>llama-server -m granite-embedding-278m.gguf --embedding --port 8081</code></li>
+            <li><code>llama-bench</code> 對比吞吐；評估接入 Luna 本地語意檢索取代雲端 embedding</li>
           </ol>
         </div>
       </div>
@@ -471,9 +474,9 @@
           <div class="card-headline">WLED 維持 v16.0.0 穩定版 — mDNS MQTT 已在穩定版（勿用 nightly）</div>
           <div class="effort-badge effort-30">⏱ 30 分鐘</div>
         </div>
-        <div class="card-summary">v16.0.0（5/3）仍是最新穩定版，已內含 <strong>mDNS 支援 MQTT 伺服器</strong> 與 HA JSON Info 加上 device ID，直接改善 HA 燈條狀態同步。近期僅有 nightly（5/26：E1.31/ArtNet DMX grouping）持續開發，<strong>正式環境請用穩定版 v16.0.0</strong>。若你仍在 v0.15.x，這仍是值得排程的升級。</div>
+        <div class="card-summary">v16.0.0（5/3）仍是最新穩定版，已內含 <strong>mDNS 支援 MQTT 伺服器</strong> 與 HA JSON Info device ID，直接改善 HA 燈條狀態同步。近期僅有 nightly（6/2：E1.31/ArtNet DMX grouping、CCT blending）持續開發，<strong>正式環境請用穩定版 v16.0.0</strong>。若你仍在 v0.15.x，這仍是值得排程的升級。</div>
         <div class="card-meta-row">
-          <span class="badge badge-info">沿用上期（仍最新）</span>
+          <span class="badge badge-info">沿用上期（仍最新穩定版）</span>
           <span class="badge badge-update">v16.0.0（5/3）</span>
           <span class="badge badge-warn">⚠️ 從 v0.15.x 升級前先備份 presets.json</span>
           <a class="release-link" href="https://github.com/Aircoookie/WLED/releases" target="_blank">📋 GitHub Releases →</a>
@@ -500,11 +503,11 @@
           <div class="card-headline">Matter 採購策略 — 攝影機標準化 + 電網能源整合 + 門鎖走 Matter over Wi-Fi</div>
           <div class="effort-badge effort-30">⏱ 30 分鐘</div>
         </div>
-        <div class="card-summary">協定/廠商動態彙整為一個採購方向：<strong>(1)</strong> SmartThings 已擁抱 Matter，未來 HA 可望透過 Matter 直接接攝影機、擺脫廠商雲端 API；<strong>(2)</strong> CSA × OpenADR 結盟（5/11）讓家電可參與電網需量反應 —— 你高耗電的 RTX 5070 Ti 主機可規劃離峰排程；<strong>(3)</strong> SwitchBot Lock Vision 支援 Matter over Wi-Fi（免 Hub），是 HA 本地門鎖評估首選。新裝置一律優先選 Matter 認證款。</div>
+        <div class="card-summary">協定/廠商動態彙整為一個採購方向：<strong>(1)</strong> SmartThings 已擁抱 Matter，未來 HA 可望透過 Matter 直接接攝影機、擺脫廠商雲端 API；<strong>(2)</strong> CSA 動能持續（6/2 ubisys、5/28 Nuki 採用心得，Resideo 5/21 表態），Matter 生態加速；<strong>(3)</strong> SwitchBot Lock Vision 支援 Matter over Wi-Fi（免 Hub），是 HA 本地門鎖評估首選。新裝置一律優先選 Matter 認證款。</div>
         <div class="card-meta-row">
           <span class="badge badge-info">SmartThings 擁抱 Matter</span>
-          <span class="badge badge-info">CSA × OpenADR 電網整合（5/11）</span>
-          <span class="badge badge-info">Zigbee 4.0 One-Pager（5/20）</span>
+          <span class="badge badge-info">Nuki / ubisys 採用心得（5/28、6/2）</span>
+          <span class="badge badge-info">Zigbee Direct（BLE 直連）</span>
           <a class="release-link" href="https://csa-iot.org/newsroom/" target="_blank">📋 CSA Newsroom →</a>
         </div>
         <div class="steps">
@@ -535,11 +538,11 @@
         <span class="toggle">▼</span>
       </div>
       <div class="bg-body open">
-        <div class="bg-item"><div class="dot blue"></div><div><strong>Home Assistant 2026.5（5/6，最新發行版）：</strong>RF 射頻支援、維護儀表板、ESPHome 序列埠網路化、「Building in the Open」公開路線圖、12 項新整合。5/28 Sensereo 加入 Works with HA。</div></div>
-        <div class="bg-item"><div class="dot blue"></div><div><strong>ESPHome 2026.5.0：</strong>Device Builder 新 Web 介面、主迴圈省電（2.0→1.1 mA）、watchdog 1000× 回歸修復、原生 ESP-IDF v6.0.1、音訊堆疊 40% CPU 降、ESP32-C6/H2 Zigbee。提醒：<code>modbus_controller</code> server 模式 → <code>modbus_server</code>。</div></div>
-        <div class="bg-item"><div class="dot green"></div><div><strong>Zigbee2MQTT 2.10.1（5/7）：</strong>Tuya 屬性熱修復；2.10.0 起 HA 群組實體進 discovery、Aqara W600 / Shelly Gen4 / Yale 鎖擴充；共 18 款新裝置。</div></div>
-        <div class="bg-item"><div class="dot green"></div><div><strong>Frigate 0.17.1（安全維護版）：</strong>raw config 端點限 admin、跨攝影機鑑權修正、go2rtc exec/expr/echo 預設停用。0.17.0 帶 GenAI 摘要、語意搜尋、Apple Silicon NPU、YOLOv9。</div></div>
-        <div class="bg-item"><div class="dot"></div><div><strong>WLED v16.0.0（5/3，最大改版）：</strong>mDNS MQTT、HA JSON device ID；nightly 5/26 加 E1.31/ArtNet DMX grouping。正式環境用穩定版。</div></div>
+        <div class="bg-item"><div class="dot green"></div><div><strong>Zigbee2MQTT 2.11.0（6/1，本期新增）：</strong>external extensions / converters 預設停用（資安強化，升級後依賴者需手動開啟）、Zigbee Direct cluster、GreenPower 解析強化、HA discovery Jinja-safe；約 18 款新裝置（Tuya 觸控面板、Candeo、DAEWOO 鍵盤、Novato 雷達）。</div></div>
+        <div class="bg-item"><div class="dot blue"></div><div><strong>Home Assistant 2026.5（5/6，仍最新發行版）：</strong>RF 射頻支援、維護儀表板、ESPHome 序列埠網路化、公開路線圖、12 項新整合。5/28 Sensereo（Matter 煙霧/CO 警報）、5/19 zunzunbee 加入 Works with HA。</div></div>
+        <div class="bg-item"><div class="dot blue"></div><div><strong>ESPHome 2026.5.0：</strong>Device Builder 新 Web 介面、主迴圈省電（2.0→1.1 mA）、watchdog 1000× 回歸修復、原生 ESP-IDF、音訊堆疊 40% CPU 降、ESP32-C6/H2 Zigbee。提醒：<code>modbus_controller</code> server 模式 → <code>modbus_server</code>。</div></div>
+        <div class="bg-item"><div class="dot"></div><div><strong>Frigate 0.17.1（安全維護版）：</strong>raw config 端點限 admin、跨攝影機鑑權修正、go2rtc exec/expr/echo 預設停用。0.17.0 帶 GenAI 摘要、語意搜尋、Apple Silicon NPU、YOLOv9。</div></div>
+        <div class="bg-item"><div class="dot"></div><div><strong>WLED v16.0.0（5/3，最大改版）：</strong>mDNS MQTT、HA JSON device ID；nightly 20260602 加 E1.31/ArtNet DMX grouping、CCT blending。正式環境用穩定版。</div></div>
         <div class="bg-item"><div class="dot"></div><div><strong>ESPresense（藍牙室內定位）：</strong>mqtt_room / Companion 兩模式 + HA MQTT Discovery，可補強 FP2 房間級存在感測（沿用前次，本次未重抓）。</div></div>
       </div>
     </div>
@@ -550,10 +553,9 @@
         <span class="toggle">▼</span>
       </div>
       <div class="bg-body">
-        <div class="bg-item"><div class="dot blue"></div><div><strong>CSA × OpenADR 結盟（5/11）：</strong>Matter 將與電網需量反應協作，智能家庭可參與削峰填谷。多篇 In the News 聚焦智能插座能源追蹤、SmartThings 擁抱 Matter、Aliro 門禁論壇。</div></div>
-        <div class="bg-item"><div class="dot blue"></div><div><strong>Zigbee 4.0 One-Pager（5/20）：</strong>向後相容、強化安全與網路穩定。Nuki 5/28 分享 Matter 採用心得。</div></div>
+        <div class="bg-item"><div class="dot blue"></div><div><strong>CSA Matter 動能（本次重抓）：</strong>ubisys（6/2）、Nuki（5/28）分享 Matter 採用心得，Resideo（5/21）表態 Matter 取得實質動能。Zigbee Direct 解說：透過 BLE 讓手機/平板直接與 Zigbee 網路互動。Thread Group 成為 Unify 2026 Liaison Sponsor。</div></div>
         <div class="bg-item"><div class="dot"></div><div><strong>SwitchBot Lock Vision / Pro：</strong>支援 Matter over Wi-Fi，免 hub 即可接 Apple Home / HA（沿用前次）。SmartThings 首發 Matter 1.5 與 Matter 攝影機（沿用前次）。</div></div>
-        <div class="bg-item"><div class="dot"></div><div><strong>Google Home / Alexa / Thread：</strong>Matter 整合測試強制 Alliance Interop Test、OTA 分批推送；Echo 支援 Matter 1.5；Thread 1.4 已釋出，2026 將定案 1.5（皆沿用前次，本次未重抓）。</div></div>
+        <div class="bg-item"><div class="dot"></div><div><strong>Google Home / Alexa / Thread：</strong>Matter 整合測試強制 Alliance Interop Test、OTA 分批推送；Echo 支援 Matter 1.5；Thread 1.4 已釋出（皆沿用前次，本次未重抓）。</div></div>
       </div>
     </div>
 
@@ -563,10 +565,10 @@
         <span class="toggle">▼</span>
       </div>
       <div class="bg-body">
-        <div class="bg-item"><div class="dot green"></div><div><strong>llama.cpp b9415（5/29）：</strong>DeepSeek V3.2 稀疏注意力（lightning indexer）、DeepSeekOCR 2、flash attention f16 mask、server timeout 3600s；CUDA 13.1 Windows 建置對應 RTX 5070 Ti。</div></div>
+        <div class="bg-item"><div class="dot green"></div><div><strong>llama.cpp b9484（6/2，本期更新）：</strong>IBM Granite Embedding Multilingual R2（97m/311m，本地多語向量化）、Mellum、StepFun 3.5 MTP 架構支援；OpenCL gemv flat 變體；CUDA 12.4 + 13.3 雙 Windows 建置對應 RTX 5070 Ti。</div></div>
         <div class="bg-item"><div class="dot green"></div><div><strong>Ollama OpenJarvis（5/28）：</strong>本地優先個人 AI 代理框架，內建 Ollama 支援、全程本地執行。3/30 MLX Apple Silicon 加速預覽。</div></div>
         <div class="bg-item"><div class="dot"></div><div><strong>Jetson / Coral / Raspberry Pi：</strong>本次未重抓（slow-moving，沿用前次）。Pi 5 + AI Kit 仍為 HA 本地 Frigate 物件偵測主力；Coral NPU 已開源（RISC-V）。</div></div>
-        <div class="bg-item dot"><div class="dot"></div><div>相關性 1–2 分項目（不進行動卡）：openHAB 5.1、Node-RED 5.0 路線圖、Tasmota v15.3.0「Susan」SEN6x 空品感測 —— 皆無本期新變動。</div></div>
+        <div class="bg-item"><div class="dot"></div><div>相關性 1–2 分項目（不進行動卡）：openHAB 5.1、Node-RED 5.0 路線圖、Tasmota v15.3.0「Susan」SEN6x 空品感測 —— 皆無本期新變動。</div></div>
       </div>
     </div>
   </div>
@@ -579,20 +581,20 @@
       <div class="stat-box"><div class="stat-num">20</div><div class="stat-label">AIoT 來源總數</div></div>
       <div class="stat-box"><div class="stat-num green">8</div><div class="stat-label">本次重抓（全成功）</div></div>
       <div class="stat-box"><div class="stat-num amber">12</div><div class="stat-label">沿用前次（slow-moving）</div></div>
-      <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">本期 🆕 新行動卡</div></div>
+      <div class="stat-box"><div class="stat-num">1</div><div class="stat-label">本期 🆕 新行動卡</div></div>
     </div>
 
     <table class="source-table">
       <thead><tr><th>來源</th><th>狀態</th><th>最新動態（一行）</th></tr></thead>
       <tbody>
-        <tr><td>home-assistant-blog</td><td><span class="ok-dot">✓ 重抓</span></td><td>2026.5（5/6）為最新；5/28 Sensereo 加入 Works with HA</td></tr>
+        <tr><td>zigbee2mqtt-changelog</td><td><span class="ok-dot">✓ 重抓</span></td><td><strong>2.11.0（6/1）外部轉換器預設停用</strong>；Zigbee Direct、18 款新裝置</td></tr>
+        <tr><td>llamacpp-releases</td><td><span class="ok-dot">✓ 重抓</span></td><td>b9484（6/2）Granite Embedding R2 / Mellum；CUDA 13.3 建置</td></tr>
+        <tr><td>home-assistant-blog</td><td><span class="ok-dot">✓ 重抓</span></td><td>2026.5（5/6）為最新；5/28 Sensereo、5/19 zunzunbee 加入</td></tr>
         <tr><td>esphome-changelog</td><td><span class="ok-dot">✓ 重抓</span></td><td>2026.5.0：Device Builder、省電 2.0→1.1mA、watchdog 修復</td></tr>
-        <tr><td>zigbee2mqtt-changelog</td><td><span class="ok-dot">✓ 重抓</span></td><td>2.10.1（5/7）Tuya 熱修復；HA 群組進 discovery</td></tr>
         <tr><td>frigate-releases</td><td><span class="ok-dot">✓ 重抓</span></td><td>0.17.1 安全修復（raw config 限 admin、跨攝影機鑑權）</td></tr>
-        <tr><td>wled-releases</td><td><span class="ok-dot">✓ 重抓</span></td><td>v16.0.0 穩定版；nightly 5/26 加 DMX grouping</td></tr>
-        <tr><td>llamacpp-releases</td><td><span class="ok-dot">✓ 重抓</span></td><td>b9415（5/29）DeepSeek V3.2 稀疏注意力 + DeepSeekOCR 2</td></tr>
+        <tr><td>wled-releases</td><td><span class="ok-dot">✓ 重抓</span></td><td>v16.0.0 穩定版；nightly 20260602 加 DMX grouping</td></tr>
         <tr><td>ollama-blog</td><td><span class="ok-dot">✓ 重抓</span></td><td>OpenJarvis v1.0（5/28）本地優先個人 AI 框架</td></tr>
-        <tr><td>csa-matter-news</td><td><span class="ok-dot">✓ 重抓</span></td><td>CSA×OpenADR 電網整合（5/11）；Zigbee 4.0（5/20）</td></tr>
+        <tr><td>csa-matter-news</td><td><span class="ok-dot">✓ 重抓</span></td><td>ubisys/Nuki Matter 採用心得；Zigbee Direct 解說</td></tr>
         <tr><td>tasmota-docs</td><td><span class="warn-dot">~ 沿用</span></td><td>v15.3.0「Susan」SEN6x 空品感測（無新變動）</td></tr>
         <tr><td>espresense</td><td><span class="warn-dot">~ 沿用</span></td><td>mqtt_room / Companion + HA MQTT Discovery</td></tr>
         <tr><td>node-red-blog</td><td><span class="warn-dot">~ 沿用</span></td><td>5.0 路線圖進行中（最新 2025-12）</td></tr>
@@ -608,19 +610,19 @@
       </tbody>
     </table>
 
-    <div style="margin-top: 14px; font-size: 13px; color: var(--t2);">本次（每 3 天 09:00 排程）優先重抓 8 個快速迭代的發行/部落格來源（GitHub Releases + 官方 blog），其餘 12 個 slow-moving 來源距上次爬取僅 1 天無新變動，沿用前次內容；下次完整輪抓再全面更新。</div>
+    <div style="margin-top: 14px; font-size: 13px; color: var(--t2);">本次（每 3 天 09:00 排程）優先重抓 8 個快速迭代的發行/部落格來源（GitHub Releases + 官方 blog），距上次（5/29）約 5 天。其餘 12 個 slow-moving 來源無新變動，沿用前次內容；下次完整輪抓再全面更新。</div>
 
     <div class="section-title" style="margin-top:24px;"><span>🗓</span> 更新紀錄</div>
-    <div class="changelog-row"><div class="date">2026-05-30</div><div>修正上期版本誤標（HA 2026.5 / Z2M 2.10.1 / ESPHome 2026.5.0）；新增 5 張行動卡（HA 2026.5、ESPHome 2026.5、Z2M 2.10.1、Frigate 0.17.1 安全、Ollama OpenJarvis）。共 8 卡。</div></div>
-    <div class="changelog-row"><div class="date">2026-05-29</div><div>WLED v16 / Z2M / llama.cpp / HA / Frigate / Tasmota / Matter 策略，8 張行動卡（版本標示有誤，本期已修正）。</div></div>
+    <div class="changelog-row"><div class="date">2026-06-03</div><div>Z2M 2.11.0（外部轉換器預設停用，本期唯一新行動卡）、llama.cpp b9484（Granite Embedding）；HA / ESPHome / Frigate / WLED / Matter 沿用上期。共 8 卡。</div></div>
+    <div class="changelog-row"><div class="date">2026-05-30</div><div>修正上期版本誤標；新增 5 張行動卡（HA 2026.5、ESPHome 2026.5、Z2M 2.10.1、Frigate 0.17.1 安全、Ollama OpenJarvis）。共 8 卡。</div></div>
+    <div class="changelog-row"><div class="date">2026-05-29</div><div>WLED v16 / Z2M / llama.cpp / HA / Frigate / Tasmota / Matter 策略，8 張行動卡（版本標示有誤，已於 5/30 修正）。</div></div>
     <div class="changelog-row"><div class="date">2026-05-27</div><div>ESPHome 2026.5.0 Device Builder、llama.cpp CUDA 13.1、WLED nightly 更新。</div></div>
-    <div class="changelog-row"><div class="date">2026-05-24</div><div>HA 2026.5 RF 支援與維護儀表板首次入庫；Z2M 2.10.x 裝置擴充。</div></div>
   </div>
 
 </div>
 
 <footer>
-  智能系統週報 · 產出 2026-05-30 · 20 個 AIoT 來源（sources.json group=aiot）· 系統核心 Home Assistant · 排程任務 crawl-aiot（每 3 天 09:00）
+  智能系統週報 · 產出 2026-06-03 · 20 個 AIoT 來源（sources.json group=aiot）· 系統核心 Home Assistant · 排程任務 crawl-aiot（每 3 天 09:00）
 </footer>
 
 <script>
