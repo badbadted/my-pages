@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 每日情報 — 2026-06-03</title>
+<style>
+:root{
+  --bg:#ffffff; --s1:#f8fafc; --s2:#e2e8f0; --t1:#1e293b; --t2:#64748b;
+  --tech:#2563eb; --app:#7c3aed; --news:#0891b2;
+  --accent:#1e293b; --line:#e2e8f0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t1);font-family:-apple-system,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:40px 24px 80px}
+header{border-bottom:2px solid var(--accent);padding-bottom:20px;margin-bottom:36px}
+.kicker{font-size:13px;letter-spacing:.08em;color:var(--t2);text-transform:uppercase;font-weight:600}
+h1{font-size:30px;margin:8px 0 6px;letter-spacing:-.01em}
+.sub{color:var(--t2);font-size:14px}
+h2{font-size:20px;margin:44px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+h2 .n{font-size:13px;color:#fff;background:var(--accent);width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{background:var(--s1);border:1px solid var(--line);border-radius:10px;padding:18px 16px;text-align:center}
+.stat .v{font-size:30px;font-weight:700;color:var(--accent);line-height:1}
+.stat .l{font-size:12.5px;color:var(--t2);margin-top:8px}
+.story{background:var(--s1);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:14px 16px;margin-bottom:12px}
+.story .h{font-weight:650;font-size:15.5px;margin-bottom:4px}
+.story .s{font-size:13.5px;color:var(--t2)}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;margin-left:8px;vertical-align:middle}
+.t-tech{background:#dbeafe;color:var(--tech)}
+.t-app{background:#ede9fe;color:var(--app)}
+.t-news{background:#cffafe;color:var(--news)}
+.digest-group{margin-bottom:22px}
+.digest-group .gh{font-size:13px;font-weight:700;letter-spacing:.04em;margin-bottom:10px;text-transform:uppercase}
+.gh.tech{color:var(--tech)} .gh.app{color:var(--app)} .gh.news{color:var(--news)}
+ul.d{list-style:none}
+ul.d li{padding:8px 0 8px 18px;position:relative;font-size:14px;border-bottom:1px dashed var(--line)}
+ul.d li:before{content:"";position:absolute;left:0;top:15px;width:6px;height:6px;border-radius:50%;background:var(--s2)}
+ul.d li b{font-weight:650}
+.src{font-size:11.5px;color:var(--t2)}
+.blocked{color:#b45309}
+.analysis p{margin-bottom:14px;font-size:14.5px}
+.actions{background:var(--s1);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-top:8px}
+.actions .ah{font-weight:700;margin-bottom:10px;font-size:14px}
+.actions ol{margin-left:18px;font-size:14px}
+.actions ol li{margin-bottom:8px}
+.gloss{display:grid;grid-template-columns:1fr;gap:0}
+.gloss .item{padding:12px 0;border-bottom:1px dashed var(--line)}
+.gloss .name{font-weight:650;font-size:14.5px}
+.gloss .cat{font-size:11px;font-weight:600;padding:1px 8px;border-radius:20px;background:var(--s2);color:var(--t2);margin-left:8px}
+.gloss .def{font-size:13.5px;color:var(--t2);margin-top:3px}
+footer{margin-top:50px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--t2);text-align:center}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">AI 每日情報 · Daily Intelligence</div>
+  <h1>AI 每日情報報告</h1>
+  <div class="sub">2026 年 6 月 3 日（週三）· 涵蓋 14 個來源 · tech / app / news 三大群組</div>
+</header>
+
+<!-- Section 1 -->
+<h2><span class="n">1</span>統計概覽</h2>
+<div class="stats">
+  <div class="stat"><div class="v">14</div><div class="l">來源抓取</div></div>
+  <div class="stat"><div class="v">8</div><div class="l">成功取得內容</div></div>
+  <div class="stat"><div class="v">10+</div><div class="l">今日新增項目</div></div>
+  <div class="stat"><div class="v">6</div><div class="l">來源遭封鎖／無內容</div></div>
+</div>
+<p style="font-size:13px;color:var(--t2);margin-top:14px">
+  今日兩條主線：<b>代理「自我評估／自我修正」成框架新主軸</b>（LangChain 推出 Rubrics）＋<b>AI 治理與成本控管浮上檯面</b>（Uber 設員工 AI 支出上限、Microsoft 推 AI 行為測試工具、Amazon Ring 臉部辨識遭集體訴訟）。封鎖／無內容來源：The Verge、Ars Technica（API 層級封鎖，連續逾月）、theresanaiforthat（403 機器人防護）、Ben's Bites（付費牆）、Matt Shumer（無公開文章，連續第 43 日）、MIT Tech Review（主站無回內容）。建議 news 群組改走 RSS / Google News 管道。
+</p>
+
+<!-- Section 2 -->
+<h2><span class="n">2</span>今日重點 Top Stories</h2>
+
+<div class="story">
+  <div class="h">Anthropic 搶先 OpenAI 遞交 IPO，並擴大軟體安全計畫 Project Glasswing<span class="tag t-tech">tech</span></div>
+  <div class="s">Superhuman 以「Anthropic beats OpenAI to the IPO filing」定調 IPO 競賽；官方同日宣布 Project Glasswing 擴大合作夥伴與資源，鞏固「安全」作為品牌差異化主軸。<span class="src">來源：Anthropic / Superhuman AI</span></div>
+</div>
+
+<div class="story">
+  <div class="h">Nvidia 鞏固 AI 代理技術堆疊（agent stack）<span class="tag t-app">app</span></div>
+  <div class="s">The Rundown 頭條指 Nvidia 從硬體向上吃下代理基礎設施版圖；同篇提到把 Claude session 經每日稽核轉化為更好「技能」的新做法。<span class="src">來源：The Rundown AI</span></div>
+</div>
+
+<div class="story">
+  <div class="h">LangChain 推出 Rubrics：讓代理自我評分並修正輸出<span class="tag t-tech">tech</span></div>
+  <div class="s">新功能讓代理依評分量表自評自改，搭配同日〈Legal Agent Verifiers〉一文，標誌框架重心從「組裝代理」轉向「代理會自查自改」。<span class="src">來源：LangChain Blog</span></div>
+</div>
+
+<div class="story">
+  <div class="h">Microsoft 推 AI 行為測試工具，並發表 Scout 個人助理<span class="tag t-news">news</span></div>
+  <div class="s">開發者可用自然語言描述測試 AI 代理行為；同時發表受 OpenClaw 框架啟發的個人助理 Microsoft Scout，把代理推向更廣部署。<span class="src">來源：TechCrunch</span></div>
+</div>
+
+<div class="story">
+  <div class="h">Uber 對員工 AI 工具設支出上限——四個月用罄預算<span class="tag t-news">news</span></div>
+  <div class="s">企業端 AI 使用成本失控信號：Uber 在四個月內用完 AI 工具預算後限制員工使用，呼應 GitHub Copilot 改 token 計費引發的開發者反彈。<span class="src">來源：TechCrunch</span></div>
+</div>
+
+<div class="story">
+  <div class="h">資料安全新創 Cyera 追求 120 億美元估值<span class="tag t-news">news</span></div>
+  <div class="s">在 AI 資料外洩風險升高下，資安新創估值水漲船高；Cyera 雖仍虧損仍尋求 $12B 估值，反映市場對「AI 時代資料治理」的下注。<span class="src">來源：TechCrunch</span></div>
+</div>
+
+<div class="story">
+  <div class="h">Amazon Ring 因門鈴相機臉部辨識遭集體訴訟<span class="tag t-news">news</span></div>
+  <div class="s">居家攝影機臉部辨識的隱私爭議進入法律戰，對雲端式智慧家庭視覺方案是警訊，亦凸顯本地（on-device）AI 視覺的價值。<span class="src">來源：TechCrunch</span></div>
+</div>
+
+<!-- Section 3 -->
+<h2><span class="n">3</span>各來源速覽</h2>
+
+<div class="digest-group">
+  <div class="gh tech">● TECH ／ 框架與大廠技術</div>
+  <ul class="d">
+    <li><b>LangChain</b>：推出 <b>Rubrics</b> 讓代理自評自改，加上法律代理 Verifier 設計，主軸轉向「代理自查自改」。</li>
+    <li><b>Anthropic</b>：擴大 <b>Project Glasswing</b> 軟體安全計畫；IPO（S-1）與 $65B Series H 餘波續燒。</li>
+    <li><b>LlamaIndex</b>：延續「文件處理 × 金融合規」垂直應用（KYC OCR、房貸自動化、Deep Extraction），本日無新文。</li>
+    <li><b>CrewAI</b>：年度趨勢文〈State of Agentic AI in 2026〉領頭，自我進化代理（NemoClaw）與 100x 效能續為焦點。</li>
+  </ul>
+</div>
+
+<div class="digest-group">
+  <div class="gh app">● APP ／ 應用與工具日報</div>
+  <ul class="d">
+    <li><b>The Rundown AI</b>：新頭條「Nvidia 鞏固 AI 代理技術堆疊」；研究突破（Google 數學 9:1、蛋白質世界模型）續在榜。</li>
+    <li><b>Superhuman AI</b>：頭條「Anthropic 搶先 OpenAI 遞交 IPO」，附 AI 製作病毒式社群內容教學。</li>
+    <li><b>Product Hunt（AI）</b>：榜單以 Cursor、Claude、Vercel、Supabase 等成熟工具為主，無明顯今日新品上榜。</li>
+    <li class="blocked"><b>theresanaiforthat</b>／<b>Ben's Bites</b>／<b>Matt Shumer</b>：分別因 403 防護、付費牆、無公開文章未取得內容。</li>
+  </ul>
+</div>
+
+<div class="digest-group">
+  <div class="gh news">● NEWS ／ 產業新聞與政策</div>
+  <ul class="d">
+    <li><b>TechCrunch</b>：題材轉企業／治理面——Cyera $12B 估值、Uber AI 支出上限、Microsoft 測試工具/Scout、Ring 臉部辨識訴訟。</li>
+    <li class="blocked"><b>The Verge</b>／<b>Ars Technica</b>：API 層級封鎖（連續逾月），建議改 RSS。</li>
+    <li class="blocked"><b>MIT Tech Review</b>：主站回傳僅導覽結構、無文章內容，建議改用其 The Algorithm RSS。</li>
+  </ul>
+</div>
+
+<!-- Section 4 -->
+<h2><span class="n">4</span>深度分析 + 應用建議</h2>
+<div class="analysis">
+  <p><b>主線一：代理進入「自我評估」世代。</b>LangChain 同日推出 Rubrics（自評自改）與法律代理 Verifier 設計，CrewAI 也持續主打自我進化代理。產業共識正從「讓代理會做事」轉向「讓代理會檢查自己做的事」——驗證（verification）與評分（rubric）成為代理可靠度的關鍵基礎設施，而非事後補丁。這與你 CLAUDE.md 既有的「完成即驗證」「自我審查」原則高度一致。</p>
+  <p><b>主線二：AI 從「導入期」進入「管控期」。</b>同一天出現三則治理訊號：Uber 因四個月用罄預算而限制員工 AI 工具、Microsoft 同時推出 AI 行為測試與代理控制機制、Amazon Ring 因臉部辨識遭集體訴訟。企業關注點正從「要不要用 AI」轉向「如何控制成本、行為與合規風險」。資安新創 Cyera 衝 $12B 估值，正是市場對「AI 時代資料治理」缺口的下注。</p>
+  <p><b>主線三：資本與基礎設施持續集中。</b>Anthropic 搶先 OpenAI 遞交 IPO、Nvidia 從硬體向上整併代理技術堆疊——AI 價值鏈的頭部正快速鞏固。對個人開發者而言，意義在於：底層平台會更穩定也更綁定，差異化機會落在「垂直應用」與「自建可控的本地方案」。</p>
+</div>
+<div class="actions">
+  <div class="ah">🎯 給你的 3 個行動建議</div>
+  <ol>
+    <li><b>把 Rubrics 模式接進你的 Skill 流程。</b>在 ACE Phase 4 驗收／hawkeye 之外，於 agent 產出後加一層「rubric 自評」（依預定義驗收標準自打分、不及格自動重做），把 LangChain 的做法內化成你多 Skill 架構的標準收尾步驟。</li>
+    <li><b>趁此檢視 AI 額度配置。</b>Uber AI 支出失控 + Copilot token 計費反彈是提醒——把目前 Codex／Claude 的額度用量做一次盤點，確認「Codex 額度管理」工作流的派工切片仍對得上實際消耗，避免月底突然見底。</li>
+    <li><b>用 Ring 訴訟強化「本地優先」設計原則。</b>居家臉部辨識的雲端隱私戰，正好佐證你 Luna／FP2／Frigate 走本地（on-device）AI 視覺的方向。可把「敏感感測一律本地處理、不上雲」明文寫入智慧家庭設計準則，作為與商用方案的差異化賣點。</li>
+  </ol>
+</div>
+
+<!-- Section 5 -->
+<h2><span class="n">5</span>名詞解釋</h2>
+<div class="gloss">
+  <div class="item">
+    <div class="name">Rubrics（LangChain）<span class="cat">框架功能</span></div>
+    <div class="def">讓 AI 代理依「評分量表」自我評分並修正輸出的新機制，目標是讓代理在交付前先自查品質。</div>
+  </div>
+  <div class="item">
+    <div class="name">Project Glasswing<span class="cat">安全計畫</span></div>
+    <div class="def">Anthropic 的關鍵軟體安全倡議，本日宣布擴大合作夥伴與資源，協助強化重要軟體的防護。</div>
+  </div>
+  <div class="item">
+    <div class="name">AI agent stack（代理技術堆疊）<span class="cat">概念</span></div>
+    <div class="def">從晶片、推論、編排到代理應用的整層基礎設施；Nvidia 被指正從硬體向上整併這整條堆疊。</div>
+  </div>
+  <div class="item">
+    <div class="name">Microsoft Scout<span class="cat">產品</span></div>
+    <div class="def">微軟受 OpenClaw 框架啟發推出的個人 AI 助理，瞄準更廣泛的代理化日常任務部署。</div>
+  </div>
+  <div class="item">
+    <div class="name">Cyera<span class="cat">公司</span></div>
+    <div class="def">資料安全新創，主打 AI 時代的資料外洩防護與治理，本日傳出追求 120 億美元估值。</div>
+  </div>
+  <div class="item">
+    <div class="name">Verifier（驗證器）<span class="cat">概念</span></div>
+    <div class="def">專門檢查代理輸出是否正確／合規的元件；在法律等高風險場景中成為代理可靠度的關鍵設計。</div>
+  </div>
+</div>
+
+<footer>
+  AI 每日情報 · 自動爬蟲彙整 · 2026-06-03 · 14 來源（tech 4／app 6／news 4）
+</footer>
+</div>
+</body>
+</html>
