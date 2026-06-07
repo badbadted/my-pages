@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日 AI 情報報告 — 2026-06-07</title>
+<style>
+  :root{
+    --bg:#ffffff; --s1:#f8fafc; --s2:#e2e8f0; --s3:#cbd5e1;
+    --t1:#1e293b; --t2:#64748b; --t3:#94a3b8;
+    --accent:#3b82f6; --accent-light:#eff6ff;
+    --green:#16a34a; --green-light:#f0fdf4;
+    --red:#dc2626; --red-light:#fef2f2;
+    --yellow:#d97706; --yellow-light:#fffbeb;
+    --orange:#ea580c; --orange-light:#fff7ed;
+    --purple:#7c3aed; --purple-light:#f5f3ff;
+    --radius:10px; --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--t1);font-family:'Segoe UI','Helvetica Neue','PingFang TC','Microsoft JhengHei',sans-serif;font-size:15px;line-height:1.7;}
+  .header{background:var(--s1);border-bottom:1px solid var(--s2);padding:32px 40px 24px;}
+  .header-meta{color:var(--t2);font-size:13px;margin-bottom:8px;}
+  .header h1{font-size:26px;font-weight:700;margin-bottom:6px;}
+  .header .subtitle{color:var(--t2);font-size:14px;}
+  .toc{background:var(--accent-light);border-left:3px solid var(--accent);padding:16px 24px;margin:28px 40px 0;border-radius:var(--radius);max-width:1000px;margin-left:auto;margin-right:auto;}
+  .toc h3{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;}
+  .toc a{color:var(--accent);text-decoration:none;font-size:13px;}
+  .toc a:hover{text-decoration:underline;}
+  .toc-list{display:flex;flex-wrap:wrap;gap:8px 20px;list-style:none;}
+  .main{max-width:1000px;margin:0 auto;padding:32px 40px 64px;}
+  .section{margin-bottom:44px;}
+  .section-title{font-size:18px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--s2);display:flex;align-items:center;gap:8px;}
+  .section-title .icon{font-size:20px;}
+  /* stats */
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .stat-card{background:var(--s1);border:1px solid var(--s2);border-radius:var(--radius);padding:18px 16px;text-align:center;}
+  .stat-num{font-size:30px;font-weight:800;color:var(--accent);line-height:1.1;}
+  .stat-num.green{color:var(--green);}
+  .stat-num.muted{color:var(--t2);}
+  .stat-label{font-size:12px;color:var(--t2);margin-top:6px;}
+  /* highlights */
+  .hl{counter-reset:hl;list-style:none;}
+  .hl li{position:relative;background:var(--s1);border:1px solid var(--s2);border-left:4px solid var(--accent);border-radius:var(--radius);padding:14px 16px 14px 48px;margin-bottom:12px;font-size:14.5px;}
+  .hl li::before{counter-increment:hl;content:counter(hl);position:absolute;left:14px;top:13px;width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .badge-new{display:inline-block;background:var(--green-light);color:var(--green);font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px;margin-right:6px;}
+  /* source groups */
+  .grp{margin-bottom:22px;}
+  .grp-label{display:inline-block;font-size:12px;font-weight:700;padding:3px 12px;border-radius:12px;margin-bottom:10px;}
+  .grp-tech{background:#dbeafe;color:#1d4ed8;}
+  .grp-app{background:var(--green-light);color:var(--green);}
+  .grp-news{background:var(--yellow-light);color:var(--yellow);}
+  .src-table{width:100%;border-collapse:collapse;}
+  .src-table td{padding:9px 12px;font-size:13.5px;border-bottom:1px solid var(--s2);vertical-align:top;}
+  .src-name{font-weight:600;white-space:nowrap;width:170px;color:var(--t1);}
+  .src-table tr:hover td{background:var(--s1);}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;}
+  .dot-new{background:var(--green);}
+  .dot-none{background:var(--s3);}
+  .dot-block{background:var(--red);}
+  /* analysis */
+  .prose p{margin-bottom:12px;font-size:14.5px;color:var(--t1);}
+  .prose p .lead{font-weight:700;color:var(--t1);}
+  .sug{counter-reset:sug;list-style:none;margin-top:8px;}
+  .sug li{position:relative;background:var(--green-light);border:1px solid #bbf7d0;border-radius:var(--radius);padding:14px 16px 14px 50px;margin-bottom:12px;font-size:14.5px;}
+  .sug li::before{counter-increment:sug;content:counter(sug);position:absolute;left:14px;top:13px;width:24px;height:24px;background:var(--green);color:#fff;border-radius:6px;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  /* glossary */
+  .gloss dt{font-weight:700;color:var(--accent);font-size:14px;margin-top:14px;}
+  .gloss dd{font-size:14px;color:var(--t2);margin-left:0;}
+  .footer{border-top:1px solid var(--s2);color:var(--t3);font-size:12px;text-align:center;padding:24px;}
+  @media(max-width:680px){.stats-grid{grid-template-columns:repeat(2,1fr);}.main,.header{padding-left:20px;padding-right:20px;}.toc{margin-left:20px;margin-right:20px;}}
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-meta">每日 AI 情報自動爬取 · 涵蓋 Tech / App / News 三大群組 · 共 14 個來源</div>
+    <h1>每日 AI 情報報告</h1>
+    <div class="subtitle">2026 年 6 月 7 日（星期日）</div>
+  </div>
+
+  <div class="toc">
+    <h3>本日導覽</h3>
+    <ul class="toc-list">
+      <li><a href="#s1">① 統計概覽</a></li>
+      <li><a href="#s2">② 今日重點</a></li>
+      <li><a href="#s3">③ 各來源速覽</a></li>
+      <li><a href="#s4">④ 深度分析與應用建議</a></li>
+      <li><a href="#s5">⑤ 名詞解釋</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+
+    <!-- 1 統計概覽 -->
+    <section class="section" id="s1">
+      <div class="section-title"><span class="icon">📊</span>統計概覽</div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num">14</div><div class="stat-label">爬取來源數<br>(Tech 4 / App 6 / News 4)</div></div>
+        <div class="stat-card"><div class="stat-num green">4</div><div class="stat-label">本日新項目數</div></div>
+        <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">有新內容來源</div></div>
+        <div class="stat-card"><div class="stat-num muted">12</div><div class="stat-label">無新增 / 受阻來源</div></div>
+      </div>
+      <p style="margin-top:14px;font-size:13.5px;color:var(--t2);">本日為較平靜的一天，新增內容集中在技術群組（LlamaIndex 3 篇、CrewAI 1 篇）。多個新聞來源因封鎖、付費牆或頁面快照過舊而無有效新增，建議參考第四節的來源管道調整建議。</p>
+    </section>
+
+    <!-- 2 今日重點 -->
+    <section class="section" id="s2">
+      <div class="section-title"><span class="icon">⭐</span>今日重點</div>
+      <ol class="hl">
+        <li><span class="badge-new">新</span>LlamaIndex 把文件智能推進到法律場景，新增「合約後設資料萃取」與「法律 discovery 文件解析」，文件處理從金融合規延伸到法律領域。</li>
+        <li><span class="badge-new">新</span>LlamaIndex〈How to Make a PDF Searchable〉拆解 PDF 可搜尋化的快速方法與其真正侷限，強調「可搜尋」不等於「可被代理理解」。</li>
+        <li><span class="badge-new">新</span>CrewAI〈How to Optimize Token Spend for Better Agentic ROI〉把「token 成本治理」推上代理式 AI 的投資報酬率核心議題。</li>
+        <li><strong>跨來源訊號：</strong>成本治理成為共同主題——CrewAI 談 token 優化、TechCrunch 報導「token bill comes due」、LangChain 主張模型中立，三者都指向「代理要更省、更可換模型」。</li>
+        <li><strong>文件解析進入可評測階段：</strong>LlamaIndex 推出文件解析評測基準 ParseBench（LlamaParse Agentic 以 84.9% 居冠），RAG／文件處理開始有客觀比較標準。</li>
+        <li><strong>新聞面更新受阻：</strong>The Verge、Ars Technica 整站封鎖，MIT Tech Review 需 JS／付費牆，TechCrunch 回傳較舊快照，當日新聞主要靠 newsletter 類來源（The Rundown、Superhuman）支撐。</li>
+        <li><strong>代理安全持續發酵：</strong>近期 MIT Tech Review 記錄的「Meta AI 客服代理遭社工誘導盜帳號」事件，提醒代理上線時的權限與防護設計。</li>
+      </ol>
+    </section>
+
+    <!-- 3 各來源速覽 -->
+    <section class="section" id="s3">
+      <div class="section-title"><span class="icon">🗂️</span>各來源速覽</div>
+
+      <div class="grp">
+        <span class="grp-label grp-tech">TECH · 技術框架（4）</span>
+        <table class="src-table">
+          <tr><td class="src-name"><span class="dot dot-new"></span>llamaindex-blog</td><td><span class="badge-new">新</span>新增 3 篇——合約後設資料萃取、PDF 可搜尋化、法律 discovery 文件解析；焦點由金融合規延伸到法律文件。</td></tr>
+          <tr><td class="src-name"><span class="dot dot-new"></span>crewai-blog</td><td><span class="badge-new">新</span>〈How to Optimize Token Spend for Better Agentic ROI〉登場，代理成本治理成為新焦點。</td></tr>
+          <tr><td class="src-name"><span class="dot dot-none"></span>langchain-blog</td><td>無新項目；延續「代理執行環境與韌性」——給代理專屬電腦、模型中立論、LangGraph 容錯。</td></tr>
+          <tr><td class="src-name"><span class="dot dot-none"></span>anthropic-news</td><td>無新項目；近期大事為 $65B Series H（$965B 估值）、S-1 機密遞交、Claude Opus 4.8、Partner Hub 服務軌。</td></tr>
+        </table>
+      </div>
+
+      <div class="grp">
+        <span class="grp-label grp-app">APP · 應用產品（6）</span>
+        <table class="src-table">
+          <tr><td class="src-name"><span class="dot dot-none"></span>therundown-ai</td><td>無新項目；頭條延續 Anthropic RSI 時程、Ideogram/Reve 重塑生圖、微軟 Build 自走路線。</td></tr>
+          <tr><td class="src-name"><span class="dot dot-none"></span>superhuman-ai</td><td>無新項目；頭條為 NVIDIA 研究級人形機器人、Claude 自我加速開發、兩款尖端生圖模型。</td></tr>
+          <tr><td class="src-name"><span class="dot dot-none"></span>producthunt-ai</td><td>排行穩定；AI 編碼／代理工具續霸榜（Cursor、Claude、Claude Code 皆 5.0★）。</td></tr>
+          <tr><td class="src-name"><span class="dot dot-none"></span>theresanaiforthat</td><td>本次可連線但無顯著新增工具；近期焦點為 Gemini Spark 雲端常駐代理。</td></tr>
+          <tr><td class="src-name"><span class="dot dot-block"></span>bensbites</td><td>付費牆持續封鎖，首頁僅顯示訂閱欄位，無公開新文（建議改 RSS／訂閱信件）。</td></tr>
+          <tr><td class="src-name"><span class="dot dot-block"></span>mattshumer</td><td>連續逾 40 日無新文，頁面僅訂閱欄；建議降頻至每週或替換來源。</td></tr>
+        </table>
+      </div>
+
+      <div class="grp">
+        <span class="grp-label grp-news">NEWS · 產業新聞（4）</span>
+        <table class="src-table">
+          <tr><td class="src-name"><span class="dot dot-none"></span>techcrunch-ai</td><td>本次頁面回傳較舊快照（5/27–5/28 文章，如 Anthropic $65B、Opus 4.8、RSI is the new AGI），無較既有紀錄更新的新項目。</td></tr>
+          <tr><td class="src-name"><span class="dot dot-block"></span>mit-tech-review-ai</td><td>主站需 JS／付費牆，本次無法取得文章列表；近期焦點為 AI 客服代理遭社工盜帳號。</td></tr>
+          <tr><td class="src-name"><span class="dot dot-block"></span>theverge-ai</td><td>主站 API 層級封鎖，無法擷取；建議改 RSS／Google News 管道。</td></tr>
+          <tr><td class="src-name"><span class="dot dot-block"></span>arstechnica-ai</td><td>整站持續封鎖，無法擷取；建議改 Ars Technica RSS feed 監控。</td></tr>
+        </table>
+      </div>
+      <p style="font-size:12.5px;color:var(--t3);margin-top:6px;">圖例：<span class="dot dot-new"></span>有新項目　<span class="dot dot-none"></span>無新增　<span class="dot dot-block"></span>封鎖／付費牆／需 JS</p>
+    </section>
+
+    <!-- 4 深度分析 -->
+    <section class="section" id="s4">
+      <div class="section-title"><span class="icon">🔍</span>深度分析與應用建議</div>
+      <div class="prose">
+        <p><span class="lead">趨勢一：成本治理成為代理式 AI 的下一個戰場。</span>CrewAI 談 token 花費優化、TechCrunch 報導推論成本失控（「token bill comes due」），顯示企業關注正從「能不能做」轉向「划不划算」。搭配 LangChain 的模型中立論，可換模型、可量成本的架構將成為標配。</p>
+        <p><span class="lead">趨勢二：文件智能向垂直法律場景擴張且開始可評測。</span>LlamaIndex 連推合約與法律 discovery 文件解析，並推出 ParseBench 評測基準，代表 RAG／文件處理進入「可問責、可比較」階段，OCR 不再只是把字抓出來，而要交付下游可用的結構化資料。</p>
+        <p><span class="lead">趨勢三：來源可靠性正在惡化。</span>本日近半新聞來源（The Verge、Ars Technica、MIT TR、TechCrunch）因封鎖、付費牆、JS 或快照過舊而失效，單靠直接爬取首頁的策略風險升高，基礎建設應轉向結構化的 RSS／Google News 管道。</p>
+        <ol class="sug">
+          <li><strong>建立代理成本儀表板：</strong>把 CrewAI 的 token 優化框架套用到自家代理流程，先量測每任務的 token 成本與 ROI，再依任務難度做模型路由（呼應 LangChain 模型中立，貴模型只用在難任務）。</li>
+          <li><strong>升級文件處理管線：</strong>若有合約／法律或長文件需求，評估以 LlamaParse 搭配 ParseBench 指標導入，並用「可搜尋化 PDF + 深度萃取」取代純 OCR，提升檢索與代理理解品質。</li>
+          <li><strong>改造爬取來源管道：</strong>把被封鎖的 The Verge、Ars Technica、TechCrunch、MIT TR 改接各自 RSS feed 或 Google News，降低爬取失敗率，確保每日新聞面不漏接。</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 5 名詞解釋 -->
+    <section class="section" id="s5">
+      <div class="section-title"><span class="icon">📖</span>名詞解釋（本日新詞）</div>
+      <dl class="gloss">
+        <dt>RSI（Recursive Self-Improvement，遞迴自我改善）</dt>
+        <dd>指 AI 系統反覆改進自身能力的迴路，被視為下一個如 AGI 般難以明確定義、卻被廣泛討論的指標。</dd>
+        <dt>Token 成本治理 / Agentic ROI</dt>
+        <dd>衡量並優化代理在推論時消耗的 token 數量與其投資報酬率，是企業評估代理是否值得上線的關鍵財務視角。</dd>
+        <dt>ParseBench</dt>
+        <dd>LlamaIndex 推出的首個針對 AI 代理的文件解析評測基準，以約 2,000 頁人工驗證文件、逾 16.7 萬條規則，從表格、圖表、內容忠實度、語意格式、視覺定位五個維度評比解析器。</dd>
+        <dt>Deep Extraction（深度萃取）</dt>
+        <dd>相對於 single-pass（一次性）萃取，以多輪、可問責的方式從文件抽取結構化資料，提升合規場景的可信度。</dd>
+        <dt>模型中立（Model Neutrality）</dt>
+        <dd>主張代理架構應與特定模型供應商解耦的設計原則；LangChain 認為這比「雲端中立」更為關鍵。</dd>
+      </dl>
+    </section>
+
+  </div>
+  <div class="footer">本報告由每日 AI 情報排程於 2026-06-07 自動產生 · 來源：14 個 Tech / App / News 站點 · 比對基準為各來源 latest.md</div>
+</body>
+</html>
