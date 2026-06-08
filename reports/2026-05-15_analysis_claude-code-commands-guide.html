@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 指令完全指南 — 英翻中對照表</title>
+<style>
+  :root {
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --bg: #ffffff;
+    --card-bg: #f8fafc;
+    --card-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    --border: #e2e8f0;
+    --red: #dc2626; --red-bg: #fef2f2;
+    --orange: #ea580c; --orange-bg: #fff7ed;
+    --green: #16a34a; --green-bg: #f0fdf4;
+    --blue: #2563eb; --blue-bg: #eff6ff;
+    --purple: #7c3aed; --purple-bg: #f5f3ff;
+    --teal: #0d9488; --teal-bg: #f0fdfa;
+    --amber: #d97706; --amber-bg: #fffbeb;
+    --pink: #db2777; --pink-bg: #fdf2f8;
+    --cyan: #0891b2; --cyan-bg: #ecfeff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+  .nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .nav-title { font-size: 18px; font-weight: 700; }
+  .nav-meta { font-size: 13px; color: var(--text-light); }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-analysis { background: var(--blue-bg); color: var(--blue); }
+  .badge-source { background: var(--purple-bg); color: var(--purple); }
+
+  .container { max-width: 1060px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .stat-card { background: var(--card-bg); border-radius: 10px; padding: 16px; text-align: center; box-shadow: var(--card-shadow); border: 1px solid var(--border); }
+  .stat-num { font-size: 28px; font-weight: 800; }
+  .stat-label { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+  .stat-blue .stat-num { color: var(--blue); }
+  .stat-purple .stat-num { color: var(--purple); }
+  .stat-green .stat-num { color: var(--green); }
+  .stat-teal .stat-num { color: var(--teal); }
+
+  section { background: var(--card-bg); border-radius: 12px; padding: 24px; margin-bottom: 16px; border: 1px solid var(--border); }
+  section h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--primary); display: flex; align-items: center; gap: 8px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+  th { background: #f1f5f9; text-align: left; padding: 8px 10px; font-weight: 600; border-bottom: 2px solid var(--border); white-space: nowrap; }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) { background: #fafbfc; }
+  tr:hover { background: #f1f5f9; }
+  .cmd { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; font-weight: 700; color: var(--primary-dark); white-space: nowrap; font-size: 13px; }
+  .zh { font-weight: 600; color: var(--text); white-space: nowrap; }
+  .desc { color: var(--text-light); line-height: 1.5; }
+  .alias { font-family: monospace; font-size: 11px; color: var(--purple); background: var(--purple-bg); padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+  .tag { display: inline-block; padding: 1px 7px; border-radius: 8px; font-size: 10px; font-weight: 600; margin-left: 4px; vertical-align: middle; }
+  .tag-skill { background: var(--green-bg); color: var(--green); }
+  .tag-workflow { background: var(--amber-bg); color: var(--amber); }
+  .tag-new { background: var(--red-bg); color: var(--red); }
+  .tag-removed { background: #f1f5f9; color: #94a3b8; text-decoration: line-through; }
+
+  .toc { background: var(--card-bg); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; border: 1px solid var(--border); }
+  .toc h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .toc ul { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; }
+  .toc a { text-decoration: none; color: var(--primary-dark); font-size: 14px; }
+  .toc a:hover { text-decoration: underline; }
+
+  .workflow-box { background: var(--blue-bg); border: 1px solid #bfdbfe; border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; }
+  .workflow-box h3 { font-size: 15px; font-weight: 700; color: var(--blue); margin-bottom: 8px; }
+  .workflow-box p { font-size: 13px; color: var(--text); line-height: 1.6; margin: 4px 0; }
+
+  .footer { text-align: center; font-size: 12px; color: var(--text-light); padding: 20px; }
+
+  /* ===== 簡報模式 ===== */
+  .mode-toggle { margin-left: auto; display: flex; align-items: center; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .mode-btn { padding: 4px 12px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; background: #fff; color: var(--text-light); transition: all .15s; }
+  .mode-btn.active { background: var(--primary); color: #fff; }
+  .mode-btn:hover:not(.active) { background: #f1f5f9; }
+
+  .slide-counter { display: none; font-size: 13px; color: var(--text-light); font-weight: 600; margin-left: 12px; }
+  .slide-hint { display: none; font-size: 11px; color: var(--text-light); margin-left: 8px; }
+
+  body.slide-mode .container > *:not(.slide-active) { display: none !important; }
+  body.slide-mode .container > .slide-active { display: block !important; }
+  body.slide-mode .container { max-width: 1200px; padding-top: 32px; }
+  body.slide-mode .container > section.slide-active { min-height: calc(100vh - 140px); }
+  body.slide-mode .slide-counter { display: inline; }
+  body.slide-mode .slide-hint { display: inline; }
+  body.slide-mode .footer { display: none; }
+
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .toc ul { grid-template-columns: 1fr; }
+    th, td { padding: 6px 8px; font-size: 12px; }
+    .cmd { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-title">Claude Code 指令完全指南</span>
+  <span class="badge badge-analysis">analysis</span>
+  <span class="badge badge-source">ACE</span>
+  <span class="nav-meta">2026-05-15</span>
+  <span class="nav-meta">官方文件翻譯 · 含 /fork 詳解</span>
+  <div class="mode-toggle">
+    <button class="mode-btn active" id="btn-scroll" onclick="setMode('scroll')">捲動</button>
+    <button class="mode-btn" id="btn-slide" onclick="setMode('slide')">簡報</button>
+  </div>
+  <span class="slide-counter" id="slide-counter"></span>
+  <span class="slide-hint" id="slide-hint">← → 翻頁</span>
+</div>
+
+<div class="container">
+
+  <div class="stats">
+    <div class="stat-card stat-blue">
+      <div class="stat-num">65</div>
+      <div class="stat-label">內建指令</div>
+    </div>
+    <div class="stat-card stat-green">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Skill 指令</div>
+    </div>
+    <div class="stat-card stat-purple">
+      <div class="stat-num">9</div>
+      <div class="stat-label">功能分類</div>
+    </div>
+    <div class="stat-card stat-teal">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Workflow 指令</div>
+    </div>
+  </div>
+
+  <!-- /fork 特別解說 -->
+  <section id="fork-detail" style="border-left: 4px solid var(--primary);">
+    <h2>🔱 /fork 與相關指令詳解</h2>
+    <p style="font-size:14px; margin-bottom:16px; color:var(--text);">
+      <code>/fork</code> 是 Claude Code 的<b>對話分叉</b>機制，搭配 <code>/branch</code>、<code>/resume</code>、<code>/rewind</code> 構成完整的對話版本控制系統。
+    </p>
+    <table>
+      <thead><tr><th>指令</th><th>中文</th><th>行為</th><th>適用場景</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="cmd">/fork &lt;directive&gt;</td>
+          <td class="zh">分叉子代理</td>
+          <td class="desc">生成一個<b>背景子代理</b>，繼承完整對話歷史，在背景執行指定任務。你的對話繼續不中斷，子代理完成後結果會回傳到你的對話中</td>
+          <td class="desc">想讓 Claude 同時嘗試另一個方向，但自己不想切走</td>
+        </tr>
+        <tr>
+          <td class="cmd">/branch [name]</td>
+          <td class="zh">對話分支</td>
+          <td class="desc">在當前位置建立對話分支，<b>你自己切進新分支</b>。原對話保留，可用 <code>/resume</code> 回去。v2.1.77 前叫 <code>/fork</code></td>
+          <td class="desc">想親自嘗試不同方向，但保留回退點</td>
+        </tr>
+        <tr>
+          <td class="cmd">/resume [session]</td>
+          <td class="zh">恢復對話</td>
+          <td class="desc">回到之前的對話（含 <code>/branch</code> 和 <code>/clear</code> 留下的）。開啟選擇器或直接指定 session ID/名稱。背景 session 也會出現在列表中</td>
+          <td class="desc">切回原本的對話分支、恢復之前的 session</td>
+        </tr>
+        <tr>
+          <td class="cmd">/rewind</td>
+          <td class="zh">倒帶 / 回滾</td>
+          <td class="desc">把對話<b>和程式碼</b>回滾到先前某個檢查點，或摘要部分對話。類似 git 的 checkpoint + revert</td>
+          <td class="desc">嘗試失敗了，想整個退回到之前某個好的狀態</td>
+        </tr>
+        <tr>
+          <td class="cmd">/clear [name]</td>
+          <td class="zh">清空對話</td>
+          <td class="desc">開始全新對話（清空上下文），舊對話可在 <code>/resume</code> 找到。可為舊對話命名方便辨認。想保留上下文但釋放空間，用 <code>/compact</code></td>
+          <td class="desc">換一個完全不同的任務</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="workflow-box" style="margin-top:16px;">
+      <h3>🔑 /fork vs /branch 一句話區分</h3>
+      <p><b>/fork</b> = 「Claude 去背景跑，我繼續做我的」（非同步、子代理）</p>
+      <p><b>/branch</b> = 「我自己切進去試，原本的存著」（同步、自己操作）</p>
+      <p style="margin-top:8px; font-size:12px; color:var(--text-light);">注意：v2.1.161 之前 /fork 等同 /branch。之後兩者分開。</p>
+    </div>
+  </section>
+
+  <div class="toc">
+    <h3>指令分類目錄</h3>
+    <ul>
+      <li>🔱 <a href="#fork-detail">/fork 與相關指令詳解</a></li>
+      <li>📋 <a href="#context">上下文管理</a></li>
+      <li>🧠 <a href="#model">模型與推理</a></li>
+      <li>🚀 <a href="#parallel">平行執行與代理</a></li>
+      <li>🔍 <a href="#review">審查與品質</a></li>
+      <li>📁 <a href="#project">專案設定</a></li>
+      <li>🔌 <a href="#integration">整合與連接</a></li>
+      <li>🎨 <a href="#ui">介面與顯示</a></li>
+      <li>🛠️ <a href="#utility">工具與輔助</a></li>
+      <li>📝 <a href="#glossary">名詞解釋</a></li>
+    </ul>
+  </div>
+
+  <!-- ========== 上下文管理 ========== -->
+  <section id="context">
+    <h2>📋 上下文管理（Context Management）</h2>
+    <table>
+      <thead><tr><th>指令</th><th>中文</th><th>說明</th><th>別名</th></tr></thead>
+      <tbody>
+        <tr><td class="cmd">/compact [instructions]</td><td class="zh">壓縮對話</td><td class="desc">摘要目前的對話以釋放上下文空間。可指定摘要重點方向</td><td></td></tr>
+        <tr><td class="cmd">/clear [name]</td><td class="zh">清空對話</td><td class="desc">開始全新對話，舊對話可用 /resume 找回。可為舊對話命名</td><td><span class="alias">/reset</span> <span class="alias">/new</span></td></tr>
+        <tr><td class="cmd">/context [all]</td><td class="zh">上下文視覺化</td><td class="desc">以彩色格線顯示當前上下文使用狀況，含最佳化建議與容量警告。加 all 展開詳細</td><td></td></tr>
+        <tr><td class="cmd">/branch [name]</td><td class="zh">對話分支</td><td class="desc">建立當前對話的分支副本，切進新分支，原對話保留</td><td></td></tr>
+        <tr><td class="cmd">/fork &lt;directive&gt;</td><td class="zh">分叉子代理</td><td class="desc">生成背景子代理繼承對話，執行指令後回傳結果。v2.1.161+</td><td></td></tr>
+        <tr><td class="cmd">/resume [session]</td><td class="zh">恢復對話</td><td class="desc">恢復之前的對話，或開啟 session 選擇器。支援背景 session</td><td><span class="alias">/continue</span></td></tr>
+        <tr><td class="cmd">/rewind</td><td class="zh">倒帶 / 回滾</td><td class="desc">回滾對話與程式碼到先前的檢查點，或摘要指定訊息</td><td><span class="alias">/checkpoint</span> <span class="alias">/undo</span></td></tr>
+        <tr><td class="cmd">/btw &lt;question&gt;</td><td class="zh">順帶一問</td><td class="desc">問一個快速側面問題，不加入對話歷史（不佔上下文）</td><td></td></tr>
+        <tr><td class="cmd">/recap</td><td class="zh">摘要回顧</td><td class="desc">產生當前 session 的一行摘要。離開後回來也有自動摘要</td><td></td></tr>
+        <tr><td class="cmd">/rename [name]</td><td class="zh">重新命名</td><td class="desc">為當前 session 命名，顯示在提示列上。無參數則自動產生</td><td></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 模型與推理 ========== -->
+  <section id="model">
+    <h2>🧠 模型與推理（Model & Reasoning）</h2>
+    <table>
+      <thead><tr><th>指令</th><th>中文</th><th>說明</th><th>別名</th></tr></thead>
+      <tbody>
+        <tr><td class="cmd">/model [model]</td><td class="zh">切換模型</td><td class="desc">切換 AI 模型並儲存為預設。支援左右鍵調整推理強度，按 s 只切當次 session</td><td></td></tr>
+        <tr><td class="cmd">/effort [level|auto]</td><td class="zh">推理強度</td><td class="desc">設定推理等級：low / medium / high / xhigh / max / ultracode。auto 回復預設。無參數開滑桿</td><td></td></tr>
+        <tr><td class="cmd">/fast [on|off]</td><td class="zh">快速模式</td><td class="desc">切換快速模式，犧牲深度推理換取更快回應</td><td></td></tr>
+        <tr><td class="cmd">/plan [description]</td><td class="zh">計畫模式</td><td class="desc">進入計畫模式，Claude 只規劃不執行。可直接帶任務描述</td><td></td></tr>
+        <tr><td class="cmd">/ultraplan &lt;prompt&gt;</td><td class="zh">超級計畫</td><td class="desc">在雲端開啟深度計畫 session，可在瀏覽器審閱後遠端執行或拉回本機</td><td></td></tr>
+        <tr><td class="cmd">/goal [condition|clear]</td><td class="zh">設定目標</td><td class="desc">設定持續目標，Claude 跨回合持續工作直到條件達成。clear 可取消</td><td></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 平行執行與代理 ========== -->
+  <section id="parallel">
+    <h2>🚀 平行執行與代理（Parallel & Agents）</h2>
+    <table>
+      <thead><tr><th>指令</th><th>中文</th><th>說明</th><th>類型</th></tr></thead>
+      <tbody>
+        <tr><td class="cmd">/agents</td><td class="zh">代理管理</td><td class="desc">管理子代理（subagent）的設定與配置</td><td></td></tr>
+        <tr><td class="cmd">/background [prompt]</td><td class="zh">背景執行</td><td class="desc">將當前 session 轉為背景代理，釋放終端機。可帶最後一條指示</td><td><span class="alias">/bg</span></td></tr>
+        <tr><td class="cmd">/batch &lt;instruction&gt;</td><td class="zh">批量平行</td><td class="desc">將大型變更拆為 5-30 個獨立單元，每個在獨立 worktree 由子代理執行，最後各開 PR</td><td><span class="tag tag-skill">Skill</span></td></tr>
+        <tr><td class="cmd">/tasks</td><td class="zh">任務列表</td><td class="desc">查看與管理所有背景執行中的任務</td><td><span class="alias">/bashes</span></td></tr>
+        <tr><td class="cmd">/stop</td><td class="zh">停止 session</td><td class="desc">停止當前背景 session（僅在 attached 時可用），記錄和 worktree 保留</td><td></td></tr>
+        <tr><td class="cmd">/workflows</td><td class="zh">工作流程</td><td class="desc">開啟工作流程進度檢視器，可監控、暫停、恢復或儲存正在執行的 workflow</td><td></td></tr>
+        <tr><td class="cmd">/loop [interval] [prompt]</td><td class="zh">循環執行</td><td class="desc">重複執行 prompt。可指定間隔或讓 Claude 自行調整。支援 cron 式定時</td><td><span class="tag tag-skill">Skill</span> <span class="alias">/proactive</span></td></tr>
+        <tr><td class="cmd">/schedule [desc]</td><td class="zh">排程任務</td><td class="desc">建立、更新、列出定時任務（routine），在 Anthropic 雲端執行</td><td><span class="alias">/routines</span></td></tr>
+        <tr><td class="cmd">/autofix-pr [prompt]</td><td class="zh">自動修復 PR</td><td class="desc">生成雲端 session 監控當前分支 PR，CI 失敗或 reviewer 留言時自動推送修復</td><td></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 審查與品質 ========== -->
+  <section id="review">
+    <h2>🔍 審查與品質（Review & Quality）</h2>
+    <table>
+      <thead><tr><th>指令</th><th>中文</th><th>說明</th><th>類型</th></tr></thead>
+      <tbody>
+        <tr><td class="cmd">/diff</td><td class="zh">差異檢視</td><td class="desc">互動式 diff 檢視器，顯示未提交變更與每輪改動的差異。左右切換 diff / 各回合，上下瀏覽檔案</td><td></td></tr>
+        <tr><td class="cmd">/code-review [level] [--fix] [--comment]</td><td class="zh">程式碼審查</td><td class="desc">審查當前 diff 的正確性 bug 與清理建議。--fix 自動修復，--comment 發到 GitHub PR，ultra 跑雲端深度審查</td><td><span class="tag tag-skill">Skill</span></td></tr>
+        <tr><td class="cmd">/simplify [target]</td><td class="zh">簡化清理</td><td class="desc">4 個平行審查代理檢查：重用現有 helper、簡化、效率、抽象層級。自動套用修復（不找 bug）</td><td><span class="tag tag-skill">Skill</span></td></tr>
+        <tr><td class="cmd">/review [PR]</td><td class="zh">PR 審查</td><td class="desc">在本機審查 Pull Request。深度雲端審查用 /code-review ultra</td><td></td></tr>
+        <tr><td class="cmd">/ultrareview [PR]</td><td class="zh">超級審查</td><td class="desc">在雲端沙箱執行深度多代理程式碼審查。Pro/Max 免費 3 次，之後需額度</td><td></td></tr>
+        <tr><td class="cmd">/security-review</td><td class="zh">安全審查</td><td class="desc">分析當前分支的待提交變更，識別注入、授權問題、資料暴露等安全風險</td><td></td></tr>
+        <tr><td class="cmd">/run</td><td class="zh">執行應用</td><td class="desc">啟動並操作專案的應用程式，在執行中的 app 裡驗證變更（不只靠測試）</td><td><span class="tag tag-skill">Skill</span></td></tr>
+        <tr><td class="cmd">/verify</td><td class="zh">驗證變更</td><td class="desc">建置、啟動、觀察專案 app 來確認程式碼變更是否正確運作</td><td><span class="tag tag-skill">Skill</span></td></tr>
+        <tr><td class="cmd">/run-skill-generator</td><td class="zh">生成執行技能</td><td class="desc">教 /run 和 /verify 如何從零建置、啟動、操作你的專案</td><td><span class="tag tag-skill">Skill</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 專案設定 ========== -->
+  <section id="project">
+    <h2>📁 專案設定（Project Setup）</h2>
+    <table>
+      <thead><tr><th>指令</th><th>中文</th><th>說明</th><th>別名</th></tr></thead>
+      <tbody>
+        <tr><td class="cmd">/init</td><td class="zh">初始化專案</td><td class="desc">產生 CLAUDE.md 導引檔。設 CLAUDE_CODE_NEW_INIT=1 可走互動式流程（含 skills、hooks、個人記憶）</td><td></td></tr>
+        <tr><td class="cmd">/memory</td><td class="zh">記憶管理</td><td class="desc">編輯 CLAUDE.md、開關自動記憶功能、檢視自動記憶條目</td><td></td></tr>
+        <tr><td class="cmd">/permissions</td><td class="zh">權限管理</td><td class="desc">管理工具權限的允許/詢問/拒絕規則，檢視近期 auto mode 拒絕紀錄</td><td><span class="alias">/allowed-tools</span></td></tr>
+        <tr><td class="cmd">/hooks</td><td class="zh">Hook 管理</td><td class="desc">查看各工具事件的 hook 設定</td><td></td></tr>
+        <tr><td class="cmd">/skills</td><td class="zh">技能列表</td><td class="desc">列出所有可用技能。按 t 依 token 數排序，Space 隱藏/顯示技能</td><td></td></tr>
+        <tr><td class="cmd">/add-dir &lt;path&gt;</td><td class="zh">新增工作目錄</td><td class="desc">為當前 session 新增一個檔案存取目錄（不載入該目錄的 .claude/ 設定）</td><td></td></tr>
+        <tr><td class="cmd">/sandbox</td><td class="zh">沙箱模式</td><td class="desc">切換沙箱模式（僅支援的平台可用）</td><td></td></tr>
+        <tr><td class="cmd">/fewer-permission-prompts</td><td class="zh">減少權限提示</td><td class="desc">掃描你的記錄，自動加入常用的唯讀指令白名單到 settings.json</td><td><span class="tag tag-skill">Skill</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 整合與連接 ========== -->
+  <section id="integration">
+    <h2>🔌 整合與連接（Integrations）</h2>
+    <table>
+      <thead><tr><th>指令</th><th>中文</th><th>說明</th><th>別名</th></tr></thead>
+      <tbody>
+        <tr><td class="cmd">/mcp</td><td class="zh">MCP 管理</td><td class="desc">管理 MCP Server 連線與 OAuth 認證</td><td></td></tr>
+        <tr><td class="cmd">/plugin [subcommand]</td><td class="zh">外掛管理</td><td class="desc">管理 Claude Code 外掛。支援 list / install / enable / disable</td><td></td></tr>
+        <tr><td class="cmd">/reload-plugins [--force]</td><td class="zh">重載外掛</td><td class="desc">重新載入所有啟用的外掛以套用待處理的變更，不需重啟</td><td></td></tr>
+        <tr><td class="cmd">/reload-skills</td><td class="zh">重載技能</td><td class="desc">重新掃描技能目錄，讓 session 中新增的技能立即可用（v2.1.152+）</td><td></td></tr>
+        <tr><td class="cmd">/chrome</td><td class="zh">Chrome 設定</td><td class="desc">設定 Claude in Chrome 瀏覽器整合</td><td></td></tr>
+        <tr><td class="cmd">/ide</td><td class="zh">IDE 整合</td><td class="desc">管理 IDE 整合並顯示狀態</td><td></td></tr>
+        <tr><td class="cmd">/install-github-app</td><td class="zh">安裝 GitHub App</td><td class="desc">為 repo 設定 Claude GitHub Actions 整合</td><td></td></tr>
+        <tr><td class="cmd">/install-slack-app</td><td class="zh">安裝 Slack App</td><td class="desc">安裝 Claude Slack 應用，開啟瀏覽器完成 OAuth</td><td></td></tr>
+        <tr><td class="cmd">/claude-api [migrate|managed-agents-onboard]</td><td class="zh">Claude API 助手</td><td class="desc">載入 Claude API 參考資料。migrate 升級模型版本，managed-agents-onboard 互動建立 Managed Agent</td><td><span class="tag tag-skill">Skill</span></td></tr>
+        <tr><td class="cmd">/deep-research &lt;question&gt;</td><td class="zh">深度研究</td><td class="desc">平行展開網路搜尋，擷取並交叉驗證來源，產出附引用的研究報告</td><td><span class="tag tag-workflow">Workflow</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 介面與顯示 ========== -->
+  <section id="ui">
+    <h2>🎨 介面與顯示（UI & Display）</h2>
+    <table>
+      <thead><tr><th>指令</th><th>中文</th><th>說明</th><th>別名</th></tr></thead>
+      <tbody>
+        <tr><td class="cmd">/config</td><td class="zh">設定</td><td class="desc">開啟設定介面，調整主題、模型、輸出風格等偏好</td><td><span class="alias">/settings</span></td></tr>
+        <tr><td class="cmd">/theme</td><td class="zh">主題</td><td class="desc">變更色彩主題。含 auto / 亮暗色 / 色盲友善 / ANSI / 自訂主題</td><td></td></tr>
+        <tr><td class="cmd">/color [color|default]</td><td class="zh">提示列顏色</td><td class="desc">設定當前 session 的提示列顏色（red/blue/green/yellow/purple/orange/pink/cyan）</td><td></td></tr>
+        <tr><td class="cmd">/focus</td><td class="zh">焦點檢視</td><td class="desc">切換簡潔模式：只顯示最後提問 + 一行工具摘要 + 最終回覆（僅全螢幕）</td><td></td></tr>
+        <tr><td class="cmd">/tui [default|fullscreen]</td><td class="zh">渲染模式</td><td class="desc">設定終端 UI 渲染器。fullscreen 啟用無閃爍全螢幕渲染</td><td></td></tr>
+        <tr><td class="cmd">/statusline</td><td class="zh">狀態列設定</td><td class="desc">設定 Claude Code 底部狀態列的顯示內容</td><td></td></tr>
+        <tr><td class="cmd">/scroll-speed</td><td class="zh">捲動速度</td><td class="desc">互動式調整滑鼠滾輪速度（僅全螢幕模式）</td><td></td></tr>
+        <tr><td class="cmd">/keybindings</td><td class="zh">快捷鍵</td><td class="desc">開啟鍵盤快捷鍵設定檔</td><td></td></tr>
+        <tr><td class="cmd">/terminal-setup</td><td class="zh">終端設定</td><td class="desc">設定終端快捷鍵（Shift+Enter 等），針對 VS Code/Cursor/Alacritty/Zed</td><td></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 工具與輔助 ========== -->
+  <section id="utility">
+    <h2>🛠️ 工具與輔助（Utilities）</h2>
+    <table>
+      <thead><tr><th>指令</th><th>中文</th><th>說明</th><th>別名</th></tr></thead>
+      <tbody>
+        <tr><td class="cmd">/help</td><td class="zh">說明</td><td class="desc">顯示說明與所有可用指令</td><td></td></tr>
+        <tr><td class="cmd">/usage</td><td class="zh">用量統計</td><td class="desc">顯示 session 花費、方案用量限制、活動統計。付費方案含 skill/subagent/plugin/MCP 分項</td><td><span class="alias">/cost</span> <span class="alias">/stats</span></td></tr>
+        <tr><td class="cmd">/usage-credits</td><td class="zh">額度設定</td><td class="desc">設定使用額度，在達到限制時可繼續使用</td><td></td></tr>
+        <tr><td class="cmd">/status</td><td class="zh">狀態</td><td class="desc">顯示版本、模型、帳號、連線狀態。Claude 回應中也能用，不需等待</td><td></td></tr>
+        <tr><td class="cmd">/copy [N]</td><td class="zh">複製回覆</td><td class="desc">複製最後一個回覆到剪貼簿。加數字指定倒數第 N 個。有程式碼區塊時可互動選取</td><td></td></tr>
+        <tr><td class="cmd">/export [filename]</td><td class="zh">匯出對話</td><td class="desc">將當前對話匯出為純文字。可指定檔名直接存檔</td><td></td></tr>
+        <tr><td class="cmd">/feedback [report]</td><td class="zh">回饋 / 回報</td><td class="desc">送出回饋、回報 bug、或分享對話（附 session context）</td><td><span class="alias">/bug</span> <span class="alias">/share</span></td></tr>
+        <tr><td class="cmd">/doctor</td><td class="zh">健康檢查</td><td class="desc">診斷 Claude Code 安裝與設定是否正常。按 f 自動修復問題</td><td></td></tr>
+        <tr><td class="cmd">/debug [description]</td><td class="zh">除錯模式</td><td class="desc">啟用 debug logging 並分析 session 日誌。可描述問題聚焦分析</td><td><span class="tag tag-skill">Skill</span></td></tr>
+        <tr><td class="cmd">/heapdump</td><td class="zh">記憶體快照</td><td class="desc">輸出 JavaScript heap snapshot 到桌面，用於診斷高記憶體用量</td><td></td></tr>
+        <tr><td class="cmd">/insights</td><td class="zh">使用洞察</td><td class="desc">分析你的 Claude Code session 使用報告，含專案範圍、互動模式、摩擦點</td><td></td></tr>
+        <tr><td class="cmd">/powerup</td><td class="zh">功能教學</td><td class="desc">透過互動式教學與動畫 demo 探索 Claude Code 功能</td><td></td></tr>
+        <tr><td class="cmd">/desktop</td><td class="zh">轉到桌面版</td><td class="desc">將當前 session 搬到 Claude Code Desktop 繼續（需 macOS/Windows + 訂閱）</td><td><span class="alias">/app</span></td></tr>
+        <tr><td class="cmd">/teleport</td><td class="zh">拉取雲端 session</td><td class="desc">將 Claude Code 網頁版 session 拉到本機終端繼續</td><td><span class="alias">/tp</span></td></tr>
+        <tr><td class="cmd">/remote-control</td><td class="zh">遠端遙控</td><td class="desc">讓此 session 可從 claude.ai 遠端控制</td><td><span class="alias">/rc</span></td></tr>
+        <tr><td class="cmd">/remote-env</td><td class="zh">遠端環境</td><td class="desc">選擇雲端代理的預設執行環境</td><td></td></tr>
+        <tr><td class="cmd">/web-setup</td><td class="zh">網頁版設定</td><td class="desc">用本機 gh CLI 憑證連結 GitHub 帳號到 Claude Code 網頁版</td><td></td></tr>
+        <tr><td class="cmd">/team-onboarding</td><td class="zh">團隊入職指南</td><td class="desc">從你的使用歷史產生團隊入職指南，隊友貼第一條訊息就能開始工作</td><td></td></tr>
+        <tr><td class="cmd">/voice [hold|tap|off]</td><td class="zh">語音聽寫</td><td class="desc">切換語音輸入模式（長按 / 點擊 / 關閉）</td><td></td></tr>
+        <tr><td class="cmd">/login</td><td class="zh">登入</td><td class="desc">登入 Anthropic 帳號</td><td></td></tr>
+        <tr><td class="cmd">/logout</td><td class="zh">登出</td><td class="desc">登出 Anthropic 帳號</td><td></td></tr>
+        <tr><td class="cmd">/upgrade</td><td class="zh">升級方案</td><td class="desc">開啟升級頁面切換到更高方案（僅 Pro/Max 可見）</td><td></td></tr>
+        <tr><td class="cmd">/passes</td><td class="zh">免費通行證</td><td class="desc">分享一週免費 Claude Code 給朋友（僅符合資格帳號可見）</td><td></td></tr>
+        <tr><td class="cmd">/mobile</td><td class="zh">手機 App</td><td class="desc">顯示 QR code 下載 Claude 手機 App</td><td><span class="alias">/ios</span> <span class="alias">/android</span></td></tr>
+        <tr><td class="cmd">/privacy-settings</td><td class="zh">隱私設定</td><td class="desc">查看與更新隱私設定（僅 Pro/Max）</td><td></td></tr>
+        <tr><td class="cmd">/release-notes</td><td class="zh">更新日誌</td><td class="desc">互動式版本選擇器查看各版本更新內容</td><td></td></tr>
+        <tr><td class="cmd">/stickers</td><td class="zh">貼紙</td><td class="desc">訂購 Claude Code 實體貼紙</td><td></td></tr>
+        <tr><td class="cmd">/radio</td><td class="zh">電台</td><td class="desc">在瀏覽器開啟 Claude FM lo-fi 音樂電台</td><td></td></tr>
+        <tr><td class="cmd">/exit</td><td class="zh">離開</td><td class="desc">離開 CLI。在 attached 背景 session 中則是 detach（session 繼續跑）</td><td><span class="alias">/quit</span></td></tr>
+        <tr><td class="cmd">/setup-bedrock</td><td class="zh">Bedrock 設定</td><td class="desc">互動式設定 Amazon Bedrock 認證、區域、模型</td><td></td></tr>
+        <tr><td class="cmd">/setup-vertex</td><td class="zh">Vertex 設定</td><td class="desc">互動式設定 Google Vertex AI 認證、專案、區域、模型</td><td></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 名詞解釋 ========== -->
+  <section id="glossary">
+    <h2>📝 專有名詞解釋</h2>
+    <table>
+      <thead><tr><th>術語</th><th>定義</th></tr></thead>
+      <tbody>
+        <tr><td class="zh">Slash Command</td><td class="desc">斜線指令 — 以 / 開頭的 Claude Code 內建指令，在訊息開頭輸入觸發</td></tr>
+        <tr><td class="zh">Skill</td><td class="desc">技能 — 以 SKILL.md 定義的擴充指令，只在被使用時載入。Claude 可自動判斷何時需要</td></tr>
+        <tr><td class="zh">Workflow</td><td class="desc">工作流程 — 動態編排多個子代理平行執行的進階 Skill，在背景運行</td></tr>
+        <tr><td class="zh">Subagent</td><td class="desc">子代理 — Claude 委派獨立子任務的背景代理，有自己的上下文窗口</td></tr>
+        <tr><td class="zh">Worktree</td><td class="desc">工作樹 — Git 的獨立工作副本，讓多個子代理在不同分支同時改程式碼</td></tr>
+        <tr><td class="zh">Context Window</td><td class="desc">上下文窗口 — Claude 一次能記住的對話與檔案內容總量，壓縮（/compact）可釋放空間</td></tr>
+        <tr><td class="zh">Compaction</td><td class="desc">壓縮 — 將長對話摘要為精華，釋放上下文空間同時保留重要資訊</td></tr>
+        <tr><td class="zh">Checkpoint</td><td class="desc">檢查點 — 對話與程式碼的快照，/rewind 可回滾到此處</td></tr>
+        <tr><td class="zh">Background Agent</td><td class="desc">背景代理 — 脫離終端在背景獨立執行的 Claude session，可用 claude agents 監控</td></tr>
+        <tr><td class="zh">MCP Server</td><td class="desc">模型上下文協定伺服器 — 透過 MCP 協定連接外部工具與資料來源的服務</td></tr>
+        <tr><td class="zh">Routine</td><td class="desc">例行程序 — 在 Anthropic 雲端按排程自動執行的定時任務</td></tr>
+        <tr><td class="zh">Ultracode</td><td class="desc">超級模式 — 結合 xhigh 推理強度與自動 Workflow 編排的最高等級設定</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+<div class="footer">
+  2026-05-15 產出 ｜ 由 /report 統一產出 ｜ 資料來源：<a href="https://code.claude.com/docs/en/commands" style="color:var(--primary);">Claude Code 官方文件</a>
+</div>
+
+<script>
+(function(){
+  let mode = 'scroll', cur = 0, slides = [];
+
+  function collectSlides() {
+    slides = Array.from(document.querySelectorAll('.container > section, .container > .toc, .container > .stats, .container > .workflow-box'));
+  }
+
+  function updateSlide() {
+    slides.forEach((s, i) => s.classList.toggle('slide-active', i === cur));
+    document.getElementById('slide-counter').textContent = (cur + 1) + ' / ' + slides.length;
+    window.scrollTo(0, 0);
+  }
+
+  window.setMode = function(m) {
+    mode = m;
+    document.getElementById('btn-scroll').classList.toggle('active', m === 'scroll');
+    document.getElementById('btn-slide').classList.toggle('active', m === 'slide');
+    document.body.classList.toggle('slide-mode', m === 'slide');
+    if (m === 'slide') {
+      collectSlides();
+      cur = 0;
+      updateSlide();
+    }
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (mode !== 'slide') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      if (cur < slides.length - 1) { cur++; updateSlide(); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (cur > 0) { cur--; updateSlide(); }
+    } else if (e.key === 'Home') {
+      e.preventDefault(); cur = 0; updateSlide();
+    } else if (e.key === 'End') {
+      e.preventDefault(); cur = slides.length - 1; updateSlide();
+    } else if (e.key === 'Escape') {
+      setMode('scroll');
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Desktop 功能完全指南 — 英翻中對照表</title>
+<style>
+  :root {
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --bg: #ffffff;
+    --card-bg: #f8fafc;
+    --card-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    --border: #e2e8f0;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --orange: #ea580c;
+    --orange-bg: #fff7ed;
+    --orange-border: #fed7aa;
+    --green: #16a34a;
+    --green-bg: #f0fdf4;
+    --blue: #2563eb;
+    --blue-bg: #eff6ff;
+    --purple: #7c3aed;
+    --purple-bg: #f5f3ff;
+    --teal: #0d9488;
+    --teal-bg: #f0fdfa;
+    --amber: #d97706;
+    --amber-bg: #fffbeb;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+  .nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .nav-title { font-size: 18px; font-weight: 700; }
+  .nav-meta { font-size: 13px; color: var(--text-light); }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-analysis { background: var(--blue-bg); color: var(--blue); }
+  .badge-source { background: var(--purple-bg); color: var(--purple); }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .stat-card { background: var(--card-bg); border-radius: 10px; padding: 16px; text-align: center; box-shadow: var(--card-shadow); border: 1px solid var(--border); }
+  .stat-num { font-size: 28px; font-weight: 800; }
+  .stat-label { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+  .stat-blue .stat-num { color: var(--blue); }
+  .stat-purple .stat-num { color: var(--purple); }
+  .stat-green .stat-num { color: var(--green); }
+  .stat-teal .stat-num { color: var(--teal); }
+
+  section { background: var(--card-bg); border-radius: 12px; padding: 24px; margin-bottom: 16px; border: 1px solid var(--border); }
+  section h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--primary); display: flex; align-items: center; gap: 8px; }
+  section h3 { font-size: 15px; font-weight: 700; margin: 16px 0 8px; color: var(--text); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; }
+  th { background: #f1f5f9; text-align: left; padding: 10px 12px; font-weight: 600; border-bottom: 2px solid var(--border); white-space: nowrap; }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) { background: #fafbfc; }
+  .en-name { font-weight: 600; color: var(--primary-dark); white-space: nowrap; }
+  .zh-name { font-weight: 700; color: var(--text); white-space: nowrap; }
+  .desc { font-size: 13px; color: var(--text-light); line-height: 1.6; }
+  .tag { display: inline-block; padding: 1px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; margin-right: 4px; }
+  .tag-free { background: var(--green-bg); color: var(--green); }
+  .tag-pro { background: var(--blue-bg); color: var(--blue); }
+  .tag-max { background: var(--purple-bg); color: var(--purple); }
+  .tag-team { background: var(--orange-bg); color: var(--orange); }
+  .tag-new { background: var(--red-bg); color: var(--red); }
+  .tag-preview { background: var(--amber-bg); color: var(--amber); }
+
+  .toc { background: var(--card-bg); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; border: 1px solid var(--border); }
+  .toc h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .toc ul { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; }
+  .toc a { text-decoration: none; color: var(--primary-dark); font-size: 14px; }
+  .toc a:hover { text-decoration: underline; }
+  .toc .cat-icon { margin-right: 4px; }
+
+  .footer { text-align: center; font-size: 12px; color: var(--text-light); padding: 20px; }
+
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .toc ul { grid-template-columns: 1fr; }
+    th, td { padding: 8px; font-size: 13px; }
+    .en-name, .zh-name { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="nav-title">Claude Desktop 功能完全指南</span>
+  <span class="badge badge-analysis">analysis</span>
+  <span class="badge badge-source">ACE</span>
+  <span class="nav-meta">2026-05-14</span>
+  <span class="nav-meta">英翻中對照 + 功能說明</span>
+</div>
+
+<div class="container">
+
+  <div class="stats">
+    <div class="stat-card stat-blue">
+      <div class="stat-num">7</div>
+      <div class="stat-label">功能分類</div>
+    </div>
+    <div class="stat-card stat-purple">
+      <div class="stat-num">35</div>
+      <div class="stat-label">功能項目</div>
+    </div>
+    <div class="stat-card stat-green">
+      <div class="stat-num">4</div>
+      <div class="stat-label">平台支援</div>
+    </div>
+    <div class="stat-card stat-teal">
+      <div class="stat-num">5</div>
+      <div class="stat-label">方案層級</div>
+    </div>
+  </div>
+
+  <div class="toc">
+    <h3>目錄</h3>
+    <ul>
+      <li><span class="cat-icon">💬</span><a href="#core">核心對話功能</a></li>
+      <li><span class="cat-icon">🤖</span><a href="#agent">智慧代理能力</a></li>
+      <li><span class="cat-icon">🔌</span><a href="#extension">擴充與整合</a></li>
+      <li><span class="cat-icon">🎨</span><a href="#creative">創作與視覺化</a></li>
+      <li><span class="cat-icon">👤</span><a href="#personal">個人化與記憶</a></li>
+      <li><span class="cat-icon">⚙️</span><a href="#platform">平台與設定</a></li>
+      <li><span class="cat-icon">🏢</span><a href="#enterprise">團隊與企業</a></li>
+    </ul>
+  </div>
+
+  <!-- ========== 1. 核心對話功能 ========== -->
+  <section id="core">
+    <h2>💬 核心對話功能</h2>
+    <table>
+      <thead>
+        <tr><th>英文名稱</th><th>中文譯名</th><th>功能說明</th><th>方案</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="en-name">Conversations</td>
+          <td class="zh-name">對話</td>
+          <td class="desc">與 Claude 進行文字互動的基礎功能，支援多輪對話、上下文記憶、歷史紀錄搜尋</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Starred Chats</td>
+          <td class="zh-name">星標對話</td>
+          <td class="desc">將重要對話標記星號，方便日後快速找回常用或關鍵對話</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">File Upload</td>
+          <td class="zh-name">檔案上傳</td>
+          <td class="desc">上傳文件、圖片、PDF、程式碼等檔案，Claude 可直接讀取並分析內容</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Voice Dictation</td>
+          <td class="zh-name">語音聽寫</td>
+          <td class="desc">按住快捷鍵（Caps Lock）即可語音輸入，即時轉文字送出給 Claude</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Quick Entry</td>
+          <td class="zh-name">快速輸入</td>
+          <td class="desc">macOS 雙擊 Option 鍵叫出浮動輸入框，無需切換視窗即可快速提問（顯示最近 5 則對話）</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Extended Thinking</td>
+          <td class="zh-name">延伸思考</td>
+          <td class="desc">Claude 展示其推理過程（思考鏈），適用於複雜問題的逐步拆解與邏輯推導</td>
+          <td><span class="tag tag-pro">Pro</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">LaTeX Rendering</td>
+          <td class="zh-name">LaTeX 渲染</td>
+          <td class="desc">在對話中直接渲染數學公式，支援行內與獨立區塊的數學排版</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 2. 智慧代理能力 ========== -->
+  <section id="agent">
+    <h2>🤖 智慧代理能力</h2>
+    <table>
+      <thead>
+        <tr><th>英文名稱</th><th>中文譯名</th><th>功能說明</th><th>方案</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="en-name">Claude Cowork</td>
+          <td class="zh-name">Claude 協作</td>
+          <td class="desc">在隔離 VM 中執行知識工作的代理能力，可直接存取本機檔案，支援長時間背景任務（研究、整理、文件產出），macOS 與 Windows 皆可用</td>
+          <td><span class="tag tag-pro">Pro</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Computer Use</td>
+          <td class="zh-name">電腦操控</td>
+          <td class="desc">Claude 可操作你的電腦——移動滑鼠、點擊按鈕、瀏覽網頁、開啟應用程式，當內建工具不足時自動切換至此模式</td>
+          <td><span class="tag tag-pro">Pro</span><span class="tag tag-preview">Preview</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Remote Control</td>
+          <td class="zh-name">遠端遙控</td>
+          <td class="desc">透過手機 Claude App 發送指令，桌面版 Claude 自動在電腦上執行操作（需搭配 Computer Use）</td>
+          <td><span class="tag tag-pro">Pro</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Claude Code (Desktop)</td>
+          <td class="zh-name">Claude Code 桌面版</td>
+          <td class="desc">在桌面應用程式中直接使用 Claude Code 的完整開發能力，支援多個本機與遠端 session 平行運作</td>
+          <td><span class="tag tag-max">Max</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Claude Design</td>
+          <td class="zh-name">Claude 設計</td>
+          <td class="desc">Anthropic Labs 推出的視覺設計工具，透過對話協作產出設計稿、原型、簡報、文宣等視覺作品，支援行內評論與直接編輯</td>
+          <td><span class="tag tag-pro">Pro</span><span class="tag tag-new">New</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Scheduled Tasks</td>
+          <td class="zh-name">排程任務</td>
+          <td class="desc">設定定時執行的自動化任務，可用於 PR 監控、部署檢查、定期報告等背景工作</td>
+          <td><span class="tag tag-pro">Pro</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 3. 擴充與整合 ========== -->
+  <section id="extension">
+    <h2>🔌 擴充與整合</h2>
+    <table>
+      <thead>
+        <tr><th>英文名稱</th><th>中文譯名</th><th>功能說明</th><th>方案</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="en-name">Desktop Extensions</td>
+          <td class="zh-name">桌面擴充套件</td>
+          <td class="desc">安全的本機擴充套件，一鍵連接桌面應用程式與資料（檔案系統、行事曆、郵件、通訊軟體等），使用程式碼簽章與加密儲存</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Plugins</td>
+          <td class="zh-name">外掛</td>
+          <td class="desc">預封裝的功能套件，整合技能、連接器、斜線指令與子代理為單一安裝單位，涵蓋銷售、財務、法律、行銷等職能</td>
+          <td><span class="tag tag-pro">Pro</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Connectors</td>
+          <td class="zh-name">連接器</td>
+          <td class="desc">將 Claude 連接到外部服務與資料來源的橋接元件（如 Google Drive、Slack、Notion 等）</td>
+          <td><span class="tag tag-pro">Pro</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Skills</td>
+          <td class="zh-name">技能</td>
+          <td class="desc">定義 Claude 特定工作流與行為模式的指令集，可自訂或從市集安裝，搭配外掛使用</td>
+          <td><span class="tag tag-pro">Pro</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">MCP (Model Context Protocol)</td>
+          <td class="zh-name">模型上下文協定</td>
+          <td class="desc">開放標準協定，讓 Claude 以統一介面連接各種工具與資料來源（本機 Server 或遠端服務）</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Customize Section</td>
+          <td class="zh-name">自訂中心</td>
+          <td class="desc">設定中的統一管理頁面，集中瀏覽與管理技能、外掛、連接器與排程任務</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Plugin Marketplace</td>
+          <td class="zh-name">外掛市集</td>
+          <td class="desc">統一目錄，在一個地方搜尋、安裝所有可用的技能、連接器與外掛，團隊版支援管理員審核控管</td>
+          <td><span class="tag tag-pro">Pro</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 4. 創作與視覺化 ========== -->
+  <section id="creative">
+    <h2>🎨 創作與視覺化</h2>
+    <table>
+      <thead>
+        <tr><th>英文名稱</th><th>中文譯名</th><th>功能說明</th><th>方案</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="en-name">Artifacts</td>
+          <td class="zh-name">成品面板</td>
+          <td class="desc">Claude 產出的程式碼、文件、圖表、互動內容會在側邊面板即時預覽，可直接編輯、匯出或分享</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Live Artifacts</td>
+          <td class="zh-name">即時成品</td>
+          <td class="desc">成品可連接 MCP Server 取得即時資料（試算表、資料庫、API），從靜態快照升級為動態工具</td>
+          <td><span class="tag tag-pro">Pro</span><span class="tag tag-new">New</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Code Execution</td>
+          <td class="zh-name">程式碼執行</td>
+          <td class="desc">在對話中直接執行程式碼，產出試算表、簡報、文件等檔案，結果即時呈現在成品面板</td>
+          <td><span class="tag tag-pro">Pro</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Visualizations</td>
+          <td class="zh-name">視覺化圖表</td>
+          <td class="desc">在回覆中直接建立互動式圖表、圖形與資料視覺化，支援即時渲染</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Canvas</td>
+          <td class="zh-name">畫布</td>
+          <td class="desc">在成品面板中直接編輯文件或程式碼的互動式編輯區，支援行內修改與 Claude 協同編輯</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 5. 個人化與記憶 ========== -->
+  <section id="personal">
+    <h2>👤 個人化與記憶</h2>
+    <table>
+      <thead>
+        <tr><th>英文名稱</th><th>中文譯名</th><th>功能說明</th><th>方案</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="en-name">Memory</td>
+          <td class="zh-name">記憶</td>
+          <td class="desc">Claude 自動從過去對話中提取摘要，跨 session 攜帶上下文。可在「設定 → 功能 → 記憶」中檢視與編輯</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Projects</td>
+          <td class="zh-name">專案</td>
+          <td class="desc">持久化工作空間，將檔案、自訂指令、專案記憶集中管理。開啟專案時 Claude 自動載入所有背景脈絡</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Project Instructions</td>
+          <td class="zh-name">專案指令</td>
+          <td class="desc">在專案中設定自訂指令（System Prompt），Claude 在該專案下的所有對話都會遵循這些指令</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Profile Instructions</td>
+          <td class="zh-name">個人偏好設定</td>
+          <td class="desc">在個人帳號層級設定偏好指令，影響所有對話中 Claude 的回應風格與行為</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Styles</td>
+          <td class="zh-name">回應風格</td>
+          <td class="desc">自訂或選擇 Claude 的回應風格（正式、簡潔、詳細等），可建立多組風格並快速切換</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Cross-device Sync</td>
+          <td class="zh-name">跨裝置同步</td>
+          <td class="desc">對話、專案、記憶與偏好設定在所有登入的裝置間自動同步（桌面版、網頁版、手機版）</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 6. 平台與設定 ========== -->
+  <section id="platform">
+    <h2>⚙️ 平台與設定</h2>
+    <table>
+      <thead>
+        <tr><th>英文名稱</th><th>中文譯名</th><th>功能說明</th><th>方案</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="en-name">macOS App</td>
+          <td class="zh-name">macOS 應用程式</td>
+          <td class="desc">macOS 原生桌面應用程式，支援所有功能（Cowork、Computer Use、擴充套件等）</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Windows App</td>
+          <td class="zh-name">Windows 應用程式</td>
+          <td class="desc">Windows 原生桌面應用程式，與 macOS 功能完全對等（本機檔案存取、多步驟任務、外掛、MCP）</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">iOS / Android App</td>
+          <td class="zh-name">手機應用程式</td>
+          <td class="desc">行動裝置版 Claude，支援對話、檔案上傳、語音輸入。可搭配桌面版進行遠端遙控任務指派</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Web App (claude.ai)</td>
+          <td class="zh-name">網頁版</td>
+          <td class="desc">瀏覽器存取的完整 Claude 介面，無需安裝，與桌面版共享所有對話與專案資料</td>
+          <td><span class="tag tag-free">Free</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== 7. 團隊與企業 ========== -->
+  <section id="enterprise">
+    <h2>🏢 團隊與企業</h2>
+    <table>
+      <thead>
+        <tr><th>英文名稱</th><th>中文譯名</th><th>功能說明</th><th>方案</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="en-name">Enterprise Configuration</td>
+          <td class="zh-name">企業組態設定</td>
+          <td class="desc">企業管理員可集中管理桌面應用程式的設定，控制功能啟用、安全政策與部署策略</td>
+          <td><span class="tag tag-team">Enterprise</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">User Groups & Custom Roles</td>
+          <td class="zh-name">使用者群組與自訂角色</td>
+          <td class="desc">管理員可建立群組（手動或透過 SCIM 自動同步），為每個群組指定自訂角色以控制可使用的 Claude 功能</td>
+          <td><span class="tag tag-team">Enterprise</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">Admin Plugin Controls</td>
+          <td class="zh-name">管理員外掛控管</td>
+          <td class="desc">企業管理員可針對組織內的外掛進行審核、限制或封鎖，確保資料安全與合規</td>
+          <td><span class="tag tag-team">Enterprise</span></td>
+        </tr>
+        <tr>
+          <td class="en-name">SCIM Provisioning</td>
+          <td class="zh-name">SCIM 自動化帳號管理</td>
+          <td class="desc">透過身份識別提供者（IdP）自動同步使用者與群組，支援標準 SCIM 協定</td>
+          <td><span class="tag tag-team">Enterprise</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>📝 方案層級說明</h2>
+    <table>
+      <thead>
+        <tr><th>方案</th><th>英文名稱</th><th>說明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="tag tag-free">Free</span></td><td>Free</td><td>免費方案，基本功能皆可使用</td></tr>
+        <tr><td><span class="tag tag-pro">Pro</span></td><td>Pro</td><td>個人進階方案（$20/月），解鎖 Cowork、Computer Use、延伸思考等進階功能</td></tr>
+        <tr><td><span class="tag tag-max">Max</span></td><td>Max</td><td>個人頂級方案（$100-200/月），Claude Code 桌面版與最高用量</td></tr>
+        <tr><td><span class="tag tag-team">Team</span></td><td>Team</td><td>團隊方案（$30/人/月），共享專案與基本管理功能</td></tr>
+        <tr><td><span class="tag tag-team">Enterprise</span></td><td>Enterprise</td><td>企業方案（客製報價），完整管理控制、SCIM、安全政策</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>📌 名詞解釋</h2>
+    <table>
+      <thead>
+        <tr><th>術語</th><th>定義</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="zh-name">MCP</td><td class="desc">Model Context Protocol（模型上下文協定）— Anthropic 發起的開放標準，讓 AI 模型透過統一介面連接各種工具與資料來源</td></tr>
+        <tr><td class="zh-name">Artifact</td><td class="desc">成品 — Claude 產出的獨立內容（程式碼、文件、圖表），在側邊面板即時渲染，可匯出為檔案</td></tr>
+        <tr><td class="zh-name">Cowork</td><td class="desc">協作 — 在隔離虛擬環境中執行的 AI 代理，可長時間背景執行知識工作任務</td></tr>
+        <tr><td class="zh-name">SCIM</td><td class="desc">System for Cross-domain Identity Management — 跨域身分管理系統，用於自動化帳號同步</td></tr>
+        <tr><td class="zh-name">VM</td><td class="desc">Virtual Machine（虛擬機器）— Cowork 運行的隔離環境，確保安全性</td></tr>
+        <tr><td class="zh-name">IdP</td><td class="desc">Identity Provider（身份識別提供者）— 如 Okta、Azure AD，用於企業單一登入</td></tr>
+        <tr><td class="zh-name">Extended Thinking</td><td class="desc">延伸思考 — Claude 展示推理過程的功能，類似「思考鏈」（Chain of Thought）</td></tr>
+        <tr><td class="zh-name">Desktop Extension</td><td class="desc">桌面擴充套件 — 安裝在本機的安全擴充，透過 MCP 協定橋接 Claude 與桌面應用程式</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+<div class="footer">
+  2026-05-14 產出 ｜ 由 /report 統一產出 ｜ 資料來源：Anthropic 官方文件與公告
+</div>
+
+</body>
+</html>
