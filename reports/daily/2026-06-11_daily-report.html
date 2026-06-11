@@ -1,201 +1,177 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>每日 AI 情報報告 — 2026-06-11</title>
+<title>AI 每日情報 · 2026-06-11</title>
 <style>
   :root{
-    --bg:#ffffff; --s1:#f8fafc; --s2:#e2e8f0; --s3:#cbd5e1;
-    --t1:#1e293b; --t2:#64748b; --t3:#94a3b8;
-    --accent:#3b82f6; --accent-light:#eff6ff;
-    --green:#16a34a; --green-light:#f0fdf4;
-    --red:#dc2626; --red-light:#fef2f2;
-    --yellow:#d97706; --yellow-light:#fffbeb;
-    --orange:#ea580c; --orange-light:#fff7ed;
-    --purple:#7c3aed; --purple-light:#f5f3ff;
-    --radius:10px; --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+    --bg:#ffffff; --s1:#f8fafc; --s2:#e2e8f0; --t1:#1e293b; --t2:#64748b;
+    --tech:#3b82f6; --app:#10b981; --news:#f59e0b; --accent:#6366f1;
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);color:var(--t1);font-family:'Segoe UI','Helvetica Neue','PingFang TC','Microsoft JhengHei',sans-serif;font-size:15px;line-height:1.7;}
-  .header{background:var(--s1);border-bottom:1px solid var(--s2);padding:32px 40px 24px;}
-  .header-meta{color:var(--t2);font-size:13px;margin-bottom:8px;}
-  .header h1{font-size:26px;font-weight:700;margin-bottom:6px;}
-  .header .subtitle{color:var(--t2);font-size:14px;}
-  .toc{background:var(--accent-light);border-left:3px solid var(--accent);padding:16px 24px;margin:28px 40px 0;border-radius:var(--radius);max-width:1000px;margin-left:auto;margin-right:auto;}
-  .toc h3{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;}
-  .toc a{color:var(--accent);text-decoration:none;font-size:13px;}
-  .toc a:hover{text-decoration:underline;}
-  .toc-list{display:flex;flex-wrap:wrap;gap:8px 20px;list-style:none;}
-  .main{max-width:1000px;margin:0 auto;padding:32px 40px 64px;}
-  .section{margin-bottom:44px;}
-  .section-title{font-size:18px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--s2);display:flex;align-items:center;gap:8px;}
-  .section-title .icon{font-size:20px;}
-  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-  .stat-card{background:var(--s1);border:1px solid var(--s2);border-radius:var(--radius);padding:18px 16px;text-align:center;}
-  .stat-num{font-size:30px;font-weight:800;color:var(--accent);line-height:1.1;}
-  .stat-num.green{color:var(--green);}
-  .stat-num.muted{color:var(--t2);}
-  .stat-label{font-size:12px;color:var(--t2);margin-top:6px;}
-  .hl{counter-reset:hl;list-style:none;}
-  .hl li{position:relative;background:var(--s1);border:1px solid var(--s2);border-left:4px solid var(--accent);border-radius:var(--radius);padding:14px 16px 14px 48px;margin-bottom:12px;font-size:14.5px;}
-  .hl li::before{counter-increment:hl;content:counter(hl);position:absolute;left:14px;top:13px;width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
-  .hl .src-tag{display:inline-block;font-size:11px;color:var(--t2);background:var(--s2);padding:1px 8px;border-radius:10px;margin-left:6px;}
-  .badge-new{display:inline-block;background:var(--green-light);color:var(--green);font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px;margin-right:6px;}
-  .badge-hot{display:inline-block;background:var(--red-light);color:var(--red);font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px;margin-right:6px;}
-  .grp{margin-bottom:22px;}
-  .grp-label{display:inline-block;font-size:12px;font-weight:700;padding:3px 12px;border-radius:12px;margin-bottom:10px;}
-  .grp-tech{background:#dbeafe;color:#1d4ed8;}
-  .grp-app{background:var(--green-light);color:var(--green);}
-  .grp-news{background:var(--yellow-light);color:var(--yellow);}
-  .src-table{width:100%;border-collapse:collapse;}
-  .src-table td{padding:9px 12px;font-size:13.5px;border-bottom:1px solid var(--s2);vertical-align:top;}
-  .src-name{font-weight:600;white-space:nowrap;width:170px;color:var(--t1);}
-  .src-table tr:hover td{background:var(--s1);}
-  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;}
-  .dot-new{background:var(--green);}
-  .dot-none{background:var(--s3);}
-  .dot-block{background:var(--red);}
-  .prose p{margin-bottom:12px;font-size:14.5px;color:var(--t1);}
-  .prose p .lead{font-weight:700;color:var(--t1);}
-  .sug{counter-reset:sug;list-style:none;margin-top:8px;}
-  .sug li{position:relative;background:var(--green-light);border:1px solid #bbf7d0;border-radius:var(--radius);padding:14px 16px 14px 50px;margin-bottom:12px;font-size:14.5px;}
-  .sug li::before{counter-increment:sug;content:counter(sug);position:absolute;left:14px;top:13px;width:24px;height:24px;background:var(--green);color:#fff;border-radius:6px;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;}
-  .gloss dt{font-weight:700;color:var(--accent);font-size:14px;margin-top:14px;}
-  .gloss dd{font-size:14px;color:var(--t2);margin-left:0;}
-  .gloss .cat{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:8px;margin-left:8px;vertical-align:middle;background:var(--s2);color:var(--t2);}
-  .footer{border-top:1px solid var(--s2);color:var(--t3);font-size:12px;text-align:center;padding:24px;}
-  @media(max-width:680px){.stats-grid{grid-template-columns:repeat(2,1fr);}.main,.header{padding-left:20px;padding-right:20px;}.toc{margin-left:20px;margin-right:20px;}}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--t1);line-height:1.6;padding:32px 16px}
+  .wrap{max-width:920px;margin:0 auto}
+  header{border-bottom:2px solid var(--s2);padding-bottom:18px;margin-bottom:28px}
+  header h1{font-size:26px;font-weight:700}
+  header .sub{color:var(--t2);font-size:14px;margin-top:6px}
+  h2{font-size:19px;margin:36px 0 14px;display:flex;align-items:center;gap:8px}
+  h2 .n{display:inline-flex;width:26px;height:26px;border-radius:7px;background:var(--accent);color:#fff;font-size:13px;align-items:center;justify-content:center;font-weight:700}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .stat{background:var(--s1);border:1px solid var(--s2);border-radius:12px;padding:18px}
+  .stat .v{font-size:30px;font-weight:700;color:var(--accent)}
+  .stat .l{color:var(--t2);font-size:13px;margin-top:4px}
+  .stat .d{color:var(--t2);font-size:12px;margin-top:8px;line-height:1.45}
+  .story{background:var(--s1);border:1px solid var(--s2);border-left:4px solid var(--accent);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+  .story .h{font-weight:600;font-size:15px}
+  .story .s{color:var(--t2);font-size:13.5px;margin-top:3px}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;color:#fff;margin-left:6px;vertical-align:middle}
+  .t-tech{background:var(--tech)} .t-app{background:var(--app)} .t-news{background:var(--news)}
+  .grp{margin-top:16px}
+  .grp .gh{font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .pill{display:inline-block;width:10px;height:10px;border-radius:3px}
+  ul.dig{list-style:none}
+  ul.dig li{padding:8px 12px;border:1px solid var(--s2);border-radius:8px;margin-bottom:7px;font-size:14px;background:var(--bg)}
+  ul.dig li b{color:var(--t1)}
+  ul.dig li.muted{color:var(--t2);background:var(--s1)}
+  .ana p{margin-bottom:12px;font-size:14.5px}
+  .ana .act{background:var(--s1);border:1px solid var(--s2);border-radius:10px;padding:14px 18px;margin-top:6px}
+  .ana .act ol{margin-left:18px} .ana .act li{margin-bottom:7px;font-size:14px}
+  .gloss{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .gi{background:var(--s1);border:1px solid var(--s2);border-radius:10px;padding:12px 14px}
+  .gi .gn{font-weight:600;font-size:14.5px}
+  .gi .gc{font-size:11px;padding:1px 7px;border-radius:12px;background:var(--s2);color:var(--t2);margin-left:6px}
+  .gi .gd{color:var(--t2);font-size:13px;margin-top:4px}
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--s2);color:var(--t2);font-size:12.5px;text-align:center}
+  @media(max-width:640px){.stats,.gloss{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-  <div class="header">
-    <div class="header-meta">每日 AI 情報自動爬取 · 涵蓋 Tech / App / News 三大群組 · 共 14 個來源</div>
-    <h1>每日 AI 情報報告</h1>
-    <div class="subtitle">2026 年 6 月 11 日（星期四）</div>
+<div class="wrap">
+<header>
+  <h1>🛰️ AI 每日情報彙整</h1>
+  <div class="sub">2026-06-11（三）· 涵蓋 tech / app / news 共 14 來源 · 自動爬文產出</div>
+</header>
+
+<!-- Section 1 -->
+<h2><span class="n">1</span> 統計概覽</h2>
+<div class="stats">
+  <div class="stat">
+    <div class="v">14</div>
+    <div class="l">爬取來源</div>
+    <div class="d">10 取得新鮮內容；4 來源被擋／無更新（theverge、arstechnica、theresanaiforthat 封鎖，mattshumer 連 42 日無文）</div>
   </div>
-
-  <div class="toc">
-    <h3>本日導覽</h3>
-    <ul class="toc-list">
-      <li><a href="#s1">① 統計概覽</a></li>
-      <li><a href="#s2">② 今日重點</a></li>
-      <li><a href="#s3">③ 各來源速覽</a></li>
-      <li><a href="#s4">④ 深度分析與應用建議</a></li>
-      <li><a href="#s5">⑤ 名詞解釋</a></li>
-    </ul>
+  <div class="stat">
+    <div class="v">12</div>
+    <div class="l">新增項目</div>
+    <div class="d">LangChain 2 篇、Rundown 1、Superhuman 1、TechCrunch 8 則頭條翻新</div>
   </div>
-
-  <div class="main">
-
-    <!-- Section 1 -->
-    <section class="section" id="s1">
-      <h2 class="section-title"><span class="icon">📊</span>統計概覽</h2>
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-num">14</div><div class="stat-label">來源抓取（tech 4 / app 6 / news 4）</div></div>
-        <div class="stat-card"><div class="stat-num green">19</div><div class="stat-label">新增 / 更新項目</div></div>
-        <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">重大變化</div></div>
-        <div class="stat-card"><div class="stat-num muted">4</div><div class="stat-label">封鎖或無更新來源</div></div>
-      </div>
-      <p style="margin-top:14px;font-size:13.5px;color:var(--t2);">今日主軸：<strong style="color:var(--t1);">前沿模型與消費端整合同步爆發</strong>——Anthropic Claude Fable 5 / Mythos 5 與 Apple WWDC 2026 Siri AI 全面改版同日登場，OpenAI 機密遞件 IPO 帶動 AI 公開市場化，應用層（Lovable $500M ARR）與成本治理議題同步升溫。被封鎖來源：The Verge、Ars Technica（API 層級封鎖逾月）；mattshumer 長期停更；theresanaiforthat 主站 403（改外部搜尋補抓）。</p>
-    </section>
-
-    <!-- Section 2 -->
-    <section class="section" id="s2">
-      <h2 class="section-title"><span class="icon">🔥</span>今日重點</h2>
-      <ol class="hl">
-        <li><span class="badge-hot">重大</span><strong>Anthropic 發表 Claude Fable 5 與 Mythos 5</strong>：新一代模型鎖定複雜知識工作與編碼，Fable 5 為公眾可用版本。<span class="src-tag">anthropic-news · techcrunch</span></li>
-        <li><strong>Apple WWDC 2026：Siri AI 全面改版</strong>：重建版 Siri 具螢幕感知、個人脈絡理解、跨 App 操作，搭配 iOS 27 與 Apple Intelligence。<span class="src-tag">techcrunch · therundown · superhuman</span></li>
-        <li><strong>OpenAI 機密遞件 IPO</strong>：繼 Anthropic 之後，AI 龍頭加速走向公開市場。<span class="src-tag">techcrunch · superhuman</span></li>
-        <li><strong>Lovable 年化營收衝 $500M</strong>：AI 應用開發平台每週新增百萬個專案，應用層商業化規模顯著。<span class="src-tag">techcrunch</span></li>
-        <li><strong>MIT TR：混合人機企業領導力</strong>：AI 代理採用兩年內預估暴增 300%，迫使組織重設角色與再培訓。<span class="src-tag">mit-tech-review</span></li>
-        <li><strong>ChatGPT 大改版</strong>：寫作區可直接寄送 email，工作流整合加深。<span class="src-tag">superhuman</span></li>
-        <li><strong>新模型潮湧現</strong>：NVIDIA Nemotron 3 Ultra（550B）、Microsoft MAI-Code-1-Flash、OpenAI Realtime API 三模型轉正式版。<span class="src-tag">外部搜尋補抓</span></li>
-        <li><strong>Sandstone 募資 $30M</strong>：切入企業內部法務團隊 AI，垂直應用持續吸金。<span class="src-tag">techcrunch</span></li>
-      </ol>
-    </section>
-
-    <!-- Section 3 -->
-    <section class="section" id="s3">
-      <h2 class="section-title"><span class="icon">📰</span>各來源速覽</h2>
-
-      <div class="grp">
-        <span class="grp-label grp-tech">TECH · Agent 框架</span>
-        <table class="src-table">
-          <tr><td class="src-name"><span class="dot dot-none"></span>langchain-blog</td><td>無新增；續聚焦代理執行環境與韌性（自備電腦、LangGraph 容錯、自評 Rubrics）。</td></tr>
-          <tr><td class="src-name"><span class="dot dot-new"></span>anthropic-news</td><td>🆕 <strong>Claude Fable 5 / Mythos 5</strong> 新一代模型發表（6/9），為本次最重大更新。</td></tr>
-          <tr><td class="src-name"><span class="dot dot-none"></span>llamaindex-blog</td><td>文件智能續深化（KYC/OCR、合約後設資料萃取、ParseBench 84.9%），本次無明顯新文。</td></tr>
-          <tr><td class="src-name"><span class="dot dot-none"></span>crewai-blog</td><td>聚焦代理 ROI 與 token 成本治理、自我進化代理（NemoClaw），無明確新文。</td></tr>
-        </table>
-      </div>
-
-      <div class="grp">
-        <span class="grp-label grp-app">APP · 應用 / 工具</span>
-        <table class="src-table">
-          <tr><td class="src-name"><span class="dot dot-block"></span>theresanaiforthat</td><td>主站持續 403；外部搜尋顯示新工具潮（Nemotron 3 Ultra、MAI-Code-1-Flash、Grok Build、OpenCode）。</td></tr>
-          <tr><td class="src-name"><span class="dot dot-new"></span>bensbites</td><td>🆕 改抓 /archive 成功；新頭條 Siri AI、Codex Sites、Opus 4.8（NVIDIA+微軟共構運算平台）。</td></tr>
-          <tr><td class="src-name"><span class="dot dot-new"></span>therundown-ai</td><td>🆕 Apple Siri AI 改版、華府關注 OpenAI（附每日挖 5 潛在客戶代理框架）。</td></tr>
-          <tr><td class="src-name"><span class="dot dot-none"></span>producthunt-ai</td><td>高評分榜穩定，AI 編碼工具續霸榜（Cursor / Claude / Claude Code 皆 5.0★）。</td></tr>
-          <tr><td class="src-name"><span class="dot dot-new"></span>superhuman-ai</td><td>🆕 Apple Siri + OpenAI IPO、ChatGPT 大改版（寫作區寄信）、人類胚胎 DNA 編輯突破。</td></tr>
-          <tr><td class="src-name"><span class="dot dot-none"></span>mattshumer</td><td>連續無新文（電子報長期停更）；建議降頻或替換來源。</td></tr>
-        </table>
-      </div>
-
-      <div class="grp">
-        <span class="grp-label grp-news">NEWS · 產業新聞</span>
-        <table class="src-table">
-          <tr><td class="src-name"><span class="dot dot-block"></span>theverge-ai</td><td>API 層級封鎖逾月，沿用舊資料；建議改 RSS / Google News 管道。</td></tr>
-          <tr><td class="src-name"><span class="dot dot-new"></span>mit-tech-review-ai</td><td>🆕 混合人機企業領導、AI 現況五要點、AI 訴訟潮、代理式醫療（RSS 補抓成功）。</td></tr>
-          <tr><td class="src-name"><span class="dot dot-new"></span>techcrunch-ai</td><td>🆕 WWDC Siri AI、Claude Fable 5、Lovable $500M ARR、OpenAI 機密 IPO、Sandstone $30M。</td></tr>
-          <tr><td class="src-name"><span class="dot dot-block"></span>arstechnica-ai</td><td>整站封鎖逾月，沿用舊資料；建議改 RSS feed 監控。</td></tr>
-        </table>
-      </div>
-    </section>
-
-    <!-- Section 4 -->
-    <section class="section" id="s4">
-      <h2 class="section-title"><span class="icon">🧭</span>深度分析與應用建議</h2>
-      <div class="prose">
-        <p><span class="lead">模型競賽進入「前沿 × 消費端」雙線爆發。</span> Anthropic 同日推出 Claude Fable 5 / Mythos 5，與 Apple WWDC 2026 的 Siri AI 全面改版形成呼應——前者鞏固複雜知識工作與編碼的模型上限，後者把生成式能力推進到數億消費裝置。供給端同時湧出 NVIDIA Nemotron 3 Ultra（550B 開源權重）、Microsoft MAI-Code-1-Flash 與 OpenAI Realtime API 轉正，顯示模型層供給仍在加速擴張，差異化正從「更大」轉向「更會編碼、更長任務一致、更貼近裝置」。</p>
-        <p><span class="lead">資本市場化與應用商業化同步推進。</span> OpenAI 繼 Anthropic 之後機密遞件 IPO，標誌前沿實驗室進入公開市場階段；應用層的 Lovable（$500M ARR、每週百萬專案）與 Sandstone（$30M 法務 AI）證明垂直應用已能規模變現。但 CrewAI 的「代理 ROI / token 成本優化」一文與 TechCrunch「token bill comes due」同時點出反面：推論成本失控正成為企業導入的新瓶頸，成本治理會是下半年主旋律。</p>
-        <p><span class="lead">落地速度快過治理速度，風險面同步浮現。</span> MIT Technology Review 指 AI 代理採用兩年內將暴增 300%，組織必須重設角色與再培訓；同期 Meta AI 客服代理遭社工盜帳號、AI 生成訴訟潮等事件，說明代理安全與責任歸屬仍落後於部署速度。對個人工作流而言，越早把「成本監控 + 代理安全護欄」內建進流程，越能在規模放大時避免踩雷。</p>
-        <ol class="sug">
-          <li><strong>評估 Claude Fable 5 / Mythos 5 接入既有流程：</strong>針對 Luna 管家與 race-bracket 等需要長任務一致性與編碼能力的場景，實測新模型相對 Opus 4.8 的增益，再決定是否升級主力模型。</li>
-          <li><strong>為多代理流程加上 token 預算監控：</strong>借鏡 CrewAI ROI 觀點，在 Luna / 自動爬蟲 / Codex 派工流程加入 token 用量上限與告警，避免推論成本隨代理數量失控。</li>
-          <li><strong>修復長期失效的爬蟲來源：</strong>The Verge、Ars Technica（API 封鎖逾月）與 mattshumer（長期停更）三來源產出近乎歸零，建議改接 RSS / Google News 或替換為可抓來源，提升每日情報密度。</li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- Section 5 -->
-    <section class="section" id="s5">
-      <h2 class="section-title"><span class="icon">📖</span>名詞解釋</h2>
-      <dl class="gloss">
-        <dt>Claude Fable 5 / Mythos 5<span class="cat">模型</span></dt>
-        <dd>Anthropic 新一代模型系列；Mythos 5 為旗艦，Fable 5 為公眾可立即取用的版本，主打複雜知識工作與編碼挑戰。</dd>
-        <dt>Apple Intelligence / Siri AI<span class="cat">產品</span></dt>
-        <dd>Apple WWDC 2026 發表的重建版 Siri，具螢幕感知、個人脈絡理解、世界知識與跨 App 操作，整合 iPhone/iPad/Mac/Watch/Vision Pro。</dd>
-        <dt>NVIDIA Nemotron 3 Ultra<span class="cat">模型</span></dt>
-        <dd>NVIDIA 於 Computex 發表的開源權重模型，550B 參數、55B active MoE，號稱目前最強美國開源權重模型。</dd>
-        <dt>Microsoft MAI-Code-1-Flash<span class="cat">模型</span></dt>
-        <dd>微軟首款自研編碼模型，可將文字描述直接轉成應用程式與網站原始碼，意在降低對 OpenAI 的依賴。</dd>
-        <dt>Lovable<span class="cat">公司</span></dt>
-        <dd>AI 應用開發平台，年化營收達 $500M、每週新增約一百萬個專案，是「氛圍編碼（vibe coding）」浪潮的代表。</dd>
-        <dt>Sandstone<span class="cat">公司</span></dt>
-        <dd>專攻企業內部法務團隊的 AI 新創，本輪募資 $30M。</dd>
-        <dt>RSI（Recursive Self-Improvement）<span class="cat">概念</span></dt>
-        <dd>遞迴自我改善，指 AI 系統用自身能力加速自我開發的迴路；therundown 以「RSI clock」討論其時程與風險。</dd>
-        <dt>OpenCode<span class="cat">工具</span></dt>
-        <dd>開源 AI 編碼代理工具，GitHub 逾 16 萬星標，被視為開發者使用 AI 編碼方式的重要轉變。</dd>
-        <dt>Grok Build<span class="cat">工具</span></dt>
-        <dd>xAI 推出的終端機 TUI 編碼代理，基於 Grok 4.3，支援無頭 CI 腳本與 Agent Client Protocol。</dd>
-      </dl>
-    </section>
-
+  <div class="stat">
+    <div class="v">3</div>
+    <div class="l">關鍵變化</div>
+    <div class="d">Claude Fable 5 公開版多來源同步上架；TechCrunch 列表大翻新；AI 安全爭議反向升溫</div>
   </div>
+</div>
 
-  <div class="footer">
-    本報告由每日 AI 情報爬蟲自動生成 · 2026-06-11 · 資料來源 14 個（tech / app / news）
+<!-- Section 2 -->
+<h2><span class="n">2</span> 今日重點</h2>
+
+<div class="story">
+  <div class="h">Anthropic Claude Fable 5 公開版上線，Mythos 等級開放大眾<span class="tag t-news">TechCrunch</span><span class="tag t-app">Rundown</span></div>
+  <div class="s">Fable 5 為 Mythos 等級模型的公眾可用版，三來源同日同步報導；TechCrunch 另指資安研究員不滿其安全護欄設計。</div>
+</div>
+<div class="story">
+  <div class="h">WWDC 2026：Apple 全面揭曉 Siri AI、iOS 27 與 Apple Intelligence<span class="tag t-news">TechCrunch</span><span class="tag t-app">Superhuman</span></div>
+  <div class="s">Apple 大規模 AI 改版登場，多來源列為頭條；同期 OpenAI 宣布進入「第三階段」。</div>
+</div>
+<div class="story">
+  <div class="h">OpenAI 繼 Anthropic 後機密遞件 IPO<span class="tag t-news">TechCrunch</span></div>
+  <div class="s">兩大前沿實驗室同步啟動上市程序，AI 產業進入資本市場化新階段。</div>
+</div>
+<div class="story">
+  <div class="h">xAI 遭控解雇示警 Grok 安全的工程師<span class="tag t-news">TechCrunch</span></div>
+  <div class="s">新訴訟指控 xAI 對提出 Grok 安全疑慮的員工進行報復，凸顯前沿模型安全治理張力。</div>
+</div>
+<div class="story">
+  <div class="h">Amazon 債券發行後再向銀行借 175 億美元續燒 AI<span class="tag t-news">TechCrunch</span></div>
+  <div class="s">大廠資本支出持續擴張，為 AI 基礎設施加碼融資。</div>
+</div>
+<div class="story">
+  <div class="h">「AI 化」企業每員工每月在 AI 花費 7,500 美元<span class="tag t-news">TechCrunch</span></div>
+  <div class="s">重度導入 AI 的公司投入金額具體化，反映 AI 從嘗鮮進入重資本投入。</div>
+</div>
+<div class="story">
+  <div class="h">LangChain：代理與應用的「缺失環節」＋自研 SmithDB 全文搜尋<span class="tag t-tech">LangChain</span></div>
+  <div class="s">兩篇 6/10 新文，焦點由代理執行環境延伸到代理-應用整合與自研資料庫反向索引設計。</div>
+</div>
+<div class="story">
+  <div class="h">記憶工具反而讓 AI 模型變差<span class="tag t-news">TechCrunch</span></div>
+  <div class="s">技術報導指出 memory 功能在某些情境會降低模型表現與可靠性，與「加記憶必更好」直覺相左。</div>
+</div>
+
+<!-- Section 3 -->
+<h2><span class="n">3</span> 各來源速覽</h2>
+
+<div class="grp">
+  <div class="gh"><span class="pill" style="background:var(--tech)"></span>TECH · Agent 框架</div>
+  <ul class="dig">
+    <li><b>LangChain</b>：新增〈The Missing Link Between Agents and Applications〉與 SmithDB 全文搜尋設計（6/10），方向轉向代理-應用整合。</li>
+    <li><b>Anthropic News</b>：Fable 5 / Mythos 5 仍居頂，官方頁無新發布；新增 5/27 米蘭辦公室。</li>
+    <li class="muted"><b>LlamaIndex</b>：無新文章，回傳 KYC／房貸／文件萃取舊列表。</li>
+    <li class="muted"><b>CrewAI</b>：無新文章（頁面無日期欄位），續為代理式 AI 趨勢與企業整合主題。</li>
+  </ul>
+</div>
+
+<div class="grp">
+  <div class="gh"><span class="pill" style="background:var(--app)"></span>APP · 應用／產品</div>
+  <ul class="dig">
+    <li><b>The Rundown AI</b>：新頭條「Anthropic 向公眾釋出 Mythos 等級模型」，搭配自動化財務研究工具 Dexter。</li>
+    <li><b>Superhuman AI</b>：新頭條「Anthropic releases Mythos-level model, Claude Fable」（6/10），附 Canva 設計轉換教學。</li>
+    <li><b>Product Hunt AI</b>：榜單穩定，Cursor／Claude／Vercel／OpenAI 續守 5.0★，評論數小幅增長。</li>
+    <li class="muted"><b>Ben's Bites</b>：/archive「Hey Siri, meet AI」（6/9）仍居頂，無新發行。</li>
+    <li class="muted"><b>There's An AI For That</b>：主站續回傳 403（機器人防護），無法取得新工具，建議改 RSS。</li>
+    <li class="muted"><b>Matt Shumer</b>：連續第 42 日無新文，建議降頻至每週或替換來源。</li>
+  </ul>
+</div>
+
+<div class="grp">
+  <div class="gh"><span class="pill" style="background:var(--news)"></span>NEWS · 產業新聞</div>
+  <ul class="dig">
+    <li><b>TechCrunch AI</b>：列表大翻新（多則 3–16 小時內），含 OpenAI IPO、Grok 安全訴訟、Amazon 借貸、Fable 護欄爭議、記憶工具反效果等 8 則。</li>
+    <li><b>MIT Tech Review</b>：「混合人機企業領導」（6/9）仍居頂；新增 6/2〈小企業如何運用 AI〉等次要文。</li>
+    <li class="muted"><b>The Verge AI</b>：www.theverge.com 持續被擋（逾月），建議改 RSS／Google News。</li>
+    <li class="muted"><b>Ars Technica AI</b>：arstechnica.com 持續被擋（逾月），建議改 RSS feed。</li>
+  </ul>
+</div>
+
+<!-- Section 4 -->
+<h2><span class="n">4</span> 深度分析 + 應用建議</h2>
+<div class="ana">
+  <p><b>商業化全面提速。</b> Claude Fable 5 公開版在 TechCrunch、Rundown、Superhuman 三來源同日同步上架，配合 Anthropic 機密遞件 IPO、OpenAI 隨後跟進，形成「兩大前沿實驗室同步邁向上市」的格局。模型不再只是技術發表，而是綁定資本市場節奏的產品週期。</p>
+  <p><b>安全與信任成反向焦點。</b> 在加速落地的同時，本日多則新聞指向反作用力：資安研究員批評 Fable 護欄、xAI 遭控報復 Grok 安全吹哨者、以及「記憶工具反而讓模型變差」的技術發現。前沿能力擴張與可靠性／安全治理之間的落差正被放大檢視——導入決策不能只看 benchmark。</p>
+  <p><b>企業投入金額具體化。</b> 「AI 化」公司每員工每月 7,500 美元、Amazon 再借 175 億美元、MIT 預估代理採用兩年 +300%——AI 正從嘗鮮跨入重資本投入階段，成本治理（呼應 CrewAI 的 token 優化主題）成為與能力同等重要的命題。</p>
+  <div class="act">
+    <b>三項可行動建議：</b>
+    <ol>
+      <li><b>小範圍試 Fable 5 / Opus 4.8。</b> 評估用於既有 Luna／NoType 自動化任務的成本效益，但因護欄爭議帶來的可靠性風險，先以非關鍵流程灰度測試再擴大。</li>
+      <li><b>為多 Skill 編排設 token 預算。</b> 呼應 CrewAI token 優化與 $7,500/員工數據，替自己的 ACE／Sub-agent 流程加上 token 上限與用量監控，避免推論成本失控。</li>
+      <li><b>修補長期失效來源。</b> theverge、arstechnica、theresanaiforthat 三來源長期封鎖，改接 RSS／Google News；mattshumer 連 42 日無文，降頻或替換為更新頻繁的替代來源。</li>
+    </ol>
   </div>
+</div>
+
+<!-- Section 5 -->
+<h2><span class="n">5</span> 名詞解釋</h2>
+<div class="gloss">
+  <div class="gi"><span class="gn">Claude Fable 5 / Mythos 5</span><span class="gc">模型</span><div class="gd">Anthropic 新一代模型；Fable 5 為公眾可用版、Mythos 為更高階版本，鎖定高難度知識工作與編碼。</div></div>
+  <div class="gi"><span class="gn">Dexter</span><span class="gc">工具</span><div class="gd">The Rundown 推薦的自動化財務研究 AI 工具，協助快速彙整與分析財務資料。</div></div>
+  <div class="gi"><span class="gn">SmithDB</span><span class="gc">技術</span><div class="gd">LangChain 自研資料庫；新文探討如何為物件儲存設計反向索引以支援全文搜尋。</div></div>
+  <div class="gi"><span class="gn">Niteshift</span><span class="gc">新創</span><div class="gd">Datadog 老將創立的 AI 編碼新創，主打讓開發者不被大廠 AI 平台鎖定。</div></div>
+</div>
+
+<footer>
+  自動爬文系統 · 14 來源（tech 4 / app 6 / news 4）· 產出於 2026-06-11
+</footer>
+</div>
 </body>
 </html>
