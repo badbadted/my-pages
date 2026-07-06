@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 每日情報 · 2026-07-06</title>
+<style>
+  :root{
+    --bg:#ffffff; --s1:#f8fafc; --s2:#e2e8f0; --t1:#1e293b; --t2:#64748b;
+    --tech:#3b82f6; --app:#10b981; --news:#f59e0b; --accent:#6366f1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--t1);line-height:1.6;padding:32px 16px}
+  .wrap{max-width:920px;margin:0 auto}
+  header{border-bottom:2px solid var(--s2);padding-bottom:18px;margin-bottom:28px}
+  header h1{font-size:26px;font-weight:700}
+  header .sub{color:var(--t2);font-size:14px;margin-top:6px}
+  h2{font-size:19px;margin:36px 0 14px;display:flex;align-items:center;gap:8px}
+  h2 .n{display:inline-flex;width:26px;height:26px;border-radius:7px;background:var(--accent);color:#fff;font-size:13px;align-items:center;justify-content:center;font-weight:700}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .stat{background:var(--s1);border:1px solid var(--s2);border-radius:12px;padding:18px}
+  .stat .v{font-size:30px;font-weight:700;color:var(--accent)}
+  .stat .l{color:var(--t2);font-size:13px;margin-top:4px}
+  .stat .d{color:var(--t2);font-size:12px;margin-top:8px;line-height:1.45}
+  .story{background:var(--s1);border:1px solid var(--s2);border-left:4px solid var(--accent);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+  .story .h{font-weight:600;font-size:15px}
+  .story .s{color:var(--t2);font-size:13.5px;margin-top:3px}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;color:#fff;margin-left:6px;vertical-align:middle}
+  .t-tech{background:var(--tech)} .t-app{background:var(--app)} .t-news{background:var(--news)}
+  .grp{margin-top:16px}
+  .grp .gh{font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .pill{display:inline-block;width:10px;height:10px;border-radius:3px}
+  ul.dig{list-style:none}
+  ul.dig li{padding:8px 12px;border:1px solid var(--s2);border-radius:8px;margin-bottom:7px;font-size:14px;background:var(--bg)}
+  ul.dig li b{color:var(--t1)}
+  ul.dig li.muted{color:var(--t2);background:var(--s1)}
+  .ana p{margin-bottom:12px;font-size:14.5px}
+  .ana .act{background:var(--s1);border:1px solid var(--s2);border-radius:10px;padding:14px 18px;margin-top:6px}
+  .ana .act ol{margin-left:18px} .ana .act li{margin-bottom:7px;font-size:14px}
+  .gloss{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .gi{background:var(--s1);border:1px solid var(--s2);border-radius:10px;padding:12px 14px}
+  .gi .gn{font-weight:600;font-size:14.5px}
+  .gi .gc{font-size:11px;padding:1px 7px;border-radius:12px;background:var(--s2);color:var(--t2);margin-left:6px}
+  .gi .gd{color:var(--t2);font-size:13px;margin-top:4px}
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--s2);color:var(--t2);font-size:12.5px;text-align:center}
+  @media(max-width:640px){.stats,.gloss{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>🛰️ AI 每日情報彙整</h1>
+  <div class="sub">2026-07-06（一）· 涵蓋 tech / app / news 共 14 來源 · 自動爬文產出</div>
+</header>
+
+<!-- Section 1 -->
+<h2><span class="n">1</span> 統計概覽</h2>
+<div class="stats">
+  <div class="stat">
+    <div class="v">8 / 14</div>
+    <div class="l">成功爬取來源</div>
+    <div class="d">8 取得內容；6 被擋或無內容（theverge、arstechnica、theresanaiforthat 封鎖，bensbites、mattshumer 為訂閱頁，mit-tech-review 僅取到導覽）</div>
+  </div>
+  <div class="stat">
+    <div class="v">12+</div>
+    <div class="l">今日新增項目</div>
+    <div class="d">CrewAI 整批換新（5 篇）、TechCrunch 5 則翻新、LangChain 新增 2 篇、Superhuman 1 則新頭條；Anthropic / Rundown / LlamaIndex / ProductHunt 維持不變</div>
+  </div>
+  <div class="stat">
+    <div class="v">3</div>
+    <div class="l">關鍵變化</div>
+    <div class="d">Amazon 收掉 Mechanical Turk 新客；Alibaba 禁員工用 Claude Code；代理資安（憑證管理）成 CrewAI 新主題</div>
+  </div>
+</div>
+
+<!-- Section 2 -->
+<h2><span class="n">2</span> 今日重點</h2>
+
+<div class="story">
+  <div class="h">Amazon 停止 Mechanical Turk 收新客<span class="tag t-news">TechCrunch</span></div>
+  <div class="s">運作近 20 年的群眾外包資料標註平台向新用戶關閉，象徵「人工標註眾包」在 AI 合成資料時代退場。（8 小時前）</div>
+</div>
+<div class="story">
+  <div class="h">Alibaba 限制員工使用 Claude Code<span class="tag t-news">TechCrunch</span></div>
+  <div class="s">中國大廠傳出禁用 Anthropic 編碼工具，地緣政治延伸到開發者日常工具鏈的管控。（1 天前）</div>
+</div>
+<div class="story">
+  <div class="h">CrewAI：不要再把資料庫憑證交給代理<span class="tag t-tech">CrewAI</span></div>
+  <div class="s">新頭條直指代理直連 DB 憑證的資安風險，代理框架討論從「效能/自我演化」轉向「安全存取」。</div>
+</div>
+<div class="story">
+  <div class="h">Midjourney 反向要求好萊塢揭露 AI 使用<span class="tag t-news">TechCrunch</span></div>
+  <div class="s">AI 生圖平台要求製片廠公開自身 AI 使用細節，版權與透明度攻防出現角色反轉。（1 天前）</div>
+</div>
+<div class="story">
+  <div class="h">LangChain 新增 Wiki Memory 與 Harbor 評估整合<span class="tag t-tech">LangChain</span></div>
+  <div class="s">Harrison Chase 發表代理記憶方案 Wiki Memory；Harbor x LangChain 統一代理評估技術棧，補齊「記憶」與「評測」兩塊。</div>
+</div>
+<div class="story">
+  <div class="h">Mistral AI 被定位為 OpenAI 正面競爭者<span class="tag t-news">TechCrunch</span></div>
+  <div class="s">法國 Mistral 在基礎模型版圖的角色被重新盤點，歐洲玩家的存在感上升。（1 天前）</div>
+</div>
+<div class="story">
+  <div class="h">CrewAI Discovery 與 Token ROI 優化<span class="tag t-tech">CrewAI</span></div>
+  <div class="s">平台推出 Discovery 新功能，並發表「就地資料代理」與「token 成本 ROI 優化」實務指南，主打 production 成本控管。</div>
+</div>
+<div class="story">
+  <div class="h">Superhuman 頭條：SpudCell 科學突破<span class="tag t-app">Superhuman</span></div>
+  <div class="s">科學界宣布 SpudCell 技術重大進展（7/5），成為當日效率電子報的頭條科學話題。</div>
+</div>
+
+<!-- Section 3 -->
+<h2><span class="n">3</span> 各來源速覽</h2>
+
+<div class="grp">
+  <div class="gh"><span class="pill t-tech" style="background:var(--tech)"></span>TECH · Agent 框架與模型</div>
+  <ul class="dig">
+    <li><b>LangChain</b>：新增 Wiki Memory（代理記憶，Harrison Chase）與 Harbor 評估整合；頭條仍是「編碼代理帳單翻倍怎麼救」。</li>
+    <li><b>CrewAI</b>：整批換新——代理憑證資安、token ROI 優化、CrewAI Discovery 新功能、「代理框架已死」觀點文。</li>
+    <li><b>Anthropic</b>：無新增，維持 Sonnet 5 發表、Fable 5 全球重上線、Claude Science 三大主軸。</li>
+    <li class="muted"><b>LlamaIndex</b>：無新增，維持金融合規文件自動化（LiteParse v2.1、KYC/貸款/收入驗證）。</li>
+  </ul>
+</div>
+
+<div class="grp">
+  <div class="gh"><span class="pill" style="background:var(--app)"></span>APP · 工具與產品動態</div>
+  <ul class="dig">
+    <li><b>Superhuman</b>：新頭條 SpudCell 科學突破（7/5）；延續 Weave $8,000 家用機器人、AI 主權財富基金話題。</li>
+    <li><b>The Rundown</b>：無新增，維持 Sonnet 5 解禁、Fable 全球上線、Meta 讀腦、OpenAI 自研晶片。</li>
+    <li><b>Product Hunt</b>：無新增，Cursor 與 Claude 續霸榜；新品 Klariqo（語音）、Raydian（建站）、AI Browser（代理自動化）。</li>
+    <li class="muted"><b>There's An AI For That</b>：403 封鎖，未取得內容。</li>
+    <li class="muted"><b>Ben's Bites / Matt Shumer</b>：Substack 訂閱頁，無正文可抓。</li>
+  </ul>
+</div>
+
+<div class="grp">
+  <div class="gh"><span class="pill" style="background:var(--news)"></span>NEWS · 產業與政策</div>
+  <ul class="dig">
+    <li><b>TechCrunch</b>：Amazon 停收 Mechanical Turk 新客、Alibaba 禁 Claude Code、Midjourney 要好萊塢揭露 AI、Mistral 競爭定位、Google AI 廣告。</li>
+    <li class="muted"><b>The Verge / Ars Technica</b>：WebFetch 遭來源封鎖，未取得內容。</li>
+    <li class="muted"><b>MIT Tech Review</b>：僅取到導覽結構，文章清單需動態載入，未取得。</li>
+  </ul>
+</div>
+
+<!-- Section 4 -->
+<h2><span class="n">4</span> 深度分析 + 應用建議</h2>
+<div class="ana">
+  <p><b>資料標註眾包退場、代理資安上位。</b>Amazon 對 Mechanical Turk 新客關門，是一個時代訊號：當合成資料與模型自產標註成本大幅下降，靠人力堆砌標註集的商業模式正被稀釋。同一天 CrewAI 把頭條給了「不要把資料庫憑證交給代理」，反映產業焦點正從「代理能不能做到」轉向「代理該怎麼安全地做到」——當代理開始碰 production 資料與系統，權限邊界與憑證管理成為落地前的硬門檻。</p>
+  <p><b>工具鏈政治化，開發者選型多了一層地緣考量。</b>Alibaba 傳出禁員工用 Claude Code、Midjourney 反過來要求好萊塢揭露 AI 使用，都顯示 AI 工具已不只是技術選擇，而牽動供應鏈信任與合規。對個人與小團隊，這意味著「工具可用性」不能只看功能，還要評估來源穩定性與替代方案（如本地/開源退路）。你長期經營的 HA/本地 LLM（Ollama、llama.cpp）路線，正好是這種不確定性下的自主避險。</p>
+  <p><b>本週可落地的 3 個行動：</b></p>
+  <div class="act">
+    <ol>
+      <li><b>盤點自動化流程的憑證邊界：</b>參考 CrewAI「別給代理 DB 憑證」，檢查你的爬文/報告/管家自動化流程有沒有把高權限金鑰直接塞給 agent；能用唯讀 token 或代理服務層就別給全權限，這與 CLAUDE.md 的最小權限原則一致。</li>
+      <li><b>把 LangChain 的代理記憶 + 評估思路借進 twinmind/vector-memory：</b>Wiki Memory（結構化長期記憶）與 Harbor（代理評估）的組合，值得對照你現有記憶 SOP——尤其「評估自動化產出品質」這塊，正呼應你「無人把關的 Loop 只會產爛 code」的護欄。</li>
+      <li><b>替易封鎖來源建立備援抓取：</b>theverge/arstechnica/theresanaiforthat 連續被擋，可評估改用 RSS feed（多數媒體仍提供）或降頻＋換 UA，讓每日 14 來源的成功率從 8/14 拉高，避免情報缺口固定化。</li>
+    </ol>
+  </div>
+</div>
+
+<!-- Section 5 -->
+<h2><span class="n">5</span> 名詞解釋</h2>
+<div class="gloss">
+  <div class="gi">
+    <div class="gn">Mechanical Turk<span class="gc">平台</span></div>
+    <div class="gd">Amazon 的群眾外包平台，讓企業把資料標註等零碎任務分派給大量真人工人完成。</div>
+  </div>
+  <div class="gi">
+    <div class="gn">CrewAI Discovery<span class="gc">產品</span></div>
+    <div class="gd">CrewAI 新推出的功能，協助團隊探索與發現可用的代理/工作流（平台化方向）。</div>
+  </div>
+  <div class="gi">
+    <div class="gn">Wiki Memory<span class="gc">技術</span></div>
+    <div class="gd">LangChain 提出的代理記憶方案，用類 wiki 的結構化方式維持代理跨對話的長期脈絡。</div>
+  </div>
+  <div class="gi">
+    <div class="gn">Harbor<span class="gc">工具</span></div>
+    <div class="gd">與 LangChain 整合的代理評估平台，提供統一技術棧全面評測代理表現。</div>
+  </div>
+  <div class="gi">
+    <div class="gn">Mistral AI<span class="gc">公司</span></div>
+    <div class="gd">法國 AI 新創，主打開源與高性價比基礎模型，被視為 OpenAI 的競爭者。</div>
+  </div>
+  <div class="gi">
+    <div class="gn">SpudCell<span class="gc">科技</span></div>
+    <div class="gd">Superhuman 電子報報導的科學突破技術，細節有限，屬當日科學頭條話題。</div>
+  </div>
+</div>
+
+<footer>
+  由每日爬文排程自動彙整 · 資料來源 14 個（tech 4 / app 6 / news 4）· 產出日期 2026-07-06
+</footer>
+</div>
+</body>
+</html>
