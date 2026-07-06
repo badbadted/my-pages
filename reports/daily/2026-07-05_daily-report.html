@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 每日情報 · 2026-07-05</title>
+<style>
+  :root{
+    --bg:#ffffff; --s1:#f8fafc; --s2:#e2e8f0; --t1:#1e293b; --t2:#64748b;
+    --tech:#3b82f6; --app:#10b981; --news:#f59e0b; --accent:#6366f1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--t1);line-height:1.6;padding:32px 16px}
+  .wrap{max-width:920px;margin:0 auto}
+  header{border-bottom:2px solid var(--s2);padding-bottom:18px;margin-bottom:28px}
+  header h1{font-size:26px;font-weight:700}
+  header .sub{color:var(--t2);font-size:14px;margin-top:6px}
+  h2{font-size:19px;margin:36px 0 14px;display:flex;align-items:center;gap:8px}
+  h2 .n{display:inline-flex;width:26px;height:26px;border-radius:7px;background:var(--accent);color:#fff;font-size:13px;align-items:center;justify-content:center;font-weight:700}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .stat{background:var(--s1);border:1px solid var(--s2);border-radius:12px;padding:18px}
+  .stat .v{font-size:30px;font-weight:700;color:var(--accent)}
+  .stat .l{color:var(--t2);font-size:13px;margin-top:4px}
+  .stat .d{color:var(--t2);font-size:12px;margin-top:8px;line-height:1.45}
+  .story{background:var(--s1);border:1px solid var(--s2);border-left:4px solid var(--accent);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+  .story .h{font-weight:600;font-size:15px}
+  .story .s{color:var(--t2);font-size:13.5px;margin-top:3px}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;color:#fff;margin-left:6px;vertical-align:middle}
+  .t-tech{background:var(--tech)} .t-app{background:var(--app)} .t-news{background:var(--news)}
+  .grp{margin-top:16px}
+  .grp .gh{font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .pill{display:inline-block;width:10px;height:10px;border-radius:3px}
+  ul.dig{list-style:none}
+  ul.dig li{padding:8px 12px;border:1px solid var(--s2);border-radius:8px;margin-bottom:7px;font-size:14px;background:var(--bg)}
+  ul.dig li b{color:var(--t1)}
+  ul.dig li.muted{color:var(--t2);background:var(--s1)}
+  .ana p{margin-bottom:12px;font-size:14.5px}
+  .ana .act{background:var(--s1);border:1px solid var(--s2);border-radius:10px;padding:14px 18px;margin-top:6px}
+  .ana .act ol{margin-left:18px} .ana .act li{margin-bottom:7px;font-size:14px}
+  .gloss{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .gi{background:var(--s1);border:1px solid var(--s2);border-radius:10px;padding:12px 14px}
+  .gi .gn{font-weight:600;font-size:14.5px}
+  .gi .gc{font-size:11px;padding:1px 7px;border-radius:12px;background:var(--s2);color:var(--t2);margin-left:6px}
+  .gi .gd{color:var(--t2);font-size:13px;margin-top:4px}
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--s2);color:var(--t2);font-size:12.5px;text-align:center}
+  @media(max-width:640px){.stats,.gloss{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>🛰️ AI 每日情報彙整</h1>
+  <div class="sub">2026-07-05（日）· 涵蓋 tech / app / news 共 14 來源 · 自動爬文產出</div>
+</header>
+
+<!-- Section 1 -->
+<h2><span class="n">1</span> 統計概覽</h2>
+<div class="stats">
+  <div class="stat">
+    <div class="v">8 / 14</div>
+    <div class="l">成功爬取來源</div>
+    <div class="d">8 取得新鮮內容；6 被擋或無內容（theverge、arstechnica、theresanaiforthat 封鎖，bensbites、mattshumer 為訂閱頁，mit-tech-review 需動態載入）</div>
+  </div>
+  <div class="stat">
+    <div class="v">20+</div>
+    <div class="l">新增項目</div>
+    <div class="d">LangChain 6 篇全新、Anthropic 3 則重大、TechCrunch 7 則翻新、Rundown/Superhuman 各 5 則、CrewAI 2 篇新技術文</div>
+  </div>
+  <div class="stat">
+    <div class="v">3</div>
+    <div class="l">關鍵變化</div>
+    <div class="d">Claude Sonnet 5 發表；Fable 5 解除美出口管制、7/1 全球重新上線；自研晶片與算力經濟成主旋律</div>
+  </div>
+</div>
+
+<!-- Section 2 -->
+<h2><span class="n">2</span> 今日重點</h2>
+
+<div class="story">
+  <div class="h">Anthropic 發表 Claude Sonnet 5<span class="tag t-tech">Anthropic</span><span class="tag t-news">TechCrunch</span><span class="tag t-app">Rundown</span></div>
+  <div class="s">6/30 推出，主打編碼／代理／專業工作的前沿性能，並強調更低成本讓 AI 代理更具營運經濟性；三來源同步報導。</div>
+</div>
+<div class="story">
+  <div class="h">Fable 5 解除美出口管制、7/1 全球重新上線<span class="tag t-tech">Anthropic</span><span class="tag t-app">Rundown</span><span class="tag t-app">Superhuman</span></div>
+  <div class="s">6/12 遭美政府暫停後反轉，Anthropic 同步端出與大廠共製的「越獄嚴重性評分框架」作為配套資安承諾。</div>
+</div>
+<div class="story">
+  <div class="h">你的編碼代理帳單翻倍了——LangChain 教你怎麼修<span class="tag t-tech">LangChain</span></div>
+  <div class="s">7/2 頭條直擊當前最痛的成本問題，接續 prompt caching 主軸，把「代理 token 燒錢」變成可操作的優化清單。</div>
+</div>
+<div class="story">
+  <div class="h">自研晶片與算力經濟全面升溫<span class="tag t-news">TechCrunch</span><span class="tag t-app">Rundown</span></div>
+  <div class="s">Anthropic 與 Samsung 洽談自研晶片、OpenAI 推自家推論晶片、Etched 估值破 $5B、Microsoft 砸 $2.5B 做 AI 部署——降低對 Nvidia 依賴成共識。</div>
+</div>
+<div class="story">
+  <div class="h">OpenAI 提議捐 5% 股權入美主權財富基金、Altman 拉華府入局<span class="tag t-news">TechCrunch</span><span class="tag t-app">Rundown</span><span class="tag t-app">Superhuman</span></div>
+  <div class="s">AI 與國家資本、政策協調空前緊密；Sam Altman 同步倡議設立 AI 導向的主權財富基金。</div>
+</div>
+<div class="story">
+  <div class="h">Meta 讀腦 AI：將神經訊號轉寫成文字<span class="tag t-app">Rundown</span><span class="tag t-app">Superhuman</span></div>
+  <div class="s">腦機介面研究再進一步，展示由腦波直接生成文字的模型；仍在研究階段但象徵意義大。</div>
+</div>
+<div class="story">
+  <div class="h">消費級家用機器人破門檻：Weave Robotics $8,000 家用機器人<span class="tag t-app">Superhuman</span></div>
+  <div class="s">7/4 機器人特輯頭條，價格帶壓到八千美元，把人形／家用機器人推向一般家庭想像。</div>
+</div>
+<div class="story">
+  <div class="h">CrewAI：自我演化代理（整合 NVIDIA NemoClaw）+ 100x 效能加速<span class="tag t-tech">CrewAI</span></div>
+  <div class="s">多代理框架由「企業採用案例」轉向技術深化，同時衝效能與代理自我演化能力。</div>
+</div>
+
+<!-- Section 3 -->
+<h2><span class="n">3</span> 各來源速覽</h2>
+
+<div class="grp">
+  <div class="gh"><span class="pill" style="background:var(--tech)"></span>TECH · Agent 框架</div>
+  <ul class="dig">
+    <li><b>LangChain</b>：一整批全新文章，〈編碼代理帳單翻倍〉領銜，Deep Agents 新增 RLM 與 Dynamic Subagents，並開源 repo 文件代理 OpenWiki。</li>
+    <li><b>Anthropic News</b>：Sonnet 5 發表、Fable 5 於 7/1 全球重新上線、Claude Science 科學工作台上線——三連發。</li>
+    <li class="muted"><b>LlamaIndex</b>：無明顯新增，維持 LiteParse v2.1 與 KYC/貸款/收入驗證合規自動化主軸。</li>
+    <li><b>CrewAI</b>：新增自我演化代理（NVIDIA NemoClaw）與工作流 100x 加速兩篇技術向文章。</li>
+  </ul>
+</div>
+
+<div class="grp">
+  <div class="gh"><span class="pill" style="background:var(--app)"></span>APP · 應用／產品／效率</div>
+  <ul class="dig">
+    <li><b>The Rundown</b>：頭條圍繞「Sonnet 5 發布 + 華府解禁 Fable + Altman 拉華府入局」，另有 Meta 讀腦、白宮限制 GPT-5.6。</li>
+    <li><b>Product Hunt AI</b>：Cursor 與 Claude 續霸榜；新品 Klariqo（AI 語音）、Raydian（對話式建站）、AI Browser（代理自動化）值得留意。</li>
+    <li><b>Superhuman AI</b>：7/4 機器人特輯（Weave $8,000 家用機器人）、7/3 Altman AI 主權財富基金，實作教學走 ChatGPT/Replit 路線。</li>
+    <li class="muted"><b>Ben's Bites</b>：抓取失敗，回傳 Substack 訂閱頁無內容。</li>
+    <li class="muted"><b>Matt Shumer</b>：抓取失敗，Substack 首頁無文章列表（延續長期無更新）。</li>
+    <li class="muted"><b>There's An AI For That</b>：來源封鎖（HTTP 403），本日無法取得新工具列表。</li>
+  </ul>
+</div>
+
+<div class="grp">
+  <div class="gh"><span class="pill" style="background:var(--news)"></span>NEWS · 產業／大廠／政策</div>
+  <ul class="dig">
+    <li><b>TechCrunch AI</b>：主軸「模型發布 + 大額融資 + 自研晶片」——Sonnet 5、Etched 破 $5B、Venice AI 獨角獸、Microsoft $2.5B、Anthropic×Samsung 晶片。</li>
+    <li class="muted"><b>The Verge AI</b>：來源封鎖，Claude Code 無法直接抓取（連續封鎖）。</li>
+    <li class="muted"><b>MIT Tech Review AI</b>：頁面需動態載入，本次僅取得導覽結構、無文章內容。</li>
+    <li class="muted"><b>Ars Technica AI</b>：來源封鎖，無法取得內容。</li>
+  </ul>
+</div>
+
+<!-- Section 4 -->
+<h2><span class="n">4</span> 深度分析 + 應用建議</h2>
+<div class="ana">
+  <p><b>模型競賽進入「成本效益」新回合。</b>Anthropic 這波同時推出 Sonnet 5（強調規模化成本）與解禁重上的 Fable 5，加上 LangChain 頭條直接處理「編碼代理帳單翻倍」，訊號一致：前沿性能已非唯一戰場，「每一 token 值多少錢」正成為決定代理能否落地的關鍵。對重度使用 Claude Code／代理工作流的你而言，這意味著換用 Sonnet 5 這類高性價比模型、搭配 prompt caching，可能直接砍掉可觀的月度成本。</p>
+  <p><b>算力與晶片的「去 Nvidia 化」正在成形。</b>Anthropic 洽談 Samsung 自研晶片、OpenAI 推自家推論晶片、Etched 估值破 $5B、Microsoft 砸 $2.5B——大廠不再滿足於買 GPU，而是往上游整合算力供應鏈。這條線與「AI 進入國家資本層級」（OpenAI 捐股權入主權財富基金、Altman 拉華府）交織，代表 AI 基礎建設已從商業議題升格為地緣與政策議題，短期內模型可用性可能繼續受監管牽動（如 GPT-5.6 被白宮限制、Fable 5 一度被暫停）。</p>
+  <p><b>應用層兩條值得追的線：代理工程化與邊緣硬體。</b>LangChain Deep Agents（RLM、Dynamic Subagents、免沙箱執行不可信程式碼）與 CrewAI（自我演化 + 100x 加速）都在把「多代理」從 demo 推向可維運的生產架構；另一邊 Weave $8,000 家用機器人與 Meta 讀腦則預告消費級硬體＋腦機介面的下一波。</p>
+  <div class="act">
+    <b>給你的 3 個具體行動</b>
+    <ol>
+      <li><b>評估把主力代理切到 Claude Sonnet 5：</b>針對 Claude Code／自動化爬文這類高頻代理任務，實測 Sonnet 5 相對現用模型的成本／品質比，並開啟 prompt caching，量化月度 token 節省。</li>
+      <li><b>把 LangChain〈編碼代理帳單翻倍〉的優化清單套到你的工作流：</b>逐項檢查 token 浪費點（重複上下文、過長系統提示、無快取的多輪呼叫），這與你既有的「同一計算不寫兩遍」原則直接呼應。</li>
+      <li><b>修正失敗來源的抓取策略：</b>theverge／arstechnica／theresanaiforthat 長期封鎖、bensbites／mattshumer 為訂閱頁——建議改走 RSS／官方 API 或替換來源，避免每日爬文有 6/14 空轉，讓報告涵蓋率回到 12+ 來源。</li>
+    </ol>
+  </div>
+</div>
+
+<!-- Section 5 -->
+<h2><span class="n">5</span> 名詞解釋</h2>
+<div class="gloss">
+  <div class="gi"><div class="gn">Claude Sonnet 5<span class="gc">模型</span></div><div class="gd">Anthropic 6/30 發表的新一代模型，主打編碼／代理／專業工作的前沿性能與較低營運成本。</div></div>
+  <div class="gi"><div class="gn">Fable 5<span class="gc">模型</span></div><div class="gd">Anthropic 高階模型，6/12 曾遭美出口管制暫停，7/1 解禁全球重新上線。</div></div>
+  <div class="gi"><div class="gn">越獄嚴重性框架<span class="gc">資安</span></div><div class="gd">Jailbreak severity framework，Anthropic 與大廠共製、用來評估 AI 被越獄攻擊時的嚴重程度分級。</div></div>
+  <div class="gi"><div class="gn">Claude Science<span class="gc">產品</span></div><div class="gd">Anthropic 推出的 AI 科學研究工作台，整合常用科研工具、輸出可稽核。</div></div>
+  <div class="gi"><div class="gn">OpenWiki<span class="gc">開源</span></div><div class="gd">LangChain 開源的代理，能自動掃描程式庫並生成 repo 文件。</div></div>
+  <div class="gi"><div class="gn">Dynamic Subagents<span class="gc">技術</span></div><div class="gd">LangChain Deep Agents 新功能，可動態編排多個專職子代理協作完成任務。</div></div>
+  <div class="gi"><div class="gn">RLM<span class="gc">技術</span></div><div class="gd">Reinforcement Learning Model，在 Deep Agents 中整合強化學習模型以提升決策品質。</div></div>
+  <div class="gi"><div class="gn">NVIDIA NemoClaw<span class="gc">技術</span></div><div class="gd">NVIDIA 技術，CrewAI 用它打造能自我演化、隨環境調整的代理系統。</div></div>
+  <div class="gi"><div class="gn">Etched<span class="gc">公司</span></div><div class="gd">AI 專用晶片新創，估值突破 $5B、年營收破 $1B，被視為 Nvidia 競爭者。</div></div>
+  <div class="gi"><div class="gn">Venice AI<span class="gc">公司</span></div><div class="gd">隱私導向 AI 平台，募 $65M A 輪成為獨角獸。</div></div>
+  <div class="gi"><div class="gn">Weave Robotics<span class="gc">硬體</span></div><div class="gd">推出售價約 $8,000 的家用機器人，把消費級人形／家用機器人推向大眾市場。</div></div>
+  <div class="gi"><div class="gn">AI 主權財富基金<span class="gc">政策</span></div><div class="gd">Sam Altman 倡議、由國家設立並聚焦 AI 產業投資的主權基金概念。</div></div>
+</div>
+
+<footer>自動爬文系統 · 每日彙整 tech / app / news 共 14 來源 · 2026-07-05 產出</footer>
+</div>
+</body>
+</html>
